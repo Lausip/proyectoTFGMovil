@@ -1,4 +1,4 @@
-import { db} from '../../config/firebase';
+import { db } from '../../config/firebase';
 
 export const handleRegistroFirebase = (email) => {
   db
@@ -8,8 +8,8 @@ export const handleRegistroFirebase = (email) => {
       Foto: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
       Rol: "Usuario",
       MeGusta: [],
-      Amigos:[],
-      Autores:[],
+      Amigos: [],
+      Autores: [],
     })
     .then(() => {
       console.log('User added!');
@@ -21,30 +21,49 @@ export const handleAñadirLibroMeGustaFirebase = (email, bookId) => {
     .collection('usuarios').doc(email).collection("MeGusta").doc(bookId)
     .set({
       Nombre: bookId,
-      UltimoCapitulo:0,
+      UltimoCapitulo: 0,
     })
     .then(() => {
       console.log('Añadido a me gusta');
     });
 }
 
+export const handleAutores = async (email) => {
+
+  let autores = [];
+  await db.collection("usuarios").get().then(querySnapshot => {
+
+      querySnapshot.forEach((documentSnapshot) => {
+      
+        autores.push({
+          Foto: documentSnapshot.data().Foto,
+          Nombre: documentSnapshot.data().Nombre,
+
+        });
+       
+      })
+   
+    })
+    return autores;
+}
+
 export const handleAutoresSeguidos = async (email) => {
   let autoresUsuario = [];
   let autores = [];
   await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
-    autoresUsuario= documentSnapshot.data().Autores
-   
+    autoresUsuario = documentSnapshot.data().Autores
+
   })
 
   for (let i = 0, len = autoresUsuario.length; i < len; i++) {
-      await db.collection("usuarios").doc(autoresUsuario[i]).get().then(documentSnapshot => {
+    await db.collection("usuarios").doc(autoresUsuario[i]).get().then(documentSnapshot => {
 
-        autores.push({ Foto: documentSnapshot.data().Foto, Nombre: documentSnapshot.data().Nombre});
-     
-       })   
-       
+      autores.push({ Foto: documentSnapshot.data().Foto, Nombre: documentSnapshot.data().Nombre });
+
+    })
+
   }
-  return autores 
+  return autores
 }
 
 export const handleEliminarLibroMeGustaFirebase = async (email, bookId) => {
@@ -61,8 +80,8 @@ export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
 
   let result = await db
     .collection('usuarios').doc(email).collection("MeGusta").where("Nombre", '==', bookId).get();
-    result.forEach((queryDocumentSnapshot) => {
-      esta = true;
+  result.forEach((queryDocumentSnapshot) => {
+    esta = true;
   })
 
   return esta;
@@ -70,20 +89,20 @@ export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
 }
 export const getFotoPerfil = async (email) => {
 
-  let doc=await db
-    .collection('usuarios').doc(email).get();
-    return doc.data().Foto;
-  
+  return  db
+    .collection('usuarios').doc(email).get().then((documentSnapshot)=>{  return documentSnapshot.data().Foto;});
+
+
 
 }
 
-export const cambiarFotoPerfilFirebase = async (email,foto) => {
+export const cambiarFotoPerfilFirebase = async (email, foto) => {
   await db
     .collection('usuarios').doc(email)
     .update({
       Foto: foto,
     })
     .then(() => {
-      
+
     });
 }

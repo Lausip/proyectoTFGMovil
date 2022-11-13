@@ -15,6 +15,7 @@ import { getFotoPerfil, handleAutoresSeguidos } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
 import { getFavoritos } from "../hooks/FirebaseLibros";
 import { db } from '../config/firebase';
+
 function BibliotecaScreen() {
     const navigation = useNavigation();
     const [favoritos, setFavoritos] = useState([]);
