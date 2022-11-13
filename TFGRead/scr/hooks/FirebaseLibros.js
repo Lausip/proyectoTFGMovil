@@ -3,7 +3,7 @@ import { db, firebase } from '../config/firebase';
 export const cargarNuevosLibros = async () => {
     const books = [];
     await db.collection("libros")
-        .onSnapshot(querySnapshot => {
+        .get().then(querySnapshot => {
             querySnapshot.forEach(documentSnapshot => {
                 books.push({
                     ...documentSnapshot.data(),

@@ -13,19 +13,20 @@ import { Entypo } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil, handleAutores } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
-import { getFavoritos } from "../hooks/FirebaseLibros";
-import { db } from '../config/firebase';
+import { cargarNuevosLibros } from "../hooks/FirebaseLibros";
 
 
 function ExploreScreen() {
   
   const navigation = useNavigation();
-  const [favoritos, setFavoritos] = useState([]);
+
+  const [libros, setLibros] = useState([]);
   const [autores, setAutores] = useState([]);
   const [fotoPerfil, setFotoPerfil] = useState("");
   const [textoBusqueda, setTextoBusqueda] = useState("");
   const [email, setEmail] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
+
   const categorias = ["Libros", "Autores"];
 
   const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
@@ -46,37 +47,25 @@ function ExploreScreen() {
       setModalVisible(true)
       setSeleccionadoCategoriaIndex(index);
       if (index == 0) {
-
-          await cargarFavoritos();
-
+        
+          await cargarLibros();
+ 
           setAutores([]);
       }
       else {
 
           await cargarAutores();
-          setFavoritos([]);
+          setLibros([]);
       }
 
       setModalVisible(false)
   };
 
-  const cargarFavoritos = async () => {
+  const cargarLibros = async () => {
 
-   /*    await db.collection("usuarios").doc(email).collection("MeGusta")
-          .onSnapshot(async querySnapshot => {
-              let favoritosUsuario = [];
-
-              await querySnapshot.forEach(async documentSnapshot => {
-                  favoritosUsuario.push({
-                      ...documentSnapshot.data(),
-                      key: documentSnapshot.id,
-                  });
-              })
-              setFavoritos(await getFavoritos(favoritosUsuario));
-          }) */
-
-
-
+    let librosT = await cargarNuevosLibros();
+    
+    setLibros(librosT);
 
   };
 
@@ -90,11 +79,11 @@ function ExploreScreen() {
       if (textoBusqueda != "") {
           if (seleccionadoCategoriaIndex == 0) {
 
-              let favoritosFiltro = favoritos.filter((a) => {
+              let libroFiltro = libros.filter((a) => {
 
                   return a.Titulo.toLowerCase().startsWith(textoBusqueda.toLowerCase())
               });
-              setFavoritos(favoritosFiltro)
+              setLibros(libroFiltro)
 
           }
           if (seleccionadoCategoriaIndex == 1) {
@@ -114,7 +103,7 @@ function ExploreScreen() {
 
 
   const hacerCosas = async () => {
-      setFavoritos([])
+      setLibros([])
       setModalVisible(true)
       let e = await getUserAuth();
       setEmail(e);
@@ -183,8 +172,9 @@ function ExploreScreen() {
 
       );
   };
+
   /* Books nuevos */
-  const CardFavoritos = ({ libro }) => {
+  const CardLibros = ({ libro }) => {
       return (
           <View
               style={{
@@ -292,7 +282,7 @@ function ExploreScreen() {
           {seleccionadoCategoriaIndex == 0 ?
               <ScrollView contentContainerStyle={styles.contentContainer}>
                   {
-                      favoritos.map((item, index) => <CardFavoritos key={index} libro={item} />)
+                      libros.map((item, index) => <CardLibros key={index} libro={item} />)
                   }
 
               </ScrollView> :

@@ -28,7 +28,7 @@ export const handleAñadirLibroMeGustaFirebase = (email, bookId) => {
     });
 }
 
-export const handleAutores = async (email) => {
+export const handleAutores = async () => {
 
   let autores = [];
   await db.collection("usuarios").get().then(querySnapshot => {
