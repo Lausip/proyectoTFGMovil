@@ -20,7 +20,7 @@ import { Entypo } from '@expo/vector-icons';
 import HomeStack from "../navigation/HomeStack";
 import BibliotecaScreen from "../screens/BibliotecaScreen";
 import BookWriteNavigator from "../navigation/BookWriteNavigator";
-import ExploreScreen from "../screens/ExploreScreen";
+import ExploreStack from "../navigation/ExploreStack";
 import ChatStack from "../navigation/ChatStack";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -95,7 +95,32 @@ const BottomTab = () => {
       />
       <Tab.Screen
         name="Explore"
-        options={{
+        options={({ route }) => ({
+          tabBarStyle: ((route) => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+
+            if (routeName === "autorScreen") {
+              return { display: "none" };
+            }
+            if(routeName==""||routeName=="explore"){
+            return {
+              backgroundColor: "white",
+              marginHorizontal: 20,
+              height: 53,
+              marginBottom: 10,
+              borderRadius: 20,
+              borderBottomColor: "#679436",
+              borderBottomWidth: 2,
+              shadowColor: "#000",
+              shadowOpacity: 0.07,
+              shadowOffset: {
+                width: 10,
+                height: 10,
+              },
+            };
+          }
+          })(route),
+
           tabBarIcon: ({ focused }) => (
             <AntDesign
               name="search1"
@@ -105,8 +130,8 @@ const BottomTab = () => {
               }}
             />
           ),
-        }}
-        component={ExploreScreen}
+        })}
+        component={ExploreStack}
       />
        <Tab.Screen
         name="Books"

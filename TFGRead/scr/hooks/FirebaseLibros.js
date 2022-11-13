@@ -14,17 +14,32 @@ export const cargarNuevosLibros = async () => {
     return books
 
 }
+export const cargarDatosLibros = async () => {
+    let libros = await cargarNuevosLibros();
+    let librosInformacion = [];
+    for (let i = 0, len = libros.length; i < len; i++) {
+     
+        let numCapitulos =await contarCapitulosDelLibro(libros[i].key);
+        librosInformacion.push({
+            ...libros[i],
+            NumCapitulo: numCapitulos,
+        });
+
+    }
+    return librosInformacion;
+}
+
 export const getFavoritos = async (favoritosUsuario) => {
- 
+
     let favoritos = [];
     for (let i = 0, len = favoritosUsuario.length; i < len; i++) {
         await db.collection("libros").doc(favoritosUsuario[i].Nombre).get().then(documentSnapshot => {
-            favoritos.push({ Autor: documentSnapshot.data().Autor, Portada: documentSnapshot.data().Portada, Titulo: documentSnapshot.data().Titulo,});
-          
-         })    
+            favoritos.push({ Autor: documentSnapshot.data().Autor, Portada: documentSnapshot.data().Portada, Titulo: documentSnapshot.data().Titulo, });
+
+        })
     }
-    
-    return favoritos 
+
+    return favoritos
 
 }
 export const cargarDatosLibro = async (bookId) => {
@@ -75,14 +90,14 @@ export const cambiarTitulo = async (bookId, titulo) => {
         })
 }
 
-export const cambiarTituloCapitulo = async (bookId,chapterId, titulo) => {
+export const cambiarTituloCapitulo = async (bookId, chapterId, titulo) => {
     await db.collection('libros').doc(bookId).collection("Capitulos").doc(chapterId)
         .update({
             Titulo: "" + titulo,
         })
 }
 
-export const cambiarContenidoCapitulo = async (bookId,chapterId, contenido) => {
+export const cambiarContenidoCapitulo = async (bookId, chapterId, contenido) => {
     await db.collection('libros').doc(bookId).collection("Capitulos").doc(chapterId)
         .update({
             Contenido: "" + contenido,
@@ -141,11 +156,11 @@ export const cargarBooks = async () => {
     const books = [];
     const snapshot = await db.collection('libros').get();
     await snapshot.docs.map(async doc => {
-            books.push({
-                ...doc.data(),
-                key: doc.id,
-            });
-        
+        books.push({
+            ...doc.data(),
+            key: doc.id,
+        });
+
     });
     return books;
 }
@@ -171,7 +186,7 @@ export const eliminarCapituloLibro = async (bookId, chapterId, n) => {
     /*Cambiar el numero de los anteriores */
     await db.collection("libros").doc(bookId).collection("Capitulos").where("Numero", ">", n)
         .onSnapshot(async querySnapshot => {
-           await querySnapshot.forEach(async documentSnapshot => {
+            await querySnapshot.forEach(async documentSnapshot => {
                 await db.collection('libros').doc(bookId).collection("Capitulos").doc(documentSnapshot.id)
                     .update({
                         Numero: documentSnapshot.data().Numero - 1

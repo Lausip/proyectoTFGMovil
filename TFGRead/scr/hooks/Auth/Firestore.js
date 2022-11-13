@@ -10,6 +10,7 @@ export const handleRegistroFirebase = (email) => {
       MeGusta: [],
       Amigos: [],
       Autores: [],
+      Descripcion: "",
     })
     .then(() => {
       console.log('User added!');
@@ -33,18 +34,58 @@ export const handleAutores = async () => {
   let autores = [];
   await db.collection("usuarios").get().then(querySnapshot => {
 
-      querySnapshot.forEach((documentSnapshot) => {
-      
-        autores.push({
-          Foto: documentSnapshot.data().Foto,
-          Nombre: documentSnapshot.data().Nombre,
+    querySnapshot.forEach((documentSnapshot) => {
 
-        });
-       
-      })
-   
+      autores.push({
+        Foto: documentSnapshot.data().Foto,
+        Nombre: documentSnapshot.data().Nombre,
+
+      });
+
     })
-    return autores;
+
+  })
+  return autores;
+}
+export const getDescripcionUsuario = async (email) => {
+
+  let descripcion = "";
+  await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
+    descripcion = documentSnapshot.data().Descripcion
+
+  })
+  return descripcion;
+}
+
+export const getNumSeguidores = async (email) => {
+
+  let numseguidores = 0;
+  await db.collection("usuarios").where("Autores", "array-contains", email).get().then(documentSnapshot => {
+    numseguidores=documentSnapshot.size;
+    })
+  return numseguidores;
+}
+
+export const getNumAutoresSeguidos = async (email) => {
+
+  let numseguidos = 0;
+  await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
+
+    numseguidos = documentSnapshot.data().Autores.length;
+
+    })
+  return numseguidos;
+}
+
+export const getNumeroLibrosUsuario = async (email) => {
+
+  let numLibros = 0;
+  await db.collection("libros")
+    .where("Autor", "==", email).get().then(documentSnapshot => {
+      numLibros = documentSnapshot.size
+
+    })
+  return numLibros;
 }
 
 export const handleAutoresSeguidos = async (email) => {
@@ -89,8 +130,8 @@ export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
 }
 export const getFotoPerfil = async (email) => {
 
-  return  db
-    .collection('usuarios').doc(email).get().then((documentSnapshot)=>{  return documentSnapshot.data().Foto;});
+  return db
+    .collection('usuarios').doc(email).get().then((documentSnapshot) => { return documentSnapshot.data().Foto; });
 
 
 
