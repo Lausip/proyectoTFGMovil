@@ -53,7 +53,13 @@ function ExploreScreen() {
       screen: "explore",
     });
   }
-
+  
+  const handleProfile = () => {
+    navigation.navigate("profileScreen", {
+      screen: "explore",
+    });
+  }
+  
   const cargarCategorias = async (index) => {
     setModalVisible(true)
     setSeleccionadoCategoriaIndex(index);

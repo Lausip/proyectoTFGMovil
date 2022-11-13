@@ -24,7 +24,7 @@ function BibliotecaScreen() {
     const [textoBusqueda, setTextoBusqueda] = useState("");
     const [email, setEmail] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
-    const categorias = ["Favoritos", "Autores"];
+    const categorias = ["Reciente","Favoritos", "Autores"];
 
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
         useState(0);
@@ -40,16 +40,22 @@ function BibliotecaScreen() {
 
     }, []);
 
+    const handleProfile = () => {
+        navigation.navigate("profileScreen", {
+          screen: "home",
+        });
+      }
+      
     const cargarCategorias = async (index) => {
         setModalVisible(true)
         setSeleccionadoCategoriaIndex(index);
-        if (index == 0) {
+        if (index == 1) {
 
             await cargarFavoritos();
 
             setAutores([]);
         }
-        else {
+        if(index ==2) {
 
             await cargarAutoresSeguido();
             setFavoritos([]);
@@ -86,7 +92,7 @@ function BibliotecaScreen() {
 
     const getFiltrado = async () => {
         if (textoBusqueda != "") {
-            if (seleccionadoCategoriaIndex == 0) {
+            if (seleccionadoCategoriaIndex == 1) {
 
                 let favoritosFiltro = favoritos.filter((a) => {
 
@@ -95,7 +101,7 @@ function BibliotecaScreen() {
                 setFavoritos(favoritosFiltro)
 
             }
-            if (seleccionadoCategoriaIndex == 1) {
+            if (seleccionadoCategoriaIndex == 2) {
                 let autoresFiltro = autores.filter((a) => {
 
                     return a.Nombre.toLowerCase().startsWith(textoBusqueda.toLowerCase())
@@ -117,7 +123,7 @@ function BibliotecaScreen() {
         let e = await getUserAuth();
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(e));
-        cargarCategorias(0)
+        cargarCategorias(1)
         setModalVisible(false)
     }
 
@@ -286,7 +292,7 @@ function BibliotecaScreen() {
 
 
             <RenderCategorias />
-            {seleccionadoCategoriaIndex == 0 ?
+            {seleccionadoCategoriaIndex == 1 ?
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     {
                         favoritos.map((item, index) => <CardFavoritos key={index} libro={item} />)
