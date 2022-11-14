@@ -11,12 +11,12 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { Entypo, Foundation } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, getNumSeguidores, handleAutores } from "../../hooks/Auth/Firestore";
+import { getFotoPerfil, handleAutores } from "../../hooks/Auth/Firestore";
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { cargarDatosLibros } from "../../hooks/FirebaseLibros";
 
 
-function ExploreScreen() {
+function ExploreScreen({ route }) {
 
   const navigation = useNavigation();
 
@@ -37,8 +37,12 @@ function ExploreScreen() {
     useState(0);
 
   useEffect(() => {
-    hacerCosas();
-  }, [email]);
+  
+    const unsubscribe = navigation.addListener('focus', () => {
+      hacerCosas();
+    });
+    return unsubscribe;
+  }, [email,route ]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -75,10 +79,10 @@ function ExploreScreen() {
   };
 
   const cargarLibros = async () => {
-    setModalVisible(true)
+
     let librosT = await cargarDatosLibros();
     setLibros(librosT);
-    setModalVisible(false)
+
   };
 
   const cargarAutores = async () => {
@@ -109,14 +113,14 @@ function ExploreScreen() {
 
 
   const hacerCosas = async () => {
-    setLibros([])
     setModalVisible(true)
+    setLibros([])
     let e = await getUserAuth();
     setEmail(e);
     let perfil = await getFotoPerfil(e);
     setFotoPerfil(perfil);
     cargarCategorias(0);
-    setModalVisible(false)
+  
   }
 
   const RenderCategorias = () => {
@@ -256,7 +260,7 @@ function ExploreScreen() {
 
             <Entypo name="eye" size={20} color="black" style={{ marginLeft: 10, }} />
             <Text style={{ marginLeft: 5, fontSize: 12, color: "black" }}>
-              1200
+              {libro.NumSeguidores}
             </Text>
 
           </View>

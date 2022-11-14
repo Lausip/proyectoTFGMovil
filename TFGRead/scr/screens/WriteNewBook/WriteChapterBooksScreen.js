@@ -136,8 +136,8 @@ function WriteNewBookScreen({ route }) {
                 <TextInput
                     placeholder="Título "
                     placeholderTextColor="#05668D"
-                    value={titulo}
-                    onChangeText={(text) => setTitulo(text)}
+                    value={tituloCapitulo}
+                    onChangeText={(text) => setTituloCapitulo(text)}
                     style={{
                         marginBottom: 10,
                         marginRight: 20,
@@ -152,14 +152,14 @@ function WriteNewBookScreen({ route }) {
                 ></TextInput>
                   {/* Descripción capitulo del libro*/}
                 <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10  }}>
-                  Descripción
+                  Contenido
                   </Text>
                 <KeyboardAvoidingView behavior="padding">
                         <TextInput
                             placeholder="Título "
                             placeholderTextColor="#05668D"
-                            value={texto}
-                            onChangeText={(text) => setTexto(text)}
+                            value={contenidoLibro}
+                            onChangeText={(text) => setContenidoLibro(text)}
                             style={{
                                 paddingHorizontal: 10,
                                 borderRadius: 10,
@@ -186,6 +186,9 @@ const styles = StyleSheet.create({
     borderBottomColor: "#679436",
     borderBottomWidth: 3,
     borderRadius: 60,
+  },
+  containerView:{
+    marginHorizontal:30,
   },
   textWait: {
     marginBottom: 10,

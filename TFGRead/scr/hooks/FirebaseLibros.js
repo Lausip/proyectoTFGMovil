@@ -1,4 +1,5 @@
 import { db, firebase } from '../config/firebase';
+import { handleAutores } from "./Auth/Firestore";
 
 export const cargarNuevosLibros = async () => {
     const books = [];
@@ -14,21 +15,42 @@ export const cargarNuevosLibros = async () => {
     return books
 
 }
+
 export const cargarDatosLibros = async () => {
     let libros = await cargarNuevosLibros();
     let librosInformacion = [];
     for (let i = 0, len = libros.length; i < len; i++) {
-     
-        let numCapitulos =await contarCapitulosDelLibro(libros[i].key);
+
+        let numCapitulos = await contarCapitulosDelLibro(libros[i].key);
+        let numSeguidores = await getNumSeguidoresLibro(libros[i].key);
+
         librosInformacion.push({
             ...libros[i],
             NumCapitulo: numCapitulos,
+            NumSeguidores: numSeguidores,
         });
 
     }
     return librosInformacion;
 }
 
+export const getNumSeguidoresLibro = async (idbook) => {
+
+    let numSeguidores = 0;
+    let autores=await handleAutores();
+    for (let i = 0, len = autores.length; i < len; i++) {
+
+            await db.collection("usuarios").doc(autores[i].Nombre).collection("MeGusta")
+                .where("Nombre", "==", idbook).get().then(qS => {
+                    
+                    numSeguidores = qS.size + numSeguidores;
+
+                })
+    }
+
+    return numSeguidores;
+
+}
 export const getFavoritos = async (favoritosUsuario) => {
 
     let favoritos = [];

@@ -77,6 +77,8 @@ export const getNumAutoresSeguidos = async (email) => {
   return numseguidos;
 }
 
+
+
 export const getNumeroLibrosUsuario = async (email) => {
 
   let numLibros = 0;
