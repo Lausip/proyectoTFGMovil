@@ -1,4 +1,4 @@
-import { db } from '../../config/firebase';
+import { db,firebase } from '../../config/firebase';
 
 export const handleRegistroFirebase = (email) => {
   db
@@ -47,6 +47,52 @@ export const handleAutores = async () => {
   })
   return autores;
 }
+
+export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
+  let esta = false
+
+  let result = await db
+    .collection('usuarios').doc(email).collection("MeGusta").where("Nombre", '==', bookId).get();
+  result.forEach((queryDocumentSnapshot) => {
+    esta = true;
+  })
+
+  return esta;
+
+}
+export const getEstaSeguido = async (emailTuyo,emailAutor) => {
+  let autores=await handleAutoresSeguidos(emailTuyo);
+  let esta=false;
+  for (let i = 0, len = autores.length; i < len; i++) {
+    if(autores[i].Nombre==emailAutor)
+    return true;
+  }
+   
+ return esta;
+}
+
+export const seguirAutor = async (emailTuyo,emailAutor) => {
+  await db
+  .collection('usuarios').doc(emailTuyo)
+  .update({
+    Autores: firebase.firestore.FieldValue.arrayUnion(emailAutor),
+  })
+  .then(() => {
+    console.log('Seguido');
+  });
+}
+
+export const dejarSeguirAutor = async (emailTuyo,emailAutor) => {
+  await db
+  .collection('usuarios').doc(emailTuyo)
+  .update({
+    Autores: firebase.firestore.FieldValue.arrayRemove(emailAutor),
+  })
+  .then(() => {
+    console.log('Dejado de seguir');
+  });
+}
+
 export const getDescripcionUsuario = async (email) => {
 
   let descripcion = "";
@@ -118,18 +164,6 @@ export const handleEliminarLibroMeGustaFirebase = async (email, bookId) => {
     });
 }
 
-export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
-  let esta = false
-
-  let result = await db
-    .collection('usuarios').doc(email).collection("MeGusta").where("Nombre", '==', bookId).get();
-  result.forEach((queryDocumentSnapshot) => {
-    esta = true;
-  })
-
-  return esta;
-
-}
 export const getFotoPerfil = async (email) => {
 
   return db

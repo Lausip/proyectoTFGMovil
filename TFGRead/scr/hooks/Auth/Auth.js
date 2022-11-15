@@ -16,6 +16,8 @@ function handleContraseñasIguales(password1, password2) {
   return password1 == password2;
 }
 
+
+
 export const signOut = async () => {
   auth
     .signOut()

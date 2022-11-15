@@ -3,10 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, Entypo } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
-
 import LottieView from 'lottie-react-native';
-
-import { getFotoPerfil, getDescripcionUsuario, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores } from "../hooks/Auth/Firestore";
+import { seguirAutor, getFotoPerfil, getDescripcionUsuario,getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor } from "../hooks/Auth/Firestore";
 
 
 function AutoresScreen({ route }) {
@@ -19,8 +17,9 @@ function AutoresScreen({ route }) {
     const [seguidores, setSeguidores] = useState(0);
     const [libros, setLibros] = useState(0);
     const [seguidos, setSeguidos] = useState(0);
-    const { autorElegido,screen } = route.params;
-  
+    const [estaSeguido, setEstaSeguido] = useState(false);
+    const { autorElegido, screen } = route.params;
+
 
     useEffect(() => {
         hacerCosas();
@@ -43,16 +42,29 @@ function AutoresScreen({ route }) {
         setModalVisible(true)
         let e = await getUserAuth()
         setEmail(e);
-        console.log(autorElegido);
         setFotoPerfil(await getFotoPerfil(autorElegido));
         setDescripcion(await getDescripcionUsuario(autorElegido));
         setLibros(await getNumeroLibrosUsuario(autorElegido));
         setSeguidos(await getNumAutoresSeguidos(autorElegido));
         setSeguidores(await getNumSeguidores(autorElegido));
+        setEstaSeguido(await getEstaSeguido(e, autorElegido));
         setModalVisible(false)
 
     }
 
+
+    const seguir = async () => {
+        setEstaSeguido(true);
+        await seguirAutor(email, autorElegido);
+        setSeguidores(await getNumSeguidores(autorElegido));
+      
+    }
+    const dejarSeguir = async () => {
+        setEstaSeguido(false);
+        await dejarSeguirAutor(email, autorElegido);
+        setSeguidores(await getNumSeguidores(autorElegido));
+  
+    }
 
     return (
         <SafeAreaView style={{
@@ -101,7 +113,7 @@ function AutoresScreen({ route }) {
                 height: 70,
 
             }}>
-                <TouchableOpacity onPress={()=>{goBack()}}>
+                <TouchableOpacity onPress={() => { goBack() }}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
@@ -136,28 +148,50 @@ function AutoresScreen({ route }) {
 
 
                 }}>
-                    <TouchableOpacity
-                        style={{
+                    {!estaSeguido ?
+                        <TouchableOpacity
+                            style={{
 
-                            width: "50%",
-                            marginTop: 20,
-                            backgroundColor: isModalVisible ? "#8D8D8D" : "white",
-                            padding: 12,
-                            borderRadius: 20,
-                            borderColor: "#679436",
-                            borderWidth: 3,
-                            alignItems: "center",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            flexDirection: "row"
-                        }}
-                        onPress={e => salir()}
-                    >
-                        <Foundation name="foot" size={24} color="black" />
-                        <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                            Seguir
-                        </Text>
-                    </TouchableOpacity>
+                                width: "50%",
+                                marginTop: 20,
+                                backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                                padding: 12,
+                                borderRadius: 20,
+                                borderColor: "#679436",
+                                borderWidth: 3,
+                                alignItems: "center",
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                flexDirection: "row"
+                            }}
+                            onPress={() => seguir()}
+                        >
+                            <Foundation name="foot" size={24} color="black" />
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                Seguir
+                            </Text>
+                        </TouchableOpacity> : <TouchableOpacity
+                            style={{
+
+                                width: "50%",
+                                marginTop: 20,
+                                backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                                padding: 12,
+                                borderRadius: 20,
+                                borderColor: "#679436",
+                                borderWidth: 3,
+                                alignItems: "center",
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                flexDirection: "row"
+                            }}
+                            onPress={() => dejarSeguir()}
+                        >
+                            <Foundation name="foot" size={24} color="black" />
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                Dejar de seguir
+                            </Text>
+                        </TouchableOpacity>}
                 </View>
                 {/* Informacion sobre autor */}
                 <View style={{
@@ -186,7 +220,7 @@ function AutoresScreen({ route }) {
                             {seguidores}
                         </Text>
                         <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                        Seguidores
+                            Seguidores
                         </Text>
                     </View>
 
