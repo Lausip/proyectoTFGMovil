@@ -40,17 +40,15 @@ function HomeScreen() {
       screen: "home",
     });
   }
-
-  const handleBook = (item) => {
-    navigation.navigate("detailsBookScreen", {
-      bookId: item.key,
+  const handleNotificacion = () => {
+    navigation.navigate("notificacionScreen", {
+      screen: "home",
     });
-
   }
+
   const hacerCosas = async () => {
     setModalVisible(true)
     let e = await getUserAuth();
-
     setFotoPerfil(await getFotoPerfil(e));
     await cargarFirebase();
 
@@ -187,7 +185,7 @@ function HomeScreen() {
 
         </TouchableOpacity>
         {/*Notifications*/}
-        <TouchableOpacity onPress={e => handleProfile()} style={{ marginTop: "auto" }}>
+        <TouchableOpacity onPress={e => handleNotificacion()} style={{ marginTop: "auto" }}>
           <Ionicons name="notifications" size={33} color="black" />
         </TouchableOpacity>
       </View>

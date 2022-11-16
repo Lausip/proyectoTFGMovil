@@ -15,7 +15,6 @@ export const cargarNuevosLibros = async () => {
     return books
 
 }
-
 export const cargarDatosLibros = async () => {
     let libros = await cargarNuevosLibros();
     let librosInformacion = [];
@@ -37,15 +36,15 @@ export const cargarDatosLibros = async () => {
 export const getNumSeguidoresLibro = async (idbook) => {
 
     let numSeguidores = 0;
-    let autores=await handleAutores();
+    let autores = await handleAutores();
     for (let i = 0, len = autores.length; i < len; i++) {
 
-            await db.collection("usuarios").doc(autores[i].Nombre).collection("MeGusta")
-                .where("Nombre", "==", idbook).get().then(qS => {
-                    
-                    numSeguidores = qS.size + numSeguidores;
+        await db.collection("usuarios").doc(autores[i].Nombre).collection("MeGusta")
+            .where("Nombre", "==", idbook).get().then(qS => {
 
-                })
+                numSeguidores = qS.size + numSeguidores;
+
+            })
     }
 
     return numSeguidores;

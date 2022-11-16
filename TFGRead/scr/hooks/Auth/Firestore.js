@@ -1,4 +1,4 @@
-import { db,firebase } from '../../config/firebase';
+import { db, firebase } from '../../config/firebase';
 
 export const handleRegistroFirebase = (email) => {
   db
@@ -11,6 +11,7 @@ export const handleRegistroFirebase = (email) => {
       Amigos: [],
       Autores: [],
       Descripcion: "",
+      Peticiones: [],
     })
     .then(() => {
       console.log('User added!');
@@ -60,37 +61,37 @@ export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
   return esta;
 
 }
-export const getEstaSeguido = async (emailTuyo,emailAutor) => {
-  let autores=await handleAutoresSeguidos(emailTuyo);
-  let esta=false;
-  for (let i = 0, len = autores.length; i < len; i++) {
-    if(autores[i].Nombre==emailAutor)
-    return true;
+export const getEstaSeguido = async (emailTuyo, emailAutor, seguidos) => {
+
+  let esta = false;
+  for (let i = 0, len = seguidos.length; i < len; i++) {
+    if (autores[i].Nombre == emailAutor)
+      return true;
   }
-   
- return esta;
+
+  return esta;
 }
 
-export const seguirAutor = async (emailTuyo,emailAutor) => {
+export const seguirAutor = async (emailTuyo, emailAutor) => {
   await db
-  .collection('usuarios').doc(emailTuyo)
-  .update({
-    Autores: firebase.firestore.FieldValue.arrayUnion(emailAutor),
-  })
-  .then(() => {
-    console.log('Seguido');
-  });
+    .collection('usuarios').doc(emailTuyo)
+    .update({
+      Autores: firebase.firestore.FieldValue.arrayUnion(emailAutor),
+    })
+    .then(() => {
+      console.log('Seguido');
+    });
 }
 
-export const dejarSeguirAutor = async (emailTuyo,emailAutor) => {
+export const dejarSeguirAutor = async (emailTuyo, emailAutor) => {
   await db
-  .collection('usuarios').doc(emailTuyo)
-  .update({
-    Autores: firebase.firestore.FieldValue.arrayRemove(emailAutor),
-  })
-  .then(() => {
-    console.log('Dejado de seguir');
-  });
+    .collection('usuarios').doc(emailTuyo)
+    .update({
+      Autores: firebase.firestore.FieldValue.arrayRemove(emailAutor),
+    })
+    .then(() => {
+      console.log('Dejado de seguir');
+    });
 }
 
 export const getDescripcionUsuario = async (email) => {
@@ -107,8 +108,8 @@ export const getNumSeguidores = async (email) => {
 
   let numseguidores = 0;
   await db.collection("usuarios").where("Autores", "array-contains", email).get().then(documentSnapshot => {
-    numseguidores=documentSnapshot.size;
-    })
+    numseguidores = documentSnapshot.size;
+  })
   return numseguidores;
 }
 
@@ -119,11 +120,82 @@ export const getNumAutoresSeguidos = async (email) => {
 
     numseguidos = documentSnapshot.data().Autores.length;
 
-    })
+  })
   return numseguidos;
 }
 
+export const enviarPeticionAmigo = async (email, emailAmigo) => {
 
+  await db.collection("usuarios").doc(emailAmigo).collection("Peticiones").add({
+    Tipo: "Amistad",
+    Nombre: email,
+    Estado: "Pendiente"
+
+  })
+    .then(() => {
+      console.log('Enviada petición a' + email);
+    });
+
+
+}
+
+export const cambiarEstadoPeticionAmistad = async ( email, keyPeticion,estado) => {
+
+  await db.collection("usuarios").doc(email).collection("Peticiones").doc(keyPeticion)
+    .update({
+      Estado: estado,
+    })
+    .then(() => {
+      console.log("Peticion de amistad cambiada de estado")
+    });
+
+}
+
+export const rechazarPeticionAmistad = async (email,keyPeticion) => {
+  //Cambiar el estado a rechazado
+  cambiarEstadoPeticionAmistad(email,keyPeticion, "Rechazado");
+
+}
+
+export const aceptarPeticionAmistad = async (email,keyPeticion,emailOtro) => {
+  //Cambiar el estado a aceptado
+  cambiarEstadoPeticionAmistad(email,keyPeticion, "Aceptada");
+  //Añadir a Amigos
+  anadirAAmigos(email,emailOtro);
+  anadirAAmigos(emailOtro,email);
+
+}
+
+export const anadirAAmigos = async (emailTuyo, emailAmigo) => {
+  await db
+    .collection('usuarios').doc(emailTuyo)
+    .update({
+      Amigos: firebase.firestore.FieldValue.arrayUnion(emailAmigo),
+    })
+    .then(() => {
+      console.log('Añanido a amigo');
+    });
+}
+
+export const getPeticionesAmistad = async (email) => {
+
+  let peticiones = [];
+  await db
+    .collection('usuarios').doc(email).collection("Peticiones")
+    .where("Estado", "==", "Pendiente").get().then(documentSnapshot => {
+      documentSnapshot.forEach((queryDocumentSnapshot) => {
+        peticiones.push({
+          ...queryDocumentSnapshot.data(),
+          key:queryDocumentSnapshot.id,
+
+        });
+      })
+
+    })
+
+  return peticiones;
+
+}
 
 export const getNumeroLibrosUsuario = async (email) => {
 
@@ -150,8 +222,8 @@ export const handleAutoresSeguidos = async (email) => {
       autores.push({ Foto: documentSnapshot.data().Foto, Nombre: documentSnapshot.data().Nombre });
 
     })
-
   }
+
   return autores
 }
 
@@ -168,8 +240,6 @@ export const getFotoPerfil = async (email) => {
 
   return db
     .collection('usuarios').doc(email).get().then((documentSnapshot) => { return documentSnapshot.data().Foto; });
-
-
 
 }
 

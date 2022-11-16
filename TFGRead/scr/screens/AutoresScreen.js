@@ -4,8 +4,14 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, Entypo } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-import { seguirAutor, getFotoPerfil, getDescripcionUsuario,getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor } from "../hooks/Auth/Firestore";
+import { seguirAutor,enviarPeticionAmigo, getFotoPerfil, getDescripcionUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor } from "../hooks/Auth/Firestore";
 
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+} from 'react-native-popup-menu';
 
 function AutoresScreen({ route }) {
 
@@ -13,6 +19,7 @@ function AutoresScreen({ route }) {
     const [fotoPerfil, setFotoPerfil] = useState("");
     const navigation = useNavigation();
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isModalVisibleEnviarMensaje, setModalVisibleEnviarMensaje] = useState(false);
     const [descripcion, setDescripcion] = useState("");
     const [seguidores, setSeguidores] = useState(0);
     const [libros, setLibros] = useState(0);
@@ -44,28 +51,34 @@ function AutoresScreen({ route }) {
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(autorElegido));
         setDescripcion(await getDescripcionUsuario(autorElegido));
-        setLibros(await getNumeroLibrosUsuario(autorElegido));
-        setSeguidos(await getNumAutoresSeguidos(autorElegido));
+        setLibros(await getNumeroLibrosUsuario(autorElegido)); 
+        let seguidoss=await getNumAutoresSeguidos(autorElegido);
+        setSeguidos(seguidoss);
         setSeguidores(await getNumSeguidores(autorElegido));
-        setEstaSeguido(await getEstaSeguido(e, autorElegido));
+        setEstaSeguido(await getEstaSeguido(e, autorElegido,seguidoss))   
         setModalVisible(false)
 
     }
 
+    const addAmigo = async () => {
+        setModalVisibleEnviarMensaje(true);
+        enviarPeticionAmigo(email,autorElegido);
+        setModalVisibleEnviarMensaje(false);
+    }
 
     const seguir = async () => {
         setEstaSeguido(true);
         await seguirAutor(email, autorElegido);
         setSeguidores(await getNumSeguidores(autorElegido));
-      
+
     }
     const dejarSeguir = async () => {
         setEstaSeguido(false);
         await dejarSeguirAutor(email, autorElegido);
         setSeguidores(await getNumSeguidores(autorElegido));
-  
-    }
 
+    }
+    
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -97,6 +110,31 @@ function AutoresScreen({ route }) {
                     <Text style={styles.textWait}>Cargando.....</Text>
                 </View>
             </Modal>
+            <Modal
+                animationType="fade"
+                visible={isModalVisibleEnviarMensaje}
+                transparent
+            >
+                <View style={{
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    height: 150,
+                    borderColor: "#679436",
+                    borderRadius: 20,
+                    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+                    shadowColor: "black",
+                    shadowOpacity: 0.89,
+                    shadowOffset: { width: 0, height: 9 },
+                    shadowRadius: 10,
+                    elevation: 12,
+                }}>
+                    <LottieView style={styles.lottieModalWait}
+                        source={require('../../assets/animations/waitFunction.json')} autoPlay loop />
+                    <Text style={styles.textWait}>Enviando petición...</Text>
+                </View>
+            </Modal>
             {/* Head */}
             <StatusBar
                 translucent={false}
@@ -122,7 +160,6 @@ function AutoresScreen({ route }) {
             {/* Contenedor Perfil*/}
             <View style={{
                 marginTop: 20,
-
                 marginHorizontal: 30,
                 flexDirection: "column",
                 borderRadius: 8,
@@ -132,113 +169,148 @@ function AutoresScreen({ route }) {
                 shadowRadius: 10,
                 elevation: 11,
                 backgroundColor: isModalVisible ? "#A7A7A7" : "white",
-                alignItems: "center"
+
 
             }}>
-                <TouchableOpacity>
-                    <Image
-                        source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
-                        style={{ width: 100, height: 100, borderRadius: 100 / 2, marginTop: 20 }}
-                    />
-                </TouchableOpacity >
-
-                {/* Boton seguir autor */}
+                {/* Menu de acciones*/}
                 <View style={{
-                    marginBottom: 20,
-
+                    marginTop: 20,
+                    alignItems: "flex-end",
+                    marginHorizontal: 20,
 
                 }}>
-                    {!estaSeguido ?
-                        <TouchableOpacity
-                            style={{
 
-                                width: "50%",
-                                marginTop: 20,
-                                backgroundColor: isModalVisible ? "#8D8D8D" : "white",
-                                padding: 12,
-                                borderRadius: 20,
-                                borderColor: "#679436",
-                                borderWidth: 3,
-                                alignItems: "center",
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                                flexDirection: "row"
-                            }}
-                            onPress={() => seguir()}
-                        >
-                            <Foundation name="foot" size={24} color="black" />
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                                Seguir
-                            </Text>
-                        </TouchableOpacity> : <TouchableOpacity
-                            style={{
+                    <Menu>
+                        <MenuTrigger>
+                            <Entypo name="dots-three-vertical" size={24} color="black" />
+                        </MenuTrigger>
+                        <MenuOptions style={{
+                            alignItems:"center",
+                                
+                               borderRadius: 8,
+                               shadowColor: "black",
+                               shadowOpacity: 0.78,
+                               shadowOffset: { width: 0, height: 9 },
+                               shadowRadius: 10,
+                               elevation: 11,
+                               backgroundColor: isModalVisible ? "#A7A7A7" : "white",
 
-                                width: "50%",
-                                marginTop: 20,
-                                backgroundColor: isModalVisible ? "#8D8D8D" : "white",
-                                padding: 12,
-                                borderRadius: 20,
-                                borderColor: "#679436",
-                                borderWidth: 3,
-                                alignItems: "center",
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                                flexDirection: "row"
-                            }}
-                            onPress={() => dejarSeguir()}
-                        >
-                            <Foundation name="foot" size={24} color="black" />
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                                Dejar de seguir
-                            </Text>
-                        </TouchableOpacity>}
+                        }}>
+                            <MenuOption onSelect={() => addAmigo()} text='Añadir a amigos' />
+                            <MenuOption onSelect={() => alert(`Delete`)}>
+                      
+                                <Text style={{ color: 'red' }}>Reportar</Text>
+                            </MenuOption>
+   
+                        </MenuOptions>
+                    </Menu>
                 </View>
-                {/* Informacion sobre autor */}
-                <View style={{
+                <View style={{ alignItems: "center" }}>
+                    <TouchableOpacity>
+                        <Image
+                            source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
+                            style={{ width: 100, height: 100, borderRadius: 100 / 2 }}
+                        />
+                    </TouchableOpacity >
 
-                    flexDirection: "row", marginBottom: 20,
-                }}>
+                    {/* Boton seguir autor */}
+                    <View style={{
+                        marginBottom: 20,
 
-                    {/* Informacion obras*/}
+
+                    }}>
+                        {!estaSeguido ?
+                            <TouchableOpacity
+                                style={{
+
+                                    width: "50%",
+                                    marginTop: 20,
+                                    backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                                    padding: 12,
+                                    borderRadius: 20,
+                                    borderColor: "#679436",
+                                    borderWidth: 3,
+                                    alignItems: "center",
+                                    marginLeft: "auto",
+                                    marginRight: "auto",
+                                    flexDirection: "row"
+                                }}
+                                onPress={() => seguir()}
+                            >
+                                <Foundation name="foot" size={24} color="black" />
+                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                    Seguir
+                                </Text>
+                            </TouchableOpacity> : <TouchableOpacity
+                                style={{
+
+                                    width: "50%",
+                                    marginTop: 20,
+                                    backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                                    padding: 12,
+                                    borderRadius: 20,
+                                    borderColor: "#679436",
+                                    borderWidth: 3,
+                                    alignItems: "center",
+                                    marginLeft: "auto",
+                                    marginRight: "auto",
+                                    flexDirection: "row"
+                                }}
+                                onPress={() => dejarSeguir()}
+                            >
+                                <Foundation name="foot" size={24} color="black" />
+                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                    Dejar de seguir
+                                </Text>
+                            </TouchableOpacity>}
+                    </View>
+
+                    {/* Informacion sobre autor */}
                     <View style={{
 
-                        flexDirection: "column", alignItems: "center", marginRight: 20,
+                        flexDirection: "row", marginBottom: 20,
                     }}>
-                        <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                            {libros}
-                        </Text>
-                        <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                            Libros
-                        </Text>
+
+                        {/* Informacion obras*/}
+                        <View style={{
+
+                            flexDirection: "column", alignItems: "center", marginRight: 20,
+                        }}>
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                {libros}
+                            </Text>
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                Libros
+                            </Text>
+                        </View>
+                        {/* Informacion seguidores */}
+                        <View style={{
+
+                            flexDirection: "column", alignItems: "center", marginRight: 20,
+                        }}>
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                {seguidores}
+                            </Text>
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                Seguidores
+                            </Text>
+                        </View>
+
+                        {/* Informacion seguidos*/}
+                        <View style={{
+
+                            flexDirection: "column", alignItems: "center",
+                        }}>
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                {seguidos}
+                            </Text>
+                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                Seguidos
+                            </Text>
+                        </View>
+
                     </View>
-                    {/* Informacion seguidores */}
-                    <View style={{
-
-                        flexDirection: "column", alignItems: "center", marginRight: 20,
-                    }}>
-                        <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                            {seguidores}
-                        </Text>
-                        <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                            Seguidores
-                        </Text>
-                    </View>
-
-                    {/* Informacion seguidos*/}
-                    <View style={{
-
-                        flexDirection: "column", alignItems: "center",
-                    }}>
-                        <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                            {seguidos}
-                        </Text>
-                        <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
-                            Seguidos
-                        </Text>
-                    </View>
-
                 </View>
-
             </View>
             {/*Contenedor Descripcion del autor*/}
 
