@@ -60,7 +60,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "detailsBookScreen" ||routeName== "bookScreen"||routeName=="profileScreen") {
+            if (routeName === "detailsBookScreen" ||routeName== "bookScreen"||routeName=="profileScreen" || routeName=="notificacionScreen"|| routeName=="chatConversationScreen") {
               return { display: "none" };
             }
             if(routeName==""||routeName=="home"){
@@ -99,10 +99,10 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "autorScreen") {
+            if (routeName === "autorScreen"|| routeName=="chatConversationScreen") {
               return { display: "none" };
             }
-            if(routeName==""||routeName=="explore"){
+            if(routeName==""||routeName=="explore" ){
             return {
               backgroundColor: "white",
               marginHorizontal: 20,

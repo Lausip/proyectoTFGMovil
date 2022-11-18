@@ -5,7 +5,7 @@ import BooksScreen from "../screens/BookScreen/BooksScreen";
 import DetailBookScreen from "../screens/BookScreen/DetailBookScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import NotificacionesScreen from "../screens/NotificacionesScreen";
-
+import ChatConversationScreen from "../screens/ChatScreen/ChatConversationScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +18,7 @@ export default function HomeStack() {
       <Stack.Screen name="notificacionScreen" component={NotificacionesScreen} /> 
       <Stack.Screen name="detailsBookScreen" component={DetailBookScreen} /> 
      <Stack.Screen name="bookScreen" component={BooksScreen} /> 
+     <Stack.Screen name="chatConversationScreen" component={ChatConversationScreen} />
 
     </Stack.Navigator>
   );

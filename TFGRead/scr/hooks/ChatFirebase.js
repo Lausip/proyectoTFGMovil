@@ -1,8 +1,53 @@
-import { db} from '../config/firebase';
+import { db, firebase } from '../config/firebase';
 import { getFotoPerfil } from "./Auth/Firestore";
 
 
 
+export const addSala = async (usuario1, usuario2,esAmigo,enviadoPor) => {
+
+    await db.collection('salas').doc(usuario1 + "-" + usuario2)
+        .set({
+            Tiempo: firebase.firestore.Timestamp.fromDate(new Date()),
+            Usuario1: usuario1,
+            Usuario2: usuario2,
+            Amigo:esAmigo,
+            Enviado:enviadoPor,
+
+        }).then(()=>{
+           
+        })
+  
+}
+
+export const existeSala = async (usuario1, usuario2) => {
+    let existe=false;
+    await db
+        .collection('salas').doc(usuario1 + "-" + usuario2).get().then(documentSnapshot => {
+
+            if (documentSnapshot.data()!=undefined) {
+
+            existe=true;
+        }
+        })
+        
+    await db
+    .collection('salas').doc(usuario2 + "-" + usuario1).get().then(documentSnapshot => {
+   
+        if (documentSnapshot.data()!=undefined) {
+
+            existe=true;}
+    })
+    return existe;
+
+}
+export const updateAmigosSala = async (salaKey) => {
+    await db.collection('salas').doc(salaKey)
+    .update({
+        Amigo: true
+
+    })
+
+}
 
 export const getSalas = async (email) => {
 
@@ -30,7 +75,7 @@ export const getUltimoMensajeConversacion = async (salas) => {
     for (let i = 0, len = salas.length; i < len; i++) {
         await db.collection("salas").doc(salas[i].key).collection("mensajes").orderBy("FechaCreacion", "asc").limit(1).onSnapshot(async querySnapshot => {
             await querySnapshot.forEach(async (documentSnapshot) => {
-                salasss.push({ Tiempo: salas[i].Tiempo, Usuario1: salas[i].Usuario1, Usuario2: salas[i].Usuario2, key: salas[i].key, FotoPerfil: salas[i].FotoPerfil, UltimoMensaje: documentSnapshot.data().Texto });
+                salasss.push({ Enviado:salas[i].Enviado,Tiempo: salas[i].Tiempo, Usuario1: salas[i].Usuario1, Usuario2: salas[i].Usuario2, key: salas[i].key, FotoPerfil: salas[i].FotoPerfil, UltimoMensaje: documentSnapshot.data().Texto });
 
             });
         });
@@ -46,12 +91,12 @@ export const getFotoPerfilConversaciones = async (salas, email) => {
     for (let i = 0, len = salas.length; i < len; i++) {
         if (salas[i].Usuario1 != email) {
             let foto = await getFotoPerfil(salas[i].Usuario1);
-            salasss.push({ Tiempo: salas[i].Tiempo, Usuario1: salas[i].Usuario1, Usuario2: salas[i].Usuario2, key: salas[i].key, FotoPerfil: foto });
+            salasss.push({ ...salas[i] ,FotoPerfil: foto });
         }
 
         else if (salas[i].Usuario2 != email) {
             let foto = await getFotoPerfil(salas[i].Usuario2);
-            salasss.push({ Tiempo: salas[i].Tiempo, Usuario1: salas[i].Usuario1, Usuario2: salas[i].Usuario2, key: salas[i].key, FotoPerfil: foto });
+            salasss.push({ ...salas[i] ,FotoPerfil: foto  });
         }
     }
 

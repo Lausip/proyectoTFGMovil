@@ -12,6 +12,7 @@ export const handleRegistroFirebase = (email) => {
       Autores: [],
       Descripcion: "",
       Peticiones: [],
+
     })
     .then(() => {
       console.log('User added!');
@@ -103,7 +104,7 @@ export const getDescripcionUsuario = async (email) => {
   })
   return descripcion;
 }
-
+//--------------------------------SEGUIDORES-----------------------------------
 export const getNumSeguidores = async (email) => {
 
   let numseguidores = 0;
@@ -123,13 +124,14 @@ export const getNumAutoresSeguidos = async (email) => {
   })
   return numseguidos;
 }
+//--------------------------------PETICION-----------------------------------
+export const enviarPeticion= async (email, autorElegido,tipo) => {
 
-export const enviarPeticionAmigo = async (email, emailAmigo) => {
-
-  await db.collection("usuarios").doc(emailAmigo).collection("Peticiones").add({
-    Tipo: "Amistad",
+  await db.collection("usuarios").doc(autorElegido).collection("Peticiones").add({
+    Tipo: tipo,
     Nombre: email,
-    Estado: "Pendiente"
+    Estado: "Pendiente",
+    FechaCreacion:firebase.firestore.Timestamp.fromDate(new Date()),
 
   })
     .then(() => {
@@ -139,7 +141,38 @@ export const enviarPeticionAmigo = async (email, emailAmigo) => {
 
 }
 
-export const cambiarEstadoPeticionAmistad = async ( email, keyPeticion,estado) => {
+export const eliminarPeticion = async (email, keyPeticion) => {
+
+  await db.collection("usuarios").doc(email).collection("Peticiones").doc(keyPeticion)
+    .delete()
+    .then(() => {
+      console.log("Eliminado")
+    });
+
+}
+
+export const getPeticionesAmistad = async (email) => {
+
+  let peticiones = [];
+  await db
+    .collection('usuarios').doc(email).collection("Peticiones")
+    .where("Estado", "==", "Pendiente").get().then(documentSnapshot => {
+      documentSnapshot.forEach((queryDocumentSnapshot) => {
+        if(queryDocumentSnapshot.data().Tipo=="Amistad"){
+        peticiones.push({
+          ...queryDocumentSnapshot.data(),
+          key: queryDocumentSnapshot.id,
+
+        });}
+      })
+
+    })
+
+  return peticiones;
+
+}
+//--------------------------------AMISTAD-----------------------------------
+export const cambiarEstadoPeticionAmistad = async (email, keyPeticion, estado) => {
 
   await db.collection("usuarios").doc(email).collection("Peticiones").doc(keyPeticion)
     .update({
@@ -151,18 +184,20 @@ export const cambiarEstadoPeticionAmistad = async ( email, keyPeticion,estado) =
 
 }
 
-export const rechazarPeticionAmistad = async (email,keyPeticion) => {
+
+export const rechazarPeticionAmistad = async (email, keyPeticion) => {
   //Cambiar el estado a rechazado
-  cambiarEstadoPeticionAmistad(email,keyPeticion, "Rechazado");
+  cambiarEstadoPeticionAmistad(email, keyPeticion, "Rechazado");
 
 }
 
-export const aceptarPeticionAmistad = async (email,keyPeticion,emailOtro) => {
+export const aceptarPeticionAmistad = async (email, keyPeticion, emailOtro) => {
   //Cambiar el estado a aceptado
-  cambiarEstadoPeticionAmistad(email,keyPeticion, "Aceptada");
+  await cambiarEstadoPeticionAmistad(email, keyPeticion, "Aceptada");
   //Añadir a Amigos
-  anadirAAmigos(email,emailOtro);
-  anadirAAmigos(emailOtro,email);
+  await anadirAAmigos(email, emailOtro);
+  await anadirAAmigos(emailOtro, email);
+
 
 }
 
@@ -177,18 +212,43 @@ export const anadirAAmigos = async (emailTuyo, emailAmigo) => {
     });
 }
 
-export const getPeticionesAmistad = async (email) => {
+export const getAmigos = async (email) => {
+
+  let amigos = [];
+  await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
+
+    amigos=documentSnapshot.data().Amigos 
+
+  })
+
+  return amigos;
+
+}
+export const mirarSiSonAmigos= async (email,emailAmigo) => {
+
+  let amigos = await  getAmigos(email);
+
+  for (let i = 0, len = amigos.length; i < len; i++) {
+    if(amigos[i]==emailAmigo){
+      return true;
+    }
+  }
+  return false;
+}
+
+export const getPeticionesConversacion = async (email) => {
 
   let peticiones = [];
   await db
     .collection('usuarios').doc(email).collection("Peticiones")
     .where("Estado", "==", "Pendiente").get().then(documentSnapshot => {
       documentSnapshot.forEach((queryDocumentSnapshot) => {
+        if(queryDocumentSnapshot.data().Tipo=="Conversacion"){
         peticiones.push({
           ...queryDocumentSnapshot.data(),
-          key:queryDocumentSnapshot.id,
+          key: queryDocumentSnapshot.id,
 
-        });
+        });}
       })
 
     })
@@ -196,7 +256,6 @@ export const getPeticionesAmistad = async (email) => {
   return peticiones;
 
 }
-
 export const getNumeroLibrosUsuario = async (email) => {
 
   let numLibros = 0;

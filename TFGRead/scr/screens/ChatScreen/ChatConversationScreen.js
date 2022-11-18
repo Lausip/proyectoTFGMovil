@@ -5,13 +5,13 @@ import {
     View,
     TouchableOpacity,
     ImageBackground, Image,
-    Modal, StatusBar, ScrollView, TextInput
+    Modal, StatusBar, ScrollView, TextInput, RefreshControlBase
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState, useCallback } from "react";
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil } from "../../hooks/Auth/Firestore";
-import { addMessage, getMessage } from "../../hooks/ChatFirebase";
+import { getFotoPerfil, anadirAAmigos } from "../../hooks/Auth/Firestore";
+import { addMessage, getMessage, updateAmigosSala } from "../../hooks/ChatFirebase";
 import { db, firebase } from '../../config/firebase';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { getUserAuth } from "../../hooks/Auth/Auth";
@@ -28,10 +28,11 @@ function ChatConversationScreen({ route }) {
     const [fotoPerfil, setFotoPerfil] = useState("");
     const [fotoPerfilAmigo, setFotoPerfilAmigo] = useState("");
     const [email, setEmail] = useState("");
+
     const [amigo, setAmigo] = useState("");
     const [messages, setMessages] = useState([]);
     const [isModalVisible, setModalVisible] = useState(false);
-    const { sala } = route.params;
+    const { sala, screen } = route.params;
 
 
     useEffect(() => {
@@ -51,6 +52,7 @@ function ChatConversationScreen({ route }) {
 
 
     const hacerCosas = async () => {
+
         setModalVisible(true)
         if (sala.Usuario1 == email) {
             setAmigo(sala.Usuario2)
@@ -61,6 +63,7 @@ function ChatConversationScreen({ route }) {
         }
         let e = await getUserAuth();
         setEmail(e);
+
         setFotoPerfil(await getFotoPerfil(e));
         setModalVisible(false)
     }
@@ -71,7 +74,15 @@ function ChatConversationScreen({ route }) {
     }
 
     const handleChats = () => {
-        navigation.replace("chatScreen");
+        navigation.replace(screen);
+    }
+
+    const añadirAAmigo = async () => {
+        await anadirAAmigos(email, amigo);
+        await anadirAAmigos(amigo, email);
+        await updateAmigosSala(sala.key);
+
+
     }
 
     const onSend = useCallback(async (messages = []) => {
@@ -108,7 +119,7 @@ function ChatConversationScreen({ route }) {
                     left: {
                         backgroundColor: '#679436',
                     },
-   
+
                 }}
             />
         );
@@ -128,7 +139,9 @@ function ChatConversationScreen({ route }) {
             shadowOffset: { width: 0, height: 9 },
             shadowRadius: 10,
             elevation: 6,
-        }} />
+        }}
+
+        />
     }
 
     return (
@@ -190,6 +203,28 @@ function ChatConversationScreen({ route }) {
                     <Text style={styles.fontTitulo}>{amigo.split("@")[0]}</Text>
 
                 </View>
+                {
+                   !sala.Amigo && sala.Enviado==amigo ?
+
+                        < View style={{
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: 30,
+
+                        }}>
+                            <TouchableOpacity onPress={() => { añadirAAmigo() }}>
+                                <Text>Añadir a amigos</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { }} style={{ marginLeft: 20 }}>
+                                <Text style={{ color: "red" }}>Bloquear</Text>
+                            </TouchableOpacity>
+                        </View>:<Text></Text>
+
+
+                    }
+         
+
             </View>
             <GiftedChat
                 messages={messages}
@@ -215,7 +250,7 @@ function ChatConversationScreen({ route }) {
                 }}
             />
 
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 const styles = StyleSheet.create({

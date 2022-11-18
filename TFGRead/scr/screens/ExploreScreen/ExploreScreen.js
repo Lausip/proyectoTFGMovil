@@ -33,8 +33,7 @@ function ExploreScreen({ route }) {
 
   const [categories, setCategories] = useState([{ Nombre: "Romance", Color: "#E55B5B" }, { Nombre: "Fantasia", Color: "#AD82BB" }]);
 
-  const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
-    useState(0);
+  const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] = useState(0);
 
   useEffect(() => {
   
@@ -276,10 +275,6 @@ function ExploreScreen({ route }) {
             }}
             renderItem={({ item, index }) => RenderEtiquetas(item, index)}
           ></FlatList>
-
-
-
-
 
         </View>
 

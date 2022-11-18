@@ -4,15 +4,15 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, Entypo } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-import { seguirAutor,enviarPeticionAmigo, getFotoPerfil, getDescripcionUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor } from "../hooks/Auth/Firestore";
-
+import { seguirAutor, enviarPeticion, getFotoPerfil, getDescripcionUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor,mirarSiSonAmigos } from "../hooks/Auth/Firestore";
+import { existeSala, addSala } from "../hooks/ChatFirebase";
 import {
     Menu,
     MenuOptions,
     MenuOption,
     MenuTrigger,
 } from 'react-native-popup-menu';
-
+import { db } from '../config/firebase';
 function AutoresScreen({ route }) {
 
     const [email, setEmail] = useState("");
@@ -51,18 +51,18 @@ function AutoresScreen({ route }) {
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(autorElegido));
         setDescripcion(await getDescripcionUsuario(autorElegido));
-        setLibros(await getNumeroLibrosUsuario(autorElegido)); 
-        let seguidoss=await getNumAutoresSeguidos(autorElegido);
+        setLibros(await getNumeroLibrosUsuario(autorElegido));
+        let seguidoss = await getNumAutoresSeguidos(autorElegido);
         setSeguidos(seguidoss);
         setSeguidores(await getNumSeguidores(autorElegido));
-        setEstaSeguido(await getEstaSeguido(e, autorElegido,seguidoss))   
-        setModalVisible(false)
+        setEstaSeguido(await getEstaSeguido(e, autorElegido, seguidoss))
+        setModalVisible(false);
 
     }
 
     const addAmigo = async () => {
         setModalVisibleEnviarMensaje(true);
-        enviarPeticionAmigo(email,autorElegido);
+        enviarPeticion(email, autorElegido, "Amistad");
         setModalVisibleEnviarMensaje(false);
     }
 
@@ -78,7 +78,65 @@ function AutoresScreen({ route }) {
         setSeguidores(await getNumSeguidores(autorElegido));
 
     }
-    
+
+    const cogerSala = async (usuarioa, usuariob) => {
+        let salaaaaa = [];
+        await db
+            .collection('salas').doc(usuarioa + "-" + usuariob).get().then(documentSnapshot => {
+                if (documentSnapshot.exists) {
+
+                    salaaaaa.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+
+                    });
+                    navigation.replace("chatConversationScreen", {
+                        sala: salaaaaa[0],
+                        screen: "explore",
+                
+                    });
+                }
+                return false;
+
+            })
+
+
+    }
+    const enviarMensaje = async () => {
+        setModalVisibleEnviarMensaje(true);
+        let existe = await existeSala(email, autorElegido)
+        console.log(existe)
+        //Mirar si ya hay sala
+        if (!existe) {
+            //Mirar si son amigos:
+            let sonAmigos = await mirarSiSonAmigos(email, autorElegido);
+            if (sonAmigos) {
+                await addSala(email, autorElegido, true,"");
+            }
+            else {
+                //Añadir Sala
+                await addSala(email, autorElegido,email);
+                //Mandar notificación:
+                await enviarPeticion(email, autorElegido, "Conversacion");
+            }
+            await cogerSala(email, autorElegido);
+            setModalVisibleEnviarMensaje(false);
+        }
+        else {
+            setModalVisibleEnviarMensaje(false);
+            let existe = false;
+            existe = await cogerSala(email, autorElegido);
+
+            if (!existe) {
+                await cogerSala(autorElegido, email);
+            }
+
+        }
+
+
+    }
+
+
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -185,23 +243,24 @@ function AutoresScreen({ route }) {
                             <Entypo name="dots-three-vertical" size={24} color="black" />
                         </MenuTrigger>
                         <MenuOptions style={{
-                            alignItems:"center",
-                                
-                               borderRadius: 8,
-                               shadowColor: "black",
-                               shadowOpacity: 0.78,
-                               shadowOffset: { width: 0, height: 9 },
-                               shadowRadius: 10,
-                               elevation: 11,
-                               backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+                            alignItems: "center",
+
+                            borderRadius: 8,
+                            shadowColor: "black",
+                            shadowOpacity: 0.78,
+                            shadowOffset: { width: 0, height: 9 },
+                            shadowRadius: 10,
+                            elevation: 11,
+                            backgroundColor: isModalVisible ? "#A7A7A7" : "white",
 
                         }}>
                             <MenuOption onSelect={() => addAmigo()} text='Añadir a amigos' />
+                            <MenuOption onSelect={() => enviarMensaje()} text='Enviar Mensaje privado' />
                             <MenuOption onSelect={() => alert(`Delete`)}>
-                      
+
                                 <Text style={{ color: 'red' }}>Reportar</Text>
                             </MenuOption>
-   
+
                         </MenuOptions>
                     </Menu>
                 </View>

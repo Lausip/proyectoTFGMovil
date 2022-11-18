@@ -80,7 +80,7 @@ export const crearLibroFirebase = async (titulo, descripción, email) => {
             Titulo: titulo,
             Descripción: descripción,
             Portada: "",
-            FechaCreación: new Date(firebase.firestore.Timestamp.now().seconds * 1000).toLocaleDateString(),
+            FechaCreación:firebase.firestore.Timestamp.fromDate(new Date()),
             borrador: false,
         })
         .then(function (docRef) {
@@ -138,7 +138,7 @@ export const uploadCapitulo = async (bookId, numeroCapitulo, titulo, contenido, 
         .add({
             Titulo: titulo,
             Contenido: contenido,
-            FechaCreación: new Date(firebase.firestore.Timestamp.now().seconds * 1000).toLocaleDateString(),
+            FechaCreación: firebase.firestore.Timestamp.fromDate(new Date()),
             borrador: borrador,
             Numero: numeroCapitulo,
         })
