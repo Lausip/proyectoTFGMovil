@@ -250,7 +250,7 @@ function BibliotecaScreen() {
                 }}
               >
               {(libro.UltimoCapitulo/libro.NumCapitulos)*100}%
-                <Foundation name="page-multiple" size={15} color="#7ABAD1" />
+                <Foundation name="page-multiple" size={15} color="#679436" />
               </Text>
               <View
                 style={{
@@ -266,7 +266,7 @@ function BibliotecaScreen() {
                     position: "absolute",
                     width: (libro.UltimoCapitulo/libro.NumCapitulos)*100,
                     height: 5,
-                    backgroundColor: "#7ABAD1",
+                    backgroundColor: "#679436",
                     borderRadius: 15,
                   }}
                 ></View>
