@@ -6,6 +6,7 @@ import { getUserAuth } from "../../hooks/Auth/Auth";
 import { updateUltimoCapitulo} from '../../hooks/Auth/Firestore';
 import { AntDesign } from '@expo/vector-icons';
 function BooksScreen({ route }) {
+
   const [email, setEmail] = useState("");
   const [texto, setTexto] = useState("");
   const [titulo, setTitulo] = useState("");
@@ -21,6 +22,7 @@ function BooksScreen({ route }) {
       BackHandler.removeEventListener('hardwareBackPress', backAction);
 
   }, []);
+
 /* 
   const backAction = () => {
     if (navigation.isFocused()) {
@@ -43,9 +45,7 @@ function BooksScreen({ route }) {
    
   const backAction = async () => {
     if (navigation.isFocused()) {
-          await updateUltimoCapitulo(email,bookId,capituloNumero);
-          navigation.navigate("biblioteca")
-     
+          navigation.navigate("biblioteca")   
       return true;
     }
   }; 
@@ -56,24 +56,24 @@ function BooksScreen({ route }) {
     });
   }, []);
 
-  const hacerCosas = async (bookId) => {
+  const hacerCosas = async () => {
     let e = await getUserAuth();
     setEmail(e);
     await cargarCapituloLibros();
-    setHayCapituloSiguiente(await mirarSiHayMasCapitulo(bookId));
+    let a=await mirarSiHayMasCapitulo(bookId,capituloNumero+1);
+    setHayCapituloSiguiente(a);
+    await updateUltimoCapitulo(e,bookId,capituloNumero);
   }
 
-  const mirarSiHayMasCapitulo = async (bookId) => {
+  const mirarSiHayMasCapitulo = async (bookId,capSiguiente) => {
     let hay = false;
     let querySnapshot = await db.collection("libros").doc(bookId).collection("Capitulos")
-      .where("Numero", "==", capituloNumero).get()
-    querySnapshot.forEach((queryDocumentSnapshot) => {
-      if (queryDocumentSnapshot.data() == undefined) {
+      .where("Numero", "==", capSiguiente).get()
+      if (!querySnapshot.empty) {
         hay = true;
       }
-    })
-    console.log(hay)
-    return true;
+
+    return hay;
   }
   const cargarCapituloLibros = async () => {
 

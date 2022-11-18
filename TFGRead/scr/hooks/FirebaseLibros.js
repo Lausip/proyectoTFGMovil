@@ -51,10 +51,10 @@ export const getNumSeguidoresLibro = async (idbook) => {
 
 }
 export const getFavoritos = async (favoritosUsuario) => {
-    console.log(favoritosUsuario)
+
     let favoritos = [];
     for (let i = 0, len = favoritosUsuario.length; i < len; i++) {
-        await db.collection("libros").doc(favoritosUsuario[i].Nombre).get().then(documentSnapshot => {
+        await db.collection("libros").doc(""+favoritosUsuario[i].Nombre).get().then(documentSnapshot => {
             favoritos.push({  ...documentSnapshot.data(),UltimoCapitulo:favoritosUsuario[i].UltimoCapitulo,key:documentSnapshot.id });
           
         })
@@ -133,7 +133,7 @@ export const cambiarDescripcion = async (bookId, descripcion) => {
 }
 
 export const uploadCapitulo = async (bookId, numeroCapitulo, titulo, contenido, borrador) => {
-    console.log(numeroCapitulo)
+
     await db.collection('libros').doc(bookId).collection('Capitulos')
         .add({
             Titulo: titulo,

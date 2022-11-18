@@ -314,6 +314,8 @@ export const cambiarFotoPerfilFirebase = async (email, foto) => {
 }
 
 export const updateUltimoCapitulo = async (email,bookId,capituloNumero) => {
+  console.log("email")
+  console.log(email)
   await db
     .collection('usuarios').doc(email).collection("MeGusta").doc(bookId)
     .update({

@@ -51,7 +51,7 @@ function BibliotecaScreen() {
         setSeleccionadoCategoriaIndex(index);
         if (index == 1) {
 
-            await cargarFavoritos();
+            await cargarFavoritos(email);
 
             setAutores([]);
         }
@@ -65,19 +65,20 @@ function BibliotecaScreen() {
         setModalVisible(false)
     };
 
-    const cargarFavoritos = async () => {
+    const cargarFavoritos = async (email2) => {
         //ARREGLAR
-        await db.collection("usuarios").doc(email).collection("MeGusta")
+        await db.collection("usuarios").doc(email2).collection("MeGusta")
             .onSnapshot(async querySnapshot => {
                 let favoritosUsuario = [];
-
                 await querySnapshot.forEach(async documentSnapshot => {
                     favoritosUsuario.push({
                         ...documentSnapshot.data(),
                         key: documentSnapshot.id,
                     });
                 })
-                setFavoritos(await getFavoritos(favoritosUsuario));
+                
+                let a=await getFavoritos(favoritosUsuario)
+                setFavoritos(a);
             })
 
 
@@ -130,6 +131,7 @@ function BibliotecaScreen() {
         let e = await getUserAuth();
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(e));
+        //NO VA BN NO SE PORQ al ser la primera vez que lo habrp
         cargarCategorias(1)
         setModalVisible(false)
     }
