@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
-import { Entypo } from '@expo/vector-icons';
+import { Entypo,Foundation } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil, handleAutoresSeguidos } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
@@ -25,7 +25,8 @@ function BibliotecaScreen() {
     const [email, setEmail] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
     const categorias = ["Reciente", "Favoritos", "Autores"];
-
+    const  [porcentaje, setPorcentaje] = useState(0);
+    const  [numCapitulos, setNumCapitulos] = useState(0);
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
         useState(0);
 
@@ -47,7 +48,7 @@ function BibliotecaScreen() {
     }
 
     const cargarCategorias = async (index) => {
-        setModalVisible(true)
+        setModalVisible(true);
         setSeleccionadoCategoriaIndex(index);
         if (index == 1) {
 
@@ -62,7 +63,7 @@ function BibliotecaScreen() {
             setFavoritos([]);
         }
 
-        setModalVisible(false)
+        setModalVisible(false);
     };
 
     const cargarFavoritos = async (email2) => {
@@ -70,15 +71,15 @@ function BibliotecaScreen() {
         await db.collection("usuarios").doc(email2).collection("MeGusta")
             .onSnapshot(async querySnapshot => {
                 let favoritosUsuario = [];
-                await querySnapshot.forEach(async documentSnapshot => {
+                await querySnapshot.forEach( async documentSnapshot => {
+                           
                     favoritosUsuario.push({
                         ...documentSnapshot.data(),
                         key: documentSnapshot.id,
+                 
                     });
-                })
-                
-                let a=await getFavoritos(favoritosUsuario)
-                setFavoritos(a);
+                })       
+                setFavoritos(await getFavoritos(favoritosUsuario));
             })
 
 
@@ -119,20 +120,26 @@ function BibliotecaScreen() {
     }
 
     const handleLeerLibroCapitulo = async (item) => {
+        let numcapitulo=item.UltimoCapitulo;
+
+        if(item.UltimoCapitulo==0){
+            numcapitulo=1;
+        }
+
         navigation.navigate("bookScreen", {
             bookId: item.key,
-            capituloNumero: item.UltimoCapitulo
+            capituloNumero: numcapitulo
         });
     }
 
     const hacerCosas = async () => {
-        setFavoritos([])
+
         setModalVisible(true)
         let e = await getUserAuth();
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(e));
         //NO VA BN NO SE PORQ al ser la primera vez que lo habrp
-        cargarCategorias(1)
+        cargarCategorias(1);
         setModalVisible(false)
     }
 
@@ -234,6 +241,36 @@ function BibliotecaScreen() {
                         <Text style={{ fontSize: 10, marginTop: 10, color: "black" }}>
                             {libro.Autor}
                         </Text>
+                        <Text
+                style={{
+                  marginTop: 5,
+                  fontSize: 13,
+                  color: "black",
+                  fontWeight: "bold",
+                }}
+              >
+              {(libro.UltimoCapitulo/libro.NumCapitulos)*100}%
+                <Foundation name="page-multiple" size={15} color="#7ABAD1" />
+              </Text>
+              <View
+                style={{
+                  marginTop: 5,
+                  width: 100,
+                  height: 5,
+                  backgroundColor: "#D8D8D8",
+                  borderRadius: 15,
+                }}
+              >
+                <View
+                  style={{
+                    position: "absolute",
+                    width: (libro.UltimoCapitulo/libro.NumCapitulos)*100,
+                    height: 5,
+                    backgroundColor: "#7ABAD1",
+                    borderRadius: 15,
+                  }}
+                ></View>
+              </View>
                     </View>
                 </View>
             </TouchableOpacity>

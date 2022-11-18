@@ -54,8 +54,9 @@ export const getFavoritos = async (favoritosUsuario) => {
 
     let favoritos = [];
     for (let i = 0, len = favoritosUsuario.length; i < len; i++) {
-        await db.collection("libros").doc(""+favoritosUsuario[i].Nombre).get().then(documentSnapshot => {
-            favoritos.push({  ...documentSnapshot.data(),UltimoCapitulo:favoritosUsuario[i].UltimoCapitulo,key:documentSnapshot.id });
+        await db.collection("libros").doc(""+favoritosUsuario[i].Nombre).get().then(async documentSnapshot => {
+            let numCapitulos =  await contarCapitulosDelLibro(documentSnapshot.id);
+            favoritos.push({ ...documentSnapshot.data(),NumCapitulos:numCapitulos, UltimoCapitulo:favoritosUsuario[i].UltimoCapitulo,key:documentSnapshot.id });
           
         })
     }
