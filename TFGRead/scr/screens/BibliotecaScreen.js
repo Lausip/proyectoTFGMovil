@@ -24,7 +24,7 @@ function BibliotecaScreen() {
     const [textoBusqueda, setTextoBusqueda] = useState("");
     const [email, setEmail] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
-    const categorias = ["Reciente","Favoritos", "Autores"];
+    const categorias = ["Reciente", "Favoritos", "Autores"];
 
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
         useState(0);
@@ -42,10 +42,10 @@ function BibliotecaScreen() {
 
     const handleProfile = () => {
         navigation.navigate("profileScreen", {
-          screen: "home",
+            screen: "home",
         });
-      }
-      
+    }
+
     const cargarCategorias = async (index) => {
         setModalVisible(true)
         setSeleccionadoCategoriaIndex(index);
@@ -55,7 +55,8 @@ function BibliotecaScreen() {
 
             setAutores([]);
         }
-        if(index ==2) {
+
+        else if (index == 2) {
 
             await cargarAutoresSeguido();
             setFavoritos([]);
@@ -116,6 +117,12 @@ function BibliotecaScreen() {
 
     }
 
+    const handleLeerLibroCapitulo = async (item) => {
+        navigation.navigate("bookScreen", {
+            bookId: item.key,
+            capituloNumero: item.UltimoCapitulo
+        });
+    }
 
     const hacerCosas = async () => {
         setFavoritos([])
@@ -126,6 +133,7 @@ function BibliotecaScreen() {
         cargarCategorias(1)
         setModalVisible(false)
     }
+
 
     const RenderCategorias = () => {
         return (
@@ -188,37 +196,45 @@ function BibliotecaScreen() {
     };
     /* Books nuevos */
     const CardFavoritos = ({ libro }) => {
+
         return (
-            <View
+            <TouchableOpacity
                 style={{
-                    marginVertical: 10,
-                    marginHorizontal: 30, marginBottom: 10, flexDirection: "row", borderRadius: 8,
-                    shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
-                    backgroundColor: "white",
-                }}>
-                <ImageBackground
-                    source={{ uri: libro.Portada }}
+                    marginHorizontal: 10,
+                }}
+                onPress={() => handleLeerLibroCapitulo(libro)}
+            >
+                <View
                     style={{
-                        width: 100,
-                        height: 120,
-                        borderRadius: 15,
-                        overflow: "hidden",
-                        marginBottom: 10,
-                        marginLeft: 10,
-                        marginTop: 10,
-                        borderWidth: 1,
-                        borderColor: "black",
-                    }}
-                ></ImageBackground>
-                <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
-                    <Text style={{ fontSize: 15, fontWeight: "bold", color: "#05668D" }}>
-                        {libro.Titulo}
-                    </Text>
-                    <Text style={{ fontSize: 10, marginTop: 10, color: "black" }}>
-                        {libro.Autor}
-                    </Text>
+                        marginVertical: 10,
+                        marginHorizontal: 30, marginBottom: 10, flexDirection: "row", borderRadius: 8,
+                        shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
+                        backgroundColor: "white",
+                    }}>
+                    <ImageBackground
+                        source={{ uri: libro.Portada }}
+                        style={{
+                            width: 100,
+                            height: 120,
+                            borderRadius: 15,
+                            overflow: "hidden",
+                            marginBottom: 10,
+                            marginLeft: 10,
+                            marginTop: 10,
+                            borderWidth: 1,
+                            borderColor: "black",
+                        }}
+                    ></ImageBackground>
+                    <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
+                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "#05668D" }}>
+                            {libro.Titulo}
+                        </Text>
+                        <Text style={{ fontSize: 10, marginTop: 10, color: "black" }}>
+                            {libro.Autor}
+                        </Text>
+                    </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     };
 

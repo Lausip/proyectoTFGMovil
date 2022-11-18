@@ -45,7 +45,11 @@ function HomeScreen() {
       screen: "home",
     });
   }
-
+  const handleBook = (item) => {
+    navigation.navigate("detailsBookScreen", {
+      bookId: item.key,
+    });
+  }
   const hacerCosas = async () => {
     setModalVisible(true)
     let e = await getUserAuth();
@@ -57,7 +61,8 @@ function HomeScreen() {
   const cargarFirebase = async () => {
 
     await db
-      .collection("libros")
+    .collection("libros")
+    .orderBy("FechaCreación", "asc")
       .onSnapshot(querySnapshot => {
         const books = [];
         querySnapshot.forEach(documentSnapshot => {
@@ -98,7 +103,7 @@ function HomeScreen() {
           style={{
             marginHorizontal: 10,
           }}
-          onPress={e => handleBook(item)}
+          onPress={() => handleBook(item)}
         >
           <ImageBackground
             source={{ uri: `${item.Portada}` }}

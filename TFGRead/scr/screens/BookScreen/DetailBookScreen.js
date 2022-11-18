@@ -17,6 +17,7 @@ function DetailBookScreen({ route }) {
 
     const navigation = useNavigation();
     const { bookId } = route.params;
+    
     useEffect(()=>{
         hacerCosas();
     },[email,portada])

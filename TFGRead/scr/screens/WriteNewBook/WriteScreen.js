@@ -9,9 +9,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
+import { AntDesign,Foundation } from '@expo/vector-icons';
+
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { contarCapitulosDelLibro, cargarBooksAutor } from "../../hooks/FirebaseLibros";
 import LottieView from 'lottie-react-native';

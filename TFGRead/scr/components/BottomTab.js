@@ -18,7 +18,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import HomeStack from "../navigation/HomeStack";
-import BibliotecaScreen from "../screens/BibliotecaScreen";
+import BibliotecaStack from "../navigation/BibliotecaStack";
 import BookWriteNavigator from "../navigation/BookWriteNavigator";
 import ExploreStack from "../navigation/ExploreStack";
 import ChatStack from "../navigation/ChatStack";
@@ -60,26 +60,26 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "detailsBookScreen" ||routeName== "bookScreen"||routeName=="profileScreen" || routeName=="notificacionScreen"|| routeName=="chatConversationScreen") {
+            if (routeName === "detailsBookScreen" || routeName == "bookScreen" || routeName == "profileScreen" || routeName == "notificacionScreen" || routeName == "chatConversationScreen") {
               return { display: "none" };
             }
-            if(routeName==""||routeName=="home"){
-            return {
-              backgroundColor: "white",
-              marginHorizontal: 20,
-              height: 53,
-              marginBottom: 10,
-              borderRadius: 20,
-              borderBottomColor: "#679436",
-              borderBottomWidth: 2,
-              shadowColor: "#000",
-              shadowOpacity: 0.07,
-              shadowOffset: {
-                width: 10,
-                height: 10,
-              },
-            };
-          }
+            if (routeName == "" || routeName == "home") {
+              return {
+                backgroundColor: "white",
+                marginHorizontal: 20,
+                height: 53,
+                marginBottom: 10,
+                borderRadius: 20,
+                borderBottomColor: "#679436",
+                borderBottomWidth: 2,
+                shadowColor: "#000",
+                shadowOpacity: 0.07,
+                shadowOffset: {
+                  width: 10,
+                  height: 10,
+                },
+              };
+            }
           })(route),
           tabBarIcon: ({ focused }) => (
             <AntDesign
@@ -99,10 +99,50 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "autorScreen"|| routeName=="chatConversationScreen") {
+            if (routeName === "autorScreen" || routeName == "chatConversationScreen") {
               return { display: "none" };
             }
-            if(routeName==""||routeName=="explore" ){
+            if (routeName == "" || routeName == "explore") {
+              return {
+                backgroundColor: "white",
+                marginHorizontal: 20,
+                height: 53,
+                marginBottom: 10,
+                borderRadius: 20,
+                borderBottomColor: "#679436",
+                borderBottomWidth: 2,
+                shadowColor: "#000",
+                shadowOpacity: 0.07,
+                shadowOffset: {
+                  width: 10,
+                  height: 10,
+                },
+              };
+            }
+          })(route),
+
+          tabBarIcon: ({ focused }) => (
+            <AntDesign
+              name="search1"
+              size={25}
+              style={{
+                color: focused ? "#05668D" : "black",
+              }}
+            />
+          ),
+        })}
+        component={ExploreStack}
+      />
+      <Tab.Screen
+        name="Books"
+        options=
+        {({ route }) => ({
+          tabBarStyle: ((route) => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+
+            if (routeName === "bookScreen") {
+              return { display: "none" };
+            }
             return {
               backgroundColor: "white",
               marginHorizontal: 20,
@@ -118,24 +158,7 @@ const BottomTab = () => {
                 height: 10,
               },
             };
-          }
           })(route),
-
-          tabBarIcon: ({ focused }) => (
-            <AntDesign
-              name="search1"
-              size={25}
-              style={{
-                color: focused ? "#05668D" : "black",
-              }}
-            />
-          ),
-        })}
-        component={ExploreStack}
-      />
-       <Tab.Screen
-        name="Books"
-        options={{
           tabBarIcon: ({ focused }) => (
             <MaterialCommunityIcons
               name="bookshelf"
@@ -144,17 +167,19 @@ const BottomTab = () => {
                 color: focused ? "#05668D" : "black",
               }}
             />
+
           ),
-        }}
-        component={BibliotecaScreen}
+        })}
+        compo
+        component={BibliotecaStack}
       />
-        <Tab.Screen
+      <Tab.Screen
         name="Write"
         options={({ route }) => ({
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "writeNewBook" ||routeName== "writeChapter" ||routeName== "editBook" ||routeName== "editChapter") {
+            if (routeName === "writeNewBook" || routeName == "writeChapter" || routeName == "editBook" || routeName == "editChapter") {
               return { display: "none" };
             }
             return {
@@ -185,18 +210,18 @@ const BottomTab = () => {
         })}
         component={BookWriteNavigator}
       />
-        <Tab.Screen
+      <Tab.Screen
         name="Chat"
         options={({ route }) => ({
-       
+
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
             console.log(routeName);
-            if (routeName === "chatConversationScreen" ) {
+            if (routeName === "chatConversationScreen") {
               return { display: "none" };
-            
-            }   return {
+
+            } return {
               backgroundColor: "white",
               marginHorizontal: 20,
               height: 53,

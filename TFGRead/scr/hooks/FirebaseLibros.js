@@ -51,12 +51,12 @@ export const getNumSeguidoresLibro = async (idbook) => {
 
 }
 export const getFavoritos = async (favoritosUsuario) => {
-
+    console.log(favoritosUsuario)
     let favoritos = [];
     for (let i = 0, len = favoritosUsuario.length; i < len; i++) {
         await db.collection("libros").doc(favoritosUsuario[i].Nombre).get().then(documentSnapshot => {
-            favoritos.push({ Autor: documentSnapshot.data().Autor, Portada: documentSnapshot.data().Portada, Titulo: documentSnapshot.data().Titulo, });
-
+            favoritos.push({  ...documentSnapshot.data(),UltimoCapitulo:favoritosUsuario[i].UltimoCapitulo,key:documentSnapshot.id });
+          
         })
     }
 
