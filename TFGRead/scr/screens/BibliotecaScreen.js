@@ -128,7 +128,8 @@ function BibliotecaScreen() {
 
         navigation.navigate("bookScreen", {
             bookId: item.key,
-            capituloNumero: numcapitulo
+            capituloNumero: numcapitulo,
+            screen: "biblioteca",
         });
     }
 

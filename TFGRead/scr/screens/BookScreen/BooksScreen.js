@@ -23,7 +23,7 @@ function BooksScreen({ route }) {
   const [sacarCapitulos, setSacarCapitulos] = useState(false);
   const [modalOpciones, setModalOpciones] = useState(false);
   const navigation = useNavigation();
-  const { bookId, capituloNumero } = route.params;
+  const { bookId, capituloNumero, screen } = route.params;
 
   useEffect(() => {
     hacerCosas();
@@ -56,9 +56,18 @@ function BooksScreen({ route }) {
 
   const backAction = async () => {
     if (navigation.isFocused()) {
-      navigation.navigate("biblioteca")
+      if (screen == "detailsBookScreen") {
+        navigation.navigate("detailsBookScreen", {
+          bookId: bookId,
+        });
+      }
+      else {
+        navigation.navigate(screen)
+      }
       return true;
     }
+
+
   };
 
   useLayoutEffect(() => {
@@ -68,7 +77,7 @@ function BooksScreen({ route }) {
   }, []);
 
   const hacerCosas = async () => {
-
+    console.log(screen)
     let e = await getUserAuth();
     setEmail(e);
     await cargarCapituloLibros();

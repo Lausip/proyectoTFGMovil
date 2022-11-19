@@ -30,6 +30,7 @@ function DetailBookScreen({ route }) {
     });
 
     const hacerCosas = async () => {
+  
         await cargarLibro()
     }
     const cargarLibro = async () => {
@@ -56,14 +57,16 @@ function DetailBookScreen({ route }) {
     const handleLeerLibro = async () => {
         navigation.navigate("bookScreen", {
             bookId: bookId,
-            capituloNumero: 1
+            capituloNumero: 1,
+            screen: "detailsBookScreen",
         });
     }
 
     const handleLeerLibroCapitulo = async (capituloNumero) => {
         navigation.navigate("bookScreen", {
             bookId: bookId,
-            capituloNumero: capituloNumero
+            capituloNumero: capituloNumero,
+            screen: "detailsBookScreen",
         });
     }
     const handleHome = async () => {
