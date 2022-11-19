@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import BooksScreen from "../screens/BookScreen/BooksScreen";
 import BibliotecaScreen from '../screens/BibliotecaScreen';
+import ChatCapituloScreen from '../screens/BookScreen/ChatCapituloScreen';
 const Stack = createNativeStackNavigator();
 
 export default function BibliotecaStack() {
@@ -10,6 +11,7 @@ export default function BibliotecaStack() {
     <Stack.Navigator>
       <Stack.Screen initialRouteName name="biblioteca" component={BibliotecaScreen} />
       <Stack.Screen name="bookScreen" component={BooksScreen} /> 
+      <Stack.Screen name="comentariosCapituloScreen" component={ChatCapituloScreen} /> 
     </Stack.Navigator>
   );
 }

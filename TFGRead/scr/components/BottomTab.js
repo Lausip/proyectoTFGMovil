@@ -60,7 +60,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "detailsBookScreen" || routeName == "bookScreen" || routeName == "profileScreen" || routeName == "notificacionScreen" || routeName == "chatConversationScreen") {
+            if (routeName === "detailsBookScreen" || routeName == "bookScreen" || routeName == "profileScreen" || routeName == "notificacionScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen") {
               return { display: "none" };
             }
             if (routeName == "" || routeName == "home") {
@@ -99,7 +99,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "autorScreen" || routeName == "chatConversationScreen") {
+            if (routeName === "autorScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen") {
               return { display: "none" };
             }
             if (routeName == "" || routeName == "explore") {
@@ -140,7 +140,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "bookScreen") {
+            if (routeName === "bookScreen" || routeName == "comentariosCapituloScreen") {
               return { display: "none" };
             }
             return {

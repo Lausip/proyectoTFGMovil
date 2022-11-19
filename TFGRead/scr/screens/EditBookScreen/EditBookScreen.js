@@ -99,7 +99,7 @@ function EditBookScreen({ route }) {
     }
 
     const actualizarImage = async () => {
-        let image =await  pickImage();
+        let image = await pickImage();
         setModalVisible(true)
         let urlPortada = await crearLibroStorage(image, email, bookId)
         setPortada(urlPortada);

@@ -125,17 +125,17 @@ export const getNumAutoresSeguidos = async (email) => {
   return numseguidos;
 }
 //--------------------------------PETICION-----------------------------------
-export const enviarPeticion= async (email, autorElegido,tipo) => {
+export const enviarNotificacion = async (email, autorElegido, bookId, capituloId) => {
 
-  await db.collection("usuarios").doc(autorElegido).collection("Peticiones").add({
-    Tipo: tipo,
+  await db.collection("usuarios").doc(autorElegido).collection("Notificación").add({
     Nombre: email,
-    Estado: "Pendiente",
-    FechaCreacion:firebase.firestore.Timestamp.fromDate(new Date()),
+    Libro: bookId,
+    CapituloId: capituloId,
+    FechaCreacion: firebase.firestore.Timestamp.fromDate(new Date()),
 
   })
     .then(() => {
-      console.log('Enviada petición a' + email);
+      console.log('Enviada notificación a ' + email);
     });
 
 
@@ -158,12 +158,13 @@ export const getPeticionesAmistad = async (email) => {
     .collection('usuarios').doc(email).collection("Peticiones")
     .where("Estado", "==", "Pendiente").get().then(documentSnapshot => {
       documentSnapshot.forEach((queryDocumentSnapshot) => {
-        if(queryDocumentSnapshot.data().Tipo=="Amistad"){
-        peticiones.push({
-          ...queryDocumentSnapshot.data(),
-          key: queryDocumentSnapshot.id,
+        if (queryDocumentSnapshot.data().Tipo == "Amistad") {
+          peticiones.push({
+            ...queryDocumentSnapshot.data(),
+            key: queryDocumentSnapshot.id,
 
-        });}
+          });
+        }
       })
 
     })
@@ -217,19 +218,19 @@ export const getAmigos = async (email) => {
   let amigos = [];
   await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
 
-    amigos=documentSnapshot.data().Amigos 
+    amigos = documentSnapshot.data().Amigos
 
   })
 
   return amigos;
 
 }
-export const mirarSiSonAmigos= async (email,emailAmigo) => {
+export const mirarSiSonAmigos = async (email, emailAmigo) => {
 
-  let amigos = await  getAmigos(email);
+  let amigos = await getAmigos(email);
 
   for (let i = 0, len = amigos.length; i < len; i++) {
-    if(amigos[i]==emailAmigo){
+    if (amigos[i] == emailAmigo) {
       return true;
     }
   }
@@ -243,12 +244,13 @@ export const getPeticionesConversacion = async (email) => {
     .collection('usuarios').doc(email).collection("Peticiones")
     .where("Estado", "==", "Pendiente").get().then(documentSnapshot => {
       documentSnapshot.forEach((queryDocumentSnapshot) => {
-        if(queryDocumentSnapshot.data().Tipo=="Conversacion"){
-        peticiones.push({
-          ...queryDocumentSnapshot.data(),
-          key: queryDocumentSnapshot.id,
+        if (queryDocumentSnapshot.data().Tipo == "Conversacion") {
+          peticiones.push({
+            ...queryDocumentSnapshot.data(),
+            key: queryDocumentSnapshot.id,
 
-        });}
+          });
+        }
       })
 
     })
@@ -313,7 +315,7 @@ export const cambiarFotoPerfilFirebase = async (email, foto) => {
     });
 }
 
-export const updateUltimoCapitulo = async (email,bookId,capituloNumero) => {
+export const updateUltimoCapitulo = async (email, bookId, capituloNumero) => {
   console.log("email")
   console.log(email)
   await db
@@ -322,6 +324,6 @@ export const updateUltimoCapitulo = async (email,bookId,capituloNumero) => {
       UltimoCapitulo: capituloNumero
     })
     .then(() => {
-      console.log('Update el ultimo capitulo'+capituloNumero);
+      console.log('Update el ultimo capitulo' + capituloNumero);
     });
 }
