@@ -67,6 +67,7 @@ function BibliotecaScreen() {
     };
 
     const cargarFavoritos = async (email2) => {
+        if(email2){
         //ARREGLAR
         await db.collection("usuarios").doc(email2).collection("MeGusta")
             .onSnapshot(async querySnapshot => {
@@ -83,7 +84,7 @@ function BibliotecaScreen() {
             })
 
 
-
+        }
 
     };
 

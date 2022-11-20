@@ -155,20 +155,20 @@ export const getComentarios = async (email) => {
 
   let notificacion = [];
   if (email) {
-  await db
-    .collection('usuarios').doc(email).collection("Notificación")
-    .orderBy("FechaCreacion", "asc").get().then(documentSnapshot => {
-      documentSnapshot.forEach((queryDocumentSnapshot) => {
+    await db
+      .collection('usuarios').doc(email).collection("Notificación")
+      .orderBy("FechaCreacion", "asc").get().then(documentSnapshot => {
+        documentSnapshot.forEach((queryDocumentSnapshot) => {
 
-        notificacion.push({
-          ...queryDocumentSnapshot.data(),
-          key: queryDocumentSnapshot.id,
+          notificacion.push({
+            ...queryDocumentSnapshot.data(),
+            key: queryDocumentSnapshot.id,
 
-        });
+          });
+
+        })
 
       })
-
-    })
   }
   return notificacion;
 
