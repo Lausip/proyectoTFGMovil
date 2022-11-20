@@ -37,13 +37,15 @@ function ChatCapituloScreen({ route }) {
     const backAction = async () => {
         navigation.push("bookScreen", {
             bookId: bookId,
-            capituloNumero: capituloNumero
+            capituloNumero: capituloNumero,
+            screen: "home", 
         });
     };
     const goback = async () => {
         navigation.push("bookScreen", {
             bookId: bookId,
-            capituloNumero: capituloNumero
+            capituloNumero: capituloNumero,
+            screen: "home", 
         });
     };
     const hacerCosas = async () => {

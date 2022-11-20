@@ -151,28 +151,68 @@ export const eliminarPeticion = async (email, keyPeticion) => {
 
 }
 
-export const getPeticionesAmistad = async (email) => {
+export const getComentarios = async (email) => {
 
-  let peticiones = [];
+  let notificacion = [];
+  if (email) {
   await db
-    .collection('usuarios').doc(email).collection("Peticiones")
-    .where("Estado", "==", "Pendiente").get().then(documentSnapshot => {
+    .collection('usuarios').doc(email).collection("Notificación")
+    .orderBy("FechaCreacion", "asc").get().then(documentSnapshot => {
       documentSnapshot.forEach((queryDocumentSnapshot) => {
-        if (queryDocumentSnapshot.data().Tipo == "Amistad") {
-          peticiones.push({
-            ...queryDocumentSnapshot.data(),
-            key: queryDocumentSnapshot.id,
 
-          });
-        }
+        notificacion.push({
+          ...queryDocumentSnapshot.data(),
+          key: queryDocumentSnapshot.id,
+
+        });
+
       })
 
     })
+  }
+  return notificacion;
+
+}
+
+export const getPeticionesAmistad = async (email) => {
+  let peticiones = [];
+  if (email) {
+    await db
+      .collection('usuarios').doc(email).collection("Peticiones")
+      .where("Estado", "==", "Pendiente").get().then(documentSnapshot => {
+        documentSnapshot.forEach((queryDocumentSnapshot) => {
+          if (queryDocumentSnapshot.data().Tipo == "Amistad") {
+            peticiones.push({
+              ...queryDocumentSnapshot.data(),
+              key: queryDocumentSnapshot.id,
+
+            });
+          }
+        })
+
+      })
+  }
 
   return peticiones;
 
 }
 //--------------------------------AMISTAD-----------------------------------
+export const enviarPeticion = async (email, autorElegido, tipo) => {
+
+  await db.collection("usuarios").doc(autorElegido).collection("Peticiones").add({
+    Estado: "Pendiente",
+    FechaCreacion: firebase.firestore.Timestamp.fromDate(new Date()),
+    Nombre: email,
+    Tipo: tipo
+
+  })
+    .then(() => {
+      console.log('Enviada Peticion a ' + autorElegido);
+    });
+
+
+}
+
 export const cambiarEstadoPeticionAmistad = async (email, keyPeticion, estado) => {
 
   await db.collection("usuarios").doc(email).collection("Peticiones").doc(keyPeticion)
@@ -236,6 +276,18 @@ export const mirarSiSonAmigos = async (email, emailAmigo) => {
   }
   return false;
 }
+//-------------------------NOTIFICACION CONVERSACION------------------
+
+export const eliminarNotificacionConversacion = async (email, notificacionid) => {
+
+  await db.collection("usuarios").doc(email).collection("Notificación").doc(notificacionid)
+    .delete()
+    .then(() => {
+      console.log("Eliminado")
+    });
+
+}
+
 
 export const getPeticionesConversacion = async (email) => {
 

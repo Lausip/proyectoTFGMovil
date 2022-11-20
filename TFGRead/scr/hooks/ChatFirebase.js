@@ -3,7 +3,7 @@ import { getFotoPerfil } from "./Auth/Firestore";
 
 
 
-export const addSala = async (usuario1, usuario2,esAmigo,enviadoPor) => {
+export const addSala = async (usuario1, usuario2,esAmigo) => {
 
     await db.collection('salas').doc(usuario1 + "-" + usuario2)
         .set({
@@ -11,7 +11,6 @@ export const addSala = async (usuario1, usuario2,esAmigo,enviadoPor) => {
             Usuario1: usuario1,
             Usuario2: usuario2,
             Amigo:esAmigo,
-            Enviado:enviadoPor,
 
         }).then(()=>{
            
@@ -24,7 +23,7 @@ export const existeSala = async (usuario1, usuario2) => {
     await db
         .collection('salas').doc(usuario1 + "-" + usuario2).get().then(documentSnapshot => {
 
-            if (documentSnapshot.data()!=undefined) {
+            if (documentSnapshot.exists) {
 
             existe=true;
         }
@@ -33,7 +32,7 @@ export const existeSala = async (usuario1, usuario2) => {
     await db
     .collection('salas').doc(usuario2 + "-" + usuario1).get().then(documentSnapshot => {
    
-        if (documentSnapshot.data()!=undefined) {
+        if (documentSnapshot.exists) {
 
             existe=true;}
     })

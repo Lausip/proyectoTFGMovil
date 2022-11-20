@@ -352,7 +352,6 @@ function ExploreScreen({ route }) {
         </TouchableOpacity>
       </View>
 
-
       <RenderCategorias />
       {seleccionadoCategoriaIndex == 0 ?
 

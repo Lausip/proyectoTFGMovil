@@ -66,7 +66,7 @@ function DetailBookScreen({ route }) {
         navigation.navigate("bookScreen", {
             bookId: bookId,
             capituloNumero: capituloNumero,
-            screen: "detailsBookScreen",
+            screen: "detailsBookScreen", 
         });
     }
     const handleHome = async () => {
@@ -156,7 +156,6 @@ function DetailBookScreen({ route }) {
                     </TouchableOpacity>
 
                     {/* Boton de gustar */}
-
                     <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto", right: 55 }} onPress={e => handleLibroMeGustaFirebase()}>
                         {megusta ? <AntDesign name="heart" size={30} color="#05668D" /> : <AntDesign name="hearto" size={30} color="#05668D" />}
                     </TouchableOpacity>

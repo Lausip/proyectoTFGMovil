@@ -105,17 +105,18 @@ function AutoresScreen({ route }) {
     const enviarMensaje = async () => {
         setModalVisibleEnviarMensaje(true);
         let existe = await existeSala(email, autorElegido)
-        console.log(existe)
+        console.log("Sala:"+existe)
         //Mirar si ya hay sala
         if (!existe) {
             //Mirar si son amigos:
             let sonAmigos = await mirarSiSonAmigos(email, autorElegido);
             if (sonAmigos) {
-                await addSala(email, autorElegido, true,"");
+                console.log("entre")
+                await addSala(email, autorElegido, true);
             }
             else {
                 //Añadir Sala
-                await addSala(email, autorElegido,email);
+                await addSala(email, autorElegido,false);
                 //Mandar notificación:
                 await enviarPeticion(email, autorElegido, "Conversacion");
             }

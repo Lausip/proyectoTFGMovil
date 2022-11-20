@@ -106,8 +106,6 @@ export const cambiarTitulo = async (bookId, titulo) => {
         })
 }
 
-
-
 export const cambiarContenidoCapitulo = async (bookId, chapterId, contenido) => {
     await db.collection('libros').doc(bookId).collection("Capitulos").doc(chapterId)
         .update({
@@ -121,7 +119,6 @@ export const cambiarDescripcion = async (bookId, descripcion) => {
             Descripción: "" + descripcion,
         })
 }
-
 
 
 export const cargarBooksAutor = async (email) => {
@@ -179,10 +176,10 @@ export const publicarCapituloDelLibro = async (bookId, chapterId) => {
 }
 export const enviarComentarioCapitulo = async (bookId, capituloId,texto,autor,) => {
 
-
     await db.collection('libros').doc(bookId).collection('Capitulos').doc(capituloId).collection("Mensajes").add({
         Autor: autor,
         Comentario:texto,
+        FechaCreación:firebase.firestore.Timestamp.fromDate(new Date()),
     })
    
    
@@ -190,7 +187,8 @@ export const enviarComentarioCapitulo = async (bookId, capituloId,texto,autor,) 
 export const getComentariosCapitulo = async (bookId, capituloId) => {
     let comentarios = []
 
-    await db.collection('libros').doc(bookId).collection('Capitulos').doc(capituloId).collection("Mensajes").get().then(querySnapshot => {
+    await db.collection('libros').doc(bookId).collection('Capitulos').doc(capituloId).collection("Mensajes")
+    .orderBy("FechaCreación", "desc").get().then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
     
             comentarios.push({
@@ -214,6 +212,12 @@ export const getCapituloId = async (bookId, numeroCapitulo) => {
         })
     });
     return id;
+}
+
+export const getNumeroCapitulo = async (bookId, capituloId) => {
+
+   let doc= await db.collection('libros').doc(bookId).collection('Capitulos').doc(capituloId).get();
+    return doc.data().Numero;
 }
 
 

@@ -4,8 +4,9 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-import { getPeticionesAmistad, rechazarPeticionAmistad, aceptarPeticionAmistad, getPeticionesConversacion,eliminarPeticion } from "../hooks/Auth/Firestore";
+import { getPeticionesAmistad, rechazarPeticionAmistad, aceptarPeticionAmistad, getPeticionesConversacion, eliminarPeticion, getComentarios, eliminarNotificacionConversacion } from "../hooks/Auth/Firestore";
 import { db } from '../config/firebase';
+import { getNumeroCapitulo } from "../hooks/FirebaseLibros";
 
 function NotificacionesScreen({ route }) {
     const [email, setEmail] = useState("");
@@ -14,12 +15,18 @@ function NotificacionesScreen({ route }) {
     const [peticionAmistad, setPeticionAmistad] = useState([]);
     const [peticionConversacion, setPeticionConversacion] = useState([]);
 
-    const categorias = ["Amistades", "Conversaciones"];
+    const [notificacionComentario, setNotificacionComentario] = useState([]);
+    const [notificacionTablon, setNotificacionTablon] = useState([]);
 
+    const categorias = ["Amistades", "Conversaciones"];
+    const categorias2 = ["Comentarios", "Tablón"];
     const [isModalVisible, setModalVisible] = useState(false);
 
 
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
+        useState(0);
+
+    const [seleccionadoCategoria2Index, setSeleccionadoCategoria2Index] =
         useState(0);
 
     useEffect(() => {
@@ -52,6 +59,7 @@ function NotificacionesScreen({ route }) {
 
     const cargarCategorias = async (index) => {
         setModalVisible(true);
+        console.log(email)
         setSeleccionadoCategoriaIndex(index);
         if (index == 0) {
             let a = await getPeticionesAmistad(email);
@@ -62,19 +70,48 @@ function NotificacionesScreen({ route }) {
             let a = await getPeticionesConversacion(email);
             setPeticionConversacion(a);
             setPeticionAmistad([]);
-
-
         }
         setModalVisible(false);
     };
 
-    const irALaConversacion = async (emailQueLoEnvia,keyPeticion) => {
+    const cargarCategorias2 = async (index) => {
+        setModalVisible(true);
+        setSeleccionadoCategoria2Index(index);
+        if (index == 0) {
+            let a = await getComentarios(email);
+            setNotificacionComentario(a);
+            setNotificacionTablon([]);
+        }
+        if (index == 1) {
+            setNotificacionComentario([]);
+        }
+        setModalVisible(false);
+    };
+    const irALaConversacion = async (emailQueLoEnvia, keyPeticion) => {
         //Eliminar la notificacion:
-       await  eliminarPeticion(email,keyPeticion);
+        await eliminarPeticion(email, keyPeticion);
         //Ir a la sala de la conversacion
         await cogerSala(emailQueLoEnvia, email);
-   
+
     }
+    const funccionEliminarNotificacionConversacion = async (idNotificacion) => {
+
+        await eliminarNotificacionConversacion(email, idNotificacion);
+
+    }
+
+    const irAlComentario = async (idBook, idCapitulo, idNotificacion) => {
+        //Eliminar la notificacion:
+        funccionEliminarNotificacionConversacion(idNotificacion);
+        //Ir a la sala de la conversacion
+        let numeroCapitulo = await getNumeroCapitulo(idBook, idCapitulo);
+        navigation.replace("comentariosCapituloScreen", {
+            bookId: idBook,
+            capituloId: idCapitulo,
+            capituloNumero: numeroCapitulo
+        });
+    }
+
     const cogerSala = async (usuarioa, usuariob) => {
         let salaaaaa = [];
         await db
@@ -89,7 +126,7 @@ function NotificacionesScreen({ route }) {
                     navigation.replace("chatConversationScreen", {
                         sala: salaaaaa[0],
                         screen: "home",
-       
+
                     });
                 }
                 return false;
@@ -99,13 +136,14 @@ function NotificacionesScreen({ route }) {
 
     }
     const hacerCosas = async () => {
-        setModalVisible(true)
-        let e = await getUserAuth()
-        setEmail(e);
 
+        let e = await getUserAuth();
+        setEmail(e);
         cargarCategorias(0);
-        setModalVisible(false)
+        cargarCategorias2(0);
+
     }
+
     const RenderCategorias = () => {
         return (
             <View style={styles.renderCategoriaMisLibros}>
@@ -142,23 +180,60 @@ function NotificacionesScreen({ route }) {
             </View>
         );
     };
+    const RenderCategorias2 = () => {
+        return (
+            <View style={styles.renderCategoriaMisLibros}>
+                {categorias2.map((item, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        activeOpacity={0.8}
+                        onPress={() => cargarCategorias2(index)}
+                    >
+                        <View>
+                            <Text
+                                style={{
+                                    ...styles.categoriaText,
+                                    color:
+                                        seleccionadoCategoria2Index == index ? "#000" : "#D8D8D8",
+                                }}
+                            >
+                                {item}
+                            </Text>
+                            {seleccionadoCategoria2Index == index && (
+                                <View
+                                    style={{
+                                        height: 2,
+                                        width: 40,
+                                        backgroundColor: "#679436",
+                                        marginTop: 2,
+                                    }}
+                                ></View>
+                            )}
+                        </View>
+
+                    </TouchableOpacity>
+                ))}
+            </View>
+        );
+    };
 
     /* Peticiones de amistad */
     const CardAmistad = ({ peticion }) => {
         return (
 
             <View style={{
-                marginVertical: 10,
-                marginHorizontal: 30, marginBottom: 10, borderRadius: 8,
+                marginVertical: 5,
+                marginHorizontal: 30, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
-                backgroundColor: "white", flexDirection: "row"
+                backgroundColor: isModalVisible ? "#A7A7A7" : "white", flexDirection: "row"
+
 
             }}>
                 <View style={{
-                    flexDirection: "row", marginHorizontal: 10,
+                    flexDirection: "row", marginHorizontal: 20,
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#05668D", marginRight: 60, }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#05668D", marginRight: 60, }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
                     <TouchableOpacity onPress={() => aceptarAmistad(peticion.key, peticion.Nombre)}>
@@ -184,20 +259,20 @@ function NotificacionesScreen({ route }) {
         return (
 
             <View style={{
-                marginVertical: 10,
-                marginHorizontal: 30, marginBottom: 10, borderRadius: 8,
+                marginVertical: 5,
+                marginHorizontal: 30, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
-                backgroundColor: "white", flexDirection: "row"
+                backgroundColor: isModalVisible ? "#A7A7A7" : "white", flexDirection: "row"
 
             }}>
                 <View style={{
-                    flexDirection: "row", marginHorizontal: 10,
+                    flexDirection: "row", marginHorizontal: 20,
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#05668D", marginRight: 60, }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#05668D", marginRight: 60, }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
-                    <TouchableOpacity onPress={() => irALaConversacion(peticion.Nombre,peticion.key)}>
+                    <TouchableOpacity onPress={() => irALaConversacion(peticion.Nombre, peticion.key)}>
                         <AntDesign style={{
                             marginHorizontal: 15,
                             marginVertical: 10,
@@ -206,6 +281,59 @@ function NotificacionesScreen({ route }) {
 
                 </View>
 
+            </View>
+
+        );
+    };
+
+    /* Notificacion de Conversacion */
+    const CardComentario = ({ notificacion }) => {
+        return (
+
+            <View style={{
+                marginVertical:5,
+                marginHorizontal: 30, borderRadius: 8,
+                shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
+                backgroundColor: isModalVisible ? "#A7A7A7" : "white", flexDirection: "row"
+
+            }}>
+
+
+                <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#05668D" }}>
+                        {notificacion.Nombre.split("@")[0] + " "}
+                    </Text>
+                    <Text style={{ marginVertical: 10, fontSize: 14, color: "black" }}>
+                        ha realizado un comentario
+                    </Text>
+                    <TouchableOpacity onPress={() => irAlComentario(notificacion.Libro, notificacion.CapituloId, notificacion.key)}>
+                        <AntDesign style={{
+                            marginHorizontal: 15,
+                            marginVertical: 10,
+                        }} name="rightcircleo" size={24} color="black" />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => funcionEliminarNotificacionConversacion(notificacion.key)}>
+                        <AntDesign style={{
+                            marginVertical: 10,
+                        }} name="closecircleo" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+
+        );
+    };
+    /* Notificacion de Tablón */
+    const CardTablon = ({ tablon }) => {
+        return (
+
+            <View style={{
+                marginVertical: 10,
+                marginHorizontal: 30, borderRadius: 8,
+                shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
+                backgroundColor: isModalVisible ? "#A7A7A7" : "white", flexDirection: "row"
+
+            }}>
             </View>
 
         );
@@ -264,16 +392,21 @@ function NotificacionesScreen({ route }) {
                 {/*nombre e inicio*/}
                 <Text style={styles.fontTitulo}>Notificaciones</Text>
             </View>
-
+            {/* Cargar Categorias AMISTADES Y CONVERSACIONES */}
             <RenderCategorias />
+            <View style={styles.list}>
             {seleccionadoCategoriaIndex == 0 ?
-
-                <ScrollView contentContainerStyle={styles.contentContainer}>
-                    {
-                        peticionAmistad.map((item, index) => <CardAmistad key={index} peticion={item} />)
-                    }
-
-                </ScrollView> :
+                <FlatList
+                    contentContainerStyle={{flexGrow:0}}
+                    vertical
+                    showsHorizontalScrollIndicator={true}
+                    data={peticionAmistad}
+                    keyExtractor={(item, index) => {
+                        return index.toString();
+                    }}
+                    renderItem={({ item, index }) => <CardAmistad key={index} peticion={item} />}
+                ></FlatList>
+                :
 
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     {
@@ -282,7 +415,35 @@ function NotificacionesScreen({ route }) {
 
                 </ScrollView>
             }
+            </View>
+            {/* Cargar Categorias COMENTARIOS Y TABLÓN */}
+            <RenderCategorias2 />
+            <View style={styles.list}>
+            {seleccionadoCategoria2Index == 0 ?
+                <FlatList
+                    contentContainerStyle={{}}
+                    vertical
+                    showsHorizontalScrollIndicator={true}
+                    data={notificacionComentario}
+                    keyExtractor={(item, index) => {
+                        return index.toString();
+                    }}
+                    renderItem={({ item, index }) => <CardComentario key={index} notificacion={item} />}
+                ></FlatList>
+                :
 
+                <FlatList
+                    contentContainerStyle={{}}
+                    vertical
+                    showsHorizontalScrollIndicator={true}
+                    data={notificacionTablon}
+                    keyExtractor={(item, index) => {
+                        return index.toString();
+                    }}
+                    renderItem={({ item, index }) => <CardTablon key={index} notificacion={item} />}
+                ></FlatList>
+            }
+                  </View>
         </SafeAreaView>
 
 
@@ -297,6 +458,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
+    list: {    
+        minHeight: "0%",
+        maxHeight: "35%",
+      },
     renderCategoriaMisLibros: {
         marginBottom: 10,
         justifyContent: "space-evenly",
