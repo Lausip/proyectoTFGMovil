@@ -39,7 +39,7 @@ const LoginScreen = () => {
       </View>
       <View style={styles.imageContainer}>
         {/* Imagen*/}
-        <Image style={styles.image} source={require("../../../assets/logo.png")} />
+        <Image style={styles.image} source={require("../../../assets/note.png")} />
       </View>
       {/* Form de Inicio de Sesión */}
       <View style={styles.inputContainer}>
@@ -55,7 +55,7 @@ const LoginScreen = () => {
               name="user"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#05668D"
+              color="#429EBD"
             />
             <TextInput
               placeholder="Usuario"
@@ -76,7 +76,7 @@ const LoginScreen = () => {
               name="lock"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#05668D"
+              color="#429EBD"
             />
           <TextInput
             placeholder="Constraseña"
@@ -95,7 +95,7 @@ const LoginScreen = () => {
                 style={{
                   fontSize: 12,
                   fontWeight: "bold",
-                  color: "#05668D",
+                  color: "#8EAF20",
                   marginLeft: 10,
                 }}
               >
@@ -118,7 +118,7 @@ const LoginScreen = () => {
           style={styles.buttonInicio}
           onPress={e=>handleIncioSesion(email,password)}
         >
-          <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
             Iniciar Sesión
           </Text>
         </TouchableOpacity>
@@ -130,7 +130,7 @@ const LoginScreen = () => {
               style={{
                 fontSize: 12,
                 fontWeight: "bold",
-                color: "#05668D",
+                color: "#8EAF20",
                 marginLeft: 10,
               }}
             >
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   headName: {
     height: "15%",
-    backgroundColor: "#05668D",
+    backgroundColor: "#429EBD",
     borderBottomRightRadius: 500,
     alignItems: "center",
     justifyContent: "center",
@@ -178,13 +178,13 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: 15,
     marginLeft:20,
-    marginRigth:20,
+    marginRight:20,
     paddingTop: 20,
     paddingBottom: 20,
     borderRadius: 30,
     borderWidth: 3,
     backgroundColor: "white",
-    borderColor: "#679436",
+    borderColor: "#8EAF20",
   },
   input: {
     marginRight: 30,
@@ -199,13 +199,21 @@ const styles = StyleSheet.create({
   buttonInicio: {
     width: "50%",
     marginTop: 10,
-    backgroundColor: "white",
+    backgroundColor:"#E39801",
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 6.00,
+    elevation: 15,
+
     padding: 12,
     borderRadius: 20,
-    borderColor: "#679436",
-    borderWidth: 3,
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 15,
   },
 /*   buttonGoogle: {
     alignItems: "center",

@@ -42,7 +42,7 @@ const PsswForgotScreen = () => {
         {/* Imagen*/}
         <Image
           style={styles.image}
-          source={require("../../../assets/logo.png")}
+          source={require("../../../assets/note.png")}
         />
       </View>
       {/* Form de Registro */}
@@ -55,7 +55,7 @@ const PsswForgotScreen = () => {
               name="user"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#05668D"
+              color="#429EBD"
             />
             <TextInput
               placeholder="Email"
@@ -77,7 +77,7 @@ const PsswForgotScreen = () => {
         }}
       >
         <TouchableOpacity style={styles.buttonReset} onPress={e=>handleReset(email)}>
-          <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
             Reinicia la contraseña
           </Text>
         </TouchableOpacity>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   headName: {
     height: "15%",
-    backgroundColor: "#05668D",
+    backgroundColor: "#429EBD",
     borderBottomRightRadius: 500,
     alignItems: "center",
     justifyContent: "center",
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 3,
     backgroundColor: "white",
-    borderColor: "#679436",
+    borderColor: "#8EAF20",
   },
   inputContainerImage: {
     justifyContent: "center",
@@ -146,11 +146,10 @@ const styles = StyleSheet.create({
   buttonReset: {
     width: "50%",
     marginTop: 20,
-    backgroundColor: "white",
+    backgroundColor: "#E39801",
     padding: 12,
     borderRadius: 20,
-    borderColor: "#679436",
-    borderWidth: 3,
+
     alignItems: "center",
     marginBottom: 10,
   },

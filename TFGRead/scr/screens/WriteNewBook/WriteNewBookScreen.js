@@ -1,5 +1,5 @@
 import {
-  SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Modal, StatusBar, ScrollView, Image, TextInput
+  SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Modal, StatusBar, Alert, Image, TextInput
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
@@ -39,8 +39,31 @@ function WriteNewBookScreen() {
     }
 
   }
+
+  const assertCrearLibro = async () => {
+
+      if(tituloLibro.length==0 || tituloLibro.trim()){
+        Alert.alert(
+          'Alert Title',
+          'My Alert Msg',
+          [
+            { text: 'Ask me later', onPress: () => console.log('Ask me later pressed') },
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => console.log('OK Pressed') },
+          ],
+          { cancelable: false }
+        );
+      }
+  }
+
   const crearLibro = async () => {
+    
     setModalVisible(true)
+    assertCrearLibro();
      let id = await crearLibroFirebase(tituloLibro, descripcionLibro, email);
     let urlPortada = await crearLibroStorage(image, email, id)
     await cambiarPortadadeLibro(id, urlPortada)
@@ -80,7 +103,7 @@ function WriteNewBookScreen() {
           marginLeft: "auto",
           marginRight: "auto",
           height: 150,
-          borderColor: "#679436",
+          borderColor: "#8EAF20",
           borderRadius: 20,
           borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
           shadowColor: "black",
@@ -107,7 +130,7 @@ function WriteNewBookScreen() {
       <View style={styles.head}>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity onPress={goBack}>
-            <Ionicons name="arrow-back" size={24} color="black" style={{ marginTop: "auto", marginRight: 10, }} />
+            <Ionicons name="arrow-back" size={24} color="white" style={{ marginTop: "auto", marginRight: 10,marginLeft:10, }} />
           </TouchableOpacity>
           {/*nombre e inicio*/}
           <View>
@@ -131,7 +154,7 @@ function WriteNewBookScreen() {
           alignItems: "center",
           height: 200,
         }}>
-          <Text style={{ fontSize: 17, color: "black", marginBottom: 5 }}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"60%"  }}>
             Cambiar portada del libro
           </Text>
 
@@ -173,12 +196,12 @@ function WriteNewBookScreen() {
 
         {/* Titulo del libro*/}
         <View style={{ marginTop: 10, }}>
-          <Text style={{ fontSize: 17, color: "black", marginBottom: 10 }}>
+          <Text style={{fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%"  }}>
             Título del libro
           </Text>
           <TextInput
             placeholder="Título "
-            placeholderTextColor="#05668D"
+            placeholderTextColor="black"
             value={tituloLibro}
             onChangeText={(text) => setTituloLibro(text)}
             style={{
@@ -187,18 +210,18 @@ function WriteNewBookScreen() {
               paddingHorizontal: 20,
               paddingVertical: 10,
               borderRadius: 10,
-              color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+              color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
             }}
           ></TextInput>
         </View>
         {/* Descripción del libro */}
         <View style={{ marginTop: 10, }}>
-          <Text style={{ fontSize: 17, color: "black", marginBottom: 10 }}>
+          <Text style={{fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%"  }}>
             Descripción del libro
           </Text>
           <TextInput
             placeholder="Descripción"
-            placeholderTextColor="#05668D"
+            placeholderTextColor="black"
             value={descripcionLibro}
             onChangeText={(text) => contarPalabras(text)}
             style={{
@@ -207,7 +230,7 @@ function WriteNewBookScreen() {
               paddingHorizontal: 20,
               paddingVertical: 10,
               borderRadius: 10,
-              color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+              color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
             }}
             multiline={true}
             numberOfLines={4}
@@ -221,18 +244,25 @@ function WriteNewBookScreen() {
           style={{
             width: "50%",
             marginTop: 25,
-            backgroundColor: isModalVisible ? "#8D8D8D" : "white",
             padding: 12,
             borderRadius: 20,
-            borderColor: "#679436",
-            borderWidth: 3,
             alignItems: "center",
             marginLeft: "auto",
             marginRight: "auto",
+            backgroundColor: isModalVisible ? "#8D8D8D" :"#E39801",
+        
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 12,
+            },
+            shadowOpacity: 0.8,
+            shadowRadius: 6.00,
+            elevation: 15,
           }}
           onPress={e => crearLibro()}
         >
-          <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
             Siguiente
           </Text>
         </TouchableOpacity>
@@ -242,14 +272,13 @@ function WriteNewBookScreen() {
 }
 const styles = StyleSheet.create({
   head: {
-    paddingTop: 20,
-    paddingBottom: 13,
-    paddingHorizontal: 30,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderBottomColor: "#679436",
-    borderBottomWidth: 3,
-    borderRadius: 60,
+    alignItems: "center",
+    backgroundColor: "#429EBD",
+    borderBottomRightRadius: 500,
+    height: 70,
+    
   },
   textWait: {
     marginBottom: 10,
@@ -270,7 +299,7 @@ const styles = StyleSheet.create({
   fontTitulo: {
     paddingTop: 10,
     fontWeight: "bold",
-    color: "black",
+    color: "white",
     fontSize: 25,
   },
   containerPrincipal: {

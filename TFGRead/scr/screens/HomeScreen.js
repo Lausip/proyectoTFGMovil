@@ -145,7 +145,7 @@ function HomeScreen() {
           marginLeft: "auto",
           marginRight: "auto",
           height: 150,
-          borderColor: "#679436",
+          borderColor: "#8EAF20",
           borderRadius: 20,
           borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
           shadowColor: "black",
@@ -173,11 +173,11 @@ function HomeScreen() {
           {/*Logo Imagen*/}
           <Image
             style={styles.image}
-            source={require("../../assets/logo.png")}
+            source={require("../../assets/note.png")}
           />
           {/*nombre e inicio*/}
           <View>
-            <Text style={{ fontSize: 13, color: "#05668D" }}>Readly </Text>
+            <Text style={{ fontSize: 13, color: "#429EBD", fontWeight: "bold", }}>Readly </Text>
             <Text style={styles.fontIncioSesion}>Inicio </Text>
           </View>
         </View>
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderBottomColor: "#679436",
+    borderBottomColor: "#8EAF20",
     borderBottomWidth: 3,
     borderRadius: 60,
   },

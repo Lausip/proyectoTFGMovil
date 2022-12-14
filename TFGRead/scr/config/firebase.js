@@ -33,4 +33,5 @@ if (firebase.apps.length === 0) {
 const db = app.firestore();
 const auth = firebase.auth();
 const google= new firebase.auth.GoogleAuthProvider();
+
 export { db, auth,google,firebase,storage,ref,put,getDownloadURL,uploadBytesResumable,deleteObject };

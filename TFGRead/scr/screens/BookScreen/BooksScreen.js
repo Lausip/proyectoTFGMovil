@@ -195,7 +195,7 @@ function BooksScreen({ route }) {
                   marginBottom: 50,
                   borderStyle: "dotted",
                   borderWidth: 2,
-                  borderColor: "#679436",
+                  borderColor: "#E39801",
                   flexDirection: "row",
                   borderRadius: 8,
                   shadowColor: "black",
@@ -222,7 +222,7 @@ function BooksScreen({ route }) {
                         style={{
                           fontSize: 14,
                           fontWeight: "bold",
-                          color: "#437C90",
+                          color: "#E39801",
                           marginLeft: 10,
                         }}
                       >
@@ -239,7 +239,7 @@ function BooksScreen({ route }) {
                   marginBottom: 50,
                   borderStyle: "dotted",
                   borderWidth: 2,
-                  borderColor: "#679436",
+                  borderColor: "#8EAF20",
                   flexDirection: "row",
                   borderRadius: 8,
                   shadowColor: "black",
@@ -280,14 +280,10 @@ function BooksScreen({ route }) {
                   borderRadius: 30,
                   borderWidth: 3,
                   backgroundColor: "white",
-                  borderLeftColor: "#05668D",
-                  borderBottomColor: "#05668D",
-                  borderTopColor: "#679436",
-                  borderRightColor: "#679436",
+                  borderColor: "#E39801",
                   flexDirection: "row",
                   alignItems: "center",
                   marginVertical: 20,
-                  flexDirection: "row",
                   justifyContent: 'space-between',
                 }}>
 
@@ -347,7 +343,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginVertical: 30,
     fontSize: 20,
-    color: "#05668D",
+    color: "#429EBD",
     fontWeight: "bold",
   },
 });

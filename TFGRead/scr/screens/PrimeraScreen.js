@@ -37,7 +37,7 @@ import {
         {/* Imagen  */}
         <View style={styles.imageBox}>
           <Image
-            source={require("../../assets/homeImage.jpg")}
+            source={require("../../assets/homeImage.png")}
             style={styles.image}
           />
         </View>
@@ -50,7 +50,7 @@ import {
               style={{
                 fontSize: 17,
                 fontWeight: "bold",
-                color: "#05668D",
+                color: "#429EBD",
                 marginLeft: 20,
               }}
             >
@@ -59,21 +59,40 @@ import {
             <Text style={styles.fontEnunciado}> quieras </Text>
           </Text>
         </View>
-  
+        
+        <View
+        style={{
+          display: "flex",
+          backgroundColor: "white",
+          alignItems: "center",
+          justifyContent: "center",
+ 
+        }}
+      >
         {/* Botones  */}
-        <View style={styles.buttonBox}>
-          <View>
+ 
             <TouchableOpacity style={styles.buttonInicio} onPress={handleIncioSesion}>
-              <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
+              <Text style={{ fontSize: 15, fontWeight: "bold", color: "#FFFFFF" }}>
                 Iniciar Sesión
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonRegistro} onPress={handleRegistro}>
-              <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
-                Registrarse
-              </Text>
-            </TouchableOpacity>
-          </View>
+ 
+
+          <TouchableOpacity onPress={handleRegistro}>
+          <Text style={{ fontSize: 13, color: "black" }}>
+            ¿No tienes cuenta?{" "}
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: "bold",
+                color: "#8EAF20",
+                marginLeft: 10,
+              }}
+            >
+              Registrate
+            </Text>
+          </Text>
+        </TouchableOpacity>
         </View>
   
         {/* Crédito  */}
@@ -120,7 +139,7 @@ import {
       marginLeft: 100,
       fontSize: 30,
       fontWeight: "bold",
-      color: "#679436",
+      color: "#429EBD",
     },
     fontEnunciado: {
       marginTop: 20,
@@ -143,34 +162,27 @@ import {
       width: 250,
     },
     buttonInicio: {
-      backgroundColor: "white",
+      backgroundColor: "#E39801",
+
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12,
+      },
+      shadowOpacity: 0.8,
+      shadowRadius: 6.00,
+      elevation: 15,
+
       padding: 12,
       borderRadius: 20,
-      borderLeftColor: "#05668D",
-      borderBottomColor: "#05668D",
-      borderTopColor: "#679436",
-      borderRightColor: "#679436",
-      borderWidth: 3,
       alignItems: "center",
-      marginBottom: 10,
-    },
-    buttonRegistro: {
-      backgroundColor: "white",
-      padding: 12,
-      borderRadius: 20,
-      borderLeftColor: "#679436",
-      borderBottomColor: "#679436",
-      borderTopColor: "#05668D",
-      borderRightColor: "#05668D",
-      borderWidth: 3,
-      alignItems: "center",
-      marginBottom: 10,
+      width: "50%",
+      marginHorizontal:20,
+      marginVertical:20,
     },
     buttonBox: {
-      marginTop:30,
-      marginLeft:30,
-      marginRight:30,
-  
+      marginVertical:20,
+      marginHorizontal:20,
       alignContent: "center",
     },
     bottom: {

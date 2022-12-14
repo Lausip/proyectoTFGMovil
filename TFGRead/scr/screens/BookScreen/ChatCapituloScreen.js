@@ -96,11 +96,11 @@ function ChatCapituloScreen({ route }) {
 
             }}>
                 <View style={{flexDirection: "row",justifyContent: 'space-between',}}>
-                    <Text style={{ marginHorizontal: 20, fontSize: 14, fontWeight: "bold", color: "#05668D", justifyContent: "flex-start" }}>
+                    <Text style={{ marginHorizontal: 20, fontSize: 14, fontWeight: "bold", color: "#429EBD", justifyContent: "flex-start" }}>
                         {comentario.Autor.split("@")[0]}
                     </Text>
                     <TouchableOpacity onPress={()=>reportarComentario(comentario.key,comentario.Autor.split("@")[0])}>
-                    <Octicons name="report" size={15} color="red" style={{ marginHorizontal: 20,marginVertical: 2, }} />
+                    <Octicons name="report" size={15} color="#ff6961" style={{ marginHorizontal: 20,marginVertical: 2, }} />
                     </TouchableOpacity>
                 </View>
 
@@ -168,7 +168,7 @@ function ChatCapituloScreen({ route }) {
                     justifyContent: 'center',
                     width: 50,
                     height: 50,
-                    backgroundColor: '#679436',
+                    backgroundColor: '#E39801',
                     borderRadius: 50,
                 }}>
                     <FontAwesome name="send" size={24} color="white" style={{ marginTop: "auto", marginBottom: "auto" }} />
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#679436",
+        backgroundColor: "#429EBD",
         borderBottomRightRadius: 500,
         height: 70,
     },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         borderTopWidth: 2,
         borderRadius: 20,
-        borderColor: "#679436",
+        borderColor: "#8EAF20",
     },
     input: {
         width: 250,
@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         marginVertical: 30,
         fontSize: 20,
-        color: "#05668D",
+        color: "#429EBD",
         fontWeight: "bold",
     },
 

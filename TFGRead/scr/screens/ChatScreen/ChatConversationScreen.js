@@ -19,7 +19,7 @@ import {
     GiftedChat,
     Bubble,
     Send,
-    SystemMessage, Day, InputToolbar
+    SystemMessage, Day, InputToolbar,Time
 } from 'react-native-gifted-chat';
 
 
@@ -95,7 +95,7 @@ function ChatConversationScreen({ route }) {
         return (
             <Send {...props} containerStyle={{ borderWidth: 0 }}>
                 <View style={styles.sendingContainer}>
-                    <FontAwesome name="send" size={24} color="#679436" />
+                    <FontAwesome name="send" size={24} color="#E39801" />
                 </View>
             </Send>
         );
@@ -107,6 +107,7 @@ function ChatConversationScreen({ route }) {
                 textStyle={{
                     right: {
                         color: 'white',
+        
                     },
                     left: {
                         color: 'white',
@@ -114,10 +115,10 @@ function ChatConversationScreen({ route }) {
                 }}
                 wrapperStyle={{
                     right: {
-                        backgroundColor: '#05668D',
+                        backgroundColor: '#8EAF20',
                     },
                     left: {
-                        backgroundColor: '#679436',
+                        backgroundColor: '#429EBD',
                     },
 
                 }}
@@ -132,7 +133,7 @@ function ChatConversationScreen({ route }) {
             marginHorizontal: 20,
             marginVertical: 20,
             borderWidth: 0.5,
-            borderColor: '#679436',
+            borderColor: '#8EAF20',
             borderRadius: 30,
             shadowColor: "black",
             shadowOpacity: 0.78,
@@ -143,7 +144,21 @@ function ChatConversationScreen({ route }) {
 
         />
     }
-
+    function renderTime(props) {
+        return (
+            <Time
+             {...props}
+             timeTextStyle={{
+                    right: {
+                        color: 'white',                  
+                    },
+                    left: {
+                        color: "white",             
+                    }
+                }}
+            />
+        );
+    }
     return (
         <SafeAreaView style={styles.back}>
             <Modal
@@ -157,7 +172,7 @@ function ChatConversationScreen({ route }) {
                     marginLeft: "auto",
                     marginRight: "auto",
                     height: 150,
-                    borderColor: "#679436",
+                    borderColor: "#8EAF20",
                     borderRadius: 20,
                     borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
                     shadowColor: "black",
@@ -184,7 +199,7 @@ function ChatConversationScreen({ route }) {
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor: "#679436",
+                    backgroundColor: "#429EBD",
                     borderBottomRightRadius: 500,
                     height: 70,
 
@@ -217,7 +232,7 @@ function ChatConversationScreen({ route }) {
                                 <Text>Añadir a amigos</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { }} style={{ marginLeft: 20 }}>
-                                <Text style={{ color: "red" }}>Bloquear</Text>
+                                <Text style={{ color: "#ff6961" }}>Bloquear</Text>
                             </TouchableOpacity>
                         </View>:<Text></Text>
 
@@ -234,6 +249,7 @@ function ChatConversationScreen({ route }) {
                     avatar: fotoPerfil
                 }}
                 renderBubble={renderBubble}
+                renderTime={renderTime}
                 renderChatFooter={() => <View style={{ marginBottom: 40 }} />}
                 renderInputToolbar={renderInputToolbar}
                 showUserAvatar
@@ -265,7 +281,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         flexDirection: "row",
         justifyContent: "space-between",
-        borderBottomColor: "#679436",
+        borderBottomColor: "#429EBD",
         borderBottomWidth: 3,
         borderRadius: 60,
     },

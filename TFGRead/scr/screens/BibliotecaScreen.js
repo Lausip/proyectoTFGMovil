@@ -170,7 +170,7 @@ function BibliotecaScreen() {
                                     style={{
                                         height: 2,
                                         width: 40,
-                                        backgroundColor: "#679436",
+                                        backgroundColor: "#8EAF20",
                                         marginTop: 2,
                                     }}
                                 ></View>
@@ -198,7 +198,7 @@ function BibliotecaScreen() {
                     style={{ width: 50, height: 50, borderRadius: 50 / 2, marginHorizontal: 30, marginVertical: 10 }}
 
                 />
-                <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#05668D" }}>
+                <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
                     {autor.Nombre.split("@")[0]}
                 </Text>
             </View>
@@ -237,7 +237,7 @@ function BibliotecaScreen() {
                         }}
                     ></ImageBackground>
                     <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
-                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "#05668D" }}>
+                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "#429EBD" }}>
                             {libro.Titulo}
                         </Text>
                         <Text style={{ fontSize: 10, marginTop: 10, color: "black" }}>
@@ -252,7 +252,7 @@ function BibliotecaScreen() {
                 }}
               >
               {(libro.UltimoCapitulo/libro.NumCapitulos)*100}%
-                <Foundation name="page-multiple" size={15} color="#679436" />
+                <Foundation name="page-multiple" size={15} color="#8EAF20" />
               </Text>
               <View
                 style={{
@@ -268,7 +268,7 @@ function BibliotecaScreen() {
                     position: "absolute",
                     width: (libro.UltimoCapitulo/libro.NumCapitulos)*100,
                     height: 5,
-                    backgroundColor: "#679436",
+                    backgroundColor: "#8EAF20",
                     borderRadius: 15,
                   }}
                 ></View>
@@ -293,7 +293,7 @@ function BibliotecaScreen() {
                     marginLeft: "auto",
                     marginRight: "auto",
                     height: 150,
-                    borderColor: "#679436",
+                    borderColor: "#8EAF20",
                     borderRadius: 20,
                     borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
                     shadowColor: "black",
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         flexDirection: "row",
         justifyContent: "space-between",
-        borderBottomColor: "#679436",
+        borderBottomColor: "#8EAF20",
         borderBottomWidth: 3,
         borderRadius: 60,
     },
@@ -439,9 +439,18 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         padding: 12,
         borderRadius: 20,
-        borderColor: "#679436",
+        borderColor: "#E39801",
         borderWidth: 3,
         alignItems: "center",
+
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 12,
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: 6.00,
+        elevation: 15,
 
     }, categoriaText: {
         fontSize: 15,

@@ -34,7 +34,7 @@ const BottomTab = () => {
       screenOptions={{
         activeBackgroundColor: '#c4461c',
         inactiveBackgroundColor: '#b55031',
-        tabBarActiveTintColor: "#05668D",
+        tabBarActiveTintColor: "#E39801",
         tabBarInactiveTintColor: "black",
         headerShown: false,
         tabBarStyle: {
@@ -43,7 +43,7 @@ const BottomTab = () => {
           height: 53,
           marginBottom: 10,
           borderRadius: 20,
-          borderBottomColor: "#679436",
+          borderBottomColor: "#8EAF20",
           borderBottomWidth: 2,
           shadowColor: "#000",
           shadowOpacity: 0.07,
@@ -70,7 +70,7 @@ const BottomTab = () => {
                 height: 53,
                 marginBottom: 10,
                 borderRadius: 20,
-                borderBottomColor: "#679436",
+                borderBottomColor: "#8EAF20",
                 borderBottomWidth: 2,
                 shadowColor: "#000",
                 shadowOpacity: 0.07,
@@ -86,7 +86,7 @@ const BottomTab = () => {
               name="home"
               size={25}
               style={{
-                color: focused ? "#05668D" : "black",
+                color: focused ? "#E39801" : "black",
               }}
             />
           ),
@@ -109,7 +109,7 @@ const BottomTab = () => {
                 height: 53,
                 marginBottom: 10,
                 borderRadius: 20,
-                borderBottomColor: "#679436",
+                borderBottomColor: "#8EAF20",
                 borderBottomWidth: 2,
                 shadowColor: "#000",
                 shadowOpacity: 0.07,
@@ -126,7 +126,7 @@ const BottomTab = () => {
               name="search1"
               size={25}
               style={{
-                color: focused ? "#05668D" : "black",
+                color: focused ? "#E39801" : "black",
               }}
             />
           ),
@@ -149,7 +149,7 @@ const BottomTab = () => {
               height: 53,
               marginBottom: 10,
               borderRadius: 20,
-              borderBottomColor: "#679436",
+              borderBottomColor: "#8EAF20",
               borderBottomWidth: 2,
               shadowColor: "#000",
               shadowOpacity: 0.07,
@@ -164,7 +164,7 @@ const BottomTab = () => {
               name="bookshelf"
               size={25}
               style={{
-                color: focused ? "#05668D" : "black",
+                color: focused ? "#E39801" : "black",
               }}
             />
 
@@ -188,7 +188,7 @@ const BottomTab = () => {
               height: 53,
               marginBottom: 10,
               borderRadius: 20,
-              borderBottomColor: "#679436",
+              borderBottomColor: "#8EAF20",
               borderBottomWidth: 2,
               shadowColor: "#000",
               shadowOpacity: 0.07,
@@ -203,7 +203,7 @@ const BottomTab = () => {
               name="pencil"
               size={25}
               style={{
-                color: focused ? "#05668D" : "black",
+                color: focused ? "#E39801" : "black",
               }}
             />
           ),
@@ -227,7 +227,7 @@ const BottomTab = () => {
               height: 53,
               marginBottom: 10,
               borderRadius: 20,
-              borderBottomColor: "#679436",
+              borderBottomColor: "#8EAF20",
               borderBottomWidth: 2,
               shadowColor: "#000",
               shadowOpacity: 0.07,
@@ -242,7 +242,7 @@ const BottomTab = () => {
               name="chat"
               size={25}
               style={{
-                color: focused ? "#05668D" : "black",
+                color: focused ? "#E39801" : "black",
               }}
             />
           ),

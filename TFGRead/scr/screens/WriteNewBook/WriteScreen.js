@@ -96,12 +96,12 @@ function WriteScreen() {
           }}
         ></ImageBackground>
         <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
-          <Text style={{ fontSize: 15, fontWeight: "bold", color: "#05668D" }}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", color: "#429EBD" }}>
             {libro.Titulo}
           </Text>
           <Text style={{ marginTop: 5, fontSize: 13, color: "black" }}>
             {libro.nCapitulos} {""}
-            <Foundation name="page-multiple" size={12} color="#679436" />
+            <Foundation name="page-multiple" size={12} color="#8EAF20" />
           </Text>
           <Text style={{ marginTop: 5, fontSize: 11, color: "black" }}>
             Última modificación:
@@ -112,16 +112,17 @@ function WriteScreen() {
               width: 90,
               height: 30,
               borderWidth: 2,
-              borderColor: "#679436",
+              borderColor: "#E39801",
               borderRadius: 8,
               alignItems: "center",
               justifyContent: "center",
+              
             }}
             onPress={() => {
               handleEditBook(libro.key)
             }}
           >
-            <AntDesign name="edit" size={24} color="#679436" />
+            <AntDesign name="edit" size={24} color="#E39801" />
           </TouchableOpacity>
         </View>
       </View>
@@ -141,7 +142,7 @@ function WriteScreen() {
           marginLeft: "auto",
           marginRight: "auto",
           height: 150,
-          borderColor: "#679436",
+          borderColor: "#8EAF20",
           borderRadius: 20,
           borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
           shadowColor: "black",
@@ -195,7 +196,7 @@ function WriteScreen() {
               style={{
                 fontSize: 14,
                 fontWeight: "bold",
-                color: "#437C90",
+                color: "#E39801",
                 marginLeft: 10,
               }}
             >
@@ -207,7 +208,7 @@ function WriteScreen() {
         </View>
       </TouchableOpacity>
       {/* Libros creados*/}
-      <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#679436", borderBottomWidth: 3, }}>
+      <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
         Editar libros
       </Text>
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -231,7 +232,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderBottomColor: "#679436",
+    borderBottomColor: "#8EAF20",
     borderBottomWidth: 3,
     borderRadius: 60,
   },
@@ -248,14 +249,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderStyle: "dotted",
     borderWidth: 2,
-    borderColor: "#679436",
+    borderColor: "#E39801",
     flexDirection: "row",
     borderRadius: 8,
-    shadowColor: "black",
-    shadowOpacity: 0.78,
-    shadowOffset: { width: 0, height: 9 },
-    shadowRadius: 10,
-    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 6.00,
+    elevation: 15,
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",

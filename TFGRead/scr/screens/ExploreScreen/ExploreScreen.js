@@ -146,7 +146,7 @@ function ExploreScreen({ route }) {
                   style={{
                     height: 2,
                     width: 40,
-                    backgroundColor: "#679436",
+                    backgroundColor: "#8EAF20",
                     marginTop: 2,
                   }}
                 ></View>
@@ -209,7 +209,7 @@ function ExploreScreen({ route }) {
             style={{ width: 50, height: 50, borderRadius: 50 / 2, marginHorizontal: 30, marginVertical: 10 }}
 
           />
-          <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#05668D" }}>
+          <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
             {autor.Nombre.split("@")[0]}
           </Text>
         </View>
@@ -243,7 +243,7 @@ function ExploreScreen({ route }) {
         ></ImageBackground>
 
         <View style={{ marginTop: 15,marginBottom:15, width: 180, marginLeft: 10, alignItems: "center", }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#05668D" }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD" }}>
             {libro.Titulo}
           </Text>
           
@@ -298,7 +298,7 @@ function ExploreScreen({ route }) {
           marginLeft: "auto",
           marginRight: "auto",
           height: 150,
-          borderColor: "#679436",
+          borderColor: "#8EAF20",
           borderRadius: 20,
           borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
           shadowColor: "black",
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderBottomColor: "#679436",
+    borderBottomColor: "#8EAF20",
     borderBottomWidth: 3,
     borderRadius: 60,
   },
@@ -444,7 +444,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 12,
     borderRadius: 20,
-    borderColor: "#679436",
+    borderColor: "#E39801",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 6.00,
+    elevation: 15,
     borderWidth: 3,
     alignItems: "center",
 

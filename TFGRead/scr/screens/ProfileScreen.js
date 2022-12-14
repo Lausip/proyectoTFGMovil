@@ -43,11 +43,12 @@ function ProfileScreen({ route }) {
     }
     const cambiarFotoPerfil = async () => {
         let image = await pickImage();
+        if(image!=undefined){
         setModalVisible(true)
         let urlImage = await crearFotoPerfilStorage(image, email)
         setFotoPerfil(urlImage);
         await cambiarFotoPerfilFirebase(email, urlImage)
-        setModalVisible(false)
+        setModalVisible(false)}
     }
     const salir =async()=>{
         await signOut();
@@ -70,7 +71,7 @@ function ProfileScreen({ route }) {
                     marginLeft: "auto",
                     marginRight: "auto",
                     height: 150,
-                    borderColor: "#679436",
+                    borderColor: "#8EAF20",
                     borderRadius: 20,
                     borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
                     shadowColor: "black",
@@ -95,7 +96,7 @@ function ProfileScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#679436",
+                backgroundColor: "#429EBD",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -128,7 +129,7 @@ function ProfileScreen({ route }) {
                         style={{ width: 100, height: 100, borderRadius: 100 / 2, marginTop: 20 }}
                     />
                 </TouchableOpacity >
-                <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 20, }}>
+                <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 20,color:"#429EBD" }}>
                     {email.split("@")[0]}
                 </Text>
             </View>
@@ -136,18 +137,25 @@ function ProfileScreen({ route }) {
                 style={{
                     width: "50%",
                     marginTop: 25,
-                    backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                    backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
                     padding: 12,
                     borderRadius: 20,
-                    borderColor: "#679436",
-                    borderWidth: 3,
                     alignItems: "center",
                     marginLeft: "auto",
                     marginRight: "auto",
+
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 12,
+                    },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 6.00,
+                    elevation: 15,
                 }}
                 onPress={e => salir()}
             >
-                <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
+                <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
                     Desconectarse
                 </Text>
             </TouchableOpacity>

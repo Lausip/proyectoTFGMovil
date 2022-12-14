@@ -112,7 +112,7 @@ function EditBookScreen({ route }) {
         return (
 
             <View key={libro.key} style={{
-                marginTop: 5, borderBottomColor: "#679436",
+                marginTop: 5, borderBottomColor: "#8EAF20",
                 borderBottomWidth: 1,
                 borderBottomEndRadius: 1,
                 flexDirection: "row"
@@ -125,13 +125,13 @@ function EditBookScreen({ route }) {
                 {/* Botones del opcion */}
                 <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
                     <TouchableOpacity style={{ marginTop: 10, marginRight: 20 }} onPress={e => handleEditarCapitulo(libro.Numero, libro.key)}>
-                        <AntDesign name="edit" size={20} color="black" />
+                        <AntDesign name="edit" size={20} color="#E39801" />
                     </TouchableOpacity >
                     {libro.borrador ? <TouchableOpacity style={{ marginTop: 10, marginRight: 20 }} onPress={e => handlePublicarCapitulo(libro.key)}>
                         <Text>Publicar</Text>
                     </TouchableOpacity > : <Text></Text>}
                     <TouchableOpacity style={{ marginTop: 8, marginRight: 20 }} onPress={e => handleEliminarCapitulo(libro.Numero, libro.key)}>
-                        <MaterialIcons name="delete" size={24} color="#A92929" />
+                        <MaterialIcons name="delete" size={24} color="#ff6961" />
                     </TouchableOpacity >
                 </View>
 
@@ -156,7 +156,7 @@ function EditBookScreen({ route }) {
                     marginLeft: "auto",
                     marginRight: "auto",
                     height: 150,
-                    borderColor: "#679436",
+                    borderColor: "#8EAF20",
                     borderRadius: 20,
                     borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
                     shadowColor: "black",
@@ -182,7 +182,7 @@ function EditBookScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#679436",
+                backgroundColor: "#429EBD",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -218,12 +218,12 @@ function EditBookScreen({ route }) {
 
                 <View style={{ marginTop: 30, marginHorizontal: 40 }}>
                     {/* Titulo del libro*/}
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#679436", borderBottomWidth: 3, }}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%" }}>
                         Título
                     </Text>
                     <TextInput
                         placeholder="Título "
-                        placeholderTextColor="#05668D"
+                        placeholderTextColor="black"
                         value={titulo}
                         onChangeText={(text) => setTitulo(text)}
                         style={{
@@ -232,18 +232,16 @@ function EditBookScreen({ route }) {
                             paddingHorizontal: 20,
                             paddingVertical: 10,
                             borderRadius: 10,
-                            color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                            color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
                         }}
                     ></TextInput>
                     <TouchableOpacity
                         style={{
-                            width: "90%",
+                            width: "70%",
                             marginTop: 10,
-                            backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                            backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
                             padding: 4,
                             borderRadius: 20,
-                            borderColor: "#679436",
-                            borderWidth: 3,
                             alignItems: "center",
                             justifyContent: "center",
                             marginLeft: "auto",
@@ -252,17 +250,17 @@ function EditBookScreen({ route }) {
                         }}
                         onPress={e => actualizarTexto()}
                     >
-                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", margin: "auto" }}>
+                        <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
                             Actualizar
                         </Text>
                     </TouchableOpacity>
                     {/* Descripción del libro*/}
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#679436", borderBottomWidth: 3, }}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%" }}>
                         Descripción
                     </Text>
                     <TextInput
                         placeholder="Título "
-                        placeholderTextColor="#05668D"
+                        placeholderTextColor="black"
                         value={texto}
                         onChangeText={(text) => setTexto(text)}
                         style={{
@@ -271,7 +269,7 @@ function EditBookScreen({ route }) {
                             paddingHorizontal: 20,
                             paddingVertical: 10,
                             borderRadius: 10,
-                            color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
+                            color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
                             textAlign: 'justify'
                         }}
                         multiline={true}
@@ -280,13 +278,11 @@ function EditBookScreen({ route }) {
                     ></TextInput>
                     <TouchableOpacity
                         style={{
-                            width: "90%",
+                            width: "70%",
                             marginTop: 10,
-                            backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                            backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
                             padding: 4,
                             borderRadius: 20,
-                            borderColor: "#679436",
-                            borderWidth: 3,
                             alignItems: "center",
                             justifyContent: "center",
                             marginLeft: "auto",
@@ -295,14 +291,14 @@ function EditBookScreen({ route }) {
                         }}
                         onPress={e => actualizarDescripcion()}
                     >
-                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", margin: "auto" }}>
+                        <Text style={{ fontSize: 15,  color: "white", margin: "auto" }}>
                             Actualizar
                         </Text>
                     </TouchableOpacity>
                 </View>
 
                 {/* Capitulos */}
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, borderBottomColor: "#679436", borderBottomWidth: 3, }}>
+                <Text style={{  marginHorizontal: 40, fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%" }}>
                     Capitulos
                 </Text>
 
@@ -328,7 +324,7 @@ function EditBookScreen({ route }) {
                                     style={{
                                         fontSize: 14,
                                         fontWeight: "bold",
-                                        color: "#437C90",
+                                        color: "#E39801",
                                         marginLeft: 10,
                                     }}
                                 >
@@ -377,7 +373,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderStyle: "dotted",
         borderWidth: 2,
-        borderColor: "#679436",
+        borderColor: "#E39801",
         flexDirection: "row",
         borderRadius: 8,
         shadowColor: "black",
@@ -403,13 +399,11 @@ const styles = StyleSheet.create({
     buttonLeer: {
         marginLeft: "auto",
         marginRight: "auto",
-        width: "50%",
+        width: "30%",
         marginTop: 20,
-        backgroundColor: "white",
+        backgroundColor: "#E39801",
         padding: 12,
         borderRadius: 20,
-        borderColor: "#679436",
-        borderWidth: 3,
         alignItems: "center",
         marginBottom: 10,
     },

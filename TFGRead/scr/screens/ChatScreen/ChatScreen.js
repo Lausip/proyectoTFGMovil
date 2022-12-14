@@ -219,11 +219,11 @@ function ChatScreen({ route }) {
                         flexDirection: "column",
                     }} >
                         {sala.Usuario2 == email ?
-                            <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#05668D" }}>
+                            <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
                                 {sala.Usuario1.split("@")[0]}
                             </Text> :
 
-                            <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#05668D" }}>
+                            <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
                                 {sala.Usuario2.split("@")[0]}
                             </Text>
                         }
@@ -253,7 +253,7 @@ function ChatScreen({ route }) {
                     marginLeft: "auto",
                     marginRight: "auto",
                     height: 150,
-                    borderColor: "#679436",
+                    borderColor: "#8EAF20",
                     borderRadius: 20,
                     borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
                     shadowColor: "black",
@@ -287,7 +287,7 @@ function ChatScreen({ route }) {
                         marginBottom: "auto",
                         marginLeft: "auto",
                         marginRight: "auto",
-                        borderColor: "#679436",
+                        borderColor: "#8EAF20",
                         borderRadius: 20,
                         borderWidth: 2, backgroundColor: 'white',
                         shadowColor: "black",
@@ -363,7 +363,7 @@ function ChatScreen({ route }) {
                             style={{
                                 fontSize: 14,
                                 fontWeight: "bold",
-                                color: "#437C90",
+                                color: "#E39801",
                                 marginLeft: 10,
                             }}
                         >
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         borderStyle: "dotted",
         borderWidth: 2,
-        borderColor: "#679436",
+        borderColor: "#E39801",
         flexDirection: "row",
         borderRadius: 8,
         shadowColor: "black",
@@ -430,7 +430,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         flexDirection: "row",
         justifyContent: "space-between",
-        borderBottomColor: "#679436",
+        borderBottomColor: "#8EAF20",
         borderBottomWidth: 3,
         borderRadius: 60,
     },
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         padding: 12,
         borderRadius: 20,
-        borderColor: "#679436",
+        borderColor: "#8EAF20",
         borderWidth: 3,
         alignItems: "center",
 

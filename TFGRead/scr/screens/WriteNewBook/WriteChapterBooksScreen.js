@@ -71,7 +71,7 @@ function WriteNewBookScreen({ route }) {
           marginLeft: "auto",
           marginRight: "auto",
           height: 150,
-          borderColor: "#679436",
+          borderColor: "#8EAF20",
           borderRadius: 20,
           borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
           shadowColor: "black",
@@ -105,20 +105,27 @@ function WriteNewBookScreen({ route }) {
             <Text style={styles.fontTitulo}>Nuevo Capítulo</Text>
           </View>
           <TouchableOpacity
-            style={{
-              backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+            style={{     
               padding: 12,
-              borderRadius: 20,
-              borderColor: "#679436",
-              borderWidth: 3,
+              borderRadius: 20, 
               alignItems: "center",
               marginLeft: 35,
+              marginRight: "auto",
+              backgroundColor: isModalVisible ? "#8D8D8D" :"#E39801",     
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 12,
+              },
+              shadowOpacity: 0.8,
+              shadowRadius: 6.00,
+              elevation: 15,
             }}
             onPress={e => publicarCapituloLibro()}
           >
             <Text style={{
               fontWeight: "bold",
-              color: "black",
+              color: "white",
               fontSize: 13,
             }}>Publicar</Text>
           </TouchableOpacity>
@@ -130,12 +137,12 @@ function WriteNewBookScreen({ route }) {
         <ScrollView>
             <View style={styles.containerView}>
                       {/* Titulo capitulo del libro*/}
-            <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10 }}>
+            <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%"  }}>
                         Título del capitulo
                     </Text>
                 <TextInput
                     placeholder="Título "
-                    placeholderTextColor="#05668D"
+                    placeholderTextColor="black"
                     value={tituloCapitulo}
                     onChangeText={(text) => setTituloCapitulo(text)}
                     style={{
@@ -145,25 +152,25 @@ function WriteNewBookScreen({ route }) {
                         paddingHorizontal: 20,
                         paddingVertical: 10,
                         borderRadius: 10,
-                        color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                        color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
                     }}
                     multiline={true}
                     scrollEnabled={true}
                 ></TextInput>
                   {/* Descripción capitulo del libro*/}
-                <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10  }}>
+                <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%"  }}>
                   Contenido
                   </Text>
                 <KeyboardAvoidingView behavior="padding">
                         <TextInput
-                            placeholder="Título "
-                            placeholderTextColor="#05668D"
+                            placeholder="Contenido "
+                            placeholderTextColor="black"
                             value={contenidoLibro}
                             onChangeText={(text) => setContenidoLibro(text)}
                             style={{
                                 paddingHorizontal: 10,
                                 borderRadius: 10,
-                                color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
+                                color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
                                 textAlign: 'justify'
                             }}
                             multiline={true}
@@ -183,7 +190,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     flexDirection: "row",
     justifyContent: "space-between",
-    borderBottomColor: "#679436",
+    borderBottomColor: "#8EAF20",
     borderBottomWidth: 3,
     borderRadius: 60,
   },

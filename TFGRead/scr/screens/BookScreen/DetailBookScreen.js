@@ -87,10 +87,11 @@ function DetailBookScreen({ route }) {
         return (
             <TouchableOpacity key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
                 <View style={{
-                    marginTop: 5, borderBottomColor: "#679436",
+                    marginTop: 5, borderBottomColor: "#8EAF20",
                     borderBottomWidth: 1,
                     borderBottomEndRadius: 1,
-                    width: libro.Titulo.length ?  250 : libro.Titulo.length+150
+                   
+                    width: libro.Titulo.length ?  150 : libro.Titulo.length+50
                 }}>
                     <Text style={{ marginLeft: 10, marginTop: 10, fontSize: 15, color: "black", }}>
                         {libro.Titulo}
@@ -114,7 +115,7 @@ function DetailBookScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#679436",
+                backgroundColor: "#429EBD",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -150,20 +151,20 @@ function DetailBookScreen({ route }) {
 
                     {/* Boton de leer */}
                     <TouchableOpacity style={styles.buttonLeer} onPress={e => handleLeerLibro()}>
-                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "black" }}>
+                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
                             Leer
                         </Text>
                     </TouchableOpacity>
 
                     {/* Boton de gustar */}
-                    <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto", right: 55 }} onPress={e => handleLibroMeGustaFirebase()}>
-                        {megusta ? <AntDesign name="heart" size={30} color="#05668D" /> : <AntDesign name="hearto" size={30} color="#05668D" />}
+                    <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto", right: 55  }} onPress={e => handleLibroMeGustaFirebase()}>
+                        {megusta ? <AntDesign name="heart" size={30} color="#429EBD" /> : <AntDesign name="hearto" size={30} color="#429EBD" />}
                     </TouchableOpacity>
 
                 </View>
 
                 {/* Descripción del libro*/}
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, marginTop: 10, marginBottom: 10, borderBottomColor: "#679436", borderBottomWidth: 3, }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
                     Descripción
                 </Text>
 
@@ -174,7 +175,7 @@ function DetailBookScreen({ route }) {
                 </ScrollView>
 
                 {/* Capitulos */}
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, borderBottomColor: "#679436", borderBottomWidth: 3, }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
                     Capitulos
                 </Text>
                 <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
@@ -218,11 +219,19 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         width: "50%",
         marginTop: 20,
-        backgroundColor: "white",
+        backgroundColor: "#E39801",
         padding: 12,
         borderRadius: 20,
-        borderColor: "#679436",
-        borderWidth: 3,
+
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 12,
+        },
+        shadowOpacity: 0.8,
+        shadowRadius: 6.00,
+        elevation: 15,
+
         alignItems: "center",
         marginBottom: 10,
     },

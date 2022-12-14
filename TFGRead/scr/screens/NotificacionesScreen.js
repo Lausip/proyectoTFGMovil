@@ -168,7 +168,7 @@ function NotificacionesScreen({ route }) {
                                     style={{
                                         height: 2,
                                         width: 40,
-                                        backgroundColor: "#679436",
+                                        backgroundColor: "#8EAF20",
                                         marginTop: 2,
                                     }}
                                 ></View>
@@ -204,7 +204,7 @@ function NotificacionesScreen({ route }) {
                                     style={{
                                         height: 2,
                                         width: 40,
-                                        backgroundColor: "#679436",
+                                        backgroundColor: "#8EAF20",
                                         marginTop: 2,
                                     }}
                                 ></View>
@@ -222,6 +222,7 @@ function NotificacionesScreen({ route }) {
         return (
 
             <View style={{
+           
                 marginVertical: 5,
                 marginHorizontal: 30, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
@@ -230,26 +231,30 @@ function NotificacionesScreen({ route }) {
 
             }}>
                 <View style={{
-                    flexDirection: "row", marginHorizontal: 20,
+                    flexDirection: "row", marginHorizontal: 20,    
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#05668D", marginRight: 60, }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#018786", marginRight: 60, }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
+                    <View  style={{
+             
+                    alignItems: 'flex-end',
+                        
+                        }}>
+                    <View  style={{
+                            justifyContent:"flex-end",
+                           flexDirection: "row",   
+                        }}> 
                     <TouchableOpacity onPress={() => aceptarAmistad(peticion.key, peticion.Nombre)}>
-                        <AntDesign style={{
-                            marginHorizontal: 15,
-                            marginVertical: 10,
-                        }} name="checkcircleo" size={24} color="#679436" />
+                        <AntDesign name="checkcircleo" size={24} color="#8EAF20" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => rechazarAmistad(peticion.key)}>
-                        <AntDesign style={{
-                            marginHorizontal: 15,
-                            marginVertical: 10,
-                        }} name="closecircleo" size={24} color="red" />
+                        <AntDesign  name="closecircleo" size={24} color="#ff6961" />
                     </TouchableOpacity>
+                    </View>
                 </View>
-
+                </View>
             </View>
 
         );
@@ -269,7 +274,7 @@ function NotificacionesScreen({ route }) {
                     flexDirection: "row", marginHorizontal: 20,
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#05668D", marginRight: 60, }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#018786", marginRight: 60, }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
                     <TouchableOpacity onPress={() => irALaConversacion(peticion.Nombre, peticion.key)}>
@@ -300,7 +305,7 @@ function NotificacionesScreen({ route }) {
 
 
                 <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#05668D" }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#018786" }}>
                         {notificacion.Nombre.split("@")[0] + " "}
                     </Text>
                     <Text style={{ marginVertical: 10, fontSize: 14, color: "black" }}>
@@ -356,7 +361,7 @@ function NotificacionesScreen({ route }) {
                     marginLeft: "auto",
                     marginRight: "auto",
                     height: 150,
-                    borderColor: "#679436",
+                    borderColor: "#8EAF20",
                     borderRadius: 20,
                     borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
                     shadowColor: "black",
@@ -381,7 +386,7 @@ function NotificacionesScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#679436",
+                backgroundColor: "#018786",
                 borderBottomRightRadius: 500,
                 height: 70,
 

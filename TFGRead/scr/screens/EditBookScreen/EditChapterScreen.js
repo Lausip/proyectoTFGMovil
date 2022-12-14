@@ -66,7 +66,7 @@ function EditChapterScreen({ route }) {
                     marginLeft: "auto",
                     marginRight: "auto",
                     height: 150,
-                    borderColor: "#679436",
+                    borderColor: "#8EAF20",
                     borderRadius: 20,
                     borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
                     shadowColor: "black",
@@ -98,24 +98,7 @@ function EditChapterScreen({ route }) {
                     <View>
                         <Text style={styles.fontTitulo}>Editar Capítulo</Text>
                     </View>
-                    <TouchableOpacity
-                        style={{
-                            backgroundColor: isModalVisible ? "#8D8D8D" : "white",
-                            padding: 12,
-                            borderRadius: 20,
-                            borderColor: "#679436",
-                            borderWidth: 3,
-                            alignItems: "center",
-                            marginLeft: 35,
-                        }}
-                        onPress={() => actualizarCapituloLibro()}
-                    >
-                        <Text style={{
-                            fontWeight: "bold",
-                            color: "black",
-                            fontSize: 13,
-                        }}>Actualizar</Text>
-                    </TouchableOpacity>
+                   
                 </View>
             </View>
             <ScrollView>
@@ -125,12 +108,12 @@ function EditChapterScreen({ route }) {
                     marginHorizontal: 30,
                     marginTop: 10,
                 }}>
-                    <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10 }}>
+                    <Text style={{fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%" }}>
                         Título
                     </Text>
                     <TextInput
                         placeholder="Título "
-                        placeholderTextColor="#05668D"
+                        placeholderTextColor="black"
                         value={titulo}
                         onChangeText={(text) => setTitulo(text)}
                         style={{
@@ -140,23 +123,23 @@ function EditChapterScreen({ route }) {
                             paddingHorizontal: 20,
                             paddingVertical: 10,
                             borderRadius: 10,
-                            color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                            color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
                         }}
                         multiline={true}
                         scrollEnabled={true}
                     ></TextInput>
 
-                    <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10 }}>Descripción</Text>
+                    <Text style={{ fontSize: 15, color: "black", marginTop: 10, marginBottom: 10 }}>Descripción</Text>
                     <KeyboardAvoidingView behavior="padding">
                         <TextInput
                             placeholder="Título "
-                            placeholderTextColor="#05668D"
+                            placeholderTextColor="black"
                             value={texto}
                             onChangeText={(text) => setTexto(text)}
                             style={{
                                 paddingHorizontal: 10,
                                 borderRadius: 10,
-                                color: "#05668D", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
+                                color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
                                 textAlign: 'justify'
                             }}
                             multiline={true}
@@ -164,8 +147,31 @@ function EditChapterScreen({ route }) {
                         ></TextInput>
 
                     </KeyboardAvoidingView>
+                    
                 </View>
+                <TouchableOpacity
+                        style={{
+                            width: "70%",
+                            marginHorizontal:20,
+                            marginTop:20,
+                            backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
+                            padding: 6,
+                            borderRadius: 20,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            marginBottom: 10,
+                        }}
+                        onPress={() => actualizarCapituloLibro()}
+                    >
+                        <Text style={{
+                            color: "white",
+                            fontSize: 13,
+                        }}>Actualizar</Text>
+                    </TouchableOpacity>
             </ScrollView>
+            
         </SafeAreaView>
 
 
@@ -201,7 +207,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         flexDirection: "row",
         justifyContent: "space-between",
-        borderBottomColor: "#679436",
+        borderBottomColor: "#8EAF20",
         borderBottomWidth: 3,
         borderRadius: 60,
     },
