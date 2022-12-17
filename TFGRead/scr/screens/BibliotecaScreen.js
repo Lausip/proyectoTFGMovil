@@ -15,6 +15,7 @@ import { getFotoPerfil, handleAutoresSeguidos } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
 import { getFavoritos } from "../hooks/FirebaseLibros";
 import { db } from '../config/firebase';
+import { round } from "react-native-reanimated";
 
 function BibliotecaScreen() {
     const navigation = useNavigation();
@@ -251,7 +252,7 @@ function BibliotecaScreen() {
                   fontWeight: "bold",
                 }}
               >
-              {(libro.UltimoCapitulo/libro.NumCapitulos)*100}%
+              {Math.round((libro.UltimoCapitulo/libro.NumCapitulos)*100)}%
                 <Foundation name="page-multiple" size={15} color="#8EAF20" />
               </Text>
               <View

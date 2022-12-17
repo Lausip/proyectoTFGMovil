@@ -232,7 +232,7 @@ function ChatConversationScreen({ route }) {
                                 <Text>Añadir a amigos</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { }} style={{ marginLeft: 20 }}>
-                                <Text style={{ color: "#ff6961" }}>Bloquear</Text>
+                                <Text style={{ color: "#B00020" }}>Bloquear</Text>
                             </TouchableOpacity>
                         </View>:<Text></Text>
 

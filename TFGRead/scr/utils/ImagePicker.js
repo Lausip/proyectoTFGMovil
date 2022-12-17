@@ -1,6 +1,3 @@
-
-
-
 import * as ImagePicker from 'expo-image-picker';
 
  export const pickImage = async () => {
@@ -10,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
           aspect: [4, 3],
           quality: 1,
         });
-    
+ 
         return result.uri
 }; 
 

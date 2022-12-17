@@ -29,6 +29,8 @@ function ExploreScreen({ route }) {
 
   const [seguidores, setSeguidores] = useState(0);
 
+  const [lastItemId, setLastItemId] = useState("");
+
   const categorias = ["Libros", "Autores"];
 
   const [categories, setCategories] = useState([{ Nombre: "Romance", Color: "#E55B5B" }, { Nombre: "Fantasia", Color: "#AD82BB" }]);
@@ -36,12 +38,12 @@ function ExploreScreen({ route }) {
   const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] = useState(0);
 
   useEffect(() => {
-  
+
     const unsubscribe = navigation.addListener('focus', () => {
       hacerCosas();
     });
     return unsubscribe;
-  }, [email,route ]);
+  }, [email, route]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -56,18 +58,18 @@ function ExploreScreen({ route }) {
       screen: "explore",
     });
   }
-  
+
   const handleProfile = () => {
     navigation.navigate("profileScreen", {
       screen: "explore",
     });
   }
-  
+
   const cargarCategorias = async (index) => {
     setModalVisible(true)
     setSeleccionadoCategoriaIndex(index);
     if (index == 0) {
-      await cargarLibros();
+      await cargarLibros("");
       setAutores([]);
     }
     else {
@@ -77,10 +79,21 @@ function ExploreScreen({ route }) {
     setModalVisible(false)
   };
 
-  const cargarLibros = async () => {
+  const cargarMasLibros = async () => {
+    setModalVisible(true)
+    let array = await cargarDatosLibros(lastItemId);
+    if(array[1]!=""){
+    setLastItemId(array[1]);
+    let booksFinal=[...libros,...array[0]];
+    setLibros(booksFinal);}
+    setModalVisible(false)
+  };
 
-    let librosT = await cargarDatosLibros();
-    setLibros(librosT);
+  const cargarLibros = async (lastItem) => {
+
+    let array = await cargarDatosLibros(lastItem);
+    setLastItemId(array[1]);
+    setLibros(array[0]);
 
   };
 
@@ -119,7 +132,7 @@ function ExploreScreen({ route }) {
     let perfil = await getFotoPerfil(e);
     setFotoPerfil(perfil);
     cargarCategorias(0);
-  
+
   }
 
   const RenderCategorias = () => {
@@ -242,13 +255,13 @@ function ExploreScreen({ route }) {
           }}
         ></ImageBackground>
 
-        <View style={{ marginTop: 15,marginBottom:15, width: 180, marginLeft: 10, alignItems: "center", }}>
+        <View style={{ marginTop: 15, marginBottom: 15, width: 180, marginLeft: 10, alignItems: "center", }}>
           <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD" }}>
             {libro.Titulo}
           </Text>
-          
+
           {/* Informacion capitulo*/}
-          <View style={{ 
+          <View style={{
             flexDirection: "row", marginTop: 15, marginBottom: 20, alignItems: "center",
             marginLeft: 10,
           }}>
@@ -266,7 +279,7 @@ function ExploreScreen({ route }) {
 
           {/* Etiquetas explorar */}
           <FlatList
-            contentContainerStyle={{ }}
+            contentContainerStyle={{}}
             horizontal
             showsHorizontalScrollIndicator={false}
             data={categories}
@@ -354,13 +367,16 @@ function ExploreScreen({ route }) {
 
       <RenderCategorias />
       {seleccionadoCategoriaIndex == 0 ?
-
-        <ScrollView>
-          {
-            libros.map((item, index) => <CardLibros key={index} libro={item} />)
-          }
-
-        </ScrollView> :
+        <FlatList
+          style={{ paddingVertical: 10, }}
+          keyExtractor={(item, index) => index}
+          data={libros}
+          renderItem={({ item, index }) => (
+            <CardLibros key={index} libro={item} />
+          )}
+          onEndReached={e => cargarMasLibros()}
+          onEndReachedThreshold={0.1}
+        /> :
 
         <ScrollView>
           {

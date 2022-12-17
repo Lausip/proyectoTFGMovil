@@ -222,7 +222,7 @@ function NotificacionesScreen({ route }) {
         return (
 
             <View style={{
-           
+                display:"flex",
                 marginVertical: 5,
                 marginHorizontal: 30, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
@@ -231,29 +231,25 @@ function NotificacionesScreen({ route }) {
 
             }}>
                 <View style={{
-                    flexDirection: "row", marginHorizontal: 20,    
+                    flexDirection: "row", marginHorizontal: 20
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#018786", marginRight: 60, }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD", marginRight: 60, justifyContent:"flex-start"}}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
+    
                     <View  style={{
-             
-                    alignItems: 'flex-end',
                         
-                        }}>
-                    <View  style={{
-                            justifyContent:"flex-end",
-                           flexDirection: "row",   
+                           flexDirection: "row",  marginTop:"auto" ,marginBottom:"auto"
                         }}> 
                     <TouchableOpacity onPress={() => aceptarAmistad(peticion.key, peticion.Nombre)}>
                         <AntDesign name="checkcircleo" size={24} color="#8EAF20" />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => rechazarAmistad(peticion.key)}>
-                        <AntDesign  name="closecircleo" size={24} color="#ff6961" />
+                        <AntDesign  name="closecircleo" size={24} color="#B00020" />
                     </TouchableOpacity>
                     </View>
-                </View>
+          
                 </View>
             </View>
 
@@ -274,7 +270,7 @@ function NotificacionesScreen({ route }) {
                     flexDirection: "row", marginHorizontal: 20,
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#018786", marginRight: 60, }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD", marginRight: 60, }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
                     <TouchableOpacity onPress={() => irALaConversacion(peticion.Nombre, peticion.key)}>
@@ -305,7 +301,7 @@ function NotificacionesScreen({ route }) {
 
 
                 <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#018786" }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD" }}>
                         {notificacion.Nombre.split("@")[0] + " "}
                     </Text>
                     <Text style={{ marginVertical: 10, fontSize: 14, color: "black" }}>
@@ -386,7 +382,7 @@ function NotificacionesScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#018786",
+                backgroundColor: "#429EBD",
                 borderBottomRightRadius: 500,
                 height: 70,
 

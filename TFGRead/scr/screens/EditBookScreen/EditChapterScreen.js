@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, TextInput, ScrollView, SafeAreaView, StyleSheet, StatusBar, Text, Modal, TouchableOpacity, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { View, BackHandler, TextInput, ScrollView, SafeAreaView, StyleSheet, StatusBar, Text, Modal, TouchableOpacity, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,8 +14,17 @@ function EditChapterScreen({ route }) {
     const [isModalVisible, setModalVisible] = useState(false);
     useEffect(() => {
         cargarCapituloLibros();
+        BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        return () =>
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
     }, []);
 
+    const backAction = async () => {
+         navigation.replace("editBook", {
+            bookId: bookId
+    });
+    }
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,

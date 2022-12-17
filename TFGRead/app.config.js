@@ -7,15 +7,15 @@ export default {
     description:"Aplicacion para leer",
     version: "1.0.0",
     orientation: "portrait",
-    icon: "./assets/logo.png",
+    icon: "./assets/note.png",
     userInterfaceStyle: "light",
     splash: {
       resizeMode: "contain",
-        image: "./assets/android/drawable-mdpi/splashApp.png",
-        mdpi: "./assets/android/drawable-mdpi/splashApp.png",
-        hdpi: "./assets/android/drawable-hdpi/splashApp.png",
-        xhdpi: "./assets/android/drawable-xhdpi/splashApp.png",
-        xxhdpi: "./assets/android/drawable-xxhdpi/splashApp.png",
+        image: "./assets/android/drawable-hdpi/splash.png",
+        mdpi: "./assets/android/drawable-mdpi/splash.png",
+        hdpi: "./assets/android/drawable-hdpi/splash.png",
+        xhdpi: "./assets/android/drawable-xhdpi/splash.png",
+        xxhdpi: "./assets/android/drawable-xxhdpi/splash.png",
         backgroundColor: "#FFFFFF"
     },
     updates: {

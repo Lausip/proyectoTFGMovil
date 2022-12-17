@@ -205,7 +205,7 @@ function AutoresScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#8EAF20",
+                backgroundColor: "#429EBD",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -259,7 +259,7 @@ function AutoresScreen({ route }) {
                             <MenuOption onSelect={() => enviarMensaje()} text='Enviar Mensaje privado' />
                             <MenuOption onSelect={() => alert(`Delete`)}>
 
-                                <Text style={{ color: 'red' }}>Reportar</Text>
+                                <Text style={{ color: '#B00020' }}>Reportar</Text>
                             </MenuOption>
 
                         </MenuOptions>
@@ -282,44 +282,56 @@ function AutoresScreen({ route }) {
                         {!estaSeguido ?
                             <TouchableOpacity
                                 style={{
-
-                                    width: "50%",
                                     marginTop: 20,
-                                    backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                                    backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
                                     padding: 12,
-                                    borderRadius: 20,
-                                    borderColor: "#8EAF20",
-                                    borderWidth: 3,
+                                    borderRadius: 20,                       
                                     alignItems: "center",
                                     marginLeft: "auto",
                                     marginRight: "auto",
-                                    flexDirection: "row"
+                                    flexDirection: "row",
+                                    width: "50%",                               
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                      width: 0,
+                                      height: 12,
+                                    },
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 6.00,
+                                    elevation: 15,
+                                    marginBottom: 15,
                                 }}
                                 onPress={() => seguir()}
                             >
-                                <Foundation name="foot" size={24} color="black" />
-                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                <Foundation name="foot" size={24} color="white" />
+                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "white" }}>
                                     Seguir
                                 </Text>
                             </TouchableOpacity> : <TouchableOpacity
-                                style={{
-
-                                    width: "50%",
+                                style={{                             
                                     marginTop: 20,
-                                    backgroundColor: isModalVisible ? "#8D8D8D" : "white",
+                                    backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
                                     padding: 12,
-                                    borderRadius: 20,
-                                    borderColor: "#8EAF20",
-                                    borderWidth: 3,
+                                    borderRadius: 20,                       
                                     alignItems: "center",
                                     marginLeft: "auto",
                                     marginRight: "auto",
-                                    flexDirection: "row"
+                                    flexDirection: "row",
+                                    width: "50%",                               
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                      width: 0,
+                                      height: 12,
+                                    },
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 6.00,
+                                    elevation: 15,
+                                    marginBottom: 15,
                                 }}
                                 onPress={() => dejarSeguir()}
                             >
-                                <Foundation name="foot" size={24} color="black" />
-                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                                <Foundation name="foot" size={24} color="white" />
+                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "white" }}>
                                     Dejar de seguir
                                 </Text>
                             </TouchableOpacity>}

@@ -94,7 +94,7 @@ const BottomTab = () => {
         component={HomeStack}
       />
       <Tab.Screen
-        name="Explore"
+        name="Explorar"
         options={({ route }) => ({
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
@@ -134,7 +134,7 @@ const BottomTab = () => {
         component={ExploreStack}
       />
       <Tab.Screen
-        name="Books"
+        name="Biblioteca"
         options=
         {({ route }) => ({
           tabBarStyle: ((route) => {
@@ -174,7 +174,7 @@ const BottomTab = () => {
         component={BibliotecaStack}
       />
       <Tab.Screen
-        name="Write"
+        name="Escribir"
         options={({ route }) => ({
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";

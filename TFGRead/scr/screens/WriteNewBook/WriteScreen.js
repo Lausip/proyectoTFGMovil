@@ -2,14 +2,14 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
+  View,FlatList,
   TouchableOpacity,
   ImageBackground, Image,
   Modal, StatusBar, ScrollView
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
-import { AntDesign,Foundation } from '@expo/vector-icons';
+import { AntDesign, Foundation } from '@expo/vector-icons';
 
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { contarCapitulosDelLibro, cargarBooksAutor } from "../../hooks/FirebaseLibros";
@@ -22,6 +22,7 @@ function WriteScreen() {
   const [fotoPerfil, setFotoPerfil] = useState("");
   const [email, setEmail] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
+  const [lastItemId, setLastItemId] = useState("");
 
   useEffect(() => {
     hacerCosas();
@@ -45,7 +46,8 @@ function WriteScreen() {
     let e = await getUserAuth()
     setEmail(e);
     setFotoPerfil(await getFotoPerfil(e));
-    let libros = await cargarBooks();
+    let libros = await cargarBooks("");
+
     let item;
     const booksA = [];
     for (item in libros) {
@@ -54,10 +56,40 @@ function WriteScreen() {
         ...libros[item],
         nCapitulos: numeroCapt,
       });
+      setLastItemId(booksA[booksA.length - 1].Titulo);
+      setModalVisible(false)
     }
     setBooks(booksA)
-    setModalVisible(false)
+
   }
+
+  const cargarMas = async () => {
+    setModalVisible(true)
+    let libros = await cargarBooks(lastItemId);
+    let item;
+    let i=0;
+    const booksA = [];
+    let booksFinal=[];
+ 
+    for (item in libros) {
+      let numeroCapt = await contarCapitulosDelLibro(libros[item].key);
+      booksA.push({
+        ...libros[item],
+        nCapitulos: numeroCapt,
+      });
+
+      if(i<booksA.length){
+        ///HAY QUE PONER EL MISMO QUE EL STARTAT
+        setLastItemId(booksA[booksA.length - 1].Titulo);
+      booksFinal=[...books,...booksA];
+      setBooks(booksFinal)
+      setModalVisible(false)
+    }
+      i++;
+    }
+ 
+  }
+
 
   const handleWriteNewBook = () => {
     navigation.replace("writeNewBook");
@@ -68,8 +100,8 @@ function WriteScreen() {
       bookId: bookId
     });
   }
-  const cargarBooks = async () => {
-    return cargarBooksAutor(email)
+  const cargarBooks = async (lastItem) => {
+    return cargarBooksAutor(email, lastItem)
   }
 
   /* Books nuevos */
@@ -116,7 +148,7 @@ function WriteScreen() {
               borderRadius: 8,
               alignItems: "center",
               justifyContent: "center",
-              
+
             }}
             onPress={() => {
               handleEditBook(libro.key)
@@ -211,12 +243,17 @@ function WriteScreen() {
       <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
         Editar libros
       </Text>
-      <ScrollView contentContainerStyle={styles.contentContainer}>
-        {
-          books.map((item, index) => <Card key={index} libro={item} />)
-        }
+      <FlatList
+        style={{  paddingVertical: 10,}}
+        keyExtractor={(item, index) => index}
+        data={books}
+        renderItem={({ item, index }) => (
+          <Card key={index} libro={item} />
+        )}
+        onEndReached={e=>cargarMas()}
+        onEndReachedThreshold={0.1}
+      />
 
-      </ScrollView>
 
     </SafeAreaView>
   )
@@ -278,10 +315,7 @@ const styles = StyleSheet.create({
   modalView: {
     flex: 1,
   },
-  contentContainer: {
-    paddingVertical: 10,
 
-  },
   lottieModalWait: {
     marginTop: "auto",
     marginBottom: "auto",
