@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
 import LottieView from 'lottie-react-native';
 import { MaterialIcons,AntDesign } from '@expo/vector-icons';
-import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarPortadadeLibro, eliminarLibroFirebase,eliminarCapituloLibro } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarPortadadeLibro, eliminarLibroFirebase,eliminarCapituloLibro,cambiarFechaModificaciónLibro } from '../../hooks/FirebaseLibros';
 import { crearLibroStorage } from '../../hooks/Storage';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { pickImage } from "../../utils/ImagePicker";
@@ -75,6 +75,7 @@ function EditBookScreen({ route }) {
     const handleEliminarCapitulo = async (numero, chapterId) => {
         setModalVisible(true)
         await eliminarCapituloLibro(bookId, chapterId, numero);
+        await cambiarFechaModificaciónLibro(bookId);
         setModalVisible(false)
     }
 

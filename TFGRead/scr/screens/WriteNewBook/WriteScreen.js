@@ -56,7 +56,7 @@ function WriteScreen() {
         ...libros[item],
         nCapitulos: numeroCapt,
       });
-      setLastItemId(booksA[booksA.length - 1].Titulo);
+      setLastItemId(booksA[booksA.length - 1].FechaModificación);
       setModalVisible(false)
     }
     setBooks(booksA)
@@ -66,6 +66,7 @@ function WriteScreen() {
   const cargarMas = async () => {
     setModalVisible(true)
     let libros = await cargarBooks(lastItemId);
+    if(!libros.length==0){
     let item;
     let i=0;
     const booksA = [];
@@ -80,12 +81,15 @@ function WriteScreen() {
 
       if(i<booksA.length){
         ///HAY QUE PONER EL MISMO QUE EL STARTAT
-        setLastItemId(booksA[booksA.length - 1].Titulo);
+        setLastItemId(booksA[booksA.length - 1].FechaModificación);
       booksFinal=[...books,...booksA];
       setBooks(booksFinal)
       setModalVisible(false)
     }
       i++;
+    }}
+    else{
+      setModalVisible(false)
     }
  
   }
@@ -136,7 +140,10 @@ function WriteScreen() {
             <Foundation name="page-multiple" size={12} color="#8EAF20" />
           </Text>
           <Text style={{ marginTop: 5, fontSize: 11, color: "black" }}>
-            Última modificación:
+            Modificado: 
+            <Text style={{ marginTop: 5, fontSize: 11, color: "black",fontWeight:"bold" }}>
+          {" "}{libro.FechaModificación.toDate().toDateString()}
+          </Text>
           </Text>
           <TouchableOpacity
             style={{

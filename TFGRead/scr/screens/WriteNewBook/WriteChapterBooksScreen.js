@@ -1,5 +1,5 @@
 import {
-  SafeAreaView, StyleSheet, Text, View, TouchableOpacity,KeyboardAvoidingView, ImageBackground, Modal, StatusBar, ScrollView, Image, TextInput,BackHandler  
+  SafeAreaView, StyleSheet, Text, View, TouchableOpacity,KeyboardAvoidingView, Modal, StatusBar, ScrollView, Image, TextInput,BackHandler  
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import LottieView from 'lottie-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { crearLibroStorage } from "../../hooks/Storage";
-import { mirarSiTieneOtrosCapitulos } from "../../hooks/FirebaseLibros";
+import { mirarSiTieneOtrosCapitulos,cambiarFechaModificaciónLibro } from "../../hooks/FirebaseLibros";
 import { getUserAuth } from "../../hooks/Auth/Auth";
 
 function WriteNewBookScreen({ route }) {
@@ -20,11 +20,21 @@ function WriteNewBookScreen({ route }) {
   const [contenidoLibro, setContenidoLibro] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
 
+  useEffect(() => {
+    fetchData();
+    BackHandler.addEventListener('hardwareBackPress', backAction);
 
+    return () =>
+        BackHandler.removeEventListener('hardwareBackPress', backAction);
+  }, [email]);
 
+  const backAction = async () => {
+    handleWrite();
+}
   const publicarCapituloLibro = async () => {
     setModalVisible(true)
-    mirarSiTieneOtrosCapitulos(bookId,tituloCapitulo,contenidoLibro,false);
+    await mirarSiTieneOtrosCapitulos(bookId,tituloCapitulo,contenidoLibro,false);
+    await cambiarFechaModificaciónLibro(bookId);
     setModalVisible(false)
     handleWrite();
   }
@@ -34,18 +44,17 @@ function WriteNewBookScreen({ route }) {
   }
 
   const borradorCapituloLibro = async () => {
-    setModalVisible(true)
-    mirarSiTieneOtrosCapitulos(bookId,tituloCapitulo,contenidoLibro,true);
-    setModalVisible(false)
+   // setModalVisible(true)
+   // mirarSiTieneOtrosCapitulos(bookId,tituloCapitulo,contenidoLibro,true);
+   // setModalVisible(false)
     handleWrite();
   }
+
   const fetchData = async () => {
-    
     setEmail(await getUserAuth());
   }
-  useEffect(() => {
-    fetchData();
-  }, [email]);
+
+
 
   useLayoutEffect(() => {
     navigation.setOptions({

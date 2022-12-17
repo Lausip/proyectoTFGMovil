@@ -192,7 +192,7 @@ function ExploreScreen({ route }) {
           <Text
             style={{
               fontSize: 10,
-              color: "black",
+              color: "white",
               fontWeight: "bold",
             }}
           >
@@ -237,7 +237,14 @@ function ExploreScreen({ route }) {
         style={{
           marginVertical: 5,
           marginHorizontal: 30, marginBottom: 10, flexDirection: "row", borderRadius: 8,
-          shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 12,
+          },
+          shadowOpacity: 0.8,
+          shadowRadius: 6.00,
+          elevation: 15,
           backgroundColor: "white",
         }}>
         <ImageBackground
@@ -265,7 +272,7 @@ function ExploreScreen({ route }) {
             flexDirection: "row", marginTop: 15, marginBottom: 20, alignItems: "center",
             marginLeft: 10,
           }}>
-            <Foundation name="page-multiple" size={20} color="black" />
+            <Foundation name="page-multiple" size={20} color="#8EAF20" />
             <Text style={{ marginLeft: 5, fontSize: 12, color: "black" }}>
               {libro.NumCapitulo}
             </Text>
@@ -290,9 +297,6 @@ function ExploreScreen({ route }) {
           ></FlatList>
 
         </View>
-
-
-
       </View>
     );
   };
@@ -368,7 +372,7 @@ function ExploreScreen({ route }) {
       <RenderCategorias />
       {seleccionadoCategoriaIndex == 0 ?
         <FlatList
-          style={{ paddingVertical: 10, }}
+          style={{ paddingVertical: 10,backgroundColor:"white", marginHorizontal:5,borderRadius: 20, }}
           keyExtractor={(item, index) => index}
           data={libros}
           renderItem={({ item, index }) => (

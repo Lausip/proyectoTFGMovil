@@ -49,10 +49,8 @@ function WriteNewBookScreen() {
 
     if (result.uri!=undefined){
       setImage(result.uri);}
-
-
-
   };
+
   const contarPalabras = (texto) => {
     if (texto.length < 2000) {
       setDescripcionLibro(texto)
@@ -144,8 +142,6 @@ function WriteNewBookScreen() {
       {isModalVisibleTitulo &&
  
       <Modal
-       backdropColor={'green'}
-       backdropOpacity= {1}
        animationType="fade"
         isVisible={isModalVisibleTitulo}
         transparent
@@ -210,10 +206,8 @@ function WriteNewBookScreen() {
   backdropOpacity= {1}
   animationType="fade"
    visible={isModalVisibleDescripcion}
-   transparent
+   transparent>
 
-
- >
    <View style={{
      marginTop: "auto",
      marginBottom: "auto",
@@ -335,7 +329,7 @@ function WriteNewBookScreen() {
       {/* Head Cosas */}
       <View style={styles.head}>
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity onPress={goBack}>
+          <TouchableOpacity onPress={()=>goBack()}>
             <Ionicons name="arrow-back" size={24} color="white" style={{ marginTop: "auto", marginRight: 10, marginLeft: 10, }} />
           </TouchableOpacity>
           {/*nombre e inicio*/}

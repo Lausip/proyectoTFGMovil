@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
-import { Entypo,Foundation } from '@expo/vector-icons';
+import { Entypo, Foundation } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil, handleAutoresSeguidos } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
@@ -26,8 +26,8 @@ function BibliotecaScreen() {
     const [email, setEmail] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
     const categorias = ["Reciente", "Favoritos", "Autores"];
-    const  [porcentaje, setPorcentaje] = useState(0);
-    const  [numCapitulos, setNumCapitulos] = useState(0);
+    const [porcentaje, setPorcentaje] = useState(0);
+    const [numCapitulos, setNumCapitulos] = useState(0);
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
         useState(0);
 
@@ -68,21 +68,21 @@ function BibliotecaScreen() {
     };
 
     const cargarFavoritos = async (email2) => {
-        if(email2){
-        //ARREGLAR
-        await db.collection("usuarios").doc(email2).collection("MeGusta")
-            .onSnapshot(async querySnapshot => {
-                let favoritosUsuario = [];
-                await querySnapshot.forEach( async documentSnapshot => {
-                           
-                    favoritosUsuario.push({
-                        ...documentSnapshot.data(),
-                        key: documentSnapshot.id,
-                 
-                    });
-                })       
-                setFavoritos(await getFavoritos(favoritosUsuario));
-            })
+        if (email2) {
+            //ARREGLAR
+            await db.collection("usuarios").doc(email2).collection("MeGusta")
+                .onSnapshot(async querySnapshot => {
+                    let favoritosUsuario = [];
+                    await querySnapshot.forEach(async documentSnapshot => {
+
+                        favoritosUsuario.push({
+                            ...documentSnapshot.data(),
+                            key: documentSnapshot.id,
+
+                        });
+                    })
+                    setFavoritos(await getFavoritos(favoritosUsuario));
+                })
 
 
         }
@@ -122,10 +122,10 @@ function BibliotecaScreen() {
     }
 
     const handleLeerLibroCapitulo = async (item) => {
-        let numcapitulo=item.UltimoCapitulo;
+        let numcapitulo = item.UltimoCapitulo;
 
-        if(item.UltimoCapitulo==0){
-            numcapitulo=1;
+        if (item.UltimoCapitulo == 0) {
+            numcapitulo = 1;
         }
 
         navigation.navigate("bookScreen", {
@@ -245,35 +245,35 @@ function BibliotecaScreen() {
                             {libro.Autor}
                         </Text>
                         <Text
-                style={{
-                  marginTop: 5,
-                  fontSize: 13,
-                  color: "black",
-                  fontWeight: "bold",
-                }}
-              >
-              {Math.round((libro.UltimoCapitulo/libro.NumCapitulos)*100)}%
-                <Foundation name="page-multiple" size={15} color="#8EAF20" />
-              </Text>
-              <View
-                style={{
-                  marginTop: 5,
-                  width: 100,
-                  height: 5,
-                  backgroundColor: "#D8D8D8",
-                  borderRadius: 15,
-                }}
-              >
-                <View
-                  style={{
-                    position: "absolute",
-                    width: (libro.UltimoCapitulo/libro.NumCapitulos)*100,
-                    height: 5,
-                    backgroundColor: "#8EAF20",
-                    borderRadius: 15,
-                  }}
-                ></View>
-              </View>
+                            style={{
+                                marginTop: 5,
+                                fontSize: 13,
+                                color: "black",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            {Math.round((libro.UltimoCapitulo / libro.NumCapitulos) * 100)}%
+                            <Foundation name="page-multiple" size={15} color="#8EAF20" />
+                        </Text>
+                        <View
+                            style={{
+                                marginTop: 5,
+                                width: 100,
+                                height: 5,
+                                backgroundColor: "#D8D8D8",
+                                borderRadius: 15,
+                            }}
+                        >
+                            <View
+                                style={{
+                                    position: "absolute",
+                                    width: (libro.UltimoCapitulo / libro.NumCapitulos) * 100,
+                                    height: 5,
+                                    backgroundColor: "#8EAF20",
+                                    borderRadius: 15,
+                                }}
+                            ></View>
+                        </View>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -446,8 +446,8 @@ const styles = StyleSheet.create({
 
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 12,
+            width: 0,
+            height: 12,
         },
         shadowOpacity: 0.8,
         shadowRadius: 6.00,
