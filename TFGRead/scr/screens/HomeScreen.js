@@ -10,15 +10,15 @@ import {
   Modal,
   StatusBar,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,useIsFocused } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, AntDesign } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import { db } from '../config/firebase';
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, cargarUltimoLibro } from "../hooks/Auth/Firestore";
+import { getFotoPerfil, cargarUltimoLibro,cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
 
-function HomeScreen() {
+function HomeScreen( { route }) {
   const [newBooks, setNewBooks] = useState([]);
   const [ultimoLibro, setUltimoLibro] = useState({});
   const [email, setEmail] = useState();
@@ -28,15 +28,18 @@ function HomeScreen() {
   const [ultimoCapituloLeido, setUltimoCapituloLeido] = useState(1);
   const [capitulosLeido, setCapitulosLeido] = useState(4);
 
+  //Para que reenderize al volver a esta página el ultimo libro
+  const isFocused = useIsFocused();
   useEffect(() => {
-    hacerCosas();
-  }, [ultimoLibro]);
+    isFocused && hacerCosas();
+
+  }, [isFocused]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
-  }, [ultimoLibro]);
+  }, );
 
   const handleProfile = () => {
     navigation.navigate("profileScreen", {
@@ -70,9 +73,19 @@ function HomeScreen() {
   }
   const handleLeerLibro = async () => {
     //Ir al capitulo escogido
+    let capitulo;
+    if (ultimoCapituloLeido == capitulosLeido) {
+      capitulo = ultimoCapituloLeido;
+    }
+    else {
+      capitulo = ultimoCapituloLeido + 1;
+    }
+    console.log(capitulo)
+
+    await cambiarUltimoLibroLeido(ultimoLibro.key, email,capitulo);
     navigation.navigate("bookScreen", {
       bookId: ultimoLibro.key,
-      capituloNumero: capituloNumero,
+      capituloNumero: capitulo,
       screen: "home",
     });
   }
@@ -231,7 +244,7 @@ function HomeScreen() {
         animationType="fade"
         visible={isModalVisible}
         transparent>
-          
+
         <View style={styles.modalView}>
           <LottieView style={styles.lottieModalWait}
             source={require('../../assets/animations/waitFunction.json')} autoPlay loop />
@@ -269,7 +282,7 @@ function HomeScreen() {
 
         </TouchableOpacity>
         {/*Notifications*/}
-        <TouchableOpacity onPress={e => handleNotificacion()} style={{ marginTop: "auto",marginLeft:10 }}>
+        <TouchableOpacity onPress={e => handleNotificacion()} style={{ marginTop: "auto", marginLeft: 10 }}>
           <Ionicons name="notifications" size={33} color="black" />
         </TouchableOpacity>
       </View>
@@ -359,11 +372,11 @@ const styles = StyleSheet.create({
     marginRight: "auto"
   },
   ultimoLibroSigueLeyendo: {
- fontWeight: "bold", color: "black", 
-    marginBottom: 10, 
-    borderBottomColor: "#8EAF20", 
-    borderBottomWidth: 3, 
-    width: "60%" ,
+    fontWeight: "bold", color: "black",
+    marginBottom: 10,
+    borderBottomColor: "#8EAF20",
+    borderBottomWidth: 3,
+    width: "60%",
     marginTop: 15,
     fontSize: 20,
 

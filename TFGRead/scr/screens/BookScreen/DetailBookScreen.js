@@ -1,9 +1,9 @@
-import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, BackHandler,TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, BackHandler, TouchableOpacity, Image, ImageBackground,Modal } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
-import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase,cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
+import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
 import { cargarDatosLibro } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 
@@ -15,6 +15,8 @@ function DetailBookScreen({ route }) {
     const [megusta, setMeGusta] = useState(false);
     const [capitulos, setCapitulos] = useState([]);
 
+    const [isModalVisible, setModalVisible] = useState(false);
+
     const navigation = useNavigation();
     const { bookId } = route.params;
 
@@ -23,7 +25,7 @@ function DetailBookScreen({ route }) {
         BackHandler.addEventListener('hardwareBackPress', backAction);
 
         return () =>
-          BackHandler.removeEventListener('hardwareBackPress', backAction);
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
     }, [email, portada])
 
     useLayoutEffect(() => {
@@ -33,16 +35,17 @@ function DetailBookScreen({ route }) {
 
     });
     const backAction = async () => {
-            navigation.navigate("home", {
-    
-            });
-          
-      };
+        navigation.navigate("home", {
+
+        });
+
+    };
 
     const hacerCosas = async () => {
 
         await cargarLibro()
     }
+
     const cargarLibro = async () => {
         let e = await getUserAuth();
         setEmail(e);
@@ -65,8 +68,10 @@ function DetailBookScreen({ route }) {
     }
 
     const handleLeerLibro = async () => {
+        setModalVisible(true)
         //Cambiar el ultimo libro leido:
-        await cambiarUltimoLibroLeido(bookId, email,1);
+        await cambiarUltimoLibroLeido(bookId, email, 1);
+        setModalVisible(false)
         //Ir al capitulo 1
         navigation.navigate("bookScreen", {
             bookId: bookId,
@@ -76,8 +81,10 @@ function DetailBookScreen({ route }) {
     }
 
     const handleLeerLibroCapitulo = async (capituloNumero) => {
+        setModalVisible(true)
         //Cambiar el ultimo libro leido:
-        await cambiarUltimoLibroLeido(bookId, email,capituloNumero);
+        await cambiarUltimoLibroLeido(bookId, email, capituloNumero);
+        setModalVisible(false)
         //Ir al capitulo escogido
         navigation.navigate("bookScreen", {
             bookId: bookId,
@@ -120,6 +127,18 @@ function DetailBookScreen({ route }) {
     return (
 
         <SafeAreaView style={styles.container}>
+
+            <Modal
+                animationType="fade"
+                visible={isModalVisible}
+                transparent>
+
+                <View style={styles.modalView}>
+                    <LottieView style={styles.lottieModalWait}
+                        source={require('../../../assets/animations/waitFunction.json')} autoPlay loop />
+                    <Text style={styles.textWait}>Cargando.....</Text>
+                </View>
+            </Modal>
             {/* Head */}
             <StatusBar
                 translucent={false}
@@ -207,6 +226,37 @@ function DetailBookScreen({ route }) {
     )
 }
 const styles = StyleSheet.create({
+    modalView: {
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: 150,
+        borderColor: "#8EAF20",
+        borderRadius: 20,
+        borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+        shadowColor: "black",
+        shadowOpacity: 0.89,
+        shadowOffset: { width: 0, height: 9 },
+        shadowRadius: 10,
+        elevation: 12,
+      },
+      lottieModalWait: {
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: '100%',
+        width: '100%'
+      },
+      textWait: {
+        marginBottom: 10,
+        fontSize: 15,
+        color: "black",
+        fontWeight: "bold",
+        marginLeft: "auto",
+        marginRight: "auto"
+      },
     container: {
         flex: 1,
         backgroundColor: 'white',
