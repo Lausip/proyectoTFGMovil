@@ -31,7 +31,7 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
+        foregroundImage: "./assets/icon.png",
         backgroundColor: "#FFFFFF"
       },
       package: "com.lausip.TFGRead"

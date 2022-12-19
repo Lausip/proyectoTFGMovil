@@ -130,7 +130,7 @@ function ChatCapituloScreen({ route }) {
                 {/* Head Cosas */}
                 <View style={styles.head}>
                     {/* Botón de goBack */}
-                    <TouchableOpacity onPress={() => goback()} style={{ marginLeft: 20 }}>
+                    <TouchableOpacity onPress={() => goback()} style={{ marginLeft: 30,marginRight:10 }}>
                         <Ionicons name="arrow-back" size={30} color="white" />
                     </TouchableOpacity>
 

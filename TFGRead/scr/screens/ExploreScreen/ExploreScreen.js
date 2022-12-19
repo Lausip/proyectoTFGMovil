@@ -230,9 +230,16 @@ function ExploreScreen({ route }) {
     );
   };
 
+  const handleBook = (item) => {
+    navigation.navigate("detailsBookScreen", {
+      bookId: item.key,
+    });
+  }
+
   /* Books nuevos */
   const CardLibros = ({ libro }) => {
     return (
+      <TouchableOpacity onPress={()=>handleBook(libro)}>
       <View
         style={{
           marginVertical: 5,
@@ -298,6 +305,7 @@ function ExploreScreen({ route }) {
 
         </View>
       </View>
+      </TouchableOpacity>
     );
   };
 
@@ -372,7 +380,7 @@ function ExploreScreen({ route }) {
       <RenderCategorias />
       {seleccionadoCategoriaIndex == 0 ?
         <FlatList
-          style={{ paddingVertical: 10,backgroundColor:"white", marginHorizontal:5,borderRadius: 20, }}
+          style={{backgroundColor:"white", marginHorizontal:5,borderRadius: 20, }}
           keyExtractor={(item, index) => index}
           data={libros}
           renderItem={({ item, index }) => (

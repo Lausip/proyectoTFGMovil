@@ -6,7 +6,7 @@ export const cargarNuevosLibros = async (lastItemId) => {
     let snapshot;
     let lastI = "";
     if (lastItemId == "") {
-        snapshot = await db.collection("libros").orderBy("FechaModificación","desc").limit(4).get();
+        snapshot = await db.collection("libros").orderBy("FechaModificación", "desc").limit(4).get();
 
         await snapshot.docs.map(async doc => {
 
@@ -19,7 +19,7 @@ export const cargarNuevosLibros = async (lastItemId) => {
     }
     else {
 
-        snapshot = await db.collection('libros').orderBy("FechaModificación","desc").startAfter(lastItemId).limit(4).get();
+        snapshot = await db.collection('libros').orderBy("FechaModificación", "desc").startAfter(lastItemId).limit(4).get();
         await snapshot.docs.map(async doc => {
 
             books.push({
@@ -47,11 +47,16 @@ export const cargarDatosLibros = async (lastItemId) => {
             ...libros[i],
             NumCapitulo: numCapitulos,
             NumSeguidores: numSeguidores,
+     
         });
 
     }
     return [librosInformacion, lasItem];
 }
+const cargarUltimoCapituloLeido = async (email) => {
+
+
+};
 
 export const getNumSeguidoresLibro = async (idbook) => {
     let numSeguidores = 0;
@@ -75,6 +80,7 @@ export const getFavoritos = async (favoritosUsuario) => {
     for (let i = 0, len = favoritosUsuario.length; i < len; i++) {
         await db.collection("libros").doc(favoritosUsuario[i].Nombre).get().then(async documentSnapshot => {
             let numCapitulos = await contarCapitulosDelLibro(documentSnapshot.id);
+
             favoritos.push({ ...documentSnapshot.data(), NumCapitulos: numCapitulos, UltimoCapitulo: favoritosUsuario[i].UltimoCapitulo, key: documentSnapshot.id });
 
         })
@@ -170,7 +176,7 @@ export const cargarBooksAutor = async (email, lastItemId) => {
     const books = [];
     let snapshot;
     if (lastItemId == "") {
-        snapshot = await db.collection("libros").orderBy("FechaModificación","desc").
+        snapshot = await db.collection("libros").orderBy("FechaModificación", "desc").
             where("Autor", "==", email).limit(4).get();
         await snapshot.docs.map(async doc => {
             books.push({
@@ -182,7 +188,7 @@ export const cargarBooksAutor = async (email, lastItemId) => {
     }
     else {
 
-        snapshot = await db.collection('libros').orderBy("FechaModificación","desc").where("Autor", "==", email).startAfter(lastItemId).limit(4).get();
+        snapshot = await db.collection('libros').orderBy("FechaModificación", "desc").where("Autor", "==", email).startAfter(lastItemId).limit(4).get();
         await snapshot.docs.map(async doc => {
             books.push({
                 ...doc.data(),

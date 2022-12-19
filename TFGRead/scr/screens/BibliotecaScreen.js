@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { Entypo, Foundation } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, handleAutoresSeguidos } from "../hooks/Auth/Firestore";
+import { getFotoPerfil, handleAutoresSeguidos,cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
 import { getFavoritos } from "../hooks/FirebaseLibros";
 import { db } from '../config/firebase';
@@ -26,8 +26,7 @@ function BibliotecaScreen() {
     const [email, setEmail] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
     const categorias = ["Reciente", "Favoritos", "Autores"];
-    const [porcentaje, setPorcentaje] = useState(0);
-    const [numCapitulos, setNumCapitulos] = useState(0);
+
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
         useState(0);
 
@@ -122,12 +121,16 @@ function BibliotecaScreen() {
     }
 
     const handleLeerLibroCapitulo = async (item) => {
+
+        //Ir al ultimo capitulo 
         let numcapitulo = item.UltimoCapitulo;
 
         if (item.UltimoCapitulo == 0) {
             numcapitulo = 1;
         }
-
+     //Cambiar el ultimo libro leido:
+     await cambiarUltimoLibroLeido(item.key, email,numcapitulo);
+     
         navigation.navigate("bookScreen", {
             bookId: item.key,
             capituloNumero: numcapitulo,
@@ -141,7 +144,6 @@ function BibliotecaScreen() {
         let e = await getUserAuth();
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(e));
-        //NO VA BN NO SE PORQ al ser la primera vez que lo habrp
         cargarCategorias(1);
         setModalVisible(false)
     }

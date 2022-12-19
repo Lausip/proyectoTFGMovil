@@ -247,11 +247,11 @@ function WriteScreen() {
         </View>
       </TouchableOpacity>
       {/* Libros creados*/}
-      <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
+      <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3 }}>
         Editar libros
       </Text>
       <FlatList
-        style={{  paddingVertical: 10,}}
+        style={{  marginVertical:10}}
         keyExtractor={(item, index) => index}
         data={books}
         renderItem={({ item, index }) => (

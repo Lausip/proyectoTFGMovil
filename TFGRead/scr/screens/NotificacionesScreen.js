@@ -388,7 +388,7 @@ function NotificacionesScreen({ route }) {
 
             }}>
                 <TouchableOpacity onPress={() => goBack()}>
-                    <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
+                    <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 30,marginRight:10 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
                 <Text style={styles.fontTitulo}>Notificaciones</Text>
@@ -496,7 +496,7 @@ const styles = StyleSheet.create({
     fontTitulo: {
         marginTop: "auto",
         marginBottom: "auto",
-        marginLeft: "auto",
+        marginLeft: 10,
         marginRight: 170,
         marginVertical: 30,
         fontSize: 25,

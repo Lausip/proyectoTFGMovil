@@ -1,9 +1,9 @@
-import { View,  Text,  ScrollView, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, BackHandler,TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { Ionicons,AntDesign } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
-import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase } from '../../hooks/Auth/Firestore';
+import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase,cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
 import { cargarDatosLibro } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 
@@ -17,20 +17,30 @@ function DetailBookScreen({ route }) {
 
     const navigation = useNavigation();
     const { bookId } = route.params;
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         hacerCosas();
-    },[email,portada])
+        BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        return () =>
+          BackHandler.removeEventListener('hardwareBackPress', backAction);
+    }, [email, portada])
 
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
         });
-      
+
     });
+    const backAction = async () => {
+            navigation.navigate("home", {
+    
+            });
+          
+      };
 
     const hacerCosas = async () => {
-  
+
         await cargarLibro()
     }
     const cargarLibro = async () => {
@@ -42,7 +52,7 @@ function DetailBookScreen({ route }) {
         setTexto(data.Descripción)
         setTitulo(data.Titulo)
         setPortada(data.Portada)
-        await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero","asc").onSnapshot(querySnapshot => {
+        await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
             const caps = [];
             querySnapshot.forEach(documentSnapshot => {
                 caps.push({
@@ -55,6 +65,9 @@ function DetailBookScreen({ route }) {
     }
 
     const handleLeerLibro = async () => {
+        //Cambiar el ultimo libro leido:
+        await cambiarUltimoLibroLeido(bookId, email,1);
+        //Ir al capitulo 1
         navigation.navigate("bookScreen", {
             bookId: bookId,
             capituloNumero: 1,
@@ -63,10 +76,13 @@ function DetailBookScreen({ route }) {
     }
 
     const handleLeerLibroCapitulo = async (capituloNumero) => {
+        //Cambiar el ultimo libro leido:
+        await cambiarUltimoLibroLeido(bookId, email,capituloNumero);
+        //Ir al capitulo escogido
         navigation.navigate("bookScreen", {
             bookId: bookId,
             capituloNumero: capituloNumero,
-            screen: "detailsBookScreen", 
+            screen: "detailsBookScreen",
         });
     }
     const handleHome = async () => {
@@ -83,15 +99,15 @@ function DetailBookScreen({ route }) {
         }
     }
 
-    const RenderCapitulos= ({ libro }) => {
+    const RenderCapitulos = ({ libro }) => {
         return (
             <TouchableOpacity key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
                 <View style={{
                     marginTop: 5, borderBottomColor: "#8EAF20",
                     borderBottomWidth: 1,
                     borderBottomEndRadius: 1,
-                   
-                    width: libro.Titulo.length ?  150 : libro.Titulo.length+50
+
+                    width: libro.Titulo.length ? 150 : libro.Titulo.length + 50
                 }}>
                     <Text style={{ marginLeft: 10, marginTop: 10, fontSize: 15, color: "black", }}>
                         {libro.Titulo}
@@ -120,7 +136,7 @@ function DetailBookScreen({ route }) {
                 height: 70,
 
             }}>
-                <TouchableOpacity onPress={()=>handleHome()}>
+                <TouchableOpacity onPress={() => handleHome()}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
@@ -136,12 +152,12 @@ function DetailBookScreen({ route }) {
                         <Image
                             blurRadius={15}
                             style={{ width: 180, height: 90 }}
-                            source={{ uri: portada!=""? portada:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"  }} />
+                            source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }} />
                     </View>
 
                     {/* Imagenes Books nuevos */}
                     <ImageBackground
-                        source={{ uri: portada!=""? portada:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"}}
+                        source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
                         style={{ width: 150, height: 190, borderRadius: 15, overflow: "hidden", marginHorizontal: 10, }}
                     ></ImageBackground>
 
@@ -157,7 +173,7 @@ function DetailBookScreen({ route }) {
                     </TouchableOpacity>
 
                     {/* Boton de gustar */}
-                    <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto", right: 55  }} onPress={e => handleLibroMeGustaFirebase()}>
+                    <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto", right: 55 }} onPress={e => handleLibroMeGustaFirebase()}>
                         {megusta ? <AntDesign name="heart" size={30} color="#429EBD" /> : <AntDesign name="hearto" size={30} color="#429EBD" />}
                     </TouchableOpacity>
 
@@ -180,7 +196,7 @@ function DetailBookScreen({ route }) {
                 </Text>
                 <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
                     {
-                        capitulos.map((item, index) => <RenderCapitulos  key={index} libro={item}/>)
+                        capitulos.map((item, index) => <RenderCapitulos key={index} libro={item} />)
                     }
                 </View>
             </ScrollView>
@@ -225,8 +241,8 @@ const styles = StyleSheet.create({
 
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 12,
+            width: 0,
+            height: 12,
         },
         shadowOpacity: 0.8,
         shadowRadius: 6.00,

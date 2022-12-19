@@ -5,7 +5,7 @@ import {
     View,
     TouchableOpacity,
     ImageBackground, Image,
-    Modal, StatusBar, ScrollView, TextInput, RefreshControlBase
+    Modal, StatusBar, BackHandler, TextInput, RefreshControlBase
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState, useCallback } from "react";
@@ -39,9 +39,17 @@ function ChatConversationScreen({ route }) {
 
         hacerCosas();
         cogerMensajes();
+        BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        return () =>
+            BackHandler.removeEventListener('hardwareBackPress', backAction);
 
     }, [email]);
-
+    const backAction = async () => {
+        navigation.push("chatScreen", {
+     
+        });
+    }
 
     useLayoutEffect(() => {
         navigation.setOptions({

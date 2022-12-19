@@ -12,6 +12,8 @@ export const handleRegistroFirebase = (email) => {
       Autores: [],
       Descripcion: "",
       Peticiones: [],
+      UltimoLibroLeido:"",
+      UltimoCapituloLeido:0,
 
     })
     .then(() => {
@@ -310,6 +312,46 @@ export const getPeticionesConversacion = async (email) => {
   return peticiones;
 
 }
+
+export const contarCapitulosDelLibro = async (bookId) => {
+  let numberCapitulos = 0;
+  await db.collection('libros').doc(bookId).collection('Capitulos').get().then(snap => {
+      numberCapitulos = snap.size
+  });
+  return numberCapitulos;
+}
+
+export const cargarUltimoLibro = async (email) => {
+  let idUltimoLibro;
+  let ultimoLibro;
+  let numCapitulos=0;
+  let UltimoCapituloLeido=0;
+  //Coger el ultimo libro
+  await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
+    idUltimoLibro=documentSnapshot.data().UltimoLibroLeido;
+    })
+    //Coger datos del libro
+    await db.collection("libros").doc(idUltimoLibro).get().then(async documentSnapshot => {
+      numCapitulos = await contarCapitulosDelLibro(documentSnapshot.id);
+      UltimoCapituloLeido = await cargarUltimoCapituloLeido(email);
+      ultimoLibro= {Titulo:documentSnapshot.data().Titulo,Portada:documentSnapshot.data().Portada,Autor:documentSnapshot.data().Autor, NumCapitulos: numCapitulos, UltimoCapitulo: UltimoCapituloLeido, key:documentSnapshot.id };
+      }) 
+ 
+
+  return ultimoLibro;
+}
+
+export const cargarUltimoCapituloLeido = async (email) => {
+
+  let ultimoCapituloLeido = 0;
+  await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
+
+    ultimoCapituloLeido = documentSnapshot.data().UltimoCapituloLeido
+
+    })
+  return ultimoCapituloLeido;
+}
+
 export const getNumeroLibrosUsuario = async (email) => {
 
   let numLibros = 0;
@@ -355,7 +397,7 @@ export const getFotoPerfil = async (email) => {
     .collection('usuarios').doc(email).get().then((documentSnapshot) => { return documentSnapshot.data().Foto; });
 
 }
-
+//---------------------------------CAMBIAR-----------------------------
 export const cambiarFotoPerfilFirebase = async (email, foto) => {
   await db
     .collection('usuarios').doc(email)
@@ -380,4 +422,12 @@ export const updateUltimoCapitulo = async (email, bookId, capituloNumero) => {
         console.log('Update el ultimo capitulo' + capituloNumero);
       });
   }
+}
+
+export const cambiarUltimoLibroLeido = async (bookId, email,capitulo) => {
+  await db.collection('usuarios').doc(email)
+      .update({
+          UltimoLibroLeido:bookId,
+          UltimoCapituloLeido:capitulo,
+      })
 }
