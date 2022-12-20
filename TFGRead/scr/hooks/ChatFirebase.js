@@ -11,6 +11,8 @@ export const addSala = async (usuario1, usuario2,esAmigo) => {
             Usuario1: usuario1,
             Usuario2: usuario2,
             Amigo:esAmigo,
+            Bloqueado:false,
+            Enviado:usuario1,
 
         }).then(()=>{
            
@@ -121,6 +123,14 @@ export const updateTiempoSalas = async (salaId, message) => {
 
         })
 }
+export const bloquearPersonaSala = async (salaId, bloqueado) => {
+    await db.collection('salas').doc(salaId)
+        .update({
+            Bloqueado: bloqueado
+
+        })
+}
+
 
 export const getMessage = async (salaId) => {
 

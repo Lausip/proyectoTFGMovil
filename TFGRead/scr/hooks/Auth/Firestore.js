@@ -7,13 +7,12 @@ export const handleRegistroFirebase = (email) => {
       Nombre: email,
       Foto: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
       Rol: "Usuario",
-      MeGusta: [],
       Amigos: [],
       Autores: [],
       Descripcion: "",
-      Peticiones: [],
       UltimoLibroLeido:"",
       UltimoCapituloLeido:0,
+      Bloqueados:[]
 
     })
     .then(() => {
@@ -227,6 +226,31 @@ export const cambiarEstadoPeticionAmistad = async (email, keyPeticion, estado) =
 
 }
 
+export const bloquearPersonaFirebase = async (email, personaAbloquear) => {
+
+  await db.collection("usuarios").doc(email)
+    .update({
+      Bloqueados: firebase.firestore.FieldValue.arrayUnion(personaAbloquear),
+    })
+    .then(() => {
+      console.log("Bloqueado "+personaAbloquear )
+    });
+
+}
+
+
+
+export const desbloquearPersonaFirebase = async (email, personaADesbloquear) => {
+
+  await db.collection("usuarios").doc(email)
+    .update({
+      Bloqueados: firebase.firestore.FieldValue.arrayRemove(personaADesbloquear),
+    })
+    .then(() => {
+      console.log("Desbloqueado "+personaADesbloquear )
+    });
+
+}
 
 export const rechazarPeticionAmistad = async (email, keyPeticion) => {
   //Cambiar el estado a rechazado

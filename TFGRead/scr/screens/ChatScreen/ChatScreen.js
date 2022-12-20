@@ -54,7 +54,7 @@ function ChatScreen({ route }) {
             .onSnapshot(querySnapshot => {
                 querySnapshot.forEach((documentSnapshot) => {
                     if (documentSnapshot.data().Usuario1 == email || documentSnapshot.data().Usuario2 == email) {
-           
+              
                         salas.push({
                             ...documentSnapshot.data(),
                             key: documentSnapshot.id,

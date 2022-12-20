@@ -10,8 +10,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState, useCallback } from "react";
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, anadirAAmigos } from "../../hooks/Auth/Firestore";
-import { addMessage, getMessage, updateAmigosSala } from "../../hooks/ChatFirebase";
+import { getFotoPerfil, anadirAAmigos, bloquearPersonaFirebase ,desbloquearPersonaFirebase} from "../../hooks/Auth/Firestore";
+import { addMessage, getMessage, updateAmigosSala,bloquearPersonaSala } from "../../hooks/ChatFirebase";
 import { db, firebase } from '../../config/firebase';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { getUserAuth } from "../../hooks/Auth/Auth";
@@ -19,7 +19,7 @@ import {
     GiftedChat,
     Bubble,
     Send,
-    SystemMessage, Day, InputToolbar,Time
+    SystemMessage, Day, InputToolbar, Time
 } from 'react-native-gifted-chat';
 
 
@@ -32,6 +32,9 @@ function ChatConversationScreen({ route }) {
     const [amigo, setAmigo] = useState("");
     const [messages, setMessages] = useState([]);
     const [isModalVisible, setModalVisible] = useState(false);
+    const [desbloquear, setDesbloquear] = useState(false);
+    const [ponerAmigo, setPonerAmigo] = useState(false);
+
     const { sala, screen } = route.params;
 
 
@@ -44,10 +47,10 @@ function ChatConversationScreen({ route }) {
         return () =>
             BackHandler.removeEventListener('hardwareBackPress', backAction);
 
-    }, [email]);
+    }, []);
     const backAction = async () => {
         navigation.push("chatScreen", {
-     
+
         });
     }
 
@@ -71,7 +74,8 @@ function ChatConversationScreen({ route }) {
         }
         let e = await getUserAuth();
         setEmail(e);
-
+        setDesbloquear(sala.Bloqueado);
+        setPonerAmigo(sala.Amigo);
         setFotoPerfil(await getFotoPerfil(e));
         setModalVisible(false)
     }
@@ -86,11 +90,28 @@ function ChatConversationScreen({ route }) {
     }
 
     const añadirAAmigo = async () => {
+
         await anadirAAmigos(email, amigo);
         await anadirAAmigos(amigo, email);
         await updateAmigosSala(sala.key);
+        setPonerAmigo(true);
 
+    }
+    const bloquearPersona = async () => {
+        //Añadir a lista de bloqueados
+        await bloquearPersonaFirebase(email, amigo);
+        //Sala poner true a sala
+        await bloquearPersonaSala(sala.key,true);
+        setDesbloquear(true)
 
+    }
+
+    const desbloquearPersona = async () => {
+        //Quitar a lista de bloqueados
+        await desbloquearPersonaFirebase(email, amigo);
+        //Sala poner false a sala
+        await bloquearPersonaSala(sala.key,false);
+        setDesbloquear(false)
     }
 
     const onSend = useCallback(async (messages = []) => {
@@ -115,7 +136,7 @@ function ChatConversationScreen({ route }) {
                 textStyle={{
                     right: {
                         color: 'white',
-        
+
                     },
                     left: {
                         color: 'white',
@@ -148,6 +169,7 @@ function ChatConversationScreen({ route }) {
             shadowOffset: { width: 0, height: 9 },
             shadowRadius: 10,
             elevation: 6,
+            backgroundColor: (!sala.Amigo && sala.Enviado == amigo) || sala.Bloqueado ? "#A7A7A7" : "#FFFF"
         }}
 
         />
@@ -155,13 +177,13 @@ function ChatConversationScreen({ route }) {
     function renderTime(props) {
         return (
             <Time
-             {...props}
-             timeTextStyle={{
+                {...props}
+                timeTextStyle={{
                     right: {
-                        color: 'white',                  
+                        color: 'white',
                     },
                     left: {
-                        color: "white",             
+                        color: "white",
                     }
                 }}
             />
@@ -227,9 +249,10 @@ function ChatConversationScreen({ route }) {
 
                 </View>
                 {
-                   !sala.Amigo && sala.Enviado==amigo ?
+                    !ponerAmigo && sala.Enviado == amigo && !desbloquear?
 
                         < View style={{
+                            backgroundColor:"#EDECED",
                             flexDirection: "row",
                             justifyContent: "center",
                             alignItems: "center",
@@ -239,14 +262,34 @@ function ChatConversationScreen({ route }) {
                             <TouchableOpacity onPress={() => { añadirAAmigo() }}>
                                 <Text>Añadir a amigos</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { }} style={{ marginLeft: 20 }}>
+                            <TouchableOpacity onPress={() => { bloquearPersona() }} style={{ marginLeft: 20 }}>
                                 <Text style={{ color: "#B00020" }}>Bloquear</Text>
                             </TouchableOpacity>
-                        </View>:<Text></Text>
+                        </View> : <Text></Text>
 
 
-                    }
-         
+                }
+
+                {
+                    !sala.Amigo && desbloquear ?
+
+                        < View style={{
+                            backgroundColor:"#EDECED",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: 30,
+
+                        }}>
+
+                            <TouchableOpacity onPress={() => { desbloquearPersona() }} style={{ marginLeft: 20 }}>
+                                <Text style={{ color: "#B00020" }}>Desbloquear</Text>
+                            </TouchableOpacity>
+                        </View> : <Text></Text>
+
+
+                }
+
 
             </View>
             <GiftedChat
@@ -256,6 +299,7 @@ function ChatConversationScreen({ route }) {
                     name: email.split("@")[0],
                     avatar: fotoPerfil
                 }}
+                disableComposer={(!ponerAmigo && sala.Enviado == amigo)||!desbloquear}
                 renderBubble={renderBubble}
                 renderTime={renderTime}
                 renderChatFooter={() => <View style={{ marginBottom: 40 }} />}
