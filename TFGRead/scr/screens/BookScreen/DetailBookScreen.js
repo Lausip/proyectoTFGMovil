@@ -6,12 +6,13 @@ import { db } from '../../config/firebase';
 import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
 import { cargarDatosLibro } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
+import LottieView from 'lottie-react-native';
 
 function DetailBookScreen({ route }) {
     const [email, setEmail] = useState("");
-    const [texto, setTexto] = useState("");
-    const [titulo, setTitulo] = useState("");
+
     const [portada, setPortada] = useState("");
+    const [libroActual, setLibroActual] = useState({});
     const [megusta, setMeGusta] = useState(false);
     const [capitulos, setCapitulos] = useState([]);
 
@@ -52,8 +53,7 @@ function DetailBookScreen({ route }) {
         setMeGusta(await handleElLibroEstaEnMeGusta(e, bookId));
         //Error el render no espera a la imagen,se rendera primero y luego coe la imagen
         let data = await cargarDatosLibro(bookId)
-        setTexto(data.Descripción)
-        setTitulo(data.Titulo)
+        setLibroActual(data);
         setPortada(data.Portada)
         await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
             const caps = [];
@@ -159,7 +159,7 @@ function DetailBookScreen({ route }) {
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
-                <Text style={styles.fontTitulo}>{titulo}</Text>
+                <Text style={styles.fontTitulo}>{libroActual.Titulo}</Text>
             </View>
             <ScrollView style={{ flexGrow: 0 }}>
 
@@ -179,7 +179,7 @@ function DetailBookScreen({ route }) {
                         source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
                         style={{ width: 150, height: 190, borderRadius: 15, overflow: "hidden", marginHorizontal: 10, }}
                     ></ImageBackground>
-
+       
                 </View>
 
                 <View style={{ flexDirection: "row" }}>
@@ -205,13 +205,14 @@ function DetailBookScreen({ route }) {
 
                 <ScrollView style={{ marginHorizontal: 40, flexGrow: 0 }}>
                     <Text style={{ textAlign: 'justify' }}>
-                        {texto}
+                        {libroActual.Descripción}
                     </Text>
                 </ScrollView>
 
                 {/* Capitulos */}
                 <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
-                    Capitulos
+                    Capitulos{":    "}
+                    <Text  style={{fontSize: 20, fontWeight: "bold", color: "#429EBD"}}>{libroActual.Estado}</Text>
                 </Text>
                 <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
                     {

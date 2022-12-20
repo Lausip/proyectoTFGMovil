@@ -1,21 +1,27 @@
-import { View, ActivityIndicator, Text, BackHandler, ScrollView, SafeAreaView, StyleSheet, Modal, StatusBar, TouchableOpacity, Image, ImageBackground, TextInput } from 'react-native';
+import { View, LogBox, Text, BackHandler, ScrollView, SafeAreaView, StyleSheet, Modal, StatusBar, TouchableOpacity, Image, ImageBackground, TextInput } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
 import LottieView from 'lottie-react-native';
-import { MaterialIcons,AntDesign } from '@expo/vector-icons';
-import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarPortadadeLibro, eliminarLibroFirebase,eliminarCapituloLibro,cambiarFechaModificaciónLibro } from '../../hooks/FirebaseLibros';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
+import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarPortadadeLibro, eliminarLibroFirebase, eliminarCapituloLibro, cambiarFechaModificaciónLibro,cambiarEstado } from '../../hooks/FirebaseLibros';
 import { crearLibroStorage } from '../../hooks/Storage';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { pickImage } from "../../utils/ImagePicker";
+import DropDownPicker from "react-native-dropdown-picker";
 
 function EditBookScreen({ route }) {
+
     const [email, setEmail] = useState("");
     const [texto, setTexto] = useState("");
     const [titulo, setTitulo] = useState("");
     const [portada, setPortada] = useState("");
     const [capitulos, setCapitulos] = useState([]);
+    const [libroActual, setLibroActual] = useState({});
+
+    const [estadoOpen, setEstadoOpen] = useState(false);
+    const [estadoValue, setEstadoValue] = useState(null);
     //MODALES:
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisibleBorrar, setModalVisibleBorrar] = useState(false);
@@ -23,20 +29,28 @@ function EditBookScreen({ route }) {
     const navigation = useNavigation();
     const { bookId } = route.params;
 
+
+    const [estado, setEstado] = useState([
+        { label: "En Curso", value: "En Curso" },
+        { label: "Finalizado", value: "Finalizado" },
+        { label: "Discontinuado", value: "Discontinuado" },
+    ]);
     useEffect(() => {
+        LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
         hacerCosas();
         BackHandler.addEventListener('hardwareBackPress', backAction);
 
         return () =>
             BackHandler.removeEventListener('hardwareBackPress', backAction);
-     
+
     }, [email, portada])
 
     const backAction = async () => {
         navigation.push("write", {
-     
+
         });
     }
+
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -58,7 +72,7 @@ function EditBookScreen({ route }) {
     }
 
     const handleEditarCapitulo = (numero, chapterId) => {
-   
+
         navigation.replace("editChapter", {
             bookId: bookId,
             capituloNumero: numero,
@@ -83,9 +97,12 @@ function EditBookScreen({ route }) {
         let e = await getUserAuth();
         setEmail(e);
         let data = await cargarDatosLibro(bookId)
+        setLibroActual(data);
         setTexto(data.Descripción)
         setTitulo(data.Titulo)
-        setPortada(data.Portada)
+        setPortada(data.Portada);
+
+        setEstadoValue(data.Estado)
         await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
             const caps = [];
             querySnapshot.forEach(documentSnapshot => {
@@ -111,13 +128,17 @@ function EditBookScreen({ route }) {
         setModalVisible(false);
         setModalVisibleBorrar(false);
     }
-    
+
     const actualizarDescripcion = async () => {
         setModalVisible(true)
         await cambiarDescripcion(bookId, texto)
         setModalVisible(false)
     }
-
+    const updateEstado = async () => {
+        setModalVisible(true)
+        await cambiarEstado(bookId, estadoValue);
+        setModalVisible(false)
+    }
     const actualizarImage = async () => {
         let image = await pickImage();
         setModalVisible(true)
@@ -207,7 +228,7 @@ function EditBookScreen({ route }) {
                             }}
                             onPress={e => setModalVisibleBorrar(false)}
                         >
-                            <Text  style={styles.modalBorrarText}>
+                            <Text style={styles.modalBorrarText}>
                                 Cancelar
                             </Text>
                         </TouchableOpacity>
@@ -263,6 +284,7 @@ function EditBookScreen({ route }) {
                 {/*nombre e inicio*/}
                 <Text style={styles.fontTitulo}>Editar el libro</Text>
             </View>
+            <View>
             <ScrollView style={{ flexGrow: 0 }}>
 
                 {/* Portada del libro */}
@@ -385,6 +407,28 @@ function EditBookScreen({ route }) {
                     </TouchableOpacity>
                 </View>
 
+                <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
+                    {libroActual.Estado}
+                </Text>
+                <DropDownPicker
+                    style={styles.dropdown}
+                    open={estadoOpen}
+                    value={estadoValue} //genderValue
+                    items={estado}
+                    setOpen={setEstadoOpen}
+                    setValue={setEstadoValue}
+                    setItems={setEstado}
+                    placeholder={estadoValue}
+                    placeholderStyle={styles.placeholderStyles}
+                    dropDownContainerStyle={styles.dropDownContainerStyle}
+                    scrollViewProps={{
+                        decelerationRate: "fast"
+                      }}
+                    zIndex={3000}
+                    zIndexInverse={1000}
+                    onChangeValue = {(value) => updateEstado()}
+         
+                />
                 {/* Capitulos */}
                 <Text style={{ marginHorizontal: 40, fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
                     Capitulos
@@ -464,14 +508,14 @@ function EditBookScreen({ route }) {
                         shadowRadius: 6.00,
                         elevation: 15,
                     }}
-                    onPress={e =>   setModalVisibleBorrar(true)}>
+                    onPress={e => setModalVisibleBorrar(true)}>
                     <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
                         Borrar libro
                     </Text>
                 </TouchableOpacity>
 
             </ScrollView>
-
+            </View>
         </SafeAreaView>
 
 
@@ -489,7 +533,21 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%'
     },
-    modalWait:{
+    dropdown: {
+        borderColor: "#8EAF20",
+        height: 50,
+        marginLeft:40,
+        width:"80%",
+      },
+      dropDownContainerStyle:{
+        borderColor: "#8EAF20",
+        width:"70%",
+        marginHorizontal:40,
+      },
+      placeholderStyles: {
+        color: "grey",
+      },
+    modalWait: {
         marginTop: "auto",
         marginBottom: "auto",
         marginLeft: "auto",
@@ -512,10 +570,10 @@ const styles = StyleSheet.create({
         marginLeft: "auto",
         marginRight: "auto"
     },
-    modalBorrarText:{
-        fontSize: 15, 
+    modalBorrarText: {
+        fontSize: 15,
         fontWeight: "bold",
-         color: "white"
+        color: "white"
     },
     fontTitulo: {
         marginTop: "auto",
@@ -545,10 +603,10 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     tituloRenderCapitulos: {
-        marginLeft: 10, 
-        marginTop: 10, 
-        fontSize: 15, 
-        color: "black", 
+        marginLeft: 10,
+        marginTop: 10,
+        fontSize: 15,
+        color: "black",
         marginRight: 20
     },
 

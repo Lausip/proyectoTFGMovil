@@ -103,6 +103,7 @@ export const crearLibroFirebase = async (titulo, descripción, email) => {
             FechaCreación: firebase.firestore.Timestamp.fromDate(new Date()),
             FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
             borrador: false,
+            Estado:"En curso"
         })
         .then(function (docRef) {
             id = docRef.id;
@@ -143,6 +144,12 @@ export const cambiarFechaModificaciónLibro = async (bookId) => {
     await db.collection('libros').doc(bookId)
         .update({
             FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
+        })
+}
+export const cambiarEstado = async (bookId,estado) => {
+    await db.collection('libros').doc(bookId)
+        .update({
+            Estado: estado,
         })
 }
 
