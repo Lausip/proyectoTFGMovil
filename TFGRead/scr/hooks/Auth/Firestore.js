@@ -214,15 +214,13 @@ export const enviarPeticion = async (email, autorElegido, tipo) => {
 
 }
 
-export const cambiarEstadoPeticionAmistad = async (email, keyPeticion, estado) => {
 
-  await db.collection("usuarios").doc(email).collection("Peticiones").doc(keyPeticion)
+export const cambiarDescripcion = async (email, texto) => {
+
+  await db.collection("usuarios").doc(email)
     .update({
-      Estado: estado,
+      Descripcion: texto,
     })
-    .then(() => {
-      console.log("Peticion de amistad cambiada de estado")
-    });
 
 }
 
