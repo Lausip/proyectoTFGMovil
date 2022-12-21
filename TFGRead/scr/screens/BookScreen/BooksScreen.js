@@ -1,12 +1,13 @@
-import { View, ActivityIndicator, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, BackHandler, TouchableWithoutFeedback, Modal } from 'react-native';
+import { View, ActivityIndicator, Text, ScrollView, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, BackHandler, TouchableWithoutFeedback, Modal, ImageBackground } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { db } from '../../config/firebase';
 import { getUserAuth } from "../../hooks/Auth/Auth";
-import { updateUltimoCapitulo } from '../../hooks/Auth/Firestore';
-import { AntDesign, MaterialCommunityIcons, Ionicons, Entypo } from '@expo/vector-icons';
-import { getCapituloId } from '../../hooks/FirebaseLibros';
-import { ColorSpace } from 'react-native-reanimated';
+import { updateUltimoCapitulo, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
+import { AntDesign, MaterialCommunityIcons, Ionicons, Feather, Entypo } from '@expo/vector-icons';
+import { getPortadaLibro, getCapituloId } from '../../hooks/FirebaseLibros';
+
+
 
 function BooksScreen({ route }) {
 
@@ -14,6 +15,8 @@ function BooksScreen({ route }) {
   const [texto, setTexto] = useState("");
   const [tamanoText, setTamanoText] = useState(14);
   const [titulo, setTitulo] = useState("");
+  const [portada, setPortada] = useState("");
+
 
   const [nocheDia, setNocheDia] = useState(false);
   const [fondoColor, setFondoColor] = useState("white");
@@ -22,6 +25,9 @@ function BooksScreen({ route }) {
   const [hayCapituloSiguiente, setHayCapituloSiguiente] = useState(false);
   const [sacarCapitulos, setSacarCapitulos] = useState(false);
   const [modalOpciones, setModalOpciones] = useState(false);
+
+  const [capitulos, setCapitulos] = useState(false);
+
   const navigation = useNavigation();
   const { bookId, capituloNumero, screen } = route.params;
 
@@ -32,31 +38,13 @@ function BooksScreen({ route }) {
     return () =>
       BackHandler.removeEventListener('hardwareBackPress', backAction);
 
-  }, []);
-
-  /* 
-    const backAction = () => {
-      if (navigation.isFocused()) {
-        Alert.alert('Hold on!', 'Are you sure you want to exit app?', [
-          {
-            text: 'Cancelar',
-            onPress: () => null,
-            style: 'cancel',
-          },
-          {
-            text: 'SI', onPress: () =>
-              navigation.navigate("biblioteca")
-          },
-        ]);
-        return true;
-      }
-    }; */
-
+  }, [capituloNumero]);
 
 
   const backAction = async () => {
     if (navigation.isFocused()) {
-      if (screen == "detailsBookScreen") {
+
+      if (screen == "detailsBookScreen" || screen == undefined) {
         navigation.navigate("detailsBookScreen", {
           bookId: bookId,
         });
@@ -77,11 +65,23 @@ function BooksScreen({ route }) {
   }, []);
 
   const hacerCosas = async () => {
-    console.log(screen)
+
     let e = await getUserAuth();
     setEmail(e);
     await cargarCapituloLibros();
     let a = await mirarSiHayMasCapitulo(bookId, capituloNumero + 1);
+    setPortada(await getPortadaLibro(bookId))
+    await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
+      const caps = [];
+      querySnapshot.forEach(documentSnapshot => {
+        caps.push({
+          ...documentSnapshot.data(),
+          key: documentSnapshot.id,
+        });
+      });
+      setCapitulos(caps);
+    });
+
     setHayCapituloSiguiente(a);
     setSacarCapitulos(false)
     await updateUltimoCapitulo(e, bookId, capituloNumero);
@@ -97,6 +97,7 @@ function BooksScreen({ route }) {
 
     return hay;
   }
+
   const cargarCapituloLibros = async () => {
 
     let querySnapshot = await db.collection("libros").doc(bookId).collection("Capitulos")
@@ -109,6 +110,8 @@ function BooksScreen({ route }) {
   }
 
   const irAotroCapitulo = async () => {
+    //Cambiar el ultimo libro leido:
+    await cambiarUltimoLibroLeido(bookId, email, capituloNumero + 1);
 
     navigation.push("bookScreen", {
       bookId: bookId,
@@ -135,13 +138,13 @@ function BooksScreen({ route }) {
   const cambiarNocheDia = async () => {
     //Mirar si es de día: si lo es cambiar a noche
     if (!nocheDia) {
-      setFondoColor("black");
+      setFondoColor("#111111");
       setTextoColor("white");
       setNocheDia(true);
     }
     else {
       setFondoColor("white");
-      setTextoColor("black");
+      setTextoColor("#111111");
       setNocheDia(false);
     }
   }
@@ -156,10 +159,56 @@ function BooksScreen({ route }) {
 
   }
 
-  const sacarCapitulosView = async () => {
-
-    setSacarCapitulos(!sacarCapitulos)
+  const sacarCapitulosView = (s) => {
+    console.log(s)
+    if (s)
+      setFondoColor("#A7A7A7")
+    else {
+      setFondoColor("#FFFF")
+    }
+    setSacarCapitulos(s)
   }
+
+  const siguienteCapitulo = async () => {
+    if (hayCapituloSiguiente) {
+      irAotroCapitulo();
+    }
+  }
+
+  const handleLeerLibroCapitulo = async (capituloNumero) => {
+
+    setFondoColor("white")
+
+    //Cambiar el ultimo libro leido:
+    await cambiarUltimoLibroLeido(bookId, email, capituloNumero);
+
+    //Ir al capitulo escogido
+    navigation.navigate("bookScreen", {
+      bookId: bookId,
+      capituloNumero: capituloNumero,
+      screen: "detailsBookScreen",
+    });
+  }
+
+  const CardCapitulosLibros = ({ libro }) => {
+    return (
+      <TouchableOpacity key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
+        <View style={{
+          marginTop: 5, borderBottomColor: "#8EAF20",
+          borderBottomWidth: 1,
+          borderBottomEndRadius: 1,
+
+          width: libro.Titulo.length ? 150 : libro.Titulo.length + 50
+        }}>
+          <Text style={{ marginLeft: 10, marginTop: 10, fontSize: 15, color: "black", }}>
+            {libro.Titulo}
+          </Text>
+        </View>
+      </TouchableOpacity >
+    );
+  };
+
+
   return (
 
     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => cargarOpciones()}>
@@ -175,7 +224,7 @@ function BooksScreen({ route }) {
             marginHorizontal: 20,
             marginVertical: 30,
           }}>
-
+          {/* Contenido */}
             <Text style={styles.textChapter}>
               {titulo}
             </Text>
@@ -187,6 +236,7 @@ function BooksScreen({ route }) {
               {texto}
             </Text>
 
+          {/* Contenedor de siguiente o no capitulo */}
             {
               hayCapituloSiguiente ?
                 < TouchableOpacity onPress={() => irAotroCapitulo()} style={{
@@ -268,37 +318,78 @@ function BooksScreen({ route }) {
           </View>
         </ScrollView>
 
+                      {/* Menu de capitulo */}
+
+        {
+          sacarCapitulos ?
+
+            <View style={styles.modalCapitulos}>
+              <View style={{ alignItems: 'center', marginBottom: 10 }}>
+
+                <View style={styles.fotodelLibrocontainer}>
+                  <View style={styles.fotodelLibrocontainer2}>
+                    <ImageBackground
+                      blurRadius={15}
+                      style={{ width: 130, height: 75 }}
+                      source={{ uri: `${portada}` }}
+                    />
+                  </View>
+
+                  <ImageBackground
+                    source={{ uri: `${portada}` }}
+                    style={styles.libroImagen}
+                  ></ImageBackground>
+                </View>
+
+
+                <Text style={{ fontSize: 20, color: "#429EBD", fontWeight: "bold", }}>
+                  {titulo}
+                </Text>
+              </View >
+
+              <View style={{ marginHorizontal: 20 }}>
+
+                <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
+                  Capitulos{":    "}
+                </Text>
+
+                <FlatList
+                  style={{ backgroundColor: "white", borderRadius: 20, marginBottom: 10 }}
+                  keyExtractor={(item, index) => {
+                    return index.toString();
+                  }}
+                  data={capitulos}
+                  renderItem={({ item, index }) => (
+                    <CardCapitulosLibros key={index} libro={item} />
+                  )}
+                />
+              </View>
+            </View>
+            : <Text></Text>
+        }
+
+
+           {/* Modal de opciones */}
         {
           modalOpciones ?
             <View
               style={{ flex: 1, justifyContent: "flex-end", alignItems: "center", }}
             >
               <View
-                style={{
-                  height: 60,
-                  width: 350,
-                  borderRadius: 30,
-                  borderWidth: 3,
-                  backgroundColor: "white",
-                  borderColor: "#E39801",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginVertical: 20,
-                  justifyContent: 'space-between',
-                }}>
+                style={styles.modalOpciones}>
 
                 <View style={{ justifyContent: "flex-start", flexDirection: "row", marginHorizontal: 20 }}>
-                  <TouchableOpacity style={{ flexDirection: "row", marginLeft: 10, }} onPress={() => sumarTexto()}>
+                  <TouchableOpacity style={{ flexDirection: "row", marginLeft: 10, }} onPress={sumarTexto}>
                     <MaterialCommunityIcons name="format-letter-case" size={30} color="black" />
                     <Text>+</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{ flexDirection: "row", marginLeft: 10, }} onPress={() => restarTexto()}>
+                  <TouchableOpacity style={{ flexDirection: "row", marginLeft: 10, }} onPress={restarTexto}>
                     <MaterialCommunityIcons name="format-letter-case" size={30} color="black" />
                     <Text>-</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{ marginLeft: 10, }} onPress={() => cambiarNocheDia()}>
+                  <TouchableOpacity style={{ marginLeft: 10, }} onPress={cambiarNocheDia}>
 
                     {!nocheDia ?
                       <Ionicons name="md-sunny-outline" size={30} color="black" /> :
@@ -306,12 +397,18 @@ function BooksScreen({ route }) {
                     }
 
                   </TouchableOpacity>
+
+                  <TouchableOpacity style={{ marginLeft: 10, }} onPress={() => siguienteCapitulo()}>
+                    <Feather name="arrow-right" size={30} color="black" />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={{ marginLeft: 50, }} onPress={() => sacarCapitulosView(!sacarCapitulos)}>
+                    <Entypo name="menu" size={30} color="black" />
+                  </TouchableOpacity>
+
                 </View >
-                {/*      <TouchableOpacity style={{ marginLeft: 10, }} onPress={() => sacarCapitulosView()}>
-                  <Entypo name="menu" size={30} color="black" />
-                </TouchableOpacity> */}
-                <View style={{ justifyContent: "flex-end", marginHorizontal: 20 }}>
-                  <TouchableOpacity style={{ marginLeft: 10, }} onPress={() => irALosComentarios()}>
+                <View style={{ justifyContent: "flex-end", marginRight: 20 }}>
+                  <TouchableOpacity style={{}} onPress={irALosComentarios}>
                     <Ionicons name="ios-chatbox-outline" size={30} color="black" />
                   </TouchableOpacity>
                 </View >
@@ -320,8 +417,6 @@ function BooksScreen({ route }) {
 
             : <Text></Text>
         }
-
-
 
       </SafeAreaView >
 
@@ -345,6 +440,54 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#429EBD",
     fontWeight: "bold",
+  }
+  ,
+  libroImagen: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    width: 110,
+    height: 140,
+    borderRadius: 15,
+    overflow: "hidden",
+  },
+  modalCapitulos: {
+    marginBottom: 250,
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: 250,
+    borderColor: "#8EAF20",
+    borderRadius: 20,
+    borderWidth: 2, backgroundColor: 'white',
+    shadowColor: "black",
+    shadowOpacity: 0.89,
+    shadowOffset: { width: 0, height: 9 },
+    shadowRadius: 10,
+    elevation: 12,
+  },
+  fotodelLibrocontainer: {
+    justifyContent: "center",
+
+  },
+  fotodelLibrocontainer2: {
+    elevation: 12,
+    position: "absolute",
+    top: 87,
+    left: 10,
+    borderRadius: 25,
+    overflow: "hidden",
+    opacity: 0.3,
+  },
+  modalOpciones: {
+    height: 60,
+    width: 350,
+    borderRadius: 30,
+    borderWidth: 3,
+    backgroundColor: "white",
+    borderColor: "#E39801",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,
+    justifyContent: 'space-between',
   },
 });
 export default BooksScreen

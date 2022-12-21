@@ -53,10 +53,6 @@ export const cargarDatosLibros = async (lastItemId) => {
     }
     return [librosInformacion, lasItem];
 }
-const cargarUltimoCapituloLeido = async (email) => {
-
-
-};
 
 export const getNumSeguidoresLibro = async (idbook) => {
     let numSeguidores = 0;
@@ -74,6 +70,20 @@ export const getNumSeguidoresLibro = async (idbook) => {
     return numSeguidores;
 
 }
+export const getPortadaLibro = async (bookId) => {
+
+    let portada = "";
+
+        await db.collection("libros").doc(bookId).get().then(async documentSnapshot => {
+            portada = documentSnapshot.data().Portada;
+
+        })
+  
+
+    return portada
+
+}
+
 export const getFavoritos = async (favoritosUsuario) => {
 
     let favoritos = [];

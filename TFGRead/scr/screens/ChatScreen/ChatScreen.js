@@ -299,11 +299,6 @@ function ChatScreen({ route }) {
 
                     }}
                     >
-                        {/*                        <View style={{ alignItems: "flex-end", marginHorizontal: 10, marginTop: 10, }}>
-                        <TouchableOpacity onPress={() => { setModalVisibleConversacion(false) }}>
-                            <AntDesign style={{ alignItems: "flex-start" }} name="closecircleo" size={24} color="black" />
-                        </TouchableOpacity >
-                    </View>  */}
 
                         <View style={{
 

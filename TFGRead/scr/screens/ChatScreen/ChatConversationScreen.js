@@ -119,7 +119,7 @@ function ChatConversationScreen({ route }) {
         await addMessage(sala.key, messages[0], email)
     }, [])
 
-    // CAMBIAR INTERFAZ DE LOS MENSAJES 
+
     function renderSend(props) {
         return (
             <Send {...props} containerStyle={{ borderWidth: 0 }}>
