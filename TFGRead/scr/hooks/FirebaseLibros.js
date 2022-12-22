@@ -101,7 +101,7 @@ export const getFavoritos = async (favoritosUsuario) => {
 }
 
 
-export const crearLibroFirebase = async (titulo, descripción, email) => {
+export const crearLibroFirebase = async (titulo, descripción, email,etiquetas) => {
     let id = "";
     await db
         .collection('libros')
@@ -113,7 +113,8 @@ export const crearLibroFirebase = async (titulo, descripción, email) => {
             FechaCreación: firebase.firestore.Timestamp.fromDate(new Date()),
             FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
             borrador: false,
-            Estado:"En curso"
+            Estado:"En curso",
+            Etiquetas:etiquetas
         })
         .then(function (docRef) {
             id = docRef.id;
@@ -162,6 +163,7 @@ export const cambiarEstado = async (bookId,estado) => {
             Estado: estado,
         })
 }
+
 
 
 //---------------------------------------------------CARGAR---------------------------------------------------
@@ -348,6 +350,13 @@ export const eliminarCapituloLibro = async (bookId, chapterId, n) => {
     await db.collection("libros").doc(bookId).collection("Capitulos").doc(chapterId).delete();
 
 }
+
+export const eliminarEtiqueta = async (bookId,etiqueta) => {
+    await db.collection('libros').doc(bookId)
+        .update({
+            Etiquetas: firebase.firestore.FieldValue.arrayRemove(etiqueta),
+        })
+}
 export const cogerCapitulosConNumeroMayor = async (bookId, n) => {
     let caps = [];
     const snapshot = await db.collection("libros").doc(bookId).collection("Capitulos").where("Numero", ">", n).get();
@@ -378,4 +387,11 @@ export const eliminarLibroFirebase = async (bookId) => {
     /*Eliminar el libro*/
     await db.collection("libros").doc(bookId).delete();
 
+}
+
+export const añadirEtiqueta = async (bookId,etiqueta) => {
+    await db.collection('libros').doc(bookId)
+        .update({
+            Etiquetas: firebase.firestore.FieldValue.arrayUnion(etiqueta),
+        })
 }

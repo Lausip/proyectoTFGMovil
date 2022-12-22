@@ -1,11 +1,11 @@
-import { View, LogBox, Text, BackHandler, ScrollView, SafeAreaView, StyleSheet, Modal, StatusBar, TouchableOpacity, Image, ImageBackground, TextInput } from 'react-native';
+import { View, LogBox, Text, BackHandler, ScrollView, SafeAreaView, StyleSheet, Modal, StatusBar, TouchableOpacity, Image, ImageBackground, TextInput, FlatList } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
 import LottieView from 'lottie-react-native';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarPortadadeLibro, eliminarLibroFirebase, eliminarCapituloLibro, cambiarFechaModificaciónLibro,cambiarEstado } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarPortadadeLibro, eliminarLibroFirebase, eliminarCapituloLibro, añadirEtiqueta, eliminarEtiqueta, cambiarFechaModificaciónLibro, cambiarEstado } from '../../hooks/FirebaseLibros';
 import { crearLibroStorage } from '../../hooks/Storage';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { pickImage } from "../../utils/ImagePicker";
@@ -19,6 +19,10 @@ function EditBookScreen({ route }) {
     const [portada, setPortada] = useState("");
     const [capitulos, setCapitulos] = useState([]);
     const [libroActual, setLibroActual] = useState({});
+
+    //ETIQUITAS
+    const [textoEtiqueta, setTextoEtiqueta] = useState("");
+    const [etiquetas, setEtiquetas] = useState([]);
 
     const [estadoOpen, setEstadoOpen] = useState(false);
     const [estadoValue, setEstadoValue] = useState(null);
@@ -101,7 +105,8 @@ function EditBookScreen({ route }) {
         setTexto(data.Descripción)
         setTitulo(data.Titulo)
         setPortada(data.Portada);
-
+        if(data.Etiquetas!=undefined){
+        setEtiquetas(data.Etiquetas);}
         setEstadoValue(data.Estado)
         await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
             const caps = [];
@@ -127,6 +132,35 @@ function EditBookScreen({ route }) {
         await eliminarLibroFirebase(bookId);
         setModalVisible(false);
         setModalVisibleBorrar(false);
+        handleWrite();
+    }
+
+    const contarPalabrasEtiqueta = (texto, length) => {
+        if (texto.length < length) {
+            setTextoEtiqueta(texto)
+        }
+    }
+
+    const añadirEtiquetas = async (texto) => {
+        setModalVisible(true);
+        console.log(etiquetas)
+        etiquetas.push(
+            texto
+        );
+        setTextoEtiqueta("");
+        await añadirEtiqueta(bookId, texto);
+
+        setModalVisible(false);
+    }
+
+    const eliminarEtiquetas = async (texto) => {
+        setModalVisible(true);
+        let e = etiquetas.filter(function (obj) {
+            return obj !== texto;
+        })
+        setEtiquetas(e);
+        await eliminarEtiqueta(bookId, texto);
+        setModalVisible(false);
     }
 
     const actualizarDescripcion = async () => {
@@ -150,7 +184,44 @@ function EditBookScreen({ route }) {
         setModalVisible(false)
 
     }
+    function renderCategorias(item, index) {
+        return (
+            <View
+                style={{
+                    borderColor: "#8EAF20",
+                    marginHorizontal: 5,
+                    paddingHorizontal: 10,
+                    paddingVertical: 5,
+                    borderWidth: 1,
+                    borderRadius: 15,
+                    backgroundColor: `white`,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 10,
+                    flexDirection: "row"
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: 13,
+                        color: "black",
+                        fontWeight: "bold",
+                    }}
+                >
+                    {item}
+                </Text>
+                <TouchableOpacity
+                    style={{
+                        marginLeft: 10,
 
+                    }}
+                    onPress={e => eliminarEtiquetas(item)}
+                >
+                    <AntDesign name="closecircleo" size={20} color="black" />
+                </TouchableOpacity>
+            </View>
+        );
+    }
     const RenderCapitulos = ({ libro }) => {
         return (
 
@@ -284,237 +355,313 @@ function EditBookScreen({ route }) {
                 {/*nombre e inicio*/}
                 <Text style={styles.fontTitulo}>Editar el libro</Text>
             </View>
+
             <View>
-            <ScrollView style={{ flexGrow: 0 }}>
+                <ScrollView style={{ flexGrow: 0, marginBottom: 70, }}>
 
-                {/* Portada del libro */}
-                <TouchableOpacity onPress={() => actualizarImage()}>
-                    <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", height: 200, marginTop: 10, }}>
+                    {/* Portada del libro */}
+                    <TouchableOpacity onPress={() => actualizarImage()}>
+                        <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", height: 200, marginTop: 10, }}>
 
-                        {/* Imagenes Books nuevos blur */}
-                        <View style={{ elevation: 12, position: "absolute", top: 120, borderRadius: 15, overflow: "hidden", opacity: 0.3, }}>
-                            <Image
-                                blurRadius={15}
-                                style={{ width: 180, height: 90 }}
-                                source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }} />
+                            {/* Imagenes Books nuevos blur */}
+                            <View style={{ elevation: 12, position: "absolute", top: 120, borderRadius: 15, overflow: "hidden", opacity: 0.3, }}>
+                                <Image
+                                    blurRadius={15}
+                                    style={{ width: 180, height: 90 }}
+                                    source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }} />
+                            </View>
+
+                            {/* Imagenes Books nuevos */}
+                            <ImageBackground
+                                source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
+                                style={{ width: 150, height: 190, borderRadius: 15, overflow: "hidden", marginHorizontal: 10, }}
+                            ></ImageBackground>
+
                         </View>
-
-                        {/* Imagenes Books nuevos */}
-                        <ImageBackground
-                            source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
-                            style={{ width: 150, height: 190, borderRadius: 15, overflow: "hidden", marginHorizontal: 10, }}
-                        ></ImageBackground>
-
-                    </View>
-                </TouchableOpacity>
-
-                <View style={{ marginTop: 30, marginHorizontal: 40 }}>
-                    {/* Titulo del libro*/}
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
-                        Título
-                    </Text>
-                    <TextInput
-                        placeholder="Título "
-                        placeholderTextColor="black"
-                        value={titulo}
-                        onChangeText={(text) => setTitulo(text)}
-                        style={{
-                            marginRight: 20,
-                            marginLeft: 20,
-                            paddingHorizontal: 20,
-                            paddingVertical: 10,
-                            borderRadius: 10,
-                            color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#f8f8f8"
-                        }}
-                    ></TextInput>
-                    <TouchableOpacity
-                        style={{
-                            width: "70%",
-                            marginTop: 10,
-                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
-                            padding: 4,
-                            borderRadius: 20,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            marginBottom: 10,
-
-                            shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: 12,
-                            },
-                            shadowOpacity: 0.8,
-                            shadowRadius: 6.00,
-                            elevation: 15,
-                        }}
-                        onPress={e => actualizarTexto()}
-                    >
-                        <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
-                            Actualizar
-                        </Text>
                     </TouchableOpacity>
-                    {/* Descripción del libro*/}
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
-                        Descripción
-                    </Text>
-                    <TextInput
-                        placeholder="Título "
-                        placeholderTextColor="black"
-                        value={texto}
-                        onChangeText={(text) => setTexto(text)}
-                        style={{
-                            marginRight: 20,
-                            marginLeft: 20,
-                            paddingHorizontal: 20,
-                            paddingVertical: 10,
-                            borderRadius: 10,
-                            color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#f8f8f8",
-                            textAlign: 'justify'
-                        }}
-                        multiline={true}
-                        numberOfLines={4}
-                        textAlignVertical="top"
-                    ></TextInput>
-                    <TouchableOpacity
-                        style={{
-                            width: "70%",
-                            marginTop: 10,
-                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
-                            padding: 4,
-                            borderRadius: 20,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            marginBottom: 10,
 
-                            shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: 12,
-                            },
-                            shadowOpacity: 0.8,
-                            shadowRadius: 6.00,
-                            elevation: 15,
-                        }}
-                        onPress={e => actualizarDescripcion()}
-                    >
-                        <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
-                            Actualizar
+                    <View style={{ marginTop: 30, marginHorizontal: 40 }}>
+                        {/* Titulo del libro*/}
+                        <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                            Título
                         </Text>
-                    </TouchableOpacity>
-                </View>
-
-                <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
-                    {libroActual.Estado}
-                </Text>
-                <DropDownPicker
-                    style={styles.dropdown}
-                    open={estadoOpen}
-                    value={estadoValue} //genderValue
-                    items={estado}
-                    setOpen={setEstadoOpen}
-                    setValue={setEstadoValue}
-                    setItems={setEstado}
-                    placeholder={estadoValue}
-                    placeholderStyle={styles.placeholderStyles}
-                    dropDownContainerStyle={styles.dropDownContainerStyle}
-                    scrollViewProps={{
-                        decelerationRate: "fast"
-                      }}
-                    zIndex={3000}
-                    zIndexInverse={1000}
-                    onChangeValue = {(value) => updateEstado()}
-         
-                />
-                {/* Capitulos */}
-                <Text style={{ marginHorizontal: 40, fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
-                    Capitulos
-                </Text>
-
-                <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
-                    {
-                        capitulos.map((item, index) => <RenderCapitulos key={index} libro={item} />)
-                    }
-
-                    {/* Contenedor Botón escribir nuevo capitulo  */}
-                    <TouchableOpacity style={{
-                        marginTop: 20,
-                        marginRight: 20,
-                        marginLeft: 20,
-                        marginBottom: 10,
-                        borderStyle: "dotted",
-                        borderWidth: 2,
-                        borderColor: "#E39801",
-                        flexDirection: "row",
-                        borderRadius: 8,
-                        shadowColor: "black",
-                        shadowOpacity: 0.78,
-                        shadowOffset: { width: 0, height: 9 },
-                        shadowRadius: 10,
-                        elevation: 6,
-                        backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "white",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }} onPress={() => handleWriteChapter()}>
-                        <View
+                        <TextInput
+                            placeholder="Título "
+                            placeholderTextColor="black"
+                            value={titulo}
+                            onChangeText={(text) => setTitulo(text)}
                             style={{
-                                flexDirection: "column",
+                                marginRight: 20,
+                                marginLeft: 20,
+                                paddingHorizontal: 20,
+                                paddingVertical: 10,
+                                borderRadius: 10,
+                                color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#f8f8f8"
+                            }}
+                        ></TextInput>
+                        <TouchableOpacity
+                            style={{
+                                width: "50%",
+                                marginTop: 10,
+                                backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                                padding: 4,
+                                borderRadius: 20,
                                 alignItems: "center",
                                 justifyContent: "center",
-                                marginVertical: 5,
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                marginBottom: 10,
+
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 12,
+                                },
+                                shadowOpacity: 0.8,
+                                shadowRadius: 6.00,
+                                elevation: 15,
+                                marginHorizontal: 10,
                             }}
+                            onPress={e => actualizarTexto()}
                         >
-                            <AntDesign name="book" size={24} color="black" style={{ marginRight: 10 }} />
-                            <Text style={{ fontSize: 14, color: "black" }}>
-                                Escribe un {""}
-                                <Text
-                                    style={{
-                                        fontSize: 14,
-                                        fontWeight: "bold",
-                                        color: "#E39801",
-                                        marginLeft: 10,
-                                    }}
-                                >
-                                    nuevo {""}
-                                </Text>
-                                <Text style={{ fontSize: 14, color: "black" }}>
-                                    capitulo</Text>
+                            <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
+                                Actualizar
                             </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
+                        </TouchableOpacity>
+                        {/* Descripción del libro*/}
+                        <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                            Descripción
+                        </Text>
+                        <TextInput
+                            placeholder="Título "
+                            placeholderTextColor="black"
+                            value={texto}
+                            onChangeText={(text) => setTexto(text)}
+                            style={{
+                                marginRight: 20,
+                                marginLeft: 20,
+                                paddingHorizontal: 20,
+                                paddingVertical: 10,
+                                borderRadius: 10,
+                                color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#f8f8f8",
+                                textAlign: 'justify'
+                            }}
+                            multiline={true}
+                            numberOfLines={4}
+                            textAlignVertical="top"
+                        ></TextInput>
+                        <TouchableOpacity
+                            style={{
+                                width: "50%",
+                                marginTop: 10,
+                                backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                                padding: 4,
+                                borderRadius: 20,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                marginBottom: 10,
 
-                <TouchableOpacity
-                    style={{
-                        width: "40%",
-                        backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#B00020",
-                        padding: 4,
-                        borderRadius: 20,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        marginBottom: 20,
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 12,
+                                },
+                                shadowOpacity: 0.8,
+                                shadowRadius: 6.00,
+                                elevation: 15,
+                                marginHorizontal: 10,
+                            }}
+                            onPress={e => actualizarDescripcion()}
+                        >
+                            <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
+                                Actualizar
+                            </Text>
+                        </TouchableOpacity>
+                    </View >
 
-                        shadowColor: "#000",
-                        shadowOffset: {
-                            width: 0,
-                            height: 12,
-                        },
-                        shadowOpacity: 0.8,
-                        shadowRadius: 6.00,
-                        elevation: 15,
-                    }}
-                    onPress={e => setModalVisibleBorrar(true)}>
-                    <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
-                        Borrar libro
+                    {/* Etiquetas */}
+                    <View style={{ marginHorizontal: 40 }}>
+                        <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                            Etiquetas
+                        </Text>
+
+                        {/* Etiquetas explorar */}
+
+                        <FlatList
+                            contentContainerStyle={{ paddingTop: 5 }}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            data={etiquetas}
+                            keyExtractor={(item, index) => {
+                                return index.toString();
+                            }}
+                            renderItem={({ item, index }) => renderCategorias(item, index)}
+                        ></FlatList>
+
+                        <TextInput
+                            placeholder="Título "
+                            placeholderTextColor="black"
+                            value={textoEtiqueta}
+                            onChangeText={(text) => contarPalabrasEtiqueta(text, 50)}
+                            style={{
+                                marginRight: 20,
+                                marginLeft: 20,
+                                paddingHorizontal: 20,
+                                paddingVertical: 5,
+                                borderRadius: 10,
+                                color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                            }}
+                        ></TextInput>
+                        <Text style={{
+                            marginLeft: "80%"
+                        }}> {textoEtiqueta.length}/50</Text>
+                        <TouchableOpacity
+                            style={{
+                                width: "50%",
+                                marginTop: 10,
+                                backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                                padding: 4,
+                                borderRadius: 20,
+                                alignItems: "center",
+                                justifyContent: "center",
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                marginBottom: 10,
+
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 12,
+                                },
+                                shadowOpacity: 0.8,
+                                shadowRadius: 6.00,
+                                elevation: 15,
+                                marginHorizontal: 10,
+                            }}
+                            onPress={e => añadirEtiquetas(textoEtiqueta)}
+                        >
+                            <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
+                                Añadir etiqueta
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+                    {/* Estado de libros */}
+                    <Text style={{ marginHorizontal: 40, fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                        Estado
                     </Text>
-                </TouchableOpacity>
+                    <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
+                        {libroActual.Estado}
+                    </Text>
+                    <DropDownPicker
+                        style={styles.dropdown}
+                        open={estadoOpen}
+                        value={estadoValue} //genderValue
+                        items={estado}
+                        setOpen={setEstadoOpen}
+                        setValue={setEstadoValue}
+                        setItems={setEstado}
+                        placeholder={estadoValue}
+                        placeholderStyle={styles.placeholderStyles}
+                        dropDownContainerStyle={styles.dropDownContainerStyle}
+                        scrollViewProps={{
+                            decelerationRate: "fast"
+                        }}
+                        zIndex={3000}
+                        zIndexInverse={1000}
+                        onChangeValue={(value) => updateEstado()}
 
-            </ScrollView>
+                    />
+
+                    {/* Capitulos */}
+                    <Text style={{ marginHorizontal: 40, fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                        Capitulos
+                    </Text>
+
+                    <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
+                        {
+                            capitulos.map((item, index) => <RenderCapitulos key={index} libro={item} />)
+                        }
+
+                        {/* Contenedor Botón escribir nuevo capitulo  */}
+                        <TouchableOpacity style={{
+                            marginTop: 20,
+                            marginRight: 20,
+                            marginLeft: 20,
+                            marginBottom: 10,
+                            borderStyle: "dotted",
+                            borderWidth: 2,
+                            borderColor: "#E39801",
+                            flexDirection: "row",
+                            borderRadius: 8,
+                            shadowColor: "black",
+                            shadowOpacity: 0.78,
+                            shadowOffset: { width: 0, height: 9 },
+                            shadowRadius: 10,
+                            elevation: 6,
+                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "white",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }} onPress={() => handleWriteChapter()}>
+                            <View
+                                style={{
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    marginVertical: 5,
+                                }}
+                            >
+                                <AntDesign name="book" size={24} color="black" style={{ marginRight: 10 }} />
+                                <Text style={{ fontSize: 14, color: "black" }}>
+                                    Escribe un {""}
+                                    <Text
+                                        style={{
+                                            fontSize: 14,
+                                            fontWeight: "bold",
+                                            color: "#E39801",
+                                            marginLeft: 10,
+                                        }}
+                                    >
+                                        nuevo {""}
+                                    </Text>
+                                    <Text style={{ fontSize: 14, color: "black" }}>
+                                        capitulo</Text>
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+                    <TouchableOpacity
+                        style={{
+                            width: "40%",
+                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#B00020",
+                            padding: 4,
+                            borderRadius: 20,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            marginBottom: 20,
+
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 12,
+                            },
+                            shadowOpacity: 0.8,
+                            shadowRadius: 6.00,
+                            elevation: 15,
+                        }}
+                        onPress={e => setModalVisibleBorrar(true)}>
+                        <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
+                            Borrar libro
+                        </Text>
+                    </TouchableOpacity>
+
+                </ScrollView>
             </View>
         </SafeAreaView>
 
@@ -536,17 +683,17 @@ const styles = StyleSheet.create({
     dropdown: {
         borderColor: "#8EAF20",
         height: 50,
-        marginLeft:40,
-        width:"80%",
-      },
-      dropDownContainerStyle:{
+        marginLeft: 40,
+        width: "80%",
+    },
+    dropDownContainerStyle: {
         borderColor: "#8EAF20",
-        width:"70%",
-        marginHorizontal:40,
-      },
-      placeholderStyles: {
+        width: "70%",
+        marginHorizontal: 40,
+    },
+    placeholderStyles: {
         color: "grey",
-      },
+    },
     modalWait: {
         marginTop: "auto",
         marginBottom: "auto",

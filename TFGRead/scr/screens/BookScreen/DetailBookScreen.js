@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, BackHandler, TouchableOpacity, Image, ImageBackground,Modal } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, BackHandler, TouchableOpacity, Image, ImageBackground, Modal, FlatList } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
@@ -105,7 +105,35 @@ function DetailBookScreen({ route }) {
             await handleEliminarLibroMeGustaFirebase(email, bookId)
         }
     }
-
+    function renderCategorias(item, index) {
+        return (
+            <View
+                style={{
+                    borderColor: "#8EAF20",
+                    marginHorizontal: 5,
+                    paddingHorizontal: 10,
+                    paddingVertical: 5,
+                    borderWidth: 1,
+                    borderRadius: 15,
+                    backgroundColor: `white`,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 10,
+                    flexDirection: "row"
+                }}
+            >
+                <Text
+                    style={{
+                        fontSize: 13,
+                        color: "black",
+                        fontWeight: "bold",
+                    }}
+                >
+                    {item}
+                </Text>
+            </View>
+        );
+    }
     const RenderCapitulos = ({ libro }) => {
         return (
             <TouchableOpacity key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
@@ -179,7 +207,7 @@ function DetailBookScreen({ route }) {
                         source={{ uri: portada != "" ? portada : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
                         style={{ width: 150, height: 190, borderRadius: 15, overflow: "hidden", marginHorizontal: 10, }}
                     ></ImageBackground>
-       
+
                 </View>
 
                 <View style={{ flexDirection: "row" }}>
@@ -210,15 +238,36 @@ function DetailBookScreen({ route }) {
                 </ScrollView>
 
                 {/* Capitulos */}
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40,borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
                     Capitulos{":    "}
-                    <Text  style={{fontSize: 20, fontWeight: "bold", color: "#429EBD"}}>{libroActual.Estado}</Text>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>{libroActual.Estado}</Text>
                 </Text>
-                <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
+                <View style={{ marginHorizontal: 40, marginBottom: 10,  }}>
                     {
                         capitulos.map((item, index) => <RenderCapitulos key={index} libro={item} />)
                     }
                 </View>
+                {/* Etiquetas */}
+                <View style={{ marginHorizontal: 40 ,marginBottom: 30,}}>
+                    <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 3, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                        Etiquetas
+                    </Text>
+
+                    {/* Etiquetas explorar */}
+
+                    <FlatList
+                        contentContainerStyle={{ paddingTop: 5 }}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={libroActual.Etiquetas}
+                        keyExtractor={(item, index) => {
+                            return index.toString();
+                        }}
+                        renderItem={({ item, index }) => renderCategorias(item, index)}
+                    ></FlatList>
+
+                </View>
+
             </ScrollView>
 
         </SafeAreaView>
@@ -241,23 +290,23 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 9 },
         shadowRadius: 10,
         elevation: 12,
-      },
-      lottieModalWait: {
+    },
+    lottieModalWait: {
         marginTop: "auto",
         marginBottom: "auto",
         marginLeft: "auto",
         marginRight: "auto",
         height: '100%',
         width: '100%'
-      },
-      textWait: {
+    },
+    textWait: {
         marginBottom: 10,
         fontSize: 15,
         color: "black",
         fontWeight: "bold",
         marginLeft: "auto",
         marginRight: "auto"
-      },
+    },
     container: {
         flex: 1,
         backgroundColor: 'white',

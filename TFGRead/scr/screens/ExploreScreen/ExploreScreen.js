@@ -21,17 +21,18 @@ function ExploreScreen({ route }) {
   const navigation = useNavigation();
 
   const [libros, setLibros] = useState([]);
+  const [librosEtiqueta, setLibrosEtiqueta] = useState([]);
   const [autores, setAutores] = useState([]);
   const [fotoPerfil, setFotoPerfil] = useState("");
   const [textoBusqueda, setTextoBusqueda] = useState("");
   const [email, setEmail] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
 
-  const [seguidores, setSeguidores] = useState(0);
-
   const [lastItemId, setLastItemId] = useState("");
 
-  const categorias = ["Libros", "Autores"];
+  const [lastItemIdEtiqueta, setLastItemIdEtiqueta] = useState("");
+
+  const categorias = ["Libros", "Etiquetas", "Autores"];
 
   const [categories, setCategories] = useState([{ Nombre: "Romance", Color: "#E55B5B" }, { Nombre: "Fantasia", Color: "#AD82BB" }]);
 
@@ -66,34 +67,52 @@ function ExploreScreen({ route }) {
   }
 
   const cargarCategorias = async (index) => {
+
     setModalVisible(true)
     setSeleccionadoCategoriaIndex(index);
     if (index == 0) {
       await cargarLibros("");
       setAutores([]);
+      setLibrosEtiqueta([])
     }
-    else {
+    if (index == 1) {
+      setLibros([]);
+      setAutores([]);
+      await cargarLibrosEtiqueta("");
+    }
+    if (index == 2) {
       await cargarAutores();
       setLibros([]);
+      setLibrosEtiqueta([])
     }
+
     setModalVisible(false)
   };
 
   const cargarMasLibros = async () => {
     setModalVisible(true)
     let array = await cargarDatosLibros(lastItemId);
-    if(array[1]!=""){
-    setLastItemId(array[1]);
-    let booksFinal=[...libros,...array[0]];
-    setLibros(booksFinal);}
+    if (array[1] != "") {
+      setLastItemId(array[1]);
+      let booksFinal = [...libros, ...array[0]];
+      setLibros(booksFinal);
+    }
     setModalVisible(false)
   };
 
   const cargarLibros = async (lastItem) => {
 
     let array = await cargarDatosLibros(lastItem);
-    setLastItemId(array[1]);
+    setLastItemIdEtiqueta(array[1]);
     setLibros(array[0]);
+
+  };
+
+  const cargarLibrosEtiqueta = async (lastItem) => {
+
+    let array = await cargarDatosLibros(lastItem);
+    setLastItemIdEtiqueta(array[1]);
+    setLibrosEtiqueta(array[0]);
 
   };
 
@@ -111,6 +130,12 @@ function ExploreScreen({ route }) {
         setLibros(libroFiltro)
       }
       if (seleccionadoCategoriaIndex == 1) {
+        let libroFiltroEtiqueta = libros.filter((a) => {
+
+        });
+        setLibros(libroFiltroEtiqueta)
+      }
+      if (seleccionadoCategoriaIndex == 2) {
         let autoresFiltro = autores.filter((a) => {
           return a.Nombre.toLowerCase().startsWith(textoBusqueda.toLowerCase())
         });
@@ -118,6 +143,7 @@ function ExploreScreen({ route }) {
       }
     }
     else {
+
       await cargarCategorias(seleccionadoCategoriaIndex);
     }
 
@@ -239,72 +265,72 @@ function ExploreScreen({ route }) {
   /* Books nuevos */
   const CardLibros = ({ libro }) => {
     return (
-      <TouchableOpacity onPress={()=>handleBook(libro)}>
-      <View
-        style={{
-          marginVertical: 5,
-          marginHorizontal: 30, marginBottom: 10, flexDirection: "row", borderRadius: 8,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 12,
-          },
-          shadowOpacity: 0.8,
-          shadowRadius: 6.00,
-          elevation: 15,
-          backgroundColor: "white",
-        }}>
-        <ImageBackground
-          source={{ uri: libro.Portada }}
+      <TouchableOpacity onPress={() => handleBook(libro)}>
+        <View
           style={{
-            width: 100,
-            height: 120,
-            borderRadius: 15,
-            overflow: "hidden",
-            marginBottom: 10,
-            marginLeft: 10,
-            marginTop: 10,
-            borderWidth: 1,
-            borderColor: "black",
-          }}
-        ></ImageBackground>
-
-        <View style={{ marginTop: 15, marginBottom: 15, width: 180, marginLeft: 10, alignItems: "center", }}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD" }}>
-            {libro.Titulo}
-          </Text>
-
-          {/* Informacion capitulo*/}
-          <View style={{
-            flexDirection: "row", marginTop: 15, marginBottom: 20, alignItems: "center",
-            marginLeft: 10,
+            marginVertical: 5,
+            marginHorizontal: 30, marginBottom: 10, flexDirection: "row", borderRadius: 8,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 12,
+            },
+            shadowOpacity: 0.8,
+            shadowRadius: 6.00,
+            elevation: 15,
+            backgroundColor: "white",
           }}>
-            <Foundation name="page-multiple" size={20} color="#8EAF20" />
-            <Text style={{ marginLeft: 5, fontSize: 12, color: "black" }}>
-              {libro.NumCapitulo}
+          <ImageBackground
+            source={{ uri: libro.Portada }}
+            style={{
+              width: 100,
+              height: 120,
+              borderRadius: 15,
+              overflow: "hidden",
+              marginBottom: 10,
+              marginLeft: 10,
+              marginTop: 10,
+              borderWidth: 1,
+              borderColor: "black",
+            }}
+          ></ImageBackground>
+
+          <View style={{ marginTop: 15, marginBottom: 15, width: 180, marginLeft: 10, alignItems: "center", }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD" }}>
+              {libro.Titulo}
             </Text>
 
-            <Entypo name="eye" size={20} color="black" style={{ marginLeft: 10, }} />
-            <Text style={{ marginLeft: 5, fontSize: 12, color: "black" }}>
-              {libro.NumSeguidores}
-            </Text>
+            {/* Informacion capitulo*/}
+            <View style={{
+              flexDirection: "row", marginTop: 15, marginBottom: 20, alignItems: "center",
+              marginLeft: 10,
+            }}>
+              <Foundation name="page-multiple" size={20} color="#8EAF20" />
+              <Text style={{ marginLeft: 5, fontSize: 12, color: "black" }}>
+                {libro.NumCapitulo}
+              </Text>
+
+              <Entypo name="eye" size={20} color="black" style={{ marginLeft: 10, }} />
+              <Text style={{ marginLeft: 5, fontSize: 12, color: "black" }}>
+                {libro.NumSeguidores}
+              </Text>
+
+            </View>
+
+            {/* Etiquetas explorar */}
+            <FlatList
+              contentContainerStyle={{}}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={categories}
+              keyExtractor={(item, index) => {
+                return index.toString();
+              }}
+              renderItem={({ item, index }) => RenderEtiquetas(item, index)}
+            ></FlatList>
 
           </View>
-
-          {/* Etiquetas explorar */}
-          <FlatList
-            contentContainerStyle={{}}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={categories}
-            keyExtractor={(item, index) => {
-              return index.toString();
-            }}
-            renderItem={({ item, index }) => RenderEtiquetas(item, index)}
-          ></FlatList>
-
         </View>
-      </View>
       </TouchableOpacity>
     );
   };
@@ -378,9 +404,9 @@ function ExploreScreen({ route }) {
       </View>
 
       <RenderCategorias />
-      {seleccionadoCategoriaIndex == 0 ?
+      {seleccionadoCategoriaIndex == 0  &&
         <FlatList
-          style={{backgroundColor:"white", marginHorizontal:5,borderRadius: 20, }}
+          style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
           keyExtractor={(item, index) => index}
           data={libros}
           renderItem={({ item, index }) => (
@@ -388,14 +414,24 @@ function ExploreScreen({ route }) {
           )}
           onEndReached={e => cargarMasLibros()}
           onEndReachedThreshold={0.1}
-        /> :
+        /> || seleccionadoCategoriaIndex == 1 &&
+          <FlatList
+            style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
+            keyExtractor={(item, index) => index}
+            data={librosEtiqueta}
+            renderItem={({ item, index }) => (
+              <CardLibros key={index} libro={item} />
+            )}
 
-        <ScrollView>
-          {
-            autores.map((item, index) => <CardAutores key={index} autor={item} />)
-          }
+            onEndReachedThreshold={0.1}
+          />
+          ||
+          <ScrollView>
+            {
+              autores.map((item, index) => <CardAutores key={index} autor={item} />)
+            }
 
-        </ScrollView>
+          </ScrollView>
       }
     </SafeAreaView>
   )
