@@ -7,6 +7,7 @@ import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEl
 import { cargarDatosLibro, getCategoriasLibroDescripcion } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 function DetailBookScreen({ route }) {
     const [email, setEmail] = useState("");
@@ -22,13 +23,22 @@ function DetailBookScreen({ route }) {
     const navigation = useNavigation();
     const { bookId } = route.params;
 
+    useFocusEffect(
+        React.useCallback(() => {
+            hacerCosas();
+        }, [megusta])
+      )
     useEffect(() => {
         hacerCosas();
         BackHandler.addEventListener('hardwareBackPress', backAction);
 
         return () =>
             BackHandler.removeEventListener('hardwareBackPress', backAction);
-    }, [email, portada])
+    }, [email, portada, megusta])
+
+
+
+
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -140,8 +150,8 @@ function DetailBookScreen({ route }) {
     const RenderCategorias = (item, index) => {
         return (
             <View style={{
-                marginRight:8,
-               
+                marginRight: 8,
+
             }}>
                 {/* Imagenes Categorias*/}
 
@@ -179,10 +189,11 @@ function DetailBookScreen({ route }) {
                     marginTop: 5, borderBottomColor: "#8EAF20",
                     borderBottomWidth: 1,
                     borderBottomEndRadius: 1,
+                    marginLeft: 10,
 
                     width: libro.Titulo.length ? 150 : libro.Titulo.length + 50
                 }}>
-                    <Text style={{ marginLeft: 10, marginTop: 10, fontSize: 15, color: "black", }}>
+                    <Text style={{ marginTop: 10, fontSize: 15, color: "black", }}>
                         {libro.Titulo}
                     </Text>
                 </View>
@@ -265,7 +276,7 @@ function DetailBookScreen({ route }) {
                 </View>
                 {/* Categorias explorar */}
                 <FlatList
-                    contentContainerStyle={{ marginLeft:"auto",marginRight:"auto"}}
+                    contentContainerStyle={{ marginLeft: "auto", marginRight: "auto" }}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={categorias}

@@ -20,6 +20,19 @@ export const handleRegistroFirebase = (email) => {
     });
 }
 
+export const handleAñadirLibroMeGustaFirebaseCapitulo = (email, bookId,capitulo) => {
+  console.log(capitulo)
+  db
+    .collection('usuarios').doc(email).collection("MeGusta").doc(bookId)
+    .set({
+      Nombre: bookId,
+      UltimoCapitulo:capitulo,
+    })
+    .then(() => {
+      console.log('Añadido a me gusta');
+    });
+}
+
 export const handleAñadirLibroMeGustaFirebase = (email, bookId) => {
   db
     .collection('usuarios').doc(email).collection("MeGusta").doc(bookId)
@@ -59,7 +72,6 @@ export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
   result.forEach((queryDocumentSnapshot) => {
     esta = true;
   })
-
   return esta;
 
 }

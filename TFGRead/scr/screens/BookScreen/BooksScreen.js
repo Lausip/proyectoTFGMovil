@@ -3,9 +3,9 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { db } from '../../config/firebase';
 import { getUserAuth } from "../../hooks/Auth/Auth";
-import { updateUltimoCapitulo, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
+import { updateUltimoCapitulo, cambiarUltimoLibroLeido, handleElLibroEstaEnMeGusta, handleAñadirLibroMeGustaFirebaseCapitulo } from '../../hooks/Auth/Firestore';
 import { AntDesign, MaterialCommunityIcons, Ionicons, Feather, Entypo } from '@expo/vector-icons';
-import { getPortadaLibro, getCapituloId } from '../../hooks/FirebaseLibros';
+import { getPortadaLibro, getCapituloId, } from '../../hooks/FirebaseLibros';
 
 
 
@@ -25,6 +25,7 @@ function BooksScreen({ route }) {
   const [hayCapituloSiguiente, setHayCapituloSiguiente] = useState(false);
   const [sacarCapitulos, setSacarCapitulos] = useState(false);
   const [modalOpciones, setModalOpciones] = useState(false);
+  const [modalAñadirMeGusta, setModalAñadirMeGusta] = useState(false);
 
   const [capitulos, setCapitulos] = useState(false);
 
@@ -32,6 +33,7 @@ function BooksScreen({ route }) {
   const { bookId, capituloNumero, screen } = route.params;
 
   useEffect(() => {
+
     hacerCosas();
     BackHandler.addEventListener('hardwareBackPress', backAction);
 
@@ -40,10 +42,23 @@ function BooksScreen({ route }) {
 
   }, [capituloNumero]);
 
-
-  const backAction = async () => {
+  const preguntarBibliotecaMegusta = async () => {
+    let e = await getUserAuth();
+    let megusta = await handleElLibroEstaEnMeGusta(e, bookId)
+    if (!megusta) {
+      setModalAñadirMeGusta(true);
+    } else {
+      goBack();
+    }
+  }
+  const añadirElLibroABiblioteca = async () => {
+    let e = await getUserAuth();
+    await handleAñadirLibroMeGustaFirebaseCapitulo(e, bookId,capituloNumero)
+    setTimeout(() => 1000);
+    goBack();
+  }
+  const goBack = () => {
     if (navigation.isFocused()) {
-
       if (screen == "detailsBookScreen" || screen == undefined) {
         navigation.navigate("detailsBookScreen", {
           bookId: bookId,
@@ -54,15 +69,20 @@ function BooksScreen({ route }) {
       }
       return true;
     }
+  }
+  const backAction = async () => {
+    if (navigation.isFocused()) {
+    preguntarBibliotecaMegusta()
 
-
-  };
+    };
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
 
   const hacerCosas = async () => {
 
@@ -71,6 +91,7 @@ function BooksScreen({ route }) {
     await cargarCapituloLibros();
     let a = await mirarSiHayMasCapitulo(bookId, capituloNumero + 1);
     setPortada(await getPortadaLibro(bookId))
+    await updateUltimoCapitulo(e, bookId, capituloNumero);
     await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
       const caps = [];
       querySnapshot.forEach(documentSnapshot => {
@@ -84,7 +105,7 @@ function BooksScreen({ route }) {
 
     setHayCapituloSiguiente(a);
     setSacarCapitulos(false)
-    await updateUltimoCapitulo(e, bookId, capituloNumero);
+  
   }
 
   const mirarSiHayMasCapitulo = async (bookId, capSiguiente) => {
@@ -160,7 +181,6 @@ function BooksScreen({ route }) {
   }
 
   const sacarCapitulosView = (s) => {
-    console.log(s)
     if (s)
       setFondoColor("#A7A7A7")
     else {
@@ -214,17 +234,18 @@ function BooksScreen({ route }) {
     <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => cargarOpciones()}>
       <SafeAreaView style={{
         flex: 1,
-        backgroundColor: fondoColor,
+        backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
       }}>
 
         <ScrollView
           showsVerticalScrollIndicator={true}>
           <View onStartShouldSetResponder={() => true} style={{
-            backgroundColor: fondoColor,
+            backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
             marginHorizontal: 20,
             marginVertical: 30,
           }}>
-          {/* Contenido */}
+
+            {/* Contenido */}
             <Text style={styles.textChapter}>
               {titulo}
             </Text>
@@ -236,7 +257,7 @@ function BooksScreen({ route }) {
               {texto}
             </Text>
 
-          {/* Contenedor de siguiente o no capitulo */}
+            {/* Contenedor de siguiente o no capitulo */}
             {
               hayCapituloSiguiente ?
                 < TouchableOpacity onPress={() => irAotroCapitulo()} style={{
@@ -253,7 +274,7 @@ function BooksScreen({ route }) {
                   shadowOffset: { width: 0, height: 9 },
                   shadowRadius: 10,
                   elevation: 6,
-                  backgroundColor: fondoColor,
+                  backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
                   alignItems: "center",
                   justifyContent: "center",
                 }} >
@@ -297,7 +318,7 @@ function BooksScreen({ route }) {
                   shadowOffset: { width: 0, height: 9 },
                   shadowRadius: 10,
                   elevation: 6,
-                  backgroundColor: fondoColor,
+                  backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
                   alignItems: "center",
                   justifyContent: "center",
                 }} >
@@ -318,7 +339,7 @@ function BooksScreen({ route }) {
           </View>
         </ScrollView>
 
-                      {/* Menu de capitulo */}
+        {/* Menu de capitulo */}
 
         {
           sacarCapitulos ?
@@ -369,11 +390,46 @@ function BooksScreen({ route }) {
         }
 
 
-           {/* Modal de opciones */}
+        <Modal
+          animationType="fade"
+          visible={modalAñadirMeGusta}
+          transparent
+        >
+
+          <View style={styles.modalBiblioteca}>
+            <AntDesign name="warning" size={35} color="#E39801" />
+            <Text style={{
+              marginVertical: 20,
+              marginHorizontal: 20,
+            }}>¿Quieres añadir el libro a la biblioteca?</Text>
+            <View style={{
+              flexDirection: "row"
+            }}>
+              <TouchableOpacity
+                style={styles.modalBotonesBiblioteca}
+                onPress={e => goBack()}
+              >
+                <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
+                  Cancelar
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.modalBotonesBiblioteca}
+                onPress={e => añadirElLibroABiblioteca()}
+              >
+                <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
+                  Añadir
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Modal de opciones */}
         {
           modalOpciones ?
             <View
-              style={{ flex: 1, justifyContent: "flex-end", alignItems: "center", }}
+              style={{ flex: 1, justifyContent: "flex-end", alignItems: "center", backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor, }}
             >
               <View
                 style={styles.modalOpciones}>
@@ -489,5 +545,39 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     justifyContent: 'space-between',
   },
+  modalBotonesBiblioteca: {
+    width: "30%",
+    padding: 12,
+    borderRadius: 20,
+    alignItems: "center",
+    marginLeft: 5,
+    marginRight: 5,
+    backgroundColor: "#E39801",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 6.00,
+    elevation: 15,
+  },
+  modalBiblioteca: {
+    marginHorizontal: 30,
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    height: 200,
+    borderColor: "#8EAF20",
+    borderRadius: 20,
+    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.89,
+    shadowOffset: { width: 0, height: 9 },
+    shadowRadius: 10,
+    elevation: 12,
+
+  }
 });
 export default BooksScreen
