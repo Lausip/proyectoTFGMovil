@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
 import LottieView from 'lottie-react-native';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarCategoria,cambiarPortadadeLibro, getCategoriasLibro, eliminarLibroFirebase, eliminarCapituloLibro, añadirEtiqueta, eliminarEtiqueta, cambiarFechaModificaciónLibro, cambiarEstado } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarCategoria, cambiarPortadadeLibro, getCategoriasLibro, eliminarLibroFirebase, eliminarCapituloLibro, añadirEtiqueta, eliminarEtiqueta, cambiarFechaModificaciónLibro, cambiarEstado } from '../../hooks/FirebaseLibros';
 import { crearLibroStorage } from '../../hooks/Storage';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { pickImage } from "../../utils/ImagePicker";
@@ -30,14 +30,14 @@ function EditBookScreen({ route }) {
 
     //CATEGORIAS:
     const [categoriaOpen, setCategoriaOpen] = useState(false);
-    const [c, setC] = useState([]);
     const [categoriasLibroFirebase, setCategoriasLibroFirebase] = useState([]);
     const [categoriasFirebase, setCategoriasFirebase] = useState([]);
     //MODALES:
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisibleBorrar, setModalVisibleBorrar] = useState(false);
     const [isModalVisibleCategoria, setModalVisibleCategoria] = useState(false);
-
+    const [isModalVisibleTitulo, setModalVisibleTitulo] = useState(false);
+    const [isModalVisibleDescripcion, setModalVisibleDescripcion] = useState(false);
     const navigation = useNavigation();
     const { bookId } = route.params;
 
@@ -105,6 +105,7 @@ function EditBookScreen({ route }) {
         await cambiarFechaModificaciónLibro(bookId);
         setModalVisible(false)
     }
+
     const cargarCategorias = async () => {
         setModalVisible(true)
 
@@ -114,6 +115,7 @@ function EditBookScreen({ route }) {
 
         setModalVisible(false)
     }
+
     const cargarLibro = async () => {
         let e = await getUserAuth();
         setEmail(e);
@@ -141,11 +143,12 @@ function EditBookScreen({ route }) {
 
     }
     const actualizarTexto = async () => {
-        setModalVisible(true)
-        await cambiarTitulo(bookId, titulo)
-        setModalVisible(false)
+        if (!assertActualizarLibroTitulo()) {
+            setModalVisible(true)
+            await cambiarTitulo(bookId, titulo)
+            setModalVisible(false)
+        }
     }
-
 
     const eliminarLibro = async () => {
         setModalVisible(true);
@@ -153,6 +156,24 @@ function EditBookScreen({ route }) {
         setModalVisible(false);
         setModalVisibleBorrar(false);
         handleWrite();
+    }
+
+    const assertActualizarLibroTitulo = () => {
+    
+        if (titulo.length == 0 || titulo.trim().length == 0) {
+
+            setModalVisibleTitulo(true);
+            return true;
+        }
+        return false;
+    }
+    const assertActualizarLibroDescripcion = () => {
+        console.log(texto)
+        if (texto.length == 0 || texto.trim().length == 0) {
+            setModalVisibleDescripcion(true);
+            return true;
+        }
+        return false;
     }
 
     const contarPalabrasEtiqueta = (texto, length) => {
@@ -183,24 +204,24 @@ function EditBookScreen({ route }) {
     }
 
     const actualizarDescripcion = async () => {
-        setModalVisible(true)
-        await cambiarDescripcion(bookId, texto)
-        setModalVisible(false)
+        if (!assertActualizarLibroDescripcion()) {
+            setModalVisible(true)
+            await cambiarDescripcion(bookId, texto)
+            setModalVisible(false)
+        }
     }
     const updateEstado = async () => {
         setModalVisible(true)
         await cambiarEstado(bookId, estadoValue);
         setModalVisible(false)
     }
+
     const updateCategoria = async () => {
         setModalVisible(true)
         let categoria = [];
-        let i;
-        let j;
-
+        let i, j;
         for (i = 0; i < categoriasFirebase.length; i++) {
             for (j = 0; j < categoriasLibroFirebase.length; j++) {
-         
                 if (categoriasFirebase[i].value == categoriasLibroFirebase[j]) {
                     categoria.push({
                         Nombre: categoriasFirebase[i].value,
@@ -226,28 +247,9 @@ function EditBookScreen({ route }) {
     }
     function renderCategorias(item, index) {
         return (
-            <View
-                style={{
-                    borderColor: "#8EAF20",
-                    marginHorizontal: 5,
-                    paddingHorizontal: 10,
-                    paddingVertical: 5,
-                    borderWidth: 1,
-                    borderRadius: 15,
-                    backgroundColor: `white`,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: 10,
-                    flexDirection: "row"
-                }}
-            >
+            <View style={styles.viewCategorias}>
                 <Text
-                    style={{
-                        fontSize: 13,
-                        color: "black",
-                        fontWeight: "bold",
-                    }}
-                >
+                    style={{ fontSize: 13, color: "black", fontWeight: "bold" }}>
                     {item}
                 </Text>
                 <TouchableOpacity
@@ -297,8 +299,7 @@ function EditBookScreen({ route }) {
             <Modal
                 animationType="fade"
                 visible={isModalVisible}
-                transparent
-            >
+                transparent>
                 <View style={styles.modalWait}>
                     <LottieView style={styles.lottieModalWait}
                         source={require('../../../assets/animations/waitFunction.json')} autoPlay loop />
@@ -306,6 +307,74 @@ function EditBookScreen({ route }) {
                 </View>
             </Modal>
 
+
+            <Modal
+                animationType="fade"
+                visible={isModalVisibleTitulo}
+                transparent>
+                <View style={styles.modalAviso}>
+                    <AntDesign name="warning" size={35} color="#E39801" />
+                    <Text style={styles.textoAviso}>
+                        NO puedes dejar un libro sin titulo</Text>
+                    <TouchableOpacity style={{
+                        width: "50%",
+                        padding: 12,
+                        borderRadius: 20,
+                        alignItems: "center",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 12,
+                        },
+                        shadowOpacity: 0.8,
+                        shadowRadius: 6.00,
+                        elevation: 15,
+                    }}
+                        onPress={e => setModalVisibleTitulo(false)}>
+                        <Text style={styles.textoAvisoButton}>
+                            Aceptar
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+            </Modal>
+            <Modal
+                animationType="fade"
+                visible={isModalVisibleDescripcion}
+                transparent
+            >
+                <View style={styles.modalAviso}>
+                    <AntDesign name="warning" size={35} color="#E39801" />
+                    <Text style={styles.textoAviso}>
+                        NO puedes dejar un libro sin descripción</Text>
+                    <TouchableOpacity style={{
+                        width: "50%",
+                        padding: 12,
+                        borderRadius: 20,
+                        alignItems: "center",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 12,
+                        },
+                        shadowOpacity: 0.8,
+                        shadowRadius: 6.00,
+                        elevation: 15,
+                    }}
+                        onPress={e => setModalVisibleDescripcion(false)}>
+                        <Text style={styles.textoAvisoButton}>
+                            Aceptar
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+            </Modal>
             <Modal
                 animationType="fade"
                 visible={isModalVisibleBorrar}
@@ -313,10 +382,7 @@ function EditBookScreen({ route }) {
             >
                 <View style={styles.modalWait}>
                     <AntDesign name="warning" size={35} color="#E39801" />
-                    <Text style={{
-                        marginVertical: 20,
-                        marginHorizontal: 20,
-                    }}>¿Seguro que quieres borrar {titulo} ?</Text>
+                    <Text style={styles.textoAviso}>¿Seguro que quieres borrar {titulo} ?</Text>
                     <View style={{
                         flexDirection: "row"
                     }}>
@@ -327,7 +393,7 @@ function EditBookScreen({ route }) {
                                 padding: 12,
                                 borderRadius: 20,
                                 alignItems: "center",
-                                backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
+                                backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#E39801",
                                 shadowColor: "#000",
                                 shadowOffset: {
                                     width: 0,
@@ -339,7 +405,7 @@ function EditBookScreen({ route }) {
                             }}
                             onPress={e => setModalVisibleBorrar(false)}
                         >
-                            <Text style={styles.modalBorrarText}>
+                            <Text style={styles.textoAvisoButton}>
                                 Cancelar
                             </Text>
                         </TouchableOpacity>
@@ -352,7 +418,7 @@ function EditBookScreen({ route }) {
                                 alignItems: "center",
                                 marginLeft: "auto",
                                 marginRight: "auto",
-                                backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+                                backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#B00020",
 
                                 shadowColor: "#000",
                                 shadowOffset: {
@@ -378,21 +444,7 @@ function EditBookScreen({ route }) {
                 transparent
             >
 
-                <View style={{
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    height: 200,
-                    borderColor: "#8EAF20",
-                    borderRadius: 20,
-                    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-                    shadowColor: "black",
-                    shadowOpacity: 0.89,
-                    shadowOffset: { width: 0, height: 9 },
-                    shadowRadius: 10,
-                    elevation: 12,
-                }}>
+                <View style={styles.modalAviso}>
                     <AntDesign name="warning" size={35} color="#E39801" />
                     <Text style={{
                         marginVertical: 20,
@@ -407,8 +459,7 @@ function EditBookScreen({ route }) {
                             alignItems: "center",
                             marginLeft: "auto",
                             marginRight: "auto",
-                            backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
-
+                            backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#B00020",
                             shadowColor: "#000",
                             shadowOffset: {
                                 width: 0,
@@ -434,15 +485,7 @@ function EditBookScreen({ route }) {
                 barStyle="dark-content"
             />
             {/* Head Cosas */}
-            <View style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#429EBD",
-                borderBottomRightRadius: 500,
-                height: 70,
-
-            }}>
+            <View style={styles.viewHead}>
                 <TouchableOpacity onPress={() => handleWrite()}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
@@ -476,7 +519,7 @@ function EditBookScreen({ route }) {
 
                     <View style={{ marginTop: 30, marginHorizontal: 40 }}>
                         {/* Titulo del libro*/}
-                        <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                        <Text style={styles.tituloBorder}>
                             Título
                         </Text>
                         <TextInput
@@ -490,14 +533,14 @@ function EditBookScreen({ route }) {
                                 paddingHorizontal: 20,
                                 paddingVertical: 10,
                                 borderRadius: 10,
-                                color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#f8f8f8"
+                                color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
                             }}
                         ></TextInput>
                         <TouchableOpacity
                             style={{
                                 width: "50%",
                                 marginTop: 10,
-                                backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                                backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#E39801",
                                 padding: 4,
                                 borderRadius: 20,
                                 alignItems: "center",
@@ -505,7 +548,6 @@ function EditBookScreen({ route }) {
                                 marginLeft: "auto",
                                 marginRight: "auto",
                                 marginBottom: 10,
-
                                 shadowColor: "#000",
                                 shadowOffset: {
                                     width: 0,
@@ -523,7 +565,7 @@ function EditBookScreen({ route }) {
                             </Text>
                         </TouchableOpacity>
                         {/* Descripción del libro*/}
-                        <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                        <Text style={styles.tituloBorder}>
                             Descripción
                         </Text>
                         <TextInput
@@ -537,7 +579,7 @@ function EditBookScreen({ route }) {
                                 paddingHorizontal: 20,
                                 paddingVertical: 10,
                                 borderRadius: 10,
-                                color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#f8f8f8",
+                                color: "black", backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8",
                                 textAlign: 'justify'
                             }}
                             multiline={true}
@@ -548,7 +590,7 @@ function EditBookScreen({ route }) {
                             style={{
                                 width: "50%",
                                 marginTop: 10,
-                                backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                                backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#E39801",
                                 padding: 4,
                                 borderRadius: 20,
                                 alignItems: "center",
@@ -576,7 +618,7 @@ function EditBookScreen({ route }) {
                     </View >
                     {/* Categorías */}
 
-                    <Text style={{ marginHorizontal: 40, fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                    <Text style={styles.tituloBorder}>
                         Categorías
                     </Text>
                     <DropDownPicker
@@ -602,7 +644,7 @@ function EditBookScreen({ route }) {
                         style={{
                             width: "40%",
                             marginTop: 10,
-                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                            backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#E39801",
                             padding: 4,
                             borderRadius: 20,
                             alignItems: "center",
@@ -623,13 +665,13 @@ function EditBookScreen({ route }) {
                         }}
                         onPress={e => updateCategoria()}
                     >
-                        <Text style={{ fontSize: 15, color: "white", margin: "auto"  }}>
-                           Actualizar
+                        <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
+                            Actualizar
                         </Text>
                     </TouchableOpacity>
                     {/* Etiquetas */}
                     <View style={{ marginHorizontal: 40 }}>
-                        <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                        <Text style={styles.tituloBorder}>
                             Etiquetas
                         </Text>
 
@@ -657,7 +699,7 @@ function EditBookScreen({ route }) {
                                 paddingHorizontal: 20,
                                 paddingVertical: 5,
                                 borderRadius: 10,
-                                color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
                             }}
                         ></TextInput>
                         <Text style={{
@@ -667,7 +709,7 @@ function EditBookScreen({ route }) {
                             style={{
                                 width: "50%",
                                 marginTop: 10,
-                                backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                                backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#E39801",
                                 padding: 4,
                                 borderRadius: 20,
                                 alignItems: "center",
@@ -696,7 +738,7 @@ function EditBookScreen({ route }) {
 
 
                     {/* Estado de libros */}
-                    <Text style={{ marginHorizontal: 40, fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                    <Text style={styles.tituloBorder}>
                         Estado
                     </Text>
                     <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
@@ -723,7 +765,7 @@ function EditBookScreen({ route }) {
                     />
 
                     {/* Capitulos */}
-                    <Text style={{ marginHorizontal: 40, fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                    <Text style={styles.tituloBorder}>
                         Capitulos
                     </Text>
 
@@ -748,7 +790,7 @@ function EditBookScreen({ route }) {
                             shadowOffset: { width: 0, height: 9 },
                             shadowRadius: 10,
                             elevation: 6,
-                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "white",
+                            backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "white",
                             alignItems: "center",
                             justifyContent: "center",
                         }} onPress={() => handleWriteChapter()}>
@@ -783,7 +825,7 @@ function EditBookScreen({ route }) {
                     <TouchableOpacity
                         style={{
                             width: "40%",
-                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#B00020",
+                            backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#B00020",
                             padding: 4,
                             borderRadius: 20,
                             alignItems: "center",
@@ -809,7 +851,7 @@ function EditBookScreen({ route }) {
 
                 </ScrollView>
             </View>
-        </SafeAreaView>
+        </SafeAreaView >
 
 
     )
@@ -831,7 +873,7 @@ const styles = StyleSheet.create({
         height: 50,
         marginLeft: 50,
         width: "80%",
-        marginTop:10,
+        marginTop: 10,
 
     },
     dropDownContainerStyle: {
@@ -857,6 +899,23 @@ const styles = StyleSheet.create({
         shadowRadius: 10,
         elevation: 12,
     },
+    modalAviso: {
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: 200,
+        borderColor: "#8EAF20",
+        borderRadius: 20,
+        borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+        shadowColor: "black",
+        shadowOpacity: 0.89,
+        shadowOffset: { width: 0, height: 9 },
+        shadowRadius: 10,
+        elevation: 12,
+    },
+
+
     textWait: {
         marginBottom: 10,
         fontSize: 15,
@@ -865,11 +924,7 @@ const styles = StyleSheet.create({
         marginLeft: "auto",
         marginRight: "auto"
     },
-    modalBorrarText: {
-        fontSize: 15,
-        fontWeight: "bold",
-        color: "white"
-    },
+
     fontTitulo: {
         marginTop: "auto",
         marginBottom: "auto",
@@ -904,6 +959,47 @@ const styles = StyleSheet.create({
         color: "black",
         marginRight: 20
     },
+    viewCategorias: {
+        borderColor: "#8EAF20",
+        marginHorizontal: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderWidth: 1,
+        borderRadius: 15,
+        backgroundColor: `white`,
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 10,
+        flexDirection: "row"
+    },
+    viewHead: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#429EBD",
+        borderBottomRightRadius: 500,
+        height: 70,
+    },
+    tituloBorder: {
+        marginHorizontal: 40,
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "black",
+        marginTop: 10,
+        marginBottom: 10,
+        borderBottomColor: "#8EAF20",
+        borderBottomWidth: 3,
+        width: "50%"
+    },
+    textoAviso: {
+        marginVertical: 20,
+        marginHorizontal: 20,
+    },
+    textoAvisoButton: {
+        fontSize: 15,
+        fontWeight: "bold",
+        color: "white"
+    }
 
 });
 export default EditBookScreen

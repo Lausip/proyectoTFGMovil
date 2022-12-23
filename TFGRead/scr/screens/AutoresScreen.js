@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, Entypo } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-import { seguirAutor, enviarPeticion, getFotoPerfil, getDescripcionUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor,mirarSiSonAmigos } from "../hooks/Auth/Firestore";
+import { seguirAutor, enviarPeticion, getFotoPerfil, getDescripcionUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor, mirarSiSonAmigos } from "../hooks/Auth/Firestore";
 import { existeSala, addSala } from "../hooks/ChatFirebase";
 import {
     Menu,
@@ -93,7 +93,7 @@ function AutoresScreen({ route }) {
                     navigation.replace("chatConversationScreen", {
                         sala: salaaaaa[0],
                         screen: "explore",
-                
+
                     });
                 }
                 return false;
@@ -111,12 +111,12 @@ function AutoresScreen({ route }) {
             //Mirar si son amigos:
             let sonAmigos = await mirarSiSonAmigos(email, autorElegido);
             if (sonAmigos) {
-     
+
                 await addSala(email, autorElegido, true);
             }
             else {
                 //Añadir Sala
-                await addSala(email, autorElegido,false);
+                await addSala(email, autorElegido, false);
                 //Mandar notificación:
                 await enviarPeticion(email, autorElegido, "Conversacion");
             }
@@ -133,10 +133,7 @@ function AutoresScreen({ route }) {
             }
 
         }
-
-
     }
-
 
     return (
         <SafeAreaView style={{
@@ -149,21 +146,7 @@ function AutoresScreen({ route }) {
                 visible={isModalVisible}
                 transparent
             >
-                <View style={{
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    height: 150,
-                    borderColor: "#8EAF20",
-                    borderRadius: 20,
-                    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-                    shadowColor: "black",
-                    shadowOpacity: 0.89,
-                    shadowOffset: { width: 0, height: 9 },
-                    shadowRadius: 10,
-                    elevation: 12,
-                }}>
+                <View style={styles.modalView} >
                     <LottieView style={styles.lottieModalWait}
                         source={require('../../assets/animations/waitFunction.json')} autoPlay loop />
                     <Text style={styles.textWait}>Cargando.....</Text>
@@ -174,21 +157,7 @@ function AutoresScreen({ route }) {
                 visible={isModalVisibleEnviarMensaje}
                 transparent
             >
-                <View style={{
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                    height: 150,
-                    borderColor: "#8EAF20",
-                    borderRadius: 20,
-                    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-                    shadowColor: "black",
-                    shadowOpacity: 0.89,
-                    shadowOffset: { width: 0, height: 9 },
-                    shadowRadius: 10,
-                    elevation: 12,
-                }}>
+                <View style={styles.modalView}>
                     <LottieView style={styles.lottieModalWait}
                         source={require('../../assets/animations/waitFunction.json')} autoPlay loop />
                     <Text style={styles.textWait}>Enviando petición...</Text>
@@ -201,15 +170,7 @@ function AutoresScreen({ route }) {
                 barStyle="dark-content"
             />
             {/* Head Cosas */}
-            <View style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#429EBD",
-                borderBottomRightRadius: 500,
-                height: 70,
-
-            }}>
+            <View style={styles.headView}>
                 <TouchableOpacity onPress={() => { goBack() }}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
@@ -232,20 +193,13 @@ function AutoresScreen({ route }) {
 
             }}>
                 {/* Menu de acciones*/}
-                <View style={{
-                    marginTop: 20,
-                    alignItems: "flex-end",
-                    marginHorizontal: 20,
-
-                }}>
-
+                <View style={{marginTop: 20,alignItems: "flex-end",marginHorizontal: 20,}}>
                     <Menu>
                         <MenuTrigger>
                             <Entypo name="dots-three-vertical" size={24} color="black" />
                         </MenuTrigger>
                         <MenuOptions style={{
                             alignItems: "center",
-
                             borderRadius: 8,
                             shadowColor: "black",
                             shadowOpacity: 0.78,
@@ -274,27 +228,23 @@ function AutoresScreen({ route }) {
                     </TouchableOpacity >
 
                     {/* Boton seguir autor */}
-                    <View style={{
-                        marginBottom: 20,
-
-
-                    }}>
+                    <View style={{marginBottom: 20,}}>
                         {!estaSeguido ?
                             <TouchableOpacity
                                 style={{
                                     marginTop: 20,
                                     backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
                                     padding: 12,
-                                    borderRadius: 20,                       
+                                    borderRadius: 20,
                                     alignItems: "center",
                                     marginLeft: "auto",
                                     marginRight: "auto",
                                     flexDirection: "row",
-                                    width: "50%",                               
+                                    width: "50%",
                                     shadowColor: "#000",
                                     shadowOffset: {
-                                      width: 0,
-                                      height: 12,
+                                        width: 0,
+                                        height: 12,
                                     },
                                     shadowOpacity: 0.8,
                                     shadowRadius: 6.00,
@@ -304,24 +254,24 @@ function AutoresScreen({ route }) {
                                 onPress={() => seguir()}
                             >
                                 <Foundation name="foot" size={24} color="white" />
-                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "white" }}>
+                                <Text style={styles.lineaH2}>
                                     Seguir
                                 </Text>
                             </TouchableOpacity> : <TouchableOpacity
-                                style={{                             
+                                style={{
                                     marginTop: 20,
                                     backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
                                     padding: 12,
-                                    borderRadius: 20,                       
+                                    borderRadius: 20,
                                     alignItems: "center",
                                     marginLeft: "auto",
                                     marginRight: "auto",
                                     flexDirection: "row",
-                                    width: "50%",                               
+                                    width: "50%",
                                     shadowColor: "#000",
                                     shadowOffset: {
-                                      width: 0,
-                                      height: 12,
+                                        width: 0,
+                                        height: 12,
                                     },
                                     shadowOpacity: 0.8,
                                     shadowRadius: 6.00,
@@ -331,52 +281,39 @@ function AutoresScreen({ route }) {
                                 onPress={() => dejarSeguir()}
                             >
                                 <Foundation name="foot" size={24} color="white" />
-                                <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "white" }}>
+                                <Text style={styles.lineaH2}>
                                     Dejar de seguir
                                 </Text>
                             </TouchableOpacity>}
                     </View>
 
                     {/* Informacion sobre autor */}
-                    <View style={{
-
-                        flexDirection: "row", marginBottom: 20,
-                    }}>
-
+                    <View style={{flexDirection: "row", marginBottom: 20,}}>
                         {/* Informacion obras*/}
-                        <View style={{
-
-                            flexDirection: "column", alignItems: "center", marginRight: 20,
-                        }}>
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                        <View style={{flexDirection: "column", alignItems: "center", marginRight: 20,}}>
+                            <Text style={styles.lineaH2}>
                                 {libros}
                             </Text>
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                            <Text style={styles.lineaH2}>
                                 Libros
                             </Text>
                         </View>
                         {/* Informacion seguidores */}
-                        <View style={{
-
-                            flexDirection: "column", alignItems: "center", marginRight: 20,
-                        }}>
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                        <View style={{flexDirection: "column", alignItems: "center", marginRight: 20,}}>
+                            <Text style={styles.lineaH2}>
                                 {seguidores}
                             </Text>
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                            <Text style={styles.lineaH2}>
                                 Seguidores
                             </Text>
                         </View>
 
                         {/* Informacion seguidos*/}
-                        <View style={{
-
-                            flexDirection: "column", alignItems: "center",
-                        }}>
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                        <View style={{flexDirection: "column", alignItems: "center"}}>
+                            <Text style={styles.lineaH2}>
                                 {seguidos}
                             </Text>
-                            <Text style={{ marginLeft: 5, fontSize: 15, fontWeight: "bold", color: "black" }}>
+                            <Text style={styles.lineaH2}>
                                 Seguidos
                             </Text>
                         </View>
@@ -411,6 +348,12 @@ function AutoresScreen({ route }) {
     )
 }
 const styles = StyleSheet.create({
+    lineaH2: {
+        marginLeft: 5,
+        fontSize: 15,
+        fontWeight: "bold",
+        color: "black"
+    },
     container: {
         flex: 1,
         backgroundColor: 'white',
@@ -420,6 +363,14 @@ const styles = StyleSheet.create({
         marginHorizontal: 30,
         marginVertical: 30,
     },
+    headView: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#429EBD",
+        borderBottomRightRadius: 500,
+        height: 70,
+    },
     lottieModalWait: {
         marginTop: "auto",
         marginBottom: "auto",
@@ -427,6 +378,21 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         height: '100%',
         width: '100%'
+    },
+    modalView: {
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: 150,
+        borderColor: "#8EAF20",
+        borderRadius: 20,
+        borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+        shadowColor: "black",
+        shadowOpacity: 0.89,
+        shadowOffset: { width: 0, height: 9 },
+        shadowRadius: 10,
+        elevation: 12,
     },
     textWait: {
         marginBottom: 10,

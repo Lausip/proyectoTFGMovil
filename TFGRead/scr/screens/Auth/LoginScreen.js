@@ -45,7 +45,7 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         {/* Email de Inicio de Sesión */}
         <View>
-          <Text style={{ marginLeft: 30, fontSize: 14,color:"black" }}>
+          <Text  style={styles.inputTextoDescripctivo}>
             {" "}
             Correo del usuario{" "}
           </Text>
@@ -68,7 +68,7 @@ const LoginScreen = () => {
         </View>
         {/* Contraseña de Inicio de Sesión */}
         <View>
-          <Text style={{ marginLeft: 30, marginTop: 5, fontSize: 14,color:"black" }}>
+          <Text  style={styles.inputTextoDescripctivo}>
             Contraseña del usuario{" "}
           </Text>
           <View style={styles.inputContainerImage}>
@@ -91,13 +91,7 @@ const LoginScreen = () => {
           <TouchableOpacity style={{ marginLeft: 30 }} onPress={handlePsswOlvidada}>
             <Text style={{ fontSize: 12, color: "black" }}>
               ¿Has olvidadado la{" "}
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: "bold",
-                  color: "#8EAF20",
-                  marginLeft: 10,
-                }}
+              <Text style={styles.textoLetraPequeña}
               >
                 contraseña
               </Text>
@@ -127,13 +121,7 @@ const LoginScreen = () => {
           <Text style={{ fontSize: 12, color: "black" }}>
             ¿No tienes cuenta?{" "}
             <Text
-              style={{
-                fontSize: 12,
-                fontWeight: "bold",
-                color: "#8EAF20",
-                marginLeft: 10,
-              }}
-            >
+              style={styles.textoLetraPequeña}>
               Registrate
             </Text>
           </Text>
@@ -175,6 +163,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  inputTextoDescripctivo:{
+    marginLeft: 30, 
+    fontSize: 14,
+    color:"black",
+    marginTop:5 
+  },
   inputContainer: {
     marginTop: 15,
     marginLeft:20,
@@ -215,6 +209,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 15,
   },
+  textoLetraPequeña:{
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#8EAF20",
+    marginLeft: 10,
+  }
 /*   buttonGoogle: {
     alignItems: "center",
     justifyContent: "center",

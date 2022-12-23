@@ -12,8 +12,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import AntDesign from "react-native-vector-icons/AntDesign"
-import {handleRegistro} from "../../hooks/Auth/Auth"
-import {crearFotoPerfilStorage} from "../../hooks/Storage"
+import { handleRegistro } from "../../hooks/Auth/Auth"
+import { crearFotoPerfilStorage } from "../../hooks/Storage"
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -22,8 +22,8 @@ const RegisterScreen = () => {
 
   const navigation = useNavigation();
   const handleRegistroTodo = async () => {
-   await  handleRegistro(email,password,password2);
-    await crearFotoPerfilStorage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",email);
+    await handleRegistro(email, password, password2);
+    await crearFotoPerfilStorage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", email);
   };
   const handleIncioSesion = () => {
     navigation.replace("login");
@@ -67,7 +67,7 @@ const RegisterScreen = () => {
         </View>
         {/* Contraseña de Registro */}
         <View>
-          <Text style={{ marginLeft: 30, marginTop: 5, color: "black" }}>
+          <Text style={styles.inputTextoDescripctivo}>
             Contraseña del usuario{" "}
           </Text>
           <View style={styles.inputContainerImage}>
@@ -89,7 +89,7 @@ const RegisterScreen = () => {
         </View>
         {/* Confirmar Contraseña Registro */}
         <View>
-          <Text style={{ marginLeft: 30, marginTop: 5, color: "black" }}>
+          <Text style={styles.inputTextoDescripctivo}>
             Confirmar contraseña del usuario{" "}
           </Text>
           <View style={styles.inputContainerImage}>
@@ -121,7 +121,7 @@ const RegisterScreen = () => {
       >
         <TouchableOpacity
           style={styles.buttonInicio}
-          onPress={e=>handleRegistroTodo()}
+          onPress={e => handleRegistroTodo()}
         >
           <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
             Registrarse
@@ -131,14 +131,7 @@ const RegisterScreen = () => {
         <TouchableOpacity onPress={handleIncioSesion}>
           <Text style={{ fontSize: 12, color: "black" }}>
             ¿Ya tienes cuenta?{" "}
-            <Text
-              style={{
-                fontSize: 12,
-                fontWeight: "bold",
-                color: "#8EAF20",
-                marginLeft: 10,
-              }}
-            >
+            <Text style={styles.textoLetraPequeña}>
               Inicia sesión
             </Text>
           </Text>
@@ -185,11 +178,15 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     backgroundColor: "white",
     borderColor: "#8EAF20",
-
-
+  },
+  textoLetraPequeña: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#8EAF20",
+    marginLeft: 10,
   },
   inputContainerImage: {
-  
+
     justifyContent: "center",
   },
   input: {
@@ -219,6 +216,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     marginBottom: 15,
+  },
+  inputTextoDescripctivo: {
+    marginLeft: 30,
+    fontSize: 14,
+    color: "black",
+    marginTop: 5
   },
 });
 export default RegisterScreen;

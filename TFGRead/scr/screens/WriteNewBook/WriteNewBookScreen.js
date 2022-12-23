@@ -51,9 +51,11 @@ function WriteNewBookScreen() {
 
     });
   };
+
   const goBack = () => {
     navigation.replace("write");
   }
+
   const pickImageF = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -93,7 +95,6 @@ function WriteNewBookScreen() {
     setEtiquetas(e)
   }
 
-
   const assertCrearLibroTitulo = () => {
     if (tituloLibro.length == 0 || tituloLibro.trim().length == 0) {
       setModalVisibleTitulo(true);
@@ -131,7 +132,7 @@ function WriteNewBookScreen() {
     let j;
     for (i = 0; i < categoriasFirebase.length; i++) {
 
-      for (j = 0;j < value.length; j++) {
+      for (j = 0; j < value.length; j++) {
         if (categoriasFirebase[i].value == value[j]) {
           categoria.push({
             Nombre: categoriasFirebase[i].value,
@@ -176,19 +177,7 @@ function WriteNewBookScreen() {
   function renderEtiquetas(item, index) {
     return (
       <View
-        style={{
-          borderColor: "#8EAF20",
-          marginHorizontal: 5,
-          paddingHorizontal: 10,
-          paddingVertical: 5,
-          borderWidth: 1,
-          borderRadius: 15,
-          backgroundColor: `white`,
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 10,
-          flexDirection: "row"
-        }}
+        style={styles.viewEtiquetas}
       >
         <Text
           style={{
@@ -224,21 +213,7 @@ function WriteNewBookScreen() {
         visible={isModalVisible}
         transparent
       >
-        <View style={{
-          marginTop: "auto",
-          marginBottom: "auto",
-          marginLeft: "auto",
-          marginRight: "auto",
-          height: 150,
-          borderColor: "#8EAF20",
-          borderRadius: 20,
-          borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-          shadowColor: "black",
-          shadowOpacity: 0.89,
-          shadowOffset: { width: 0, height: 9 },
-          shadowRadius: 10,
-          elevation: 12,
-        }}>
+        <View  style={styles.modalAviso}>
           <LottieView style={styles.lottieModalWait}
             source={require('../../../assets/animations/waitFunction.json')} autoPlay loop />
           <Text style={styles.textWait}>Cargando.....</Text>
@@ -253,21 +228,7 @@ function WriteNewBookScreen() {
 
 
         >
-          <View style={{
-            marginTop: "auto",
-            marginBottom: "auto",
-            marginLeft: "auto",
-            marginRight: "auto",
-            height: 200,
-            borderColor: "#8EAF20",
-            borderRadius: 20,
-            borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-            shadowColor: "black",
-            shadowOpacity: 0.89,
-            shadowOffset: { width: 0, height: 9 },
-            shadowRadius: 10,
-            elevation: 12,
-          }}>
+          <View  style={styles.modalAviso}>
             <AntDesign name="warning" size={35} color="#E39801" />
             <Text style={{
               marginVertical: 20,
@@ -313,21 +274,7 @@ function WriteNewBookScreen() {
         visible={isModalVisibleDescripcion}
         transparent>
 
-        <View style={{
-          marginTop: "auto",
-          marginBottom: "auto",
-          marginLeft: "auto",
-          marginRight: "auto",
-          height: 200,
-          borderColor: "#8EAF20",
-          borderRadius: 20,
-          borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-          shadowColor: "black",
-          shadowOpacity: 0.89,
-          shadowOffset: { width: 0, height: 9 },
-          shadowRadius: 10,
-          elevation: 12,
-        }}>
+        <View style={styles.modalAviso}>
           <AntDesign name="warning" size={35} color="#E39801" />
           <Text style={{
             marginVertical: 20,
@@ -373,21 +320,7 @@ function WriteNewBookScreen() {
           transparent
         >
 
-          <View style={{
-            marginTop: "auto",
-            marginBottom: "auto",
-            marginLeft: "auto",
-            marginRight: "auto",
-            height: 200,
-            borderColor: "#8EAF20",
-            borderRadius: 20,
-            borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-            shadowColor: "black",
-            shadowOpacity: 0.89,
-            shadowOffset: { width: 0, height: 9 },
-            shadowRadius: 10,
-            elevation: 12,
-          }}>
+          <View style={styles.modalAviso}>
             <AntDesign name="warning" size={35} color="#E39801" />
             <Text style={{
               marginVertical: 20,
@@ -430,21 +363,7 @@ function WriteNewBookScreen() {
         transparent
       >
 
-        <View style={{
-          marginTop: "auto",
-          marginBottom: "auto",
-          marginLeft: "auto",
-          marginRight: "auto",
-          height: 200,
-          borderColor: "#8EAF20",
-          borderRadius: 20,
-          borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-          shadowColor: "black",
-          shadowOpacity: 0.89,
-          shadowOffset: { width: 0, height: 9 },
-          shadowRadius: 10,
-          elevation: 12,
-        }}>
+        <View  style={styles.modalAviso}>
           <AntDesign name="warning" size={35} color="#E39801" />
           <Text style={{
             marginVertical: 20,
@@ -791,5 +710,33 @@ const styles = StyleSheet.create({
   placeholderStyles: {
     color: "grey",
   },
+  viewEtiquetas: {
+    borderColor: "#8EAF20",
+    marginHorizontal: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderRadius: 15,
+    backgroundColor: `white`,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+    flexDirection: "row"
+  },
+   modalAviso: {
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: 200,
+        borderColor: "#8EAF20",
+        borderRadius: 20,
+        borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+        shadowColor: "black",
+        shadowOpacity: 0.89,
+        shadowOffset: { width: 0, height: 9 },
+        shadowRadius: 10,
+        elevation: 12,
+    },
 });
 export default WriteNewBookScreen
