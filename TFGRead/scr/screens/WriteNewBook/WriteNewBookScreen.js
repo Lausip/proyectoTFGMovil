@@ -1,5 +1,5 @@
 import {
-  SafeAreaView, StyleSheet, Text, View, BackHandler, TouchableOpacity, ImageBackground, Modal, StatusBar, ScrollView, Image, TextInput, FlatList
+  SafeAreaView, StyleSheet, Text, View, BackHandler, TouchableOpacity, ImageBackground, Modal, StatusBar, ScrollView, Image, TextInput, FlatList, LogBox
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
@@ -7,8 +7,10 @@ import LottieView from 'lottie-react-native';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { crearLibroStorage } from "../../hooks/Storage";
 import { cambiarPortadadeLibro, crearLibroFirebase } from "../../hooks/FirebaseLibros";
+import { getCategorias } from "../../hooks/CategoriasFirebase";
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import * as ImagePicker from 'expo-image-picker';
+import DropDownPicker from "react-native-dropdown-picker";
 
 function WriteNewBookScreen() {
 
@@ -20,14 +22,24 @@ function WriteNewBookScreen() {
   //ETIQUETAS:
   const [textoEtiqueta, setTextoEtiqueta] = useState("");
   const [etiquetas, setEtiquetas] = useState([]);
+  //CATEGORIAS:
+
+  const [categoriasFirebase, setCategoriasFirebase] = useState([]);
+  const [estadoOpen, setEstadoOpen] = useState(false);
+  const [value, setValue] = useState([]); // Multiple
+
+
   //MODALES
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisibleTitulo, setModalVisibleTitulo] = useState(false);
   const [isModalVisibleDescripcion, setModalVisibleDescripcion] = useState(false);
   const [isModalVisibleImagen, setModalVisibleImagen] = useState(false);
+  const [isModalVisibleCategoria, setModalVisibleCategoria] = useState(false);
 
   useEffect(() => {
+    setModalVisible(false);
     fetchData();
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
     BackHandler.addEventListener('hardwareBackPress', backAction);
 
     return () =>
@@ -68,7 +80,6 @@ function WriteNewBookScreen() {
   }
 
   const añadirEtiquetas = (texto) => {
-
     etiquetas.push(
       texto);
     setTextoEtiqueta("");
@@ -106,12 +117,39 @@ function WriteNewBookScreen() {
     }
     return false;
   }
+  const assertCrearLibroCategoria = () => {
 
+    if (value.length == 0) {
+      setModalVisibleCategoria(true);
+      return true;
+    }
+    return false;
+  }
+  const cambiarEstadosPorNombre = () => {
+    let categoria = [];
+    let i;
+    let j;
+    for (i = 0; i < categoriasFirebase.length; i++) {
+
+      for (j = 0;j < value.length; j++) {
+        if (categoriasFirebase[i].value == value[j]) {
+          categoria.push({
+            Nombre: categoriasFirebase[i].value,
+            Color: categoriasFirebase[i].color,
+          });
+        }
+
+      }
+    }
+
+    return categoria;
+  }
   const crearLibro = async () => {
 
     setModalVisible(true);
-    if (!assertCrearLibroTitulo() && !assertCrearLibroDescripcion() && !assertCrearLibroImagen()) {
-      let id = await crearLibroFirebase(tituloLibro, descripcionLibro, email, etiquetas);
+    if (!assertCrearLibroTitulo() && !assertCrearLibroDescripcion() && !assertCrearLibroImagen() && !assertCrearLibroCategoria()) {
+      let categoria = cambiarEstadosPorNombre();
+      let id = await crearLibroFirebase(tituloLibro, descripcionLibro, email, etiquetas, categoria);
       let urlPortada = await crearLibroStorage(image, email, id)
       await cambiarPortadadeLibro(id, urlPortada)
 
@@ -123,6 +161,7 @@ function WriteNewBookScreen() {
   }
   const fetchData = async () => {
     setEmail(await getUserAuth());
+    setCategoriasFirebase(await getCategorias());
   }
 
 
@@ -132,7 +171,9 @@ function WriteNewBookScreen() {
     });
   }, []);
 
-  function renderCategorias(item, index) {
+
+
+  function renderEtiquetas(item, index) {
     return (
       <View
         style={{
@@ -156,7 +197,7 @@ function WriteNewBookScreen() {
             fontWeight: "bold",
           }}
         >
-          {item.Nombre}
+          {item}
         </Text>
         <TouchableOpacity
           style={{
@@ -382,6 +423,63 @@ function WriteNewBookScreen() {
           </View>
         </Modal>
       }
+
+      <Modal
+        animationType="fade"
+        visible={isModalVisibleCategoria}
+        transparent
+      >
+
+        <View style={{
+          marginTop: "auto",
+          marginBottom: "auto",
+          marginLeft: "auto",
+          marginRight: "auto",
+          height: 200,
+          borderColor: "#8EAF20",
+          borderRadius: 20,
+          borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+          shadowColor: "black",
+          shadowOpacity: 0.89,
+          shadowOffset: { width: 0, height: 9 },
+          shadowRadius: 10,
+          elevation: 12,
+        }}>
+          <AntDesign name="warning" size={35} color="#E39801" />
+          <Text style={{
+            marginVertical: 20,
+            marginHorizontal: 20,
+          }}>NO puedes dejar un libro sin categoría</Text>
+
+          <TouchableOpacity
+            style={{
+              width: "50%",
+              padding: 12,
+              borderRadius: 20,
+              alignItems: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+              backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 12,
+              },
+              shadowOpacity: 0.8,
+              shadowRadius: 6.00,
+              elevation: 15,
+            }}
+            onPress={e => setModalVisibleCategoria(!isModalVisibleCategoria)}
+          >
+            <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
+              Aceptar
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+      </Modal>
+
       {/* Pantalla normal*/}
       {/* Head */}
       <StatusBar
@@ -506,96 +604,121 @@ function WriteNewBookScreen() {
             }}> {descripcionLibro.length}/500</Text>
           </View>
 
-          {/* Etiquetas */}
+          {/* Categorías */}
           <View>
             <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
-              Etiquetas
+              Categorías
             </Text>
-
-            {/* Etiquetas explorar */}
-
+            <DropDownPicker
+              style={styles.dropdown}
+              open={estadoOpen}
+              value={value}
+              items={categoriasFirebase}
+              setOpen={setEstadoOpen}
+              setValue={setValue}
+              setItems={setCategoriasFirebase}
+              placeholder="Seleccionar categorias"
+              placeholderStyle={styles.placeholderStyles}
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              scrollViewProps={{
+                decelerationRate: "fast"
+              }}
+              zIndex={3000}
+              zIndexInverse={1000}
+              multiple={true}
+              min={1}
+              max={3}
+              mode="BADGE"
+            />
+            {/* Etiquetas */}
             <View>
-              <FlatList
-                contentContainerStyle={{ paddingTop: 5 }}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={etiquetas}
-                keyExtractor={(item, index) => {
-                  return index.toString();
+              <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                Etiquetas
+              </Text>
+
+              {/* Etiquetas explorar */}
+
+              <View>
+                <FlatList
+                  contentContainerStyle={{ paddingTop: 5 }}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={etiquetas}
+                  keyExtractor={(item, index) => {
+                    return index.toString();
+                  }}
+                  renderItem={({ item, index }) => renderEtiquetas(item, index)}
+                ></FlatList>
+              </View>
+
+              <TextInput
+                placeholder="Título "
+                placeholderTextColor="black"
+                value={textoEtiqueta}
+                onChangeText={(text) => contarPalabrasEtiqueta(text, 50)}
+                style={{
+                  marginRight: 20,
+                  marginLeft: 20,
+                  paddingHorizontal: 20,
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                  color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
                 }}
-                renderItem={({ item, index }) => renderCategorias(item, index)}
-              ></FlatList>
+              ></TextInput>
+              <Text style={{
+                marginLeft: "80%"
+              }}> {textoEtiqueta.length}/50</Text>
+              <TouchableOpacity
+                style={{
+                  marginHorizontal: 10,
+                  width: "50%",
+                  borderRadius: 20,
+                  alignItems: "center",
+                  backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 12,
+                  },
+                  shadowOpacity: 0.8,
+                  shadowRadius: 6.00,
+                  elevation: 5,
+                }}
+                onPress={e => añadirEtiquetas(textoEtiqueta)}
+              >
+                <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
+                  Añadir etiqueta
+                </Text>
+              </TouchableOpacity>
             </View>
 
-
-            <TextInput
-              placeholder="Título "
-              placeholderTextColor="black"
-              value={textoEtiqueta}
-              onChangeText={(text) => contarPalabrasEtiqueta(text, 50)}
-              style={{
-                marginRight: 20,
-                marginLeft: 20,
-                paddingHorizontal: 20,
-                paddingVertical: 5,
-                borderRadius: 10,
-                color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
-              }}
-            ></TextInput>
-            <Text style={{
-              marginLeft: "80%"
-            }}> {textoEtiqueta.length}/50</Text>
             <TouchableOpacity
               style={{
-                marginHorizontal: 10,
                 width: "50%",
+                marginTop: 25,
+                padding: 12,
                 borderRadius: 20,
                 alignItems: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
                 backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
+
                 shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
-                  height: 12,
+                  height: 1,
                 },
                 shadowOpacity: 0.8,
                 shadowRadius: 6.00,
                 elevation: 5,
               }}
-              onPress={e => añadirEtiquetas(textoEtiqueta)}
+              onPress={e => crearLibro()}
             >
               <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
-                Añadir etiqueta
+                Siguiente
               </Text>
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            style={{
-              width: "50%",
-              marginTop: 25,
-              padding: 12,
-              borderRadius: 20,
-              alignItems: "center",
-              marginLeft: "auto",
-              marginRight: "auto",
-              backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
-
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 1,
-              },
-              shadowOpacity: 0.8,
-              shadowRadius: 6.00,
-              elevation: 5,
-            }}
-            onPress={e => crearLibro()}
-          >
-            <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
-              Siguiente
-            </Text>
-          </TouchableOpacity>
-
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -655,6 +778,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
     marginLeft: 20
-  }
+  },
+  dropdown: {
+    borderColor: "#8EAF20",
+    width: "80%",
+  },
+  dropDownContainerStyle: {
+    borderColor: "#8EAF20",
+    width: "70%",
+
+  },
+  placeholderStyles: {
+    color: "grey",
+  },
 });
 export default WriteNewBookScreen

@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
 import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
-import { cargarDatosLibro } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, getCategoriasLibroDescripcion } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
 
@@ -15,6 +15,7 @@ function DetailBookScreen({ route }) {
     const [libroActual, setLibroActual] = useState({});
     const [megusta, setMeGusta] = useState(false);
     const [capitulos, setCapitulos] = useState([]);
+    const [categorias, setCategorias] = useState([]);
 
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -55,6 +56,7 @@ function DetailBookScreen({ route }) {
         let data = await cargarDatosLibro(bookId)
         setLibroActual(data);
         setPortada(data.Portada)
+        setCategorias(await getCategoriasLibroDescripcion(bookId))
         await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
             const caps = [];
             querySnapshot.forEach(documentSnapshot => {
@@ -64,6 +66,7 @@ function DetailBookScreen({ route }) {
                 });
             });
             setCapitulos(caps);
+
         });
     }
 
@@ -105,7 +108,7 @@ function DetailBookScreen({ route }) {
             await handleEliminarLibroMeGustaFirebase(email, bookId)
         }
     }
-    function renderCategorias(item, index) {
+    function renderEtiquetas(item, index) {
         return (
             <View
                 style={{
@@ -134,6 +137,41 @@ function DetailBookScreen({ route }) {
             </View>
         );
     }
+    const RenderCategorias = (item, index) => {
+        return (
+            <View style={{
+                marginRight:8,
+               
+            }}>
+                {/* Imagenes Categorias*/}
+
+                <View
+                    style={{
+                        paddingLeft: 10,
+                        paddingRight: 10,
+                        paddingBottom: 5,
+                        paddingTop: 5,
+                        borderRadius: 15,
+                        overflow: "hidden",
+                        backgroundColor: `${item.Color}`,
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <Text
+                        style={{
+                            fontSize: 15,
+                            color: "white",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        {item.Nombre}
+                    </Text>
+                </View>
+
+            </View>
+        );
+    };
     const RenderCapitulos = ({ libro }) => {
         return (
             <TouchableOpacity key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
@@ -225,6 +263,17 @@ function DetailBookScreen({ route }) {
                     </TouchableOpacity>
 
                 </View>
+                {/* Categorias explorar */}
+                <FlatList
+                    contentContainerStyle={{ marginLeft:"auto",marginRight:"auto"}}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={categorias}
+                    keyExtractor={(item, index) => {
+                        return index.toString();
+                    }}
+                    renderItem={({ item, index }) => RenderCategorias(item, index)}
+                ></FlatList>
 
                 {/* Descripción del libro*/}
                 <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
@@ -238,17 +287,17 @@ function DetailBookScreen({ route }) {
                 </ScrollView>
 
                 {/* Capitulos */}
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40,borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
                     Capitulos{":    "}
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>{libroActual.Estado}</Text>
                 </Text>
-                <View style={{ marginHorizontal: 40, marginBottom: 10,  }}>
+                <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
                     {
                         capitulos.map((item, index) => <RenderCapitulos key={index} libro={item} />)
                     }
                 </View>
                 {/* Etiquetas */}
-                <View style={{ marginHorizontal: 40 ,marginBottom: 30,}}>
+                <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
                     <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 3, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
                         Etiquetas
                     </Text>
@@ -263,7 +312,7 @@ function DetailBookScreen({ route }) {
                         keyExtractor={(item, index) => {
                             return index.toString();
                         }}
-                        renderItem={({ item, index }) => renderCategorias(item, index)}
+                        renderItem={({ item, index }) => { if (libro.Etiquetas.length != 0) renderEtiquetas(item, index) }}
                     ></FlatList>
 
                 </View>
@@ -336,7 +385,7 @@ const styles = StyleSheet.create({
         width: "50%",
         marginTop: 20,
         backgroundColor: "#E39801",
-        padding: 12,
+        padding: 10,
         borderRadius: 20,
 
         shadowColor: "#000",
@@ -349,7 +398,7 @@ const styles = StyleSheet.create({
         elevation: 15,
 
         alignItems: "center",
-        marginBottom: 10,
+        marginBottom: 20,
     },
 });
 export default DetailBookScreen

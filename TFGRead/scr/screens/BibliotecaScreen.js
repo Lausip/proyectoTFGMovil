@@ -9,13 +9,13 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
-import { Entypo, Foundation } from '@expo/vector-icons';
+import { Entypo, Foundation, AntDesign } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, handleAutoresSeguidos,cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
+import { getFotoPerfil, handleAutoresSeguidos, cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
 import { getFavoritos } from "../hooks/FirebaseLibros";
 import { db } from '../config/firebase';
-import { round } from "react-native-reanimated";
+
 
 function BibliotecaScreen() {
     const navigation = useNavigation();
@@ -25,6 +25,7 @@ function BibliotecaScreen() {
     const [textoBusqueda, setTextoBusqueda] = useState("");
     const [email, setEmail] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isModalVisibleNoHayCapitulo, setModalVisibleNoHayCapitulo] = useState(false);
     const categorias = ["Reciente", "Favoritos", "Autores"];
 
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
@@ -121,25 +122,27 @@ function BibliotecaScreen() {
     }
 
     const handleLeerLibroCapitulo = async (item) => {
+        if (item.NumCapitulos != 0) {
+            //Ir al ultimo capitulo 
+            let numcapitulo = item.UltimoCapitulo;
 
-        //Ir al ultimo capitulo 
-        let numcapitulo = item.UltimoCapitulo;
+            if (item.UltimoCapitulo == 0) {
+                numcapitulo = 1;
+            }
+            //Cambiar el ultimo libro leido:
+            await cambiarUltimoLibroLeido(item.key, email, numcapitulo);
 
-        if (item.UltimoCapitulo == 0) {
-            numcapitulo = 1;
+            navigation.navigate("bookScreen", {
+                bookId: item.key,
+                capituloNumero: numcapitulo,
+                screen: "biblioteca",
+            });
+        } else {
+            setModalVisibleNoHayCapitulo(true);
         }
-     //Cambiar el ultimo libro leido:
-     await cambiarUltimoLibroLeido(item.key, email,numcapitulo);
-     
-        navigation.navigate("bookScreen", {
-            bookId: item.key,
-            capituloNumero: numcapitulo,
-            screen: "biblioteca",
-        });
     }
 
     const hacerCosas = async () => {
-
         setModalVisible(true)
         let e = await getUserAuth();
         setEmail(e);
@@ -149,7 +152,7 @@ function BibliotecaScreen() {
     }
 
 
-    const RenderCategorias = () => {
+    const RenderCategorias = (item) => {
         return (
             <View style={styles.renderCategoriaMisLibros}>
                 {categorias.map((item, index) => (
@@ -254,7 +257,7 @@ function BibliotecaScreen() {
                                 fontWeight: "bold",
                             }}
                         >
-                            {Math.round((libro.UltimoCapitulo / libro.NumCapitulos) * 100)}%
+                            {libro.NumCapitulos != 0 ? Math.round((libro.UltimoCapitulo / libro.NumCapitulos) * 100) : 0}%
                             <Foundation name="page-multiple" size={15} color="#8EAF20" />
                         </Text>
                         <View
@@ -269,7 +272,7 @@ function BibliotecaScreen() {
                             <View
                                 style={{
                                     position: "absolute",
-                                    width: (libro.UltimoCapitulo / libro.NumCapitulos) * 100,
+                                    width: libro.NumCapitulos != 0 ? (libro.UltimoCapitulo / libro.NumCapitulos) * 100 : 0,
                                     height: 5,
                                     backgroundColor: "#8EAF20",
                                     borderRadius: 15,
@@ -285,6 +288,66 @@ function BibliotecaScreen() {
 
     return (
         <SafeAreaView style={styles.back}>
+
+
+
+            <Modal
+                animationType="fade"
+                visible={isModalVisibleNoHayCapitulo}
+                transparent
+            >
+
+                <View style={{
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    height: 200,
+                    borderColor: "#8EAF20",
+                    borderRadius: 20,
+                    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+                    shadowColor: "black",
+                    shadowOpacity: 0.89,
+                    shadowOffset: { width: 0, height: 9 },
+                    shadowRadius: 10,
+                    elevation: 12,
+                }}>
+                    <AntDesign name="warning" size={35} color="#E39801" />
+                    <Text style={{
+                        marginVertical: 20,
+                        marginHorizontal: 20,
+                    }}>Lo siento! El libro no tiene capítulos demomento</Text>
+
+                    <TouchableOpacity
+                        style={{
+                            width: "50%",
+                            padding: 12,
+                            borderRadius: 20,
+                            alignItems: "center",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 12,
+                            },
+                            shadowOpacity: 0.8,
+                            shadowRadius: 6.00,
+                            elevation: 15,
+                        }}
+                        onPress={e => setModalVisibleNoHayCapitulo(!isModalVisibleNoHayCapitulo)}
+                    >
+                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
+                            Aceptar
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+            </Modal>
+
+
             <Modal
                 animationType="fade"
                 visible={isModalVisible}

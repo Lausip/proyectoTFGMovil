@@ -105,6 +105,7 @@ function ExploreScreen({ route }) {
     let array = await cargarDatosLibros(lastItem);
     setLastItemIdEtiqueta(array[1]);
     setLibros(array[0]);
+    console.log(array[0].Categorias)
 
   };
 
@@ -200,13 +201,13 @@ function ExploreScreen({ route }) {
   function RenderEtiquetas(item, index) {
     return (
       <View style={{
-        marginLeft: 5
+        marginLeft: 2
       }}>
         {/* Imagenes Categorias*/}
 
         <ImageBackground
           style={{
-            width: 55,
+            width: 60,
             height: 25,
             borderRadius: 15,
             overflow: "hidden",
@@ -217,7 +218,7 @@ function ExploreScreen({ route }) {
         >
           <Text
             style={{
-              fontSize: 10,
+              fontSize: 12,
               color: "white",
               fontWeight: "bold",
             }}
@@ -269,7 +270,7 @@ function ExploreScreen({ route }) {
         <View
           style={{
             marginVertical: 5,
-            marginHorizontal: 30, marginBottom: 10, flexDirection: "row", borderRadius: 8,
+            marginHorizontal:20, marginBottom: 10, flexDirection: "row", borderRadius: 8,
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
@@ -278,7 +279,8 @@ function ExploreScreen({ route }) {
             shadowOpacity: 0.8,
             shadowRadius: 6.00,
             elevation: 15,
-            backgroundColor: "white",
+
+            backgroundColor:"white"
           }}>
           <ImageBackground
             source={{ uri: libro.Portada }}
@@ -295,7 +297,7 @@ function ExploreScreen({ route }) {
             }}
           ></ImageBackground>
 
-          <View style={{ marginTop: 15, marginBottom: 15, width: 180, marginLeft: 10, alignItems: "center", }}>
+          <View style={{ marginTop: 15, marginBottom: 15, width: 230, alignItems: "center" ,backgroundColor:"white"}}>
             <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD" }}>
               {libro.Titulo}
             </Text>
@@ -303,7 +305,7 @@ function ExploreScreen({ route }) {
             {/* Informacion capitulo*/}
             <View style={{
               flexDirection: "row", marginTop: 15, marginBottom: 20, alignItems: "center",
-              marginLeft: 10,
+
             }}>
               <Foundation name="page-multiple" size={20} color="#8EAF20" />
               <Text style={{ marginLeft: 5, fontSize: 12, color: "black" }}>
@@ -316,13 +318,12 @@ function ExploreScreen({ route }) {
               </Text>
 
             </View>
-
-            {/* Etiquetas explorar */}
+            {/* Categorias explorar */}
             <FlatList
               contentContainerStyle={{}}
               horizontal
               showsHorizontalScrollIndicator={false}
-              data={categories}
+              data={libro.Categorias}
               keyExtractor={(item, index) => {
                 return index.toString();
               }}
@@ -404,7 +405,7 @@ function ExploreScreen({ route }) {
       </View>
 
       <RenderCategorias />
-      {seleccionadoCategoriaIndex == 0  &&
+      {seleccionadoCategoriaIndex == 0 &&
         <FlatList
           style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
           keyExtractor={(item, index) => index}
@@ -415,23 +416,22 @@ function ExploreScreen({ route }) {
           onEndReached={e => cargarMasLibros()}
           onEndReachedThreshold={0.1}
         /> || seleccionadoCategoriaIndex == 1 &&
-          <FlatList
-            style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
-            keyExtractor={(item, index) => index}
-            data={librosEtiqueta}
-            renderItem={({ item, index }) => (
-              <CardLibros key={index} libro={item} />
-            )}
+        <FlatList
+          style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
+          keyExtractor={(item, index) => index}
+          data={librosEtiqueta}
+          renderItem={({ item, index }) => (
+            <CardLibros key={index} libro={item} />
+          )}
+          onEndReachedThreshold={0.1}
+        />
+        ||
+        <ScrollView>
+          {
+            autores.map((item, index) => <CardAutores key={index} autor={item} />)
+          }
 
-            onEndReachedThreshold={0.1}
-          />
-          ||
-          <ScrollView>
-            {
-              autores.map((item, index) => <CardAutores key={index} autor={item} />)
-            }
-
-          </ScrollView>
+        </ScrollView>
       }
     </SafeAreaView>
   )

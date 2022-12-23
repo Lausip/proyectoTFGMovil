@@ -70,6 +70,36 @@ export const getNumSeguidoresLibro = async (idbook) => {
     return numSeguidores;
 
 }
+export const getCategoriasLibroDescripcion = async (bookId) => {
+    const categorias = [];
+    await db.collection("libros").doc(bookId).get().then(documentSnapshot => {
+       let categoria=[];
+       categoria= documentSnapshot.data().Categorias;
+       let i;
+       for (i=0;i<categoria.length;i++){
+        categorias.push({
+           Nombre: categoria[i].Nombre,
+           Color:categoria[i].Color
+        })
+        ;}
+   
+    });
+    return categorias;
+}
+export const getCategoriasLibro = async (bookId) => {
+    const categorias = [];
+    await db.collection("libros").doc(bookId).get().then(documentSnapshot => {
+       let categoria=[];
+       categoria= documentSnapshot.data().Categorias;
+       let i;
+       for (i=0;i<categoria.length;i++){
+        categorias.push(
+           categoria[i].Nombre)
+        ;}
+   
+    });
+    return categorias;
+}
 export const getPortadaLibro = async (bookId) => {
 
     let portada = "";
@@ -101,7 +131,7 @@ export const getFavoritos = async (favoritosUsuario) => {
 }
 
 
-export const crearLibroFirebase = async (titulo, descripción, email,etiquetas) => {
+export const crearLibroFirebase = async (titulo, descripción, email,etiquetas,categorias) => {
     let id = "";
     await db
         .collection('libros')
@@ -114,7 +144,8 @@ export const crearLibroFirebase = async (titulo, descripción, email,etiquetas) 
             FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
             borrador: false,
             Estado:"En curso",
-            Etiquetas:etiquetas
+            Etiquetas:etiquetas,
+            Categorias:categorias
         })
         .then(function (docRef) {
             id = docRef.id;
@@ -164,7 +195,12 @@ export const cambiarEstado = async (bookId,estado) => {
         })
 }
 
-
+export const cambiarCategoria = async (bookId,categorias) => {
+    await db.collection('libros').doc(bookId)
+        .update({
+            Categorias:categorias,
+        })
+}
 
 //---------------------------------------------------CARGAR---------------------------------------------------
 export const cargarBooks = async () => {

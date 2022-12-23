@@ -5,11 +5,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
 import LottieView from 'lottie-react-native';
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarPortadadeLibro, eliminarLibroFirebase, eliminarCapituloLibro, añadirEtiqueta, eliminarEtiqueta, cambiarFechaModificaciónLibro, cambiarEstado } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarCategoria,cambiarPortadadeLibro, getCategoriasLibro, eliminarLibroFirebase, eliminarCapituloLibro, añadirEtiqueta, eliminarEtiqueta, cambiarFechaModificaciónLibro, cambiarEstado } from '../../hooks/FirebaseLibros';
 import { crearLibroStorage } from '../../hooks/Storage';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { pickImage } from "../../utils/ImagePicker";
 import DropDownPicker from "react-native-dropdown-picker";
+import { getCategorias } from "../../hooks/CategoriasFirebase";
 
 function EditBookScreen({ route }) {
 
@@ -26,9 +27,16 @@ function EditBookScreen({ route }) {
 
     const [estadoOpen, setEstadoOpen] = useState(false);
     const [estadoValue, setEstadoValue] = useState(null);
+
+    //CATEGORIAS:
+    const [categoriaOpen, setCategoriaOpen] = useState(false);
+    const [c, setC] = useState([]);
+    const [categoriasLibroFirebase, setCategoriasLibroFirebase] = useState([]);
+    const [categoriasFirebase, setCategoriasFirebase] = useState([]);
     //MODALES:
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisibleBorrar, setModalVisibleBorrar] = useState(false);
+    const [isModalVisibleCategoria, setModalVisibleCategoria] = useState(false);
 
     const navigation = useNavigation();
     const { bookId } = route.params;
@@ -40,6 +48,7 @@ function EditBookScreen({ route }) {
         { label: "Discontinuado", value: "Discontinuado" },
     ]);
     useEffect(() => {
+
         LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
         hacerCosas();
         BackHandler.addEventListener('hardwareBackPress', backAction);
@@ -96,7 +105,15 @@ function EditBookScreen({ route }) {
         await cambiarFechaModificaciónLibro(bookId);
         setModalVisible(false)
     }
+    const cargarCategorias = async () => {
+        setModalVisible(true)
 
+        setCategoriasLibroFirebase(await getCategoriasLibro(bookId));
+
+        setCategoriasFirebase(await getCategorias())
+
+        setModalVisible(false)
+    }
     const cargarLibro = async () => {
         let e = await getUserAuth();
         setEmail(e);
@@ -105,8 +122,11 @@ function EditBookScreen({ route }) {
         setTexto(data.Descripción)
         setTitulo(data.Titulo)
         setPortada(data.Portada);
-        if(data.Etiquetas!=undefined){
-        setEtiquetas(data.Etiquetas);}
+        if (data.Etiquetas != undefined) {
+            setEtiquetas(data.Etiquetas);
+        }
+
+        cargarCategorias();
         setEstadoValue(data.Estado)
         await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
             const caps = [];
@@ -143,7 +163,6 @@ function EditBookScreen({ route }) {
 
     const añadirEtiquetas = async (texto) => {
         setModalVisible(true);
-        console.log(etiquetas)
         etiquetas.push(
             texto
         );
@@ -173,6 +192,27 @@ function EditBookScreen({ route }) {
         await cambiarEstado(bookId, estadoValue);
         setModalVisible(false)
     }
+    const updateCategoria = async () => {
+        setModalVisible(true)
+        let categoria = [];
+        let i;
+        let j;
+
+        for (i = 0; i < categoriasFirebase.length; i++) {
+            for (j = 0; j < categoriasLibroFirebase.length; j++) {
+         
+                if (categoriasFirebase[i].value == categoriasLibroFirebase[j]) {
+                    categoria.push({
+                        Nombre: categoriasFirebase[i].value,
+                        Color: categoriasFirebase[i].color,
+                    });
+                }
+            }
+        }
+        await cambiarCategoria(bookId, categoria)
+        setModalVisible(false)
+    }
+
     const actualizarImage = async () => {
         let image = await pickImage();
         setModalVisible(true)
@@ -332,7 +372,61 @@ function EditBookScreen({ route }) {
                     </View>
                 </View>
             </Modal>
+            <Modal
+                animationType="fade"
+                visible={isModalVisibleCategoria}
+                transparent
+            >
 
+                <View style={{
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    height: 200,
+                    borderColor: "#8EAF20",
+                    borderRadius: 20,
+                    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+                    shadowColor: "black",
+                    shadowOpacity: 0.89,
+                    shadowOffset: { width: 0, height: 9 },
+                    shadowRadius: 10,
+                    elevation: 12,
+                }}>
+                    <AntDesign name="warning" size={35} color="#E39801" />
+                    <Text style={{
+                        marginVertical: 20,
+                        marginHorizontal: 20,
+                    }}>NO puedes dejar un libro sin categoría</Text>
+
+                    <TouchableOpacity
+                        style={{
+                            width: "50%",
+                            padding: 12,
+                            borderRadius: 20,
+                            alignItems: "center",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 12,
+                            },
+                            shadowOpacity: 0.8,
+                            shadowRadius: 6.00,
+                            elevation: 15,
+                        }}
+                        onPress={e => setModalVisibleCategoria(!isModalVisibleCategoria)}
+                    >
+                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
+                            Aceptar
+                        </Text>
+                    </TouchableOpacity>
+
+                </View>
+            </Modal>
             {/* Head */}
             <StatusBar
                 translucent={false}
@@ -480,7 +574,59 @@ function EditBookScreen({ route }) {
                             </Text>
                         </TouchableOpacity>
                     </View >
+                    {/* Categorías */}
 
+                    <Text style={{ marginHorizontal: 40, fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                        Categorías
+                    </Text>
+                    <DropDownPicker
+                        style={styles.dropdown}
+                        open={categoriaOpen}
+                        value={categoriasLibroFirebase}
+                        items={categoriasFirebase}
+                        setOpen={setCategoriaOpen}
+                        setValue={setCategoriasLibroFirebase}
+                        setItems={setCategoriasFirebase}
+                        placeholder="Seleccionar categorias"
+                        placeholderStyle={styles.placeholderStyles}
+                        dropDownContainerStyle={styles.dropDownContainerStyle}
+                        zIndex={3000}
+                        zIndexInverse={1000}
+                        multiple={true}
+                        min={1}
+                        max={3}
+                        mode="BADGE"
+
+                    />
+                    <TouchableOpacity
+                        style={{
+                            width: "40%",
+                            marginTop: 10,
+                            backgroundColor: isModalVisible || isModalVisibleBorrar ? "#8D8D8D" : "#E39801",
+                            padding: 4,
+                            borderRadius: 20,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                            marginBottom: 10,
+
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 12,
+                            },
+                            shadowOpacity: 0.8,
+                            shadowRadius: 6.00,
+                            elevation: 15,
+                            marginHorizontal: 10,
+                        }}
+                        onPress={e => updateCategoria()}
+                    >
+                        <Text style={{ fontSize: 15, color: "white", margin: "auto"  }}>
+                           Actualizar
+                        </Text>
+                    </TouchableOpacity>
                     {/* Etiquetas */}
                     <View style={{ marginHorizontal: 40 }}>
                         <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
@@ -683,8 +829,10 @@ const styles = StyleSheet.create({
     dropdown: {
         borderColor: "#8EAF20",
         height: 50,
-        marginLeft: 40,
+        marginLeft: 50,
         width: "80%",
+        marginTop:10,
+
     },
     dropDownContainerStyle: {
         borderColor: "#8EAF20",
