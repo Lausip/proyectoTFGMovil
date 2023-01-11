@@ -2,12 +2,12 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,FlatList,
+  View, FlatList,
   TouchableOpacity,
   ImageBackground, Image,
   Modal, StatusBar, ScrollView
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useFocusEffect } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { AntDesign, Foundation } from '@expo/vector-icons';
 
@@ -16,6 +16,7 @@ import { contarCapitulosDelLibro, cargarBooksAutor } from "../../hooks/FirebaseL
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil } from "../../hooks/Auth/Firestore";
 
+
 function WriteScreen() {
   const navigation = useNavigation();
   const [books, setBooks] = useState([]);
@@ -23,6 +24,7 @@ function WriteScreen() {
   const [email, setEmail] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [lastItemId, setLastItemId] = useState("");
+
 
   useEffect(() => {
     hacerCosas();
@@ -47,51 +49,54 @@ function WriteScreen() {
     setEmail(e);
     setFotoPerfil(await getFotoPerfil(e));
     let libros = await cargarBooks("");
-
-    let item;
-    const booksA = [];
-    for (item in libros) {
-      let numeroCapt = await contarCapitulosDelLibro(libros[item].key);
-      booksA.push({
-        ...libros[item],
-        nCapitulos: numeroCapt,
-      });
-      setLastItemId(booksA[booksA.length - 1].FechaModificación);
+    if (libros.length != 0) {
+      let item;
+      const booksA = [];
+      for (item in libros) {
+        let numeroCapt = await contarCapitulosDelLibro(libros[item].key);
+        booksA.push({
+          ...libros[item],
+          nCapitulos: numeroCapt,
+        });
+        setLastItemId(booksA[booksA.length - 1].FechaModificación);
+        setModalVisible(false)
+      }
+      setBooks(booksA)
+    } else {
       setModalVisible(false)
     }
-    setBooks(booksA)
-
   }
 
   const cargarMas = async () => {
     setModalVisible(true)
     let libros = await cargarBooks(lastItemId);
-    if(!libros.length==0){
-    let item;
-    let i=0;
-    const booksA = [];
-    let booksFinal=[];
- 
-    for (item in libros) {
-      let numeroCapt = await contarCapitulosDelLibro(libros[item].key);
-      booksA.push({
-        ...libros[item],
-        nCapitulos: numeroCapt,
-      });
+    if (!libros.length == 0) {
+      let item;
+      let i = 0;
+      const booksA = [];
+      let booksFinal = [];
 
-      if(i<booksA.length){
-        ///HAY QUE PONER EL MISMO QUE EL STARTAT
-        setLastItemId(booksA[booksA.length - 1].FechaModificación);
-      booksFinal=[...books,...booksA];
-      setBooks(booksFinal)
+      for (item in libros) {
+        let numeroCapt = await contarCapitulosDelLibro(libros[item].key);
+        booksA.push({
+          ...libros[item],
+          nCapitulos: numeroCapt,
+        });
+
+        if (i < booksA.length) {
+          ///HAY QUE PONER EL MISMO QUE EL STARTAT
+          setLastItemId(booksA[booksA.length - 1].FechaModificación);
+          booksFinal = [...books, ...booksA];
+          setBooks(booksFinal)
+          setModalVisible(false)
+        }
+        i++;
+      }
+    }
+    else {
       setModalVisible(false)
     }
-      i++;
-    }}
-    else{
-      setModalVisible(false)
-    }
- 
+
   }
 
 
@@ -140,10 +145,10 @@ function WriteScreen() {
             <Foundation name="page-multiple" size={12} color="#8EAF20" />
           </Text>
           <Text style={{ marginTop: 5, fontSize: 11, color: "black" }}>
-            Modificado: 
-            <Text style={{ marginTop: 5, fontSize: 11, color: "black",fontWeight:"bold" }}>
-          {" "}{libro.FechaModificación.toDate().toDateString()}
-          </Text>
+            Modificado:
+            <Text style={{ marginTop: 5, fontSize: 11, color: "black", fontWeight: "bold" }}>
+              {" "}{libro.FechaModificación.toDate().toDateString()}
+            </Text>
           </Text>
           <TouchableOpacity
             style={{
@@ -246,22 +251,34 @@ function WriteScreen() {
           </Text>
         </View>
       </TouchableOpacity>
+
       {/* Libros creados*/}
-      <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3 }}>
-        Editar libros
-      </Text>
-      <FlatList
-        style={{  marginVertical:10}}
-        keyExtractor={(item, index) => index}
-        data={books}
-        renderItem={({ item, index }) => (
-          <Card key={index} libro={item} />
-        )}
-        onEndReached={e=>cargarMas()}
-        onEndReachedThreshold={0.1}
-      />
-
-
+      <View>
+        <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3 }}>
+          Editar libros
+        </Text>
+        {
+          books.length != 0 ?
+            <FlatList
+              style={{ marginVertical: 10 }}
+              keyExtractor={(item, index) => index}
+              data={books}
+              renderItem={({ item, index }) => (
+                <Card key={index} libro={item} />
+              )}
+              onEndReached={e => cargarMas()}
+              onEndReachedThreshold={0.1}
+            />
+            : <View  style={{ marginHorizontal: 30 }}  >
+              <Image
+                resizeMode={'center'}
+                source={require("../../../assets/NoLibrosWrite.png")}
+                style={styles.image}
+              />
+              <Text  style={styles.textImage}>No hay libros......</Text>
+            </View>
+        }
+      </View>
     </SafeAreaView>
   )
 }
@@ -338,6 +355,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: "auto",
     marginRight: "auto"
+  },
+  image: {
+    marginLeft:"auto",
+    marginRight:"auto",
+    marginTop: 30,
+    height: 270,
+    width: 330,
+  },
+  textImage: {
+
+    marginLeft:"auto",
+    marginRight:"auto",
+    fontSize:15,
+
   },
 });
 export default WriteScreen

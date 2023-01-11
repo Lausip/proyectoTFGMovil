@@ -51,12 +51,14 @@ function BooksScreen({ route }) {
       goBack();
     }
   }
+  
   const añadirElLibroABiblioteca = async () => {
     let e = await getUserAuth();
     await handleAñadirLibroMeGustaFirebaseCapitulo(e, bookId,capituloNumero)
     setTimeout(() => 1000);
     goBack();
   }
+
   const goBack = () => {
     if (navigation.isFocused()) {
       if (screen == "detailsBookScreen" || screen == undefined) {

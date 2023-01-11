@@ -26,7 +26,11 @@ function AutoresScreen({ route }) {
     const [seguidos, setSeguidos] = useState(0);
     const [estaSeguido, setEstaSeguido] = useState(false);
     const { autorElegido, screen } = route.params;
+    const [librosArray, setLibrosArray] = useState([]);
 
+    const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
+        useState(0);
+    const categorias = ["Libros", "Tablón"];
 
     useEffect(() => {
         hacerCosas();
@@ -43,7 +47,6 @@ function AutoresScreen({ route }) {
         navigation.replace(screen);
     }
 
-
     const hacerCosas = async () => {
 
         setModalVisible(true)
@@ -58,7 +61,10 @@ function AutoresScreen({ route }) {
         setEstaSeguido(await getEstaSeguido(e, autorElegido, seguidoss))
         setModalVisible(false);
 
+
     }
+
+
 
     const addAmigo = async () => {
         setModalVisibleEnviarMensaje(true);
@@ -72,6 +78,7 @@ function AutoresScreen({ route }) {
         setSeguidores(await getNumSeguidores(autorElegido));
 
     }
+
     const dejarSeguir = async () => {
         setEstaSeguido(false);
         await dejarSeguirAutor(email, autorElegido);
@@ -193,7 +200,7 @@ function AutoresScreen({ route }) {
 
             }}>
                 {/* Menu de acciones*/}
-                <View style={{marginTop: 20,alignItems: "flex-end",marginHorizontal: 20,}}>
+                <View style={{ marginTop: 20, alignItems: "flex-end", marginHorizontal: 20, }}>
                     <Menu>
                         <MenuTrigger>
                             <Entypo name="dots-three-vertical" size={24} color="black" />
@@ -228,7 +235,7 @@ function AutoresScreen({ route }) {
                     </TouchableOpacity >
 
                     {/* Boton seguir autor */}
-                    <View style={{marginBottom: 20,}}>
+                    <View style={{ marginBottom: 20, }}>
                         {!estaSeguido ?
                             <TouchableOpacity
                                 style={{
@@ -288,9 +295,9 @@ function AutoresScreen({ route }) {
                     </View>
 
                     {/* Informacion sobre autor */}
-                    <View style={{flexDirection: "row", marginBottom: 20,}}>
+                    <View style={{ flexDirection: "row", marginBottom: 20, }}>
                         {/* Informacion obras*/}
-                        <View style={{flexDirection: "column", alignItems: "center", marginRight: 20,}}>
+                        <View style={{ flexDirection: "column", alignItems: "center", marginRight: 20, }}>
                             <Text style={styles.lineaH2}>
                                 {libros}
                             </Text>
@@ -299,7 +306,7 @@ function AutoresScreen({ route }) {
                             </Text>
                         </View>
                         {/* Informacion seguidores */}
-                        <View style={{flexDirection: "column", alignItems: "center", marginRight: 20,}}>
+                        <View style={{ flexDirection: "column", alignItems: "center", marginRight: 20, }}>
                             <Text style={styles.lineaH2}>
                                 {seguidores}
                             </Text>
@@ -309,7 +316,7 @@ function AutoresScreen({ route }) {
                         </View>
 
                         {/* Informacion seguidos*/}
-                        <View style={{flexDirection: "column", alignItems: "center"}}>
+                        <View style={{ flexDirection: "column", alignItems: "center" }}>
                             <Text style={styles.lineaH2}>
                                 {seguidos}
                             </Text>
@@ -352,7 +359,7 @@ const styles = StyleSheet.create({
         marginLeft: 5,
         fontSize: 15,
         fontWeight: "bold",
-        color: "black"
+        color: "white"
     },
     container: {
         flex: 1,

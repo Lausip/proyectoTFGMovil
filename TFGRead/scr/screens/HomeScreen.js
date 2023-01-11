@@ -10,15 +10,15 @@ import {
   Modal,
   StatusBar,
 } from "react-native";
-import { useNavigation ,useIsFocused } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, AntDesign } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import { db } from '../config/firebase';
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, cargarUltimoLibro,cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
+import { getFotoPerfil, cargarUltimoLibro, cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
 
-function HomeScreen( { route }) {
+function HomeScreen({ route }) {
   const [newBooks, setNewBooks] = useState([]);
   const [ultimoLibro, setUltimoLibro] = useState({});
   const [email, setEmail] = useState();
@@ -39,7 +39,7 @@ function HomeScreen( { route }) {
     navigation.setOptions({
       headerShown: false,
     });
-  }, );
+  },);
 
   const handleProfile = () => {
     navigation.navigate("profileScreen", {
@@ -64,6 +64,7 @@ function HomeScreen( { route }) {
 
     let ultimo = await cargarUltimoLibro(e);
     setUltimoLibro(ultimo);
+
     setUltimoCapituloLeido(ultimo.UltimoCapitulo)
     setCapitulosLeido(ultimo.NumCapitulos)
 
@@ -82,7 +83,7 @@ function HomeScreen( { route }) {
     }
     console.log(capitulo)
 
-    await cambiarUltimoLibroLeido(ultimoLibro.key, email,capitulo);
+    await cambiarUltimoLibroLeido(ultimoLibro.key, email, capitulo);
     navigation.navigate("bookScreen", {
       bookId: ultimoLibro.key,
       capituloNumero: capitulo,
@@ -310,8 +311,11 @@ function HomeScreen( { route }) {
           ></FlatList>
         </View>
       </View>
-      <CardUltimoLibro />
 
+      {ultimoLibro=={} &&
+        < CardUltimoLibro />
+
+      }
     </SafeAreaView>
   )
 }

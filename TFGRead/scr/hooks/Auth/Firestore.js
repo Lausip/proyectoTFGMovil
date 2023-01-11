@@ -10,9 +10,9 @@ export const handleRegistroFirebase = (email) => {
       Amigos: [],
       Autores: [],
       Descripcion: "",
-      UltimoLibroLeido:"",
-      UltimoCapituloLeido:0,
-      Bloqueados:[]
+      UltimoLibroLeido: "",
+      UltimoCapituloLeido: 0,
+      Bloqueados: []
 
     })
     .then(() => {
@@ -20,13 +20,13 @@ export const handleRegistroFirebase = (email) => {
     });
 }
 
-export const handleAñadirLibroMeGustaFirebaseCapitulo = (email, bookId,capitulo) => {
+export const handleAñadirLibroMeGustaFirebaseCapitulo = (email, bookId, capitulo) => {
   console.log(capitulo)
   db
     .collection('usuarios').doc(email).collection("MeGusta").doc(bookId)
     .set({
       Nombre: bookId,
-      UltimoCapitulo:capitulo,
+      UltimoCapitulo: capitulo,
     })
     .then(() => {
       console.log('Añadido a me gusta');
@@ -243,7 +243,7 @@ export const bloquearPersonaFirebase = async (email, personaAbloquear) => {
       Bloqueados: firebase.firestore.FieldValue.arrayUnion(personaAbloquear),
     })
     .then(() => {
-      console.log("Bloqueado "+personaAbloquear )
+      console.log("Bloqueado " + personaAbloquear)
     });
 
 }
@@ -257,7 +257,7 @@ export const desbloquearPersonaFirebase = async (email, personaADesbloquear) => 
       Bloqueados: firebase.firestore.FieldValue.arrayRemove(personaADesbloquear),
     })
     .then(() => {
-      console.log("Desbloqueado "+personaADesbloquear )
+      console.log("Desbloqueado " + personaADesbloquear)
     });
 
 }
@@ -350,7 +350,7 @@ export const getPeticionesConversacion = async (email) => {
 export const contarCapitulosDelLibro = async (bookId) => {
   let numberCapitulos = 0;
   await db.collection('libros').doc(bookId).collection('Capitulos').get().then(snap => {
-      numberCapitulos = snap.size
+    numberCapitulos = snap.size
   });
   return numberCapitulos;
 }
@@ -358,21 +358,26 @@ export const contarCapitulosDelLibro = async (bookId) => {
 export const cargarUltimoLibro = async (email) => {
   let idUltimoLibro;
   let ultimoLibro;
-  let numCapitulos=0;
-  let UltimoCapituloLeido=0;
+  let numCapitulos = 0;
+  let UltimoCapituloLeido = 0;
   //Coger el ultimo libro
   await db.collection("usuarios").doc(email).get().then(documentSnapshot => {
-    idUltimoLibro=documentSnapshot.data().UltimoLibroLeido;
-    })
+    idUltimoLibro = documentSnapshot.data().UltimoLibroLeido;
+  })
+  if (idUltimoLibro != undefined) {
     //Coger datos del libro
     await db.collection("libros").doc(idUltimoLibro).get().then(async documentSnapshot => {
       numCapitulos = await contarCapitulosDelLibro(documentSnapshot.id);
       UltimoCapituloLeido = await cargarUltimoCapituloLeido(email);
-      ultimoLibro= {Titulo:documentSnapshot.data().Titulo,Portada:documentSnapshot.data().Portada,Autor:documentSnapshot.data().Autor, NumCapitulos: numCapitulos, UltimoCapitulo: UltimoCapituloLeido, key:documentSnapshot.id };
-      }) 
- 
+      ultimoLibro = { Titulo: documentSnapshot.data().Titulo, Portada: documentSnapshot.data().Portada, Autor: documentSnapshot.data().Autor, NumCapitulos: numCapitulos, UltimoCapitulo: UltimoCapituloLeido, key: documentSnapshot.id };
+    })
+    return ultimoLibro;
+  }
+  else {
+    return {};
+  }
 
-  return ultimoLibro;
+
 }
 
 export const cargarUltimoCapituloLeido = async (email) => {
@@ -382,7 +387,7 @@ export const cargarUltimoCapituloLeido = async (email) => {
 
     ultimoCapituloLeido = documentSnapshot.data().UltimoCapituloLeido
 
-    })
+  })
   return ultimoCapituloLeido;
 }
 
@@ -458,10 +463,10 @@ export const updateUltimoCapitulo = async (email, bookId, capituloNumero) => {
   }
 }
 
-export const cambiarUltimoLibroLeido = async (bookId, email,capitulo) => {
+export const cambiarUltimoLibroLeido = async (bookId, email, capitulo) => {
   await db.collection('usuarios').doc(email)
-      .update({
-          UltimoLibroLeido:bookId,
-          UltimoCapituloLeido:capitulo,
-      })
+    .update({
+      UltimoLibroLeido: bookId,
+      UltimoCapituloLeido: capitulo,
+    })
 }

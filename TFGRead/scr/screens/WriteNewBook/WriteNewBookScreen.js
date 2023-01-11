@@ -81,18 +81,26 @@ function WriteNewBookScreen() {
     }
   }
 
-  const añadirEtiquetas = (texto) => {
-    etiquetas.push(
-      texto);
-    setTextoEtiqueta("");
+  const añadirEtiquetas = async (texto) => {
+    if (texto.length != 0 || texto.trim().length != 0) {
+      setModalVisible(true);
+      etiquetas.push(
+        texto
+      );
+      setTextoEtiqueta("");
+      await añadirEtiqueta(bookId, texto);
 
+      setModalVisible(false);
+    }
   }
 
   const eliminarEtiquetas = (texto) => {
+    setModalVisible(true);
     let e = etiquetas.filter(function (obj) {
       return obj !== texto;
     })
-    setEtiquetas(e)
+    setEtiquetas(e);
+    setModalVisible(false);
   }
 
   const assertCrearLibroTitulo = () => {
@@ -205,7 +213,7 @@ function WriteNewBookScreen() {
 
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+      backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
     }}>
 
       <Modal
@@ -213,7 +221,7 @@ function WriteNewBookScreen() {
         visible={isModalVisible}
         transparent
       >
-        <View  style={styles.modalAviso}>
+        <View style={styles.modalAviso}>
           <LottieView style={styles.lottieModalWait}
             source={require('../../../assets/animations/waitFunction.json')} autoPlay loop />
           <Text style={styles.textWait}>Cargando.....</Text>
@@ -225,10 +233,8 @@ function WriteNewBookScreen() {
           animationType="fade"
           isVisible={isModalVisibleTitulo}
           transparent
-
-
         >
-          <View  style={styles.modalAviso}>
+          <View style={styles.modalAviso}>
             <AntDesign name="warning" size={35} color="#E39801" />
             <Text style={{
               marginVertical: 20,
@@ -363,7 +369,7 @@ function WriteNewBookScreen() {
         transparent
       >
 
-        <View  style={styles.modalAviso}>
+        <View style={styles.modalAviso}>
           <AntDesign name="warning" size={35} color="#E39801" />
           <Text style={{
             marginVertical: 20,
@@ -492,7 +498,7 @@ function WriteNewBookScreen() {
                 paddingHorizontal: 20,
                 paddingVertical: 10,
                 borderRadius: 10,
-                color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
               }}
             ></TextInput>
           </View>
@@ -512,7 +518,7 @@ function WriteNewBookScreen() {
                 paddingHorizontal: 20,
                 paddingVertical: 10,
                 borderRadius: 10,
-                color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
               }}
               multiline={true}
               numberOfLines={4}
@@ -529,7 +535,13 @@ function WriteNewBookScreen() {
               Categorías
             </Text>
             <DropDownPicker
-              style={styles.dropdown}
+              style={{
+                borderColor: "#8EAF20",
+                height: 50,
+                marginLeft: 50,
+                width: "80%",
+                marginTop: 10, backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
+              }}
               open={estadoOpen}
               value={value}
               items={categoriasFirebase}
@@ -581,7 +593,7 @@ function WriteNewBookScreen() {
                   paddingHorizontal: 20,
                   paddingVertical: 5,
                   borderRadius: 10,
-                  color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                  color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
                 }}
               ></TextInput>
               <Text style={{
@@ -723,20 +735,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flexDirection: "row"
   },
-   modalAviso: {
-        marginTop: "auto",
-        marginBottom: "auto",
-        marginLeft: "auto",
-        marginRight: "auto",
-        height: 200,
-        borderColor: "#8EAF20",
-        borderRadius: 20,
-        borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-        shadowColor: "black",
-        shadowOpacity: 0.89,
-        shadowOffset: { width: 0, height: 9 },
-        shadowRadius: 10,
-        elevation: 12,
-    },
+  modalAviso: {
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    height: 200,
+    borderColor: "#8EAF20",
+    borderRadius: 20,
+    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.89,
+    shadowOffset: { width: 0, height: 9 },
+    shadowRadius: 10,
+    elevation: 12,
+  },
 });
 export default WriteNewBookScreen

@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { FontAwesome, Ionicons, Octicons } from '@expo/vector-icons';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { enviarNotificacion } from "../../hooks/Auth/Firestore";
-import { getComentariosCapitulo, enviarComentarioCapitulo,getAutorLibro } from '../../hooks/FirebaseLibros';
+import { getComentariosCapitulo, enviarComentarioCapitulo, getAutorLibro } from '../../hooks/FirebaseLibros';
 
 
 
@@ -38,14 +38,14 @@ function ChatCapituloScreen({ route }) {
         navigation.push("bookScreen", {
             bookId: bookId,
             capituloNumero: capituloNumero,
-            screen: "home", 
+            screen: "home",
         });
     };
     const goback = async () => {
         navigation.push("bookScreen", {
             bookId: bookId,
             capituloNumero: capituloNumero,
-            screen: "home", 
+            screen: "home",
         });
     };
     const hacerCosas = async () => {
@@ -53,7 +53,7 @@ function ChatCapituloScreen({ route }) {
         let e = await getUserAuth();
         setEmail(e);
         let com = await getComentariosCapitulo(bookId, capituloId);
-        let a= await getAutorLibro(bookId);
+        let a = await getAutorLibro(bookId);
         setAutor(a);
         setComentarios(com);
 
@@ -63,25 +63,24 @@ function ChatCapituloScreen({ route }) {
 
         await enviarComentarioCapitulo(bookId, capituloId, comentario, email);
         let com = await getComentariosCapitulo(bookId, capituloId);
-        await enviarNotificacion(email,autor,bookId, capituloId)
+        await enviarNotificacion(email, autor, bookId, capituloId)
         setComentarios(com);
         setComentario("");
 
     }
 
-    const reportarComentario = async (comentarioId,autor) => {
-        Alert.alert('Espera', '¿Seguro que quieres reportar el comentario de '+autor +' ?',[
+    const reportarComentario = async (comentarioId, autor) => {
+        Alert.alert('Espera', '¿Seguro que quieres reportar el comentario de ' + autor + ' ?', [
             {
-              text: 'Cancelar',
-              onPress: () => null,
-              style: 'cancel',
+                text: 'Cancelar',
+                onPress: () => null,
+                style: 'cancel',
             },
             {
-              text: 'SI', onPress: () =>
-           {}
+                text: 'SI', onPress: () => { }
             },
-          ]);
-        
+        ]);
+
     }
 
     /* Comentarios */
@@ -95,12 +94,12 @@ function ChatCapituloScreen({ route }) {
                 backgroundColor: "white", flexDirection: "column",
 
             }}>
-                <View style={{flexDirection: "row",justifyContent: 'space-between',}}>
+                <View style={{ flexDirection: "row", justifyContent: 'space-between', }}>
                     <Text style={{ marginHorizontal: 20, fontSize: 14, fontWeight: "bold", color: "#429EBD", justifyContent: "flex-start" }}>
                         {comentario.Autor.split("@")[0]}
                     </Text>
-                    <TouchableOpacity onPress={()=>reportarComentario(comentario.key,comentario.Autor.split("@")[0])}>
-                    <Octicons name="report" size={15} color="#ff6961" style={{ marginHorizontal: 20,marginVertical: 2, }} />
+                    <TouchableOpacity onPress={() => reportarComentario(comentario.key, comentario.Autor.split("@")[0])}>
+                        <Octicons name="report" size={15} color="#ff6961" style={{ marginHorizontal: 20, marginVertical: 2, }} />
                     </TouchableOpacity>
                 </View>
 
@@ -130,7 +129,7 @@ function ChatCapituloScreen({ route }) {
                 {/* Head Cosas */}
                 <View style={styles.head}>
                     {/* Botón de goBack */}
-                    <TouchableOpacity onPress={() => goback()} style={{ marginLeft: 30,marginRight:10 }}>
+                    <TouchableOpacity onPress={() => goback()} style={{ marginLeft: 30, marginRight: 10 }}>
                         <Ionicons name="arrow-back" size={30} color="white" />
                     </TouchableOpacity>
 

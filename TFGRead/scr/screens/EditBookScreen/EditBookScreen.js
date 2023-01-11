@@ -159,7 +159,7 @@ function EditBookScreen({ route }) {
     }
 
     const assertActualizarLibroTitulo = () => {
-    
+
         if (titulo.length == 0 || titulo.trim().length == 0) {
 
             setModalVisibleTitulo(true);
@@ -183,18 +183,21 @@ function EditBookScreen({ route }) {
     }
 
     const añadirEtiquetas = async (texto) => {
-        setModalVisible(true);
-        etiquetas.push(
-            texto
-        );
-        setTextoEtiqueta("");
-        await añadirEtiqueta(bookId, texto);
+        if (texto.length != 0 || texto.trim().length != 0) {
+            setModalVisible(true);
+            etiquetas.push(
+                texto
+            );
+            setTextoEtiqueta("");
+            await añadirEtiqueta(bookId, texto);
 
-        setModalVisible(false);
+            setModalVisible(false);
+        }
     }
 
     const eliminarEtiquetas = async (texto) => {
         setModalVisible(true);
+        console.log(texto)
         let e = etiquetas.filter(function (obj) {
             return obj !== texto;
         })
@@ -431,7 +434,7 @@ function EditBookScreen({ route }) {
                             }}
                             onPress={e => eliminarLibro()}
                         >
-                            <Text style={styles.modalBorrarText}>
+                            <Text style={styles.textoAvisoButton}>
                                 Borrar
                             </Text>
                         </TouchableOpacity>
@@ -622,7 +625,13 @@ function EditBookScreen({ route }) {
                         Categorías
                     </Text>
                     <DropDownPicker
-                        style={styles.dropdown}
+                        style={{
+                            borderColor: "#8EAF20",
+                            height: 50,
+                            marginLeft: 50,
+                            width: "80%",
+                            marginTop: 10, backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
+                        }}
                         open={categoriaOpen}
                         value={categoriasLibroFirebase}
                         items={categoriasFirebase}
@@ -652,7 +661,6 @@ function EditBookScreen({ route }) {
                             marginLeft: "auto",
                             marginRight: "auto",
                             marginBottom: 10,
-
                             shadowColor: "#000",
                             shadowOffset: {
                                 width: 0,
@@ -699,7 +707,7 @@ function EditBookScreen({ route }) {
                                 paddingHorizontal: 20,
                                 paddingVertical: 5,
                                 borderRadius: 10,
-                                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
+                                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
                             }}
                         ></TextInput>
                         <Text style={{
@@ -745,7 +753,13 @@ function EditBookScreen({ route }) {
                         {libroActual.Estado}
                     </Text>
                     <DropDownPicker
-                        style={styles.dropdown}
+                        style={{
+                            borderColor: "#8EAF20",
+                            height: 50,
+                            marginLeft: 50,
+                            width: "80%",
+                            marginTop: 10, backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
+                        }}
                         open={estadoOpen}
                         value={estadoValue} //genderValue
                         items={estado}
@@ -868,14 +882,7 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%'
     },
-    dropdown: {
-        borderColor: "#8EAF20",
-        height: 50,
-        marginLeft: 50,
-        width: "80%",
-        marginTop: 10,
 
-    },
     dropDownContainerStyle: {
         borderColor: "#8EAF20",
         width: "70%",
