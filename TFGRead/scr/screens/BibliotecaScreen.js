@@ -413,16 +413,31 @@ function BibliotecaScreen() {
                 </TouchableOpacity>
             </View>
 
-
             <RenderCategorias />
+
             {seleccionadoCategoriaIndex == 1 ?
-                <ScrollView contentContainerStyle={styles.contentContainer}>
+                <View>
                     {
-                        favoritos.map((item, index) => <CardFavoritos key={index} libro={item} />)
+                        favoritos.length != 0 ?
+                            <ScrollView contentContainerStyle={styles.contentContainer}>
+                                {
+                                    favoritos.map((item, index) => <CardFavoritos key={index} libro={item} />)
+                                }
+
+                            </ScrollView> :
+
+                            <View style={{ marginHorizontal: 30 }}  >
+                                <Image
+                                    resizeMode={'center'}
+                                    source={require("../../assets/BibliotecaVacia.png")}
+                                    style={styles.image}
+                                />
+                                <Text style={styles.textImage}>Biblioteca vacía......</Text>
+                            </View>
+
                     }
-
-                </ScrollView> :
-
+                </View>
+                :
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     {
                         autores.map((item, index) => <CardAutores key={index} autor={item} />)
@@ -521,6 +536,20 @@ const styles = StyleSheet.create({
     }, categoriaText: {
         fontSize: 15,
         fontWeight: "bold",
+    },
+    image: {
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: 60,
+        height: 200,
+        width: 270,
+    },
+    textImage: {
+        marginTop: 30,
+        marginLeft: "auto",
+        marginRight: "auto",
+        fontSize: 15,
+
     },
 });
 export default BibliotecaScreen

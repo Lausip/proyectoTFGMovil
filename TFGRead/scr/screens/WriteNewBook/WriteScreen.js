@@ -138,6 +138,7 @@ function WriteScreen() {
         ></ImageBackground>
         <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
           <Text style={{ fontSize: 15, fontWeight: "bold", color: "#429EBD" }}>
+            
             {libro.Titulo}
           </Text>
           <Text style={{ marginTop: 5, fontSize: 13, color: "black" }}>

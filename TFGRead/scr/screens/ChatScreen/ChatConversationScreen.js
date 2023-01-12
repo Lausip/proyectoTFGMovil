@@ -12,14 +12,13 @@ import React, { useLayoutEffect, useEffect, useState, useCallback } from "react"
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil, anadirAAmigos, bloquearPersonaFirebase ,desbloquearPersonaFirebase} from "../../hooks/Auth/Firestore";
 import { addMessage, getMessage, updateAmigosSala,bloquearPersonaSala } from "../../hooks/ChatFirebase";
-import { db, firebase } from '../../config/firebase';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import {
     GiftedChat,
     Bubble,
     Send,
-    SystemMessage, Day, InputToolbar, Time
+    Day, InputToolbar, Time
 } from 'react-native-gifted-chat';
 
 
@@ -36,7 +35,6 @@ function ChatConversationScreen({ route }) {
     const [ponerAmigo, setPonerAmigo] = useState(false);
 
     const { sala, screen } = route.params;
-
 
     useEffect(() => {
 

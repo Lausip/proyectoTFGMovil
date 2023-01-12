@@ -16,13 +16,6 @@ import { getSalas, existeSala, getFotoPerfilConversaciones, getUltimoMensajeConv
 import { db } from '../../config/firebase';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
-
 function ChatScreen({ route }) {
     const navigation = useNavigation();
     const [fotoPerfil, setFotoPerfil] = useState("");
@@ -35,8 +28,6 @@ function ChatScreen({ route }) {
     useEffect(() => {
 
         cogerDatos();
-
-
 
     }, [email, route]);
 
@@ -54,7 +45,7 @@ function ChatScreen({ route }) {
             .onSnapshot(querySnapshot => {
                 querySnapshot.forEach((documentSnapshot) => {
                     if (documentSnapshot.data().Usuario1 == email || documentSnapshot.data().Usuario2 == email) {
-              
+
                         salas.push({
                             ...documentSnapshot.data(),
                             key: documentSnapshot.id,
@@ -62,16 +53,14 @@ function ChatScreen({ route }) {
                         });
                     }
                 })
-       
+
                 getSalasFotoPerfil(salas);
             })
-
-
-
-
     }
+
     //Coger los datos 
     const cogerDatos = async () => {
+
         setModalVisible(true)
         getEmail();
         getTodasLasSalas();
@@ -86,14 +75,14 @@ function ChatScreen({ route }) {
 
                 if (!querySnapshot.empty) {
                     querySnapshot.forEach((documentSnapshot) => {
-           
-                        salasss.push({...salas[i], UltimoMensaje: documentSnapshot.data().Texto });
+
+                        salasss.push({ ...salas[i], UltimoMensaje: documentSnapshot.data().Texto });
                     });
                 }
                 else {
                     salasss.push({ ...salas[i], UltimoMensaje: "" });
                 }
-             
+
                 setSalas(salasss)
             })
         }
@@ -114,8 +103,8 @@ function ChatScreen({ route }) {
     const enterChat = async (sala) => {
         navigation.replace("chatConversationScreen", {
             sala: sala,
-            screen:"chatScreen",
-    
+            screen: "chatScreen",
+
         });
     }
 
@@ -126,7 +115,7 @@ function ChatScreen({ route }) {
     }
 
     const cogerSala = async (usuarioa, usuariob) => {
-        let salaaaaa=[];
+        let salaaaaa = [];
         await db
             .collection('salas').doc(usuarioa + "-" + usuariob).get().then(documentSnapshot => {
                 if (documentSnapshot.exists) {
@@ -138,8 +127,8 @@ function ChatScreen({ route }) {
                     });
                     navigation.replace("chatConversationScreen", {
                         sala: salaaaaa[0],
-                        screen:"chatScreen",
-                    
+                        screen: "chatScreen",
+
                     });
                 }
                 return false;
@@ -153,20 +142,20 @@ function ChatScreen({ route }) {
         //Mirar si ya hay sala
         if (!await existeSala(email, amigo)) {
             //Añadir Sala
-            await addSala(email, amigo, true,"");
+            await addSala(email, amigo, true, "");
             setModalVisibleConversacion(false);
             await cogerSala(email, amigo);
 
         }
         else {
             setModalVisibleConversacion(false);
-            let existe=false;
+            let existe = false;
             existe = await cogerSala(email, amigo);
-          
+
             if (!existe) {
                 await cogerSala(amigo, email);
             }
-     
+
         }
 
 
@@ -295,13 +284,10 @@ function ChatScreen({ route }) {
                         shadowOffset: { width: 0, height: 9 },
                         shadowRadius: 10,
                         elevation: 12,
-
-
                     }}
                     >
 
                         <View style={{
-
                             alignItems: 'center', justifyContent: "center"
                         }}>
                             <FlatList
@@ -370,12 +356,22 @@ function ChatScreen({ route }) {
                 </View>
             </TouchableOpacity>
 
-            <ScrollView contentContainerStyle={styles.contentContainer}>
-                {
-                    salas.map((item, index) => <Card key={index} sala={item} />)
-                }
+            {
+                salas.length != 0 ?
+                    <ScrollView contentContainerStyle={styles.contentContainer}>
+                        {
+                            salas.map((item, index) => <Card key={index} sala={item} />)
+                        }
 
-            </ScrollView>
+                    </ScrollView> : <View style={{ marginHorizontal: 30 }}  >
+                        <Image
+                            resizeMode={'center'}
+                            source={require("../../../assets/ChatVacio.png")}
+                            style={styles.image}
+                        />
+                        <Text style={styles.textImage}>No hay chats......</Text>
+                    </View>
+            }
 
 
         </SafeAreaView>
@@ -483,6 +479,20 @@ const styles = StyleSheet.create({
         borderColor: "#8EAF20",
         borderWidth: 3,
         alignItems: "center",
+
+    },
+    image: {
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: 30,
+        height: 270,
+        width: 330,
+    },
+    textImage: {
+
+        marginLeft: "auto",
+        marginRight: "auto",
+        fontSize: 15,
 
     },
 });

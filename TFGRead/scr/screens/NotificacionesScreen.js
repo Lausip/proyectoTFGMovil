@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, Text, FlatList, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, ScrollView, ImageBackground, Modal } from 'react-native';
+import { View, ActivityIndicator, Text, FlatList, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, ScrollView, Image, Modal } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
@@ -222,7 +222,7 @@ function NotificacionesScreen({ route }) {
         return (
 
             <View style={{
-                display:"flex",
+                display: "flex",
                 marginVertical: 5,
                 marginHorizontal: 30, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
@@ -234,22 +234,22 @@ function NotificacionesScreen({ route }) {
                     flexDirection: "row", marginHorizontal: 20
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD", marginRight: 60, justifyContent:"flex-start"}}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD", marginRight: 60, justifyContent: "flex-start" }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
-    
-                    <View  style={{
-                        
-                           flexDirection: "row",  marginTop:"auto" ,marginBottom:"auto"
-                        }}> 
-                    <TouchableOpacity onPress={() => aceptarAmistad(peticion.key, peticion.Nombre)}>
-                        <AntDesign name="checkcircleo" size={24} color="#8EAF20" />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => rechazarAmistad(peticion.key)}>
-                        <AntDesign  name="closecircleo" size={24} color="#B00020" />
-                    </TouchableOpacity>
+
+                    <View style={{
+
+                        flexDirection: "row", marginTop: "auto", marginBottom: "auto"
+                    }}>
+                        <TouchableOpacity onPress={() => aceptarAmistad(peticion.key, peticion.Nombre)}>
+                            <AntDesign name="checkcircleo" size={24} color="#8EAF20" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => rechazarAmistad(peticion.key)}>
+                            <AntDesign name="closecircleo" size={24} color="#B00020" />
+                        </TouchableOpacity>
                     </View>
-          
+
                 </View>
             </View>
 
@@ -292,7 +292,7 @@ function NotificacionesScreen({ route }) {
         return (
 
             <View style={{
-                marginVertical:5,
+                marginVertical: 5,
                 marginHorizontal: 30, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
                 backgroundColor: isModalVisible ? "#A7A7A7" : "white", flexDirection: "row"
@@ -388,7 +388,7 @@ function NotificacionesScreen({ route }) {
 
             }}>
                 <TouchableOpacity onPress={() => goBack()}>
-                    <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 30,marginRight:10 }} />
+                    <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 30, marginRight: 10 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
                 <Text style={styles.fontTitulo}>Notificaciones</Text>
@@ -396,56 +396,114 @@ function NotificacionesScreen({ route }) {
             {/* Cargar Categorias AMISTADES Y CONVERSACIONES */}
             <RenderCategorias />
             <View style={styles.list}>
-            {seleccionadoCategoriaIndex == 0 ?
-                <FlatList
-                    contentContainerStyle={{flexGrow:0}}
-                    vertical
-                    showsHorizontalScrollIndicator={true}
-                    data={peticionAmistad}
-                    keyExtractor={(item, index) => {
-                        return index.toString();
-                    }}
-                    renderItem={({ item, index }) => <CardAmistad key={index} peticion={item} />}
-                ></FlatList>
-                :
+                {seleccionadoCategoriaIndex == 0 ?
+                    <View>
+                        {
+                            peticionAmistad.length != 0 ?
+                                <FlatList
+                                    contentContainerStyle={{ flexGrow: 0 }}
+                                    vertical
+                                    showsHorizontalScrollIndicator={true}
+                                    data={peticionAmistad}
+                                    keyExtractor={(item, index) => {
+                                        return index.toString();
+                                    }}
+                                    renderItem={({ item, index }) => <CardAmistad key={index} peticion={item} />}
+                                ></FlatList>
+                                :
 
-                <ScrollView contentContainerStyle={styles.contentContainer}>
-                    {
-                        peticionConversacion.map((item, index) => <CardConversacion key={index} peticion={item} />)
-                    }
+                                <View style={{ marginHorizontal: 30 }}  >
+                                    <Image
+                                        resizeMode={'center'}
+                                        source={require("../../assets/NotificacionVacia.png")}
+                                        style={styles.image}
+                                    />
+                                    <Text style={styles.textImage}>Amistades vacíos......</Text>
+                                </View>
+                        }
+                    </View>
+                    :
+                    <View>
+                        {
+                            peticionConversacion.length != 0 ?
+                                <ScrollView contentContainerStyle={styles.contentContainer}>
+                                    {
+                                        peticionConversacion.map((item, index) => <CardConversacion key={index} peticion={item} />)
+                                    }
 
-                </ScrollView>
-            }
+                                </ScrollView> :
+
+                                <View style={{ marginHorizontal: 30 }}  >
+                                    <Image
+                                        resizeMode={'center'}
+                                        source={require("../../assets/NotificacionVacia.png")}
+                                        style={styles.image}
+                                    />
+                                    <Text style={styles.textImage}>Conversaciones vacíos......</Text>
+                                </View>
+                        }
+                    </View>
+                }
             </View>
             {/* Cargar Categorias COMENTARIOS Y TABLÓN */}
             <RenderCategorias2 />
             <View style={styles.list}>
-            {seleccionadoCategoria2Index == 0 ?
-                <FlatList
-                    contentContainerStyle={{}}
-                    vertical
-                    showsHorizontalScrollIndicator={true}
-                    data={notificacionComentario}
-                    keyExtractor={(item, index) => {
-                        return index.toString();
-                    }}
-                    renderItem={({ item, index }) => <CardComentario key={index} notificacion={item} />}
-                ></FlatList>
-                :
+                {seleccionadoCategoria2Index == 0 ?
+                    <View>
+                        {
+                            peticionAmistad.length != 0 ?
+                                <FlatList
+                                    contentContainerStyle={{}}
+                                    vertical
+                                    showsHorizontalScrollIndicator={true}
+                                    data={notificacionComentario}
+                                    keyExtractor={(item, index) => {
+                                        return index.toString();
+                                    }}
+                                    renderItem={({ item, index }) => <CardComentario key={index} notificacion={item} />}
+                                ></FlatList>
 
-                <FlatList
-                    contentContainerStyle={{}}
-                    vertical
-                    showsHorizontalScrollIndicator={true}
-                    data={notificacionTablon}
-                    keyExtractor={(item, index) => {
-                        return index.toString();
-                    }}
-                    renderItem={({ item, index }) => <CardTablon key={index} notificacion={item} />}
-                ></FlatList>
-            }
-                  </View>
-        </SafeAreaView>
+                                :
+
+                                <View style={{ marginHorizontal: 30 }}  >
+                                    <Image
+                                        resizeMode={'center'}
+                                        source={require("../../assets/NotificacionVacia.png")}
+                                        style={styles.image}
+                                    />
+                                    <Text style={styles.textImage}>Comentarios vacíos......</Text>
+                                </View>
+                        }
+                    </View>
+
+                    :
+                    <View>
+                        {
+                            notificacionTablon.length != 0 ?
+                                <FlatList
+                                    contentContainerStyle={{}}
+                                    vertical
+                                    showsHorizontalScrollIndicator={true}
+                                    data={notificacionTablon}
+                                    keyExtractor={(item, index) => {
+                                        return index.toString();
+                                    }}
+                                    renderItem={({ item, index }) => <CardTablon key={index} notificacion={item} />}
+                                ></FlatList> :
+
+                                <View style={{ marginHorizontal: 30 }}  >
+                                    <Image
+                                        resizeMode={'center'}
+                                        source={require("../../assets/NotificacionVacia.png")}
+                                        style={styles.image}
+                                    />
+                                    <Text style={styles.textImage}>Tablón vacíos......</Text>
+                                </View>
+                        }
+                    </View>
+                }
+            </View>
+        </SafeAreaView >
 
 
     )
@@ -459,10 +517,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'white',
     },
-    list: {    
+    list: {
         minHeight: "0%",
         maxHeight: "35%",
-      },
+    },
     renderCategoriaMisLibros: {
         marginBottom: 10,
         justifyContent: "space-evenly",
@@ -503,6 +561,19 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
     },
+    image: {
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: 10,
+        height: 150,
+        width: 230,
+    },
+    textImage: {
+        marginTop: 10,
+        marginLeft: "auto",
+        marginRight: "auto",
+        fontSize: 15,
 
+    },
 });
 export default NotificacionesScreen;
