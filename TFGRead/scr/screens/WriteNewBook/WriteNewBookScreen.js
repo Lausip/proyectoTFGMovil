@@ -139,7 +139,6 @@ function WriteNewBookScreen() {
     let i;
     let j;
     for (i = 0; i < categoriasFirebase.length; i++) {
-
       for (j = 0; j < value.length; j++) {
         if (categoriasFirebase[i].value == value[j]) {
           categoria.push({

@@ -59,12 +59,11 @@ function WriteScreen() {
           nCapitulos: numeroCapt,
         });
         setLastItemId(booksA[booksA.length - 1].FechaModificación);
-        setModalVisible(false)
+  
       }
       setBooks(booksA)
-    } else {
-      setModalVisible(false)
-    }
+    } 
+    setModalVisible(false)
   }
 
   const cargarMas = async () => {

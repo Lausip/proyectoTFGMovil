@@ -9,32 +9,41 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
-import { Entypo, Foundation } from '@expo/vector-icons';
+import { Entypo, Foundation, AntDesign } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil, handleAutores } from "../../hooks/Auth/Firestore";
 import { getUserAuth } from "../../hooks/Auth/Auth";
-import { cargarDatosLibros } from "../../hooks/FirebaseLibros";
-
+import { cargarDatosLibros, cargarDatosLibrosFiltro } from "../../hooks/FirebaseLibros";
+import { getCategorias } from "../../hooks/CategoriasFirebase";
 
 function ExploreScreen({ route }) {
 
   const navigation = useNavigation();
 
   const [libros, setLibros] = useState([]);
-  const [librosEtiqueta, setLibrosEtiqueta] = useState([]);
   const [autores, setAutores] = useState([]);
+  const [categoriasFiltro, setCategoriasFiltro] = useState([]);
   const [fotoPerfil, setFotoPerfil] = useState("");
   const [textoBusqueda, setTextoBusqueda] = useState("");
+  const [textoBusqueda2, setTextoBusqueda2] = useState("");
   const [email, setEmail] = useState("");
+  const [tag, setTag] = useState("Titulo");
+  const [categoriaPulsada, setCategoriaPulsada] = useState("");
+
+  const [isModalTagsVisible, setModalTagsVisible] = useState(false);
+  const [isModalTagsCategoriaVisible, setModalTagsCategoriaVisible] = useState(false);
+  const [isModalTagsCategoriaVisibleSeleccionada, setModalTagsCategoriaVisibleSeleccionada] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+
 
   const [lastItemId, setLastItemId] = useState("");
 
   const [lastItemIdEtiqueta, setLastItemIdEtiqueta] = useState("");
+  const [lastItemIdCategoria, setLastItemIdCategoria] = useState("");
+  const [lastItemIdTitulo, setLastItemIdTitulo] = useState("");
+  const categorias = ["Libros", "Autores"];
+  const filtros = ["Titulo", "Etiqueta", "Categoría"];
 
-  const categorias = ["Libros", "Etiquetas", "Autores"];
-
-  const [categories, setCategories] = useState([{ Nombre: "Romance", Color: "#E55B5B" }, { Nombre: "Fantasia", Color: "#AD82BB" }]);
 
   const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] = useState(0);
 
@@ -73,48 +82,87 @@ function ExploreScreen({ route }) {
     if (index == 0) {
       await cargarLibros("");
       setAutores([]);
-      setLibrosEtiqueta([])
     }
     if (index == 1) {
-      setLibros([]);
-      setAutores([]);
-      await cargarLibrosEtiqueta("");
-    }
-    if (index == 2) {
       await cargarAutores();
       setLibros([]);
-      setLibrosEtiqueta([])
     }
-
     setModalVisible(false)
   };
 
   const cargarMasLibros = async () => {
+
+   
+    if (textoBusqueda2 != "") {
+      setModalVisible(true)
+      if (tag == "Etiqueta") {
+        let array = await cargarDatosLibrosFiltroFunction(textoBusqueda2, lastItemIdEtiqueta, "Etiqueta");
+        if (array[1] != "") {
+          setLastItemIdEtiqueta(array[1]);
+          let booksFinal = [...libros, ...array[0]];
+          setLibros(booksFinal);
+          setLastItemId("");
+          setLastItemIdTitulo("");
+          setLastItemIdCategoria("")
+        }
+      }
+      if (tag == "Titulo") {
+        let array = await cargarDatosLibrosFiltroFunction(textoBusqueda2, lastItemIdTitulo, "Titulo");
+        if (array[1] != "") {
+          setLastItemIdTitulo(array[1]);
+          let booksFinal = [...libros, ...array[0]];
+          setLibros(booksFinal);
+          setLastItemId("");
+          setLastItemIdEtiqueta("");
+          setLastItemIdCategoria("")
+        }
+
+      }
+      setModalVisible(false)
+    }
+
+    if (textoBusqueda2 == "" && tag != "Categoría") {
+      await cargarLibros(lastItemId);
+    }
+
+
+  }
+
+  const cargarLibros = async (lastItem) => {
+
     setModalVisible(true)
-    let array = await cargarDatosLibros(lastItemId);
-    if (array[1] != "") {
-      setLastItemId(array[1]);
+
+    let array = await cargarDatosLibros(lastItem);
+    if (lastItem != "") {
       let booksFinal = [...libros, ...array[0]];
+      setLastItemId(array[1]);
       setLibros(booksFinal);
+      setLastItemIdTitulo("");
+      setLastItemIdEtiqueta("");
+      setLastItemIdCategoria("")
+    } else {
+      setLastItemId(array[1]);
+      setLibros(array[0]);
+      setLastItemIdTitulo("");
+      setLastItemIdEtiqueta("");
+      setLastItemIdCategoria("")
     }
     setModalVisible(false)
   };
 
-  const cargarLibros = async (lastItem) => {
+  const cargarDatosLibrosFiltroFunction = async (textoBusqueda, lastItem, filtro) => {
+    if (filtro == "Etiqueta") {
 
-    let array = await cargarDatosLibros(lastItem);
-    setLastItemIdEtiqueta(array[1]);
-    setLibros(array[0]);
-    console.log(array[0].Categorias)
+      return await cargarDatosLibrosFiltro(textoBusqueda, lastItem, "Etiqueta");
+    }
+    if (filtro == "Titulo") {
+      return await cargarDatosLibrosFiltro(textoBusqueda, lastItem, "Titulo");
 
-  };
+    }
+    if (filtro == "Categoría") {
+      return await cargarDatosLibrosFiltro(categoriaPulsada, lastItem, "Categoría");
 
-  const cargarLibrosEtiqueta = async (lastItem) => {
-
-    let array = await cargarDatosLibros(lastItem);
-    setLastItemIdEtiqueta(array[1]);
-    setLibrosEtiqueta(array[0]);
-
+    }
   };
 
   const cargarAutores = async () => {
@@ -122,29 +170,56 @@ function ExploreScreen({ route }) {
     setAutores(autoresT);
   };
 
-  const getFiltrado = async () => {
-    if (textoBusqueda != "") {
-      if (seleccionadoCategoriaIndex == 0) {
-        let libroFiltro = libros.filter((a) => {
-          return a.Titulo.toLowerCase().startsWith(textoBusqueda.toLowerCase())
-        });
-        setLibros(libroFiltro)
-      }
-      if (seleccionadoCategoriaIndex == 1) {
-        let libroFiltroEtiqueta = libros.filter((a) => {
+  const getTags = () => {
+    if (tag == "Categoría") {
+      setModalTagsCategoriaVisibleSeleccionada(true)
+      setModalTagsCategoriaVisible(true)
+    }
+    else {
+      setModalTagsCategoriaVisibleSeleccionada(false)
+      setModalTagsCategoriaVisible(false)
+    }
+    setModalTagsVisible(!isModalTagsVisible)
+  }
 
-        });
-        setLibros(libroFiltroEtiqueta)
+  //FILTRAR
+  const getFiltrado = async () => {
+    let textoB = textoBusqueda;
+    setTextoBusqueda2(textoB)
+    //Buscar vacío
+    if (textoB != "") {
+      if (seleccionadoCategoriaIndex == 0) {
+        setModalVisible(true)
+        //Buscar por título
+        if (tag == "Titulo") {
+          let array = await cargarDatosLibrosFiltro(textoB, "", "Titulo");
+          setLastItemIdTitulo(array[1]);
+          setLibros(array[0]);
+          setLastItemId("");
+          setLastItemIdEtiqueta("");
+          setLastItemIdCategoria("");
+        }
+        //Buscar por etiqueta
+        if (tag == "Etiqueta") {
+
+          let array = await cargarDatosLibrosFiltro(textoB, "", "Etiqueta");
+          setLastItemIdEtiqueta(array[1]);
+          setLibros(array[0]);
+          setLastItemId("");
+          setLastItemIdTitulo("");
+          setLastItemIdCategoria("")
+        }
+        setModalVisible(false)
       }
-      if (seleccionadoCategoriaIndex == 2) {
+      //Buscar por Autor
+      if (seleccionadoCategoriaIndex == 1) {
         let autoresFiltro = autores.filter((a) => {
           return a.Nombre.toLowerCase().startsWith(textoBusqueda.toLowerCase())
         });
         setAutores(autoresFiltro);
       }
     }
-    else {
-
+    if (textoB == "") {
       await cargarCategorias(seleccionadoCategoriaIndex);
     }
 
@@ -154,6 +229,13 @@ function ExploreScreen({ route }) {
   const hacerCosas = async () => {
     setModalVisible(true)
     setLibros([])
+    setTag("Titulo");
+    setTextoBusqueda("");
+    setCategoriaPulsada("")
+    setTextoBusqueda2("");
+    setModalTagsCategoriaVisible(false)
+    setModalTagsCategoriaVisibleSeleccionada(false)
+    setCategoriasFiltro(await getCategorias())
     let e = await getUserAuth();
     setEmail(e);
     let perfil = await getFotoPerfil(e);
@@ -161,6 +243,198 @@ function ExploreScreen({ route }) {
     cargarCategorias(0);
 
   }
+
+  const clickTag = (item) => {
+
+    if (item == "Categoría") {
+      setModalTagsCategoriaVisible(true);
+    }
+    else {
+      setModalTagsCategoriaVisible(false);
+      setModalTagsCategoriaVisibleSeleccionada(false)
+      setCategoriaPulsada("")
+    }
+
+    setTag(item)
+    setModalTagsVisible(false)
+  }
+
+  const clickCategoriaFiltro = async (item) => {
+    setModalVisible(true)
+    setCategoriaPulsada(item)
+    setModalTagsCategoriaVisibleSeleccionada(true)
+    setModalTagsCategoriaVisible(false)
+    setModalTagsVisible(false)
+    let array = await cargarDatosLibrosFiltro(item, "", "Categoría");
+    setLastItemIdCategoria(array[1]);
+    setLibros(array[0]);
+    setLastItemId("");
+    setLastItemIdTitulo("");
+    setLastItemIdEtiqueta("")
+
+    setModalVisible(false)
+
+
+  }
+  const RenderCategoriaPulsada = () => {
+    return (
+      <View
+        style={{
+          paddingHorizontal: 10,
+          paddingVertical: 5,
+          borderRadius: 15,
+          backgroundColor: `${categoriaPulsada.color}`,
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "row",
+          marginRight: 5,
+          marginLeft: 5,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 13,
+            color: "#f8f8f8",
+            fontWeight: "bold",
+          }}
+        >
+          {categoriaPulsada.label}
+        </Text>
+
+      </View>
+    );
+  }
+  const RenderEtiquetaPulsada = () => {
+    return (
+      <View
+        style={{
+          borderColor: "#429EBD",
+          paddingHorizontal: 10,
+          paddingVertical: 5,
+          borderRadius: 15,
+          backgroundColor: "#429EBD",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "row",
+          marginRight: 5,
+          marginLeft: 5,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 13,
+            color: "#f8f8f8",
+            fontWeight: "bold",
+          }}
+        >
+          {tag}
+        </Text>
+
+      </View>
+    );
+  }
+
+  const RenderCategoriaFiltro = () => {
+    return (
+      <View>
+        <FlatList
+          contentContainerStyle={{ marginTop: 20, marginHorizontal: 5 }}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={categoriasFiltro}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
+          renderItem={({ item, index }) => <RenderCategoriaFiltro2 categoria={item} key={index} />}
+        ></FlatList>
+      </View>
+    );
+  }
+  const RenderTags = () => {
+    return (
+      <View style={{
+        marginTop: 10,
+        marginHorizontal: 20,
+      }}>
+        <View style={{
+          justifyContent: "center",
+          marginLeft: "auto",
+          marginRight: "auto",
+        }}>
+          <FlatList
+            contentContainerStyle={{ paddingLeft: 5 }}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={filtros}
+            renderItem={({ item, index }) =>
+              <TouchableOpacity
+                disabled={item == tag}
+                style={{
+                  marginTop: 10,
+                  borderColor: "#429EBD",
+                  marginHorizontal: 5,
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderWidth: 1,
+                  borderRadius: 15,
+                  backgroundColor: item == tag ? "#429EBD" : "#f8f8f8",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 10,
+                  flexDirection: "row"
+                }}
+                onPress={() => clickTag(item)}
+              >
+                <Text
+                  style={{
+                    fontSize: 13,
+                    color: item == tag ? "#f8f8f8" : "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {item}
+                </Text>
+              </TouchableOpacity>
+            }
+
+          ></FlatList>
+        </View>
+      </View>
+    );
+  }
+  const RenderCategoriaFiltro2 = ({ categoria }) => {
+    return (
+      <TouchableOpacity onPress={() => clickCategoriaFiltro(categoria)} style={{
+        marginHorizontal: 5
+      }}>
+
+        {/* Imagenes Categorias*/}
+
+        <ImageBackground
+          style={{
+            width: 95,
+            height: 35,
+            borderRadius: 15,
+            overflow: "hidden",
+            backgroundColor: `${categoria.color}`,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 15,
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            {categoria.label}
+          </Text>
+        </ImageBackground>
+
+      </TouchableOpacity>
+    );
+  };
 
   const RenderCategorias = () => {
     return (
@@ -198,7 +472,8 @@ function ExploreScreen({ route }) {
       </View>
     );
   };
-  function RenderEtiquetas(item, index) {
+
+  function RenderCategoria(item, index) {
     return (
       <View style={{
         marginLeft: 2
@@ -270,7 +545,7 @@ function ExploreScreen({ route }) {
         <View
           style={{
             marginVertical: 5,
-            marginHorizontal:20, marginBottom: 10, flexDirection: "row", borderRadius: 8,
+            marginHorizontal: 20, marginBottom: 10, flexDirection: "row", borderRadius: 8,
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
@@ -280,7 +555,7 @@ function ExploreScreen({ route }) {
             shadowRadius: 6.00,
             elevation: 15,
 
-            backgroundColor:"white"
+            backgroundColor: "white"
           }}>
           <ImageBackground
             source={{ uri: libro.Portada }}
@@ -297,7 +572,7 @@ function ExploreScreen({ route }) {
             }}
           ></ImageBackground>
 
-          <View style={{ marginTop: 15, marginBottom: 15, width: 230, alignItems: "center" ,backgroundColor:"white"}}>
+          <View style={{ marginTop: 15, marginBottom: 15, width: 230, alignItems: "center", backgroundColor: "white" }}>
             <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD" }}>
               {libro.Titulo}
             </Text>
@@ -327,7 +602,7 @@ function ExploreScreen({ route }) {
               keyExtractor={(item, index) => {
                 return index.toString();
               }}
-              renderItem={({ item, index }) => RenderEtiquetas(item, index)}
+              renderItem={({ item, index }) => RenderCategoria(item, index)}
             ></FlatList>
 
           </View>
@@ -387,25 +662,78 @@ function ExploreScreen({ route }) {
           />
         </TouchableOpacity>
       </View>
+
       <View style={styles.inputContainerBusqueda}>
         {/*Texto buqueda*/}
         <View style={styles.inputContainerTextBusqueda}>
+          {/*Etiqueta puesta*/}
+          {seleccionadoCategoriaIndex == 0 ?
+            <RenderEtiquetaPulsada /> : <View></View>
+          }
+          {seleccionadoCategoriaIndex == 0 && isModalTagsCategoriaVisibleSeleccionada ?
+            <RenderCategoriaPulsada /> : <View></View>
+          }
+
           <TextInput
-            placeholder="Busca un libro, persona..."
+            placeholder={!(isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible) ? "Busca historias,personas..." : ""}
             placeholderTextColor="black"
             value={textoBusqueda}
+            editable={!(isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible)}
             onChangeText={(text) => setTextoBusqueda(text)}
             style={styles.input}
           ></TextInput>
         </View>
-        {/* Boton de filtrar */}
-        <TouchableOpacity style={styles.buttonFiltrar} onPress={() => getFiltrado()}>
+
+
+        <TouchableOpacity style={{
+          marginRight: "auto", marginTop: "auto", padding: 11, borderRadius: 18, borderColor: "#E39801", shadowColor: "#000", shadowOffset: { width: 0, height: 12, }, shadowOpacity: 0.8, shadowRadius: 6.00, elevation: 15, borderWidth: 3, alignItems: "center", backgroundColor: isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible ? "#EDEDED" : "white",
+        }} disabled={isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible} onPress={() => getFiltrado()}>
           <Entypo name="magnifying-glass" size={24} color="black" />
         </TouchableOpacity>
-      </View>
 
+
+        {/* Botón Tag*/}
+        {seleccionadoCategoriaIndex == 0 && isModalTagsVisible ?
+          <TouchableOpacity style={styles.buttonTagsPulsado} onPress={() => getTags()}>
+            <AntDesign name="tags" size={24} color="white" />
+          </TouchableOpacity> : <View></View>
+        }
+
+        {seleccionadoCategoriaIndex == 0 && !isModalTagsVisible ?
+          <TouchableOpacity style={styles.buttonTagsNoPulsado} onPress={() => getTags()}>
+            <AntDesign name="tags" size={24} color="black" />
+          </TouchableOpacity> : <View></View>
+        }
+
+
+      </View>
+      {/* Apartado Tags */}
+      {isModalTagsVisible &&
+        <RenderTags />
+      }
+      {/*Etiqueta puesta*/}
+      {seleccionadoCategoriaIndex == 0 && isModalTagsCategoriaVisible ?
+        <RenderCategoriaFiltro /> : <View></View>
+      }
+
+      {/* Apartado Categorias */}
       <RenderCategorias />
+
+      {
+        libros.length == 0 && seleccionadoCategoriaIndex == 0 ?
+          <View style={{ marginHorizontal: 30 }}  >
+            <Image
+              resizeMode={'center'}
+              source={require("../../../assets/NoLibros.png")}
+              style={styles.image}
+            />
+            <Text style={styles.textImage}>No se han encontrado libros......</Text>
+          </View> : <View></View>
+      }
+
+
       {seleccionadoCategoriaIndex == 0 &&
+
         <FlatList
           style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
           keyExtractor={(item, index) => index}
@@ -415,17 +743,10 @@ function ExploreScreen({ route }) {
           )}
           onEndReached={e => cargarMasLibros()}
           onEndReachedThreshold={0.1}
-        /> || seleccionadoCategoriaIndex == 1 &&
-        <FlatList
-          style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
-          keyExtractor={(item, index) => index}
-          data={librosEtiqueta}
-          renderItem={({ item, index }) => (
-            <CardLibros key={index} libro={item} />
-          )}
-          onEndReachedThreshold={0.1}
         />
-        ||
+
+        || seleccionadoCategoriaIndex == 1 &&
+
         <ScrollView>
           {
             autores.map((item, index) => <CardAutores key={index} autor={item} />)
@@ -487,6 +808,7 @@ const styles = StyleSheet.create({
   },
   inputContainerBusqueda: {
     flexDirection: "row",
+    marginHorizontal: 20
   },
   inputContainerTextBusqueda: {
     marginTop: 20,
@@ -496,18 +818,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: "center",
     backgroundColor: "#f8f8f8",
-    width: 260,
+    width: 230,
     height: 50,
+    flexDirection: "row"
   },
   input: {
     color: "black",
   },
-  buttonFiltrar: {
+
+  buttonTagsNoPulsado: {
     marginRight: "auto",
     marginTop: "auto",
     backgroundColor: "white",
-    padding: 12,
-    borderRadius: 20,
+    padding: 7,
+    borderRadius: 16,
     borderColor: "#E39801",
     shadowColor: "#000",
     shadowOffset: {
@@ -519,10 +843,40 @@ const styles = StyleSheet.create({
     elevation: 15,
     borderWidth: 3,
     alignItems: "center",
-
-  }, categoriaText: {
+  },
+  buttonTagsPulsado: {
+    marginRight: "auto",
+    marginTop: "auto",
+    padding: 10,
+    borderRadius: 20,
+    backgroundColor: "#E39801",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 6.00,
+    elevation: 15,
+    alignItems: "center",
+  },
+  categoriaText: {
     fontSize: 15,
     fontWeight: "bold",
+  },
+  image: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: 30,
+    height: 200,
+    width: 280,
+  },
+  textImage: {
+    marginTop: 20,
+    marginLeft: "auto",
+    marginRight: "auto",
+    fontSize: 15,
+
   },
 });
 export default ExploreScreen;

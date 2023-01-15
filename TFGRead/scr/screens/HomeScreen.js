@@ -312,7 +312,7 @@ function HomeScreen({ route }) {
         </View>
       </View>
 
-      {ultimoLibro=={} &&
+      {ultimoLibro!={} &&
         < CardUltimoLibro />
 
       }

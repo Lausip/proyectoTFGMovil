@@ -1,4 +1,4 @@
-import { db, firebase } from '../config/firebase';
+import { db } from '../config/firebase';
 
 
 export const getCategorias = async () => {
@@ -13,6 +13,7 @@ export const getCategorias = async () => {
         });
 
     });
+
     return categorias;
 }
 

@@ -108,8 +108,12 @@ function EditBookScreen({ route }) {
 
     const cargarCategorias = async () => {
         setModalVisible(true)
-
-        setCategoriasLibroFirebase(await getCategoriasLibro(bookId));
+        let cat=await getCategoriasLibro(bookId);
+        let categorias=[];
+        for(let i=0;i<cat.length;i++){
+            categorias.push(cat[i].Nombre)
+        }
+        setCategoriasLibroFirebase(categorias);
 
         setCategoriasFirebase(await getCategorias())
 

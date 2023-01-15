@@ -4,7 +4,7 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { db } from '../../config/firebase';
 import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
-import { cargarDatosLibro, getCategoriasLibroDescripcion } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, getCategoriasLibro } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
 import { useFocusEffect } from '@react-navigation/native';
@@ -17,6 +17,7 @@ function DetailBookScreen({ route }) {
     const [megusta, setMeGusta] = useState(false);
     const [capitulos, setCapitulos] = useState([]);
     const [categorias, setCategorias] = useState([]);
+    const [etiquetas, setEtiquetas] = useState([]);
 
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -26,15 +27,9 @@ function DetailBookScreen({ route }) {
     useFocusEffect(
         React.useCallback(() => {
             hacerCosas();
-        }, [megusta])
-      )
-    useEffect(() => {
-        hacerCosas();
-        BackHandler.addEventListener('hardwareBackPress', backAction);
+        }, [email, portada, megusta])
+    )
 
-        return () =>
-            BackHandler.removeEventListener('hardwareBackPress', backAction);
-    }, [email, portada, megusta])
 
 
 
@@ -59,6 +54,7 @@ function DetailBookScreen({ route }) {
     }
 
     const cargarLibro = async () => {
+   
         let e = await getUserAuth();
         setEmail(e);
         setMeGusta(await handleElLibroEstaEnMeGusta(e, bookId));
@@ -66,7 +62,9 @@ function DetailBookScreen({ route }) {
         let data = await cargarDatosLibro(bookId)
         setLibroActual(data);
         setPortada(data.Portada)
-        setCategorias(await getCategoriasLibroDescripcion(bookId))
+        setCategorias(await getCategoriasLibro(bookId))
+        setEtiquetas(data.Etiquetas)
+ 
         await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
             const caps = [];
             querySnapshot.forEach(documentSnapshot => {
@@ -118,11 +116,12 @@ function DetailBookScreen({ route }) {
             await handleEliminarLibroMeGustaFirebase(email, bookId)
         }
     }
-    function renderEtiquetas(item, index) {
+    const RenderEtiquetas = ({ libro }) => {
         return (
             <View
                 style={{
-                    borderColor: "#8EAF20",
+                    marginTop:10,
+                    borderColor: "#429EBD",
                     marginHorizontal: 5,
                     paddingHorizontal: 10,
                     paddingVertical: 5,
@@ -142,11 +141,11 @@ function DetailBookScreen({ route }) {
                         fontWeight: "bold",
                     }}
                 >
-                    {item}
+                    {libro}
                 </Text>
             </View>
         );
-    }
+    };
     const RenderCategorias = (item, index) => {
         return (
             <View style={{
@@ -259,7 +258,7 @@ function DetailBookScreen({ route }) {
 
                 </View>
 
-                <View style={{ flexDirection: "row" }}>
+                <View style={{  flexDirection: "row", justifyContent: "center"}}>
 
                     {/* Boton de leer */}
                     <TouchableOpacity style={styles.buttonLeer} onPress={e => handleLeerLibro()}>
@@ -269,7 +268,7 @@ function DetailBookScreen({ route }) {
                     </TouchableOpacity>
 
                     {/* Boton de gustar */}
-                    <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto", right: 55 }} onPress={e => handleLibroMeGustaFirebase()}>
+                    <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto",marginLeft:15,marginRight:"auto" }} onPress={e => handleLibroMeGustaFirebase()}>
                         {megusta ? <AntDesign name="heart" size={30} color="#429EBD" /> : <AntDesign name="hearto" size={30} color="#429EBD" />}
                     </TouchableOpacity>
 
@@ -302,31 +301,34 @@ function DetailBookScreen({ route }) {
                     Capitulos{":    "}
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>{libroActual.Estado}</Text>
                 </Text>
-                <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
-                    {
-                        capitulos.map((item, index) => <RenderCapitulos key={index} libro={item} />)
-                    }
-                </View>
+                {
+                    capitulos.length != 0 ?
+                        <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
+                            {
+                                capitulos.map((item, index) => <RenderCapitulos libro={item} key={index} />)
+                            }
+                        </View>
+
+                        : <View></View>
+                }
                 {/* Etiquetas */}
-                <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
-                    <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 3, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
-                        Etiquetas
-                    </Text>
-
-                    {/* Etiquetas explorar */}
-
-                    <FlatList
-                        contentContainerStyle={{ paddingTop: 5 }}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        data={libroActual.Etiquetas}
-                        keyExtractor={(item, index) => {
-                            return index.toString();
-                        }}
-                        renderItem={({ item, index }) => { if (libro.Etiquetas.length != 0) renderEtiquetas(item, index) }}
-                    ></FlatList>
-
-                </View>
+                {       
+                        etiquetas.length != 0 ?
+                            <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
+                                <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 3, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                                    Etiquetas
+                                </Text>
+                                {/* Etiquetas explorar */}
+                                <FlatList
+                                    contentContainerStyle={{ paddingLeft: 5 }}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    data={etiquetas}
+                                    renderItem={({ item, index }) =>  <RenderEtiquetas libro={item} key={index} />}
+                                ></FlatList>
+                            </View> 
+                        : <Text></Text>
+                }
 
             </ScrollView>
 
@@ -391,12 +393,11 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     buttonLeer: {
-        marginLeft: "auto",
-        marginRight: "auto",
-        width: "50%",
+        marginLeft:"auto",
+        width: "35%",
         marginTop: 20,
         backgroundColor: "#E39801",
-        padding: 10,
+        padding: 7,
         borderRadius: 20,
 
         shadowColor: "#000",

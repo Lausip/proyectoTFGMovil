@@ -1,37 +1,174 @@
+import { BottomTabBarHeightCallbackContext } from '@react-navigation/bottom-tabs';
 import { db, firebase } from '../config/firebase';
 import { handleAutores } from "./Auth/Firestore";
 
 export const cargarNuevosLibros = async (lastItemId) => {
     const books = [];
-    let snapshot;
     let lastI = "";
+    let snapshot = "";
+
     if (lastItemId == "") {
         snapshot = await db.collection("libros").orderBy("FechaModificación", "desc").limit(4).get();
-
-        await snapshot.docs.map(async doc => {
-
-            books.push({
-                ...doc.data(),
-                key: doc.id,
-            });
-            lastI = doc.data().FechaModificación;
-        });
     }
     else {
-
         snapshot = await db.collection('libros').orderBy("FechaModificación", "desc").startAfter(lastItemId).limit(4).get();
-        await snapshot.docs.map(async doc => {
-
-            books.push({
-                ...doc.data(),
-                key: doc.id,
-            });
-            lastI = doc.data().FechaModificación;
-        });
     }
+
+    await snapshot.docs.map(async doc => {
+
+        books.push({
+            ...doc.data(),
+            key: doc.id,
+        });
+        lastI = doc;
+    });
     return [books, lastI];
 
 }
+
+
+export const cargarNuevosLibrosFiltroTitulo = async (lastItemId, filtro) => {
+    const books = [];
+    let snapshot;
+    let lastI = "";
+    if (lastItemId == "") {
+        snapshot = await db.collection("libros").orderBy("Titulo").where("Titulo", ">", filtro).orderBy("FechaModificación", "desc").limit(4).get();
+    }
+    else {
+        snapshot = await db.collection('libros').orderBy("Titulo").where("Titulo", ">", filtro).orderBy("FechaModificación", "desc").startAfter(lastItemId).limit(4).get();
+    }
+
+    await snapshot.docs.map(async doc => {
+
+        books.push({
+            ...doc.data(),
+            key: doc.id,
+        });
+        lastI = doc;
+    });
+    return [books, lastI];
+
+}
+export const cargarNuevosLibrosFiltroEtiqueta = async (lastItemId, filtro) => {
+    const books = [];
+    let snapshot;
+    let lastI = "";
+    if (lastItemId == "") {
+
+        snapshot = await db.collection("libros").orderBy("Etiquetas", "desc").where("Etiquetas", "array-contains", filtro).orderBy("FechaModificación", "desc").limit(4).get();
+    }
+    else {
+
+        snapshot = await db.collection('libros').orderBy("Etiquetas", "desc").where("Etiquetas", "array-contains", filtro).orderBy("FechaModificación", "desc").startAfter(lastItemId).limit(4).get();
+    }
+
+    await snapshot.docs.map(async doc => {
+        books.push({
+            ...doc.data(),
+            key: doc.id,
+        });
+        lastI = doc;
+    });
+
+    return [books, lastI];
+
+}
+
+export const cargarNuevosLibrosFiltroCategoria = async (lastItemId, filtro) => {
+    const books = [];
+    let lastI = "";
+    let snapshot;
+    let i = 0;
+
+    if (lastItemId == "") {
+        snapshot = await db.collection("libros").orderBy("FechaModificación", "desc").get();
+        let doc;
+        for (doc of snapshot.docs) {
+
+            let snapshot2 = await db.collection("libros").doc(doc.id).collection("Categorias").where("Nombre", "==", filtro.value).get();
+   
+            if(!snapshot2.empty){
+                    books.push({
+                        ...doc.data(),
+                        key: doc.id,
+                    });
+                    lastI = doc;
+                    i++;
+                if (i == 4) {
+                    break;
+                }
+            }
+        };
+    }
+    else {
+
+        snapshot = await db.collection('libros').orderBy("FechaModificación", "desc").startAfter(lastItemId).get();
+        let doc;
+        for (doc of snapshot.docs) {
+            let snapshot2 = await db.collection("libros").doc(doc.id).collection("Categorias").where("Nombre", "==", filtro.value).get();
+            if(!snapshot2.empty){
+      
+                    books.push({
+                        ...doc.data(),
+                        key: doc.id,
+                    });
+                    lastI = doc;
+                    i++;
+               
+                if (i == 4) {
+                    break;
+                }
+            }
+        };
+
+    }
+
+
+
+    return [books, lastI];
+
+}
+
+export const cargarDatosLibrosFiltro = async (filtro, lastItemId, tipoFiltro) => {
+    let array;
+
+    if (tipoFiltro == "Etiqueta") {
+        array = await cargarNuevosLibrosFiltroEtiqueta(lastItemId, filtro);  console.log(array)
+    }
+    if (tipoFiltro == "Titulo") {
+        array = await cargarNuevosLibrosFiltroTitulo(lastItemId, filtro);
+    }
+    if (tipoFiltro == "Categoría") {
+        array = await cargarNuevosLibrosFiltroCategoria(lastItemId, filtro);
+      
+    }
+    let librosInformacion = [];
+    let lasItem = "";
+    if (array[1] != "") {
+        let libros = array[0];
+        lasItem = array[1];
+
+        for (let i = 0, len = libros.length; i < len; i++) {
+
+            let numCapitulos = await contarCapitulosDelLibro(libros[i].key);
+            let numSeguidores = await getNumSeguidoresLibro(libros[i].key);
+            let categorias = await getCategoriasLibro(libros[i].key);
+
+            librosInformacion.push({
+                ...libros[i],
+                NumCapitulo: numCapitulos,
+                NumSeguidores: numSeguidores,
+                Categorias:categorias,
+
+            });
+
+        }
+    }
+    return [librosInformacion, lasItem];
+}
+
+
+
 export const cargarDatosLibros = async (lastItemId) => {
     let array = await cargarNuevosLibros(lastItemId);
     let librosInformacion = [];
@@ -42,12 +179,13 @@ export const cargarDatosLibros = async (lastItemId) => {
 
         let numCapitulos = await contarCapitulosDelLibro(libros[i].key);
         let numSeguidores = await getNumSeguidoresLibro(libros[i].key);
-
+        let categorias = await getCategoriasLibro(libros[i].key);
         librosInformacion.push({
             ...libros[i],
             NumCapitulo: numCapitulos,
             NumSeguidores: numSeguidores,
-     
+            Categorias: categorias
+
         });
 
     }
@@ -70,45 +208,29 @@ export const getNumSeguidoresLibro = async (idbook) => {
     return numSeguidores;
 
 }
-export const getCategoriasLibroDescripcion = async (bookId) => {
-    const categorias = [];
-    await db.collection("libros").doc(bookId).get().then(documentSnapshot => {
-       let categoria=[];
-       categoria= documentSnapshot.data().Categorias;
-       let i;
-       for (i=0;i<categoria.length;i++){
-        categorias.push({
-           Nombre: categoria[i].Nombre,
-           Color:categoria[i].Color
-        })
-        ;}
-   
-    });
-    return categorias;
-}
+
 export const getCategoriasLibro = async (bookId) => {
+    let snapshot = await db.collection("libros").doc(bookId).collection("Categorias").get();
     const categorias = [];
-    await db.collection("libros").doc(bookId).get().then(documentSnapshot => {
-       let categoria=[];
-       categoria= documentSnapshot.data().Categorias;
-       let i;
-       for (i=0;i<categoria.length;i++){
-        categorias.push(
-           categoria[i].Nombre)
-        ;}
-   
+    await snapshot.docs.map(async doc => {
+        categorias.push({
+            Nombre:
+                doc.data().Nombre, Color: doc.data().Color
+        })
+            ;
     });
+
     return categorias;
 }
 export const getPortadaLibro = async (bookId) => {
 
     let portada = "";
 
-        await db.collection("libros").doc(bookId).get().then(async documentSnapshot => {
-            portada = documentSnapshot.data().Portada;
+    await db.collection("libros").doc(bookId).get().then(async documentSnapshot => {
+        portada = documentSnapshot.data().Portada;
 
-        })
-  
+    })
+
 
     return portada
 
@@ -131,7 +253,7 @@ export const getFavoritos = async (favoritosUsuario) => {
 }
 
 
-export const crearLibroFirebase = async (titulo, descripción, email,etiquetas,categorias) => {
+export const crearLibroFirebase = async (titulo, descripción, email, etiquetas, categorias) => {
     let id = "";
     await db
         .collection('libros')
@@ -143,14 +265,19 @@ export const crearLibroFirebase = async (titulo, descripción, email,etiquetas,c
             FechaCreación: firebase.firestore.Timestamp.fromDate(new Date()),
             FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
             borrador: false,
-            Estado:"En curso",
-            Etiquetas:etiquetas,
-            Categorias:categorias
+            Estado: "En curso",
+            Etiquetas: etiquetas,
         })
         .then(function (docRef) {
             id = docRef.id;
         });
-
+    let i = 0;
+    for (i; i < categorias.length; i++) {
+        await db.collection("libros").doc(id).collection("Categorias").doc(categorias[i].Nombre).add({
+            Nombre: categorias[i].Nombre,
+            Color: categorias[i].Color
+        })
+    }
     return id;
 }
 
@@ -188,18 +315,26 @@ export const cambiarFechaModificaciónLibro = async (bookId) => {
             FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
         })
 }
-export const cambiarEstado = async (bookId,estado) => {
+export const cambiarEstado = async (bookId, estado) => {
     await db.collection('libros').doc(bookId)
         .update({
             Estado: estado,
         })
 }
 
-export const cambiarCategoria = async (bookId,categorias) => {
-    await db.collection('libros').doc(bookId)
-        .update({
-            Categorias:categorias,
+export const cambiarCategoria = async (bookId, categorias) => {
+    await db.collection("libros").doc(bookId).collection("Categorias").get().then(querySnapshot => {
+        querySnapshot.forEach(async (documentSnapshot) => {
+            await db.collection("libros").doc(bookId).collection("Categorias").doc(documentSnapshot.id).delete();
         })
+    });
+    let i = 0;
+    for (i; i < categorias.length; i++) {
+        await db.collection("libros").doc(bookId).collection("Categorias").doc(categorias[i].Nombre).set({
+            Nombre: categorias[i].Nombre,
+            Color: categorias[i].Color
+        })
+    }
 }
 
 //---------------------------------------------------CARGAR---------------------------------------------------
@@ -387,7 +522,7 @@ export const eliminarCapituloLibro = async (bookId, chapterId, n) => {
 
 }
 
-export const eliminarEtiqueta = async (bookId,etiqueta) => {
+export const eliminarEtiqueta = async (bookId, etiqueta) => {
     await db.collection('libros').doc(bookId)
         .update({
             Etiquetas: firebase.firestore.FieldValue.arrayRemove(etiqueta),
@@ -425,7 +560,7 @@ export const eliminarLibroFirebase = async (bookId) => {
 
 }
 
-export const añadirEtiqueta = async (bookId,etiqueta) => {
+export const añadirEtiqueta = async (bookId, etiqueta) => {
     await db.collection('libros').doc(bookId)
         .update({
             Etiquetas: firebase.firestore.FieldValue.arrayUnion(etiqueta),
