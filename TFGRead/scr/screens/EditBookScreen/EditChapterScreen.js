@@ -2,7 +2,7 @@ import { View, BackHandler, TextInput, ScrollView, SafeAreaView, StyleSheet, Sta
 import { useNavigation } from "@react-navigation/native";
 import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { cambiarContenidoCapitulo, cambiarTituloCapitulo } from '../../hooks/FirebaseLibros';
+import { cambiarContenidoCapitulo, cambiarTituloCapitulo,getCapitulo } from '../../hooks/FirebaseLibros';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { db } from '../../config/firebase';
 
@@ -12,19 +12,16 @@ function EditChapterScreen({ route }) {
     const navigation = useNavigation();
     const { bookId, capituloNumero, chapterId } = route.params;
     const [isModalVisible, setModalVisible] = useState(false);
+
     useEffect(() => {
         cargarCapituloLibros();
-        BackHandler.addEventListener('hardwareBackPress', backAction);
+        BackHandler.addEventListener('hardwareBackPress', handleEdit);
 
         return () =>
-            BackHandler.removeEventListener('hardwareBackPress', backAction);
+            BackHandler.removeEventListener('hardwareBackPress', handleEdit);
     }, []);
 
-    const backAction = async () => {
-         navigation.replace("editBook", {
-            bookId: bookId
-    });
-    }
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
@@ -41,13 +38,10 @@ function EditChapterScreen({ route }) {
     }
 
     const cargarCapituloLibros = async () => {
-        console.log(bookId)
-        let querySnapshot = await db.collection("libros").doc(bookId).collection("Capitulos")
-            .where("Numero", "==", capituloNumero).get()
-        querySnapshot.forEach((queryDocumentSnapshot) => {
-            setTexto(queryDocumentSnapshot.data().Contenido)
-            setTitulo(queryDocumentSnapshot.data().Titulo)
-        })
+        let cap= await getCapitulo(bookId,capituloNumero)
+
+        setTexto(cap.Contenido)
+        setTitulo(cap.Titulo)
     }
 
     const actualizarCapituloLibro = async () => {
@@ -100,7 +94,7 @@ function EditChapterScreen({ route }) {
             <View style={styles.head}>
 
                 <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity onPress={() => handleEdit()}>
+                    <TouchableOpacity testID='buttonGoBackEdit' onPress={() => handleEdit()}>
                         <Ionicons name="arrow-back" size={24} color="black" style={{ marginTop: 15, marginRight: 10, }} />
                     </TouchableOpacity>
                     {/*nombre e inicio*/}
@@ -121,7 +115,7 @@ function EditChapterScreen({ route }) {
                         Título
                     </Text>
                     <TextInput
-                        placeholder="Título "
+                        placeholder="Título"
                         placeholderTextColor="black"
                         value={titulo}
                         onChangeText={(text) => setTitulo(text)}
@@ -141,7 +135,7 @@ function EditChapterScreen({ route }) {
                     <Text style={{ fontSize: 15, color: "black", marginTop: 10, marginBottom: 10 }}>Descripción</Text>
                     <KeyboardAvoidingView behavior="padding">
                         <TextInput
-                            placeholder="Título "
+                            placeholder="Contenido"
                             placeholderTextColor="black"
                             value={texto}
                             onChangeText={(text) => setTexto(text)}
@@ -159,6 +153,7 @@ function EditChapterScreen({ route }) {
                     
                 </View>
                 <TouchableOpacity
+                        testID='buttonActualizar'
                         style={{
                             width: "70%",
                             marginHorizontal:20,

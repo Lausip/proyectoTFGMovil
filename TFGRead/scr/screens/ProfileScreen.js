@@ -1,19 +1,20 @@
-import { View, ActivityIndicator, Text, FlatList, TextInput, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal } from 'react-native';
+import { View, Text,TextInput, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, Modal,BackHandler } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons } from '@expo/vector-icons';
-import { getUserAuth } from "../hooks/Auth/Auth";
-import * as ImagePicker from 'expo-image-picker';
+import { getUserAuth} from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
 import { crearFotoPerfilStorage } from "../hooks/Storage";
-import { signOut } from "../hooks/Auth/Auth";
-import { cambiarFotoPerfilFirebase, getFotoPerfil, cambiarDescripcion, getDescripcionUsuario } from "../hooks/Auth/Firestore";
+import { getAuth,signOut} from "firebase/auth";
+import { cambiarFotoPerfilFirebase, getFotoPerfil, cambiarDescripcion, getDescripcionUsuario, } from "../hooks/Auth/Firestore";
 import { pickImage } from "../utils/ImagePicker";
 
 function ProfileScreen({ route }) {
-    const [email, setEmail] = useState("");
+
+    const [email, setEmail] =useState("");
     const [fotoPerfil, setFotoPerfil] = useState("");
-    const [texto, setTexto] = useState("");
+
+    const [texto, setTexto] =useState("");
 
     const navigation = useNavigation();
 
@@ -22,7 +23,10 @@ function ProfileScreen({ route }) {
     const { screen } = route.params;
 
     useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', goBack);
         hacerCosas();
+        return () =>
+        BackHandler.removeEventListener('hardwareBackPress', goBack);
     }, [email, fotoPerfil])
 
     useLayoutEffect(() => {
@@ -45,9 +49,10 @@ function ProfileScreen({ route }) {
     const hacerCosas = async () => {
 
         setModalVisible(true)
-        let e = await getUserAuth()
+        let e = await getUserAuth();
         setEmail(e);
-        setFotoPerfil(await getFotoPerfil(e));
+        let foto=await getFotoPerfil(e);
+        setFotoPerfil(foto);
         setTexto(await getDescripcionUsuario(e));
         setModalVisible(false)
 
@@ -61,11 +66,13 @@ function ProfileScreen({ route }) {
             await cambiarFotoPerfilFirebase(email, urlImage)
             setModalVisible(false)
         }
-    }
-    const salir = async () => {
-        await signOut();
+
     }
 
+     const handleSignOut = async () => {
+        const auth = getAuth();
+        signOut(auth)
+      }
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -113,7 +120,7 @@ function ProfileScreen({ route }) {
                 height: 70,
 
             }}>
-                <TouchableOpacity onPress={() => goBack()}>
+                <TouchableOpacity testID='buttonGoBack' onPress={() => goBack()}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
@@ -135,7 +142,7 @@ function ProfileScreen({ route }) {
 
 
             }}>
-                <TouchableOpacity onPress={e => cambiarFotoPerfil()}>
+                <TouchableOpacity testID='buttonFotoPerfil' onPress={() => cambiarFotoPerfil()}>
                     <Image
                         source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
                         style={{ width: 100, height: 100, borderRadius: 100 / 2, marginTop: 20 }}
@@ -148,7 +155,7 @@ function ProfileScreen({ route }) {
                   marginVertical:20,
                 }}>
                     <TextInput
-                        placeholder="Descripción "
+                        placeholder="Descripción"
                         placeholderTextColor="black"
                         value={texto}
                         onChangeText={(text) => setTexto(text)}
@@ -164,11 +171,11 @@ function ProfileScreen({ route }) {
                         numberOfLines={4}
                         textAlignVertical="top"
                     ></TextInput>
-                    <TouchableOpacity
+                    <TouchableOpacity testID='buttonDescripcion'
                         style={{
                             marginTop: 10,
                             backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
-                            padding: 4,
+                            padding: 8,
                             borderRadius: 20,
                             alignItems: "center",
                             justifyContent: "center",
@@ -187,7 +194,7 @@ function ProfileScreen({ route }) {
                         }}
                         onPress={e => actualizarDescripcion()}
                     >
-                        <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
+                        <Text style={{ fontSize: 15, color: "white",margin:"auto" }}>
                             Actualizar
                         </Text>
                     </TouchableOpacity>
@@ -200,6 +207,7 @@ function ProfileScreen({ route }) {
 
 
             <TouchableOpacity
+            testID='buttonSalir'
                 style={{
                     width: "50%",
                     marginTop: 25,
@@ -219,7 +227,7 @@ function ProfileScreen({ route }) {
                     shadowRadius: 6.00,
                     elevation: 15,
                 }}
-                onPress={e => salir()}
+                onPress={() => handleSignOut()}
             >
                 <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
                     Desconectarse

@@ -5,16 +5,16 @@ import {
     View,
     TouchableOpacity,
     ImageBackground, Image,
-    Modal, StatusBar, ScrollView, TextInput
+    Modal, StatusBar, ScrollView, TextInput, FlatList
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { Entypo, Foundation, AntDesign } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, handleAutoresSeguidos, cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
+import { getFotoPerfil, handleAutoresSeguidos, cambiarUltimoLibroLeido, getFavoritosDelUsuario } from "../hooks/Auth/Firestore";
 import { getUserAuth } from "../hooks/Auth/Auth";
 import { getFavoritos } from "../hooks/FirebaseLibros";
-import { db } from '../config/firebase';
+
 
 
 function BibliotecaScreen() {
@@ -26,13 +26,16 @@ function BibliotecaScreen() {
     const [email, setEmail] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisibleNoHayCapitulo, setModalVisibleNoHayCapitulo] = useState(false);
-    const categorias = ["Reciente", "Favoritos", "Autores"];
+    const categorias = ["Favoritos", "Autores"];
 
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
         useState(0);
 
     useEffect(() => {
-        hacerCosas();
+        const unsubscribe = navigation.addListener('focus', () => {
+            hacerCosas();
+        });
+        return unsubscribe;
     }, [email]);
 
     useLayoutEffect(() => {
@@ -49,55 +52,39 @@ function BibliotecaScreen() {
     }
 
     const cargarCategorias = async (index) => {
-        setModalVisible(true);
         setSeleccionadoCategoriaIndex(index);
-        if (index == 1) {
-
-            await cargarFavoritos(email);
-
+        if (index == 0) {
+            cargarFavoritos();
             setAutores([]);
         }
-
-        else if (index == 2) {
-
-            await cargarAutoresSeguido();
+        else {
+            cargarAutoresSeguido();
             setFavoritos([]);
         }
-
-        setModalVisible(false);
     };
 
-    const cargarFavoritos = async (email2) => {
-        if (email2) {
-            //ARREGLAR
-            await db.collection("usuarios").doc(email2).collection("MeGusta")
-                .onSnapshot(async querySnapshot => {
-                    let favoritosUsuario = [];
-                    await querySnapshot.forEach(async documentSnapshot => {
+    const cargarFavoritos = async () => {
+        let e = await getUserAuth();
+        setModalVisible(true);
+        let favoritosUsuario = await getFavoritosDelUsuario(e);
 
-                        favoritosUsuario.push({
-                            ...documentSnapshot.data(),
-                            key: documentSnapshot.id,
+        setFavoritos(await getFavoritos(favoritosUsuario));
 
-                        });
-                    })
-                    setFavoritos(await getFavoritos(favoritosUsuario));
-                })
+        setModalVisible(false);
 
-
-        }
 
     };
 
     const cargarAutoresSeguido = async () => {
-
+        setModalVisible(true);
         let autores = await handleAutoresSeguidos(email);
         setAutores(autores);
+        setModalVisible(false);
     };
 
     const getFiltrado = async () => {
-        if (textoBusqueda != "") {
-            if (seleccionadoCategoriaIndex == 1) {
+        if (textoBusqueda.length != 0 && textoBusqueda.trim().length != 0) {
+            if (seleccionadoCategoriaIndex == 0) {
 
                 let favoritosFiltro = favoritos.filter((a) => {
 
@@ -106,7 +93,7 @@ function BibliotecaScreen() {
                 setFavoritos(favoritosFiltro)
 
             }
-            if (seleccionadoCategoriaIndex == 2) {
+            else {
                 let autoresFiltro = autores.filter((a) => {
 
                     return a.Nombre.toLowerCase().startsWith(textoBusqueda.toLowerCase())
@@ -143,20 +130,26 @@ function BibliotecaScreen() {
     }
 
     const hacerCosas = async () => {
-        setModalVisible(true)
+
         let e = await getUserAuth();
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(e));
-        cargarCategorias(1);
-        setModalVisible(false)
+        cargarCategorias(0);
+
     }
 
-
+    const goAutorProfile = (autorPulsado) => {
+        navigation.replace("autorScreen", {
+            autorElegido: autorPulsado,
+            screen: "explore",
+        });
+    }
     const RenderCategorias = (item) => {
         return (
             <View style={styles.renderCategoriaMisLibros}>
                 {categorias.map((item, index) => (
                     <TouchableOpacity
+                        testID="buttoncargarCategorias"
                         key={index}
                         activeOpacity={0.8}
                         onPress={() => cargarCategorias(index)}
@@ -191,7 +184,7 @@ function BibliotecaScreen() {
     const CardAutores = ({ autor }) => {
         return (
 
-            <View style={{
+            <TouchableOpacity testID="buttongoAutorProfile " onPress={() => goAutorProfile(autor.Nombre)} style={{
                 marginVertical: 10,
                 marginHorizontal: 30, marginBottom: 10, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
@@ -207,7 +200,7 @@ function BibliotecaScreen() {
                 <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
                     {autor.Nombre.split("@")[0]}
                 </Text>
-            </View>
+            </TouchableOpacity>
 
         );
     };
@@ -216,6 +209,7 @@ function BibliotecaScreen() {
 
         return (
             <TouchableOpacity
+                testID="buttonhandleLeerLibroCapitulo"
                 style={{
                     marginHorizontal: 10,
                 }}
@@ -319,6 +313,7 @@ function BibliotecaScreen() {
                     }}>Lo siento! El libro no tiene capítulos demomento</Text>
 
                     <TouchableOpacity
+                        testID="buttonsetModalVisibleNoHayCapitulo"
                         style={{
                             width: "50%",
                             padding: 12,
@@ -337,7 +332,7 @@ function BibliotecaScreen() {
                             shadowRadius: 6.00,
                             elevation: 15,
                         }}
-                        onPress={e => setModalVisibleNoHayCapitulo(!isModalVisibleNoHayCapitulo)}
+                        onPress={() => setModalVisibleNoHayCapitulo(!isModalVisibleNoHayCapitulo)}
                     >
                         <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
                             Aceptar
@@ -389,7 +384,7 @@ function BibliotecaScreen() {
                     </View>
                 </View>
                 {/*User*/}
-                <TouchableOpacity onPress={() => { handleProfile() }}>
+                <TouchableOpacity testID="buttonhandleProfile" onPress={() => { handleProfile() }}>
                     <Image
                         source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
                         style={{ width: 40, height: 40, borderRadius: 40 / 2, marginTop: 10 }}
@@ -408,23 +403,28 @@ function BibliotecaScreen() {
                     ></TextInput>
                 </View>
                 {/* Boton de filtrar */}
-                <TouchableOpacity style={styles.buttonFiltrar} onPress={() => getFiltrado()}>
+                <TouchableOpacity testID="buttonFiltrar" style={styles.buttonFiltrar} onPress={() => getFiltrado()}>
                     <Entypo name="magnifying-glass" size={24} color="black" />
                 </TouchableOpacity>
             </View>
 
             <RenderCategorias />
 
-            {seleccionadoCategoriaIndex == 1 ?
+            {seleccionadoCategoriaIndex == 0 ?
                 <View>
                     {
                         favoritos.length != 0 ?
-                            <ScrollView contentContainerStyle={styles.contentContainer}>
-                                {
-                                    favoritos.map((item, index) => <CardFavoritos key={index} libro={item} />)
-                                }
+                            <FlatList
+                                testID="flatlistbooks"
+                                contentContainerStyle={{ paddingBottom: 60, }}
+                                keyExtractor={(item, index) => index}
+                                data={favoritos}
+                                renderItem={({ item, index }) => (
+                                    <CardFavoritos key={index} libro={item} />
+                                )}
 
-                            </ScrollView> :
+                            />
+                            :
 
                             <View style={{ marginHorizontal: 30 }}  >
                                 <Image
@@ -438,14 +438,32 @@ function BibliotecaScreen() {
                     }
                 </View>
                 :
-                <ScrollView contentContainerStyle={styles.contentContainer}>
+                <View>
                     {
-                        autores.map((item, index) => <CardAutores key={index} autor={item} />)
-                    }
+                        autores.length != 0 ?
+                            <FlatList
+                                testID="flatlistbooks"
+                                contentContainerStyle={{ paddingBottom: 60, }}
+                                keyExtractor={(item, index) => index}
+                                data={autores}
+                                renderItem={({ item, index }) => (
+                                    <CardAutores key={index} autor={item} />
+                                )}
 
-                </ScrollView>
+                            />
+                            :
+                            <View style={{ marginHorizontal: 30 }}  >
+                                <Image
+                                    resizeMode={'center'}
+                                    source={require("../../assets/NoAuthor.png")}
+                                    style={styles.image}
+                                />
+                                <Text style={styles.textImage}>No hay autores......</Text>
+                            </View>
+                    }
+                </View>
             }
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 const styles = StyleSheet.create({

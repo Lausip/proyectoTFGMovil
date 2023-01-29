@@ -1,74 +1,74 @@
-import { BottomTabBarHeightCallbackContext } from '@react-navigation/bottom-tabs';
-import { db, firebase } from '../config/firebase';
-import { handleAutores } from "./Auth/Firestore";
+import { getFirestore, Timestamp, getDoc, doc, deleteDoc, arrayUnion, arrayRemove, getDocs, collection, query, orderBy, addDoc, limit, updateDoc, where, startAfter, setDoc } from "firebase/firestore"
+import { handleAutores, contarCapitulosDelLibro } from "./Auth/Firestore";
+
 
 export const cargarNuevosLibros = async (lastItemId) => {
-    const books = [];
-    let lastI = "";
-    let snapshot = "";
+    const db = getFirestore();
 
+    let snapshot;
     if (lastItemId == "") {
-        snapshot = await db.collection("libros").orderBy("FechaModificación", "desc").limit(4).get();
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("FechaModificación", "desc"), limit(4)));
     }
     else {
-        snapshot = await db.collection('libros').orderBy("FechaModificación", "desc").startAfter(lastItemId).limit(4).get();
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("FechaModificación", "desc"), startAfter(lastItemId), limit(4)));
     }
-
-    await snapshot.docs.map(async doc => {
-
-        books.push({
-            ...doc.data(),
-            key: doc.id,
-        });
-        lastI = doc;
-    });
-    return [books, lastI];
+    let data = await Promise.all(snapshot.docs.map(async (documentSnapshot) => ({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+        NumCapitulo: await contarCapitulosDelLibro(documentSnapshot.id),
+        NumSeguidores: await getNumSeguidoresLibro(documentSnapshot.id),
+        Categorias: await getCategoriasLibro(documentSnapshot.id),
+        doc: documentSnapshot,
+    })))
+    return data;
 
 }
 
 
 export const cargarNuevosLibrosFiltroTitulo = async (lastItemId, filtro) => {
-    const books = [];
+    const db = getFirestore();
+    let books = [];
     let snapshot;
     let lastI = "";
     if (lastItemId == "") {
-        snapshot = await db.collection("libros").orderBy("Titulo").where("Titulo", ">", filtro).orderBy("FechaModificación", "desc").limit(4).get();
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("Titulo"), orderBy("FechaModificación", "desc"), where("Titulo", ">", filtro), limit(4)));
     }
     else {
-        snapshot = await db.collection('libros').orderBy("Titulo").where("Titulo", ">", filtro).orderBy("FechaModificación", "desc").startAfter(lastItemId).limit(4).get();
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("Titulo"), orderBy("FechaModificación", "desc"), where("Titulo", ">", filtro), startAfter(lastItemId), limit(4)));
     }
+    books = await Promise.all(snapshot.docs.map(async (documentSnapshot) => ({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+        doc: documentSnapshot
 
-    await snapshot.docs.map(async doc => {
+    })))
+    if (books.length != 0)
+        lastI = books[books.length - 1].doc;
 
-        books.push({
-            ...doc.data(),
-            key: doc.id,
-        });
-        lastI = doc;
-    });
     return [books, lastI];
 
 }
 export const cargarNuevosLibrosFiltroEtiqueta = async (lastItemId, filtro) => {
-    const books = [];
+    const db = getFirestore();
+    let books = [];
     let snapshot;
     let lastI = "";
     if (lastItemId == "") {
-
-        snapshot = await db.collection("libros").orderBy("Etiquetas", "desc").where("Etiquetas", "array-contains", filtro).orderBy("FechaModificación", "desc").limit(4).get();
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("Etiquetas", "desc"), where("Etiquetas", "array-contains", filtro), orderBy("FechaModificación", "desc"), limit(4)));
     }
     else {
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("Etiquetas", "desc"), where("Etiquetas", "array-contains", filtro), orderBy("FechaModificación", "desc"), startAfter(lastItemId), limit(4)));
 
-        snapshot = await db.collection('libros').orderBy("Etiquetas", "desc").where("Etiquetas", "array-contains", filtro).orderBy("FechaModificación", "desc").startAfter(lastItemId).limit(4).get();
     }
 
-    await snapshot.docs.map(async doc => {
-        books.push({
-            ...doc.data(),
-            key: doc.id,
-        });
-        lastI = doc;
-    });
+    books = await Promise.all(snapshot.docs.map(async (documentSnapshot) => ({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+        doc: documentSnapshot
+
+    })))
+    if (books.length != 0)
+        lastI = books[books.length - 1].doc;
 
     return [books, lastI];
 
@@ -78,22 +78,21 @@ export const cargarNuevosLibrosFiltroCategoria = async (lastItemId, filtro) => {
     const books = [];
     let lastI = "";
     let snapshot;
+    let snapshot2;
     let i = 0;
-
+    const db = getFirestore();
     if (lastItemId == "") {
-        snapshot = await db.collection("libros").orderBy("FechaModificación", "desc").get();
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("FechaModificación", "desc")));
         let doc;
         for (doc of snapshot.docs) {
-
-            let snapshot2 = await db.collection("libros").doc(doc.id).collection("Categorias").where("Nombre", "==", filtro.value).get();
-   
-            if(!snapshot2.empty){
-                    books.push({
-                        ...doc.data(),
-                        key: doc.id,
-                    });
-                    lastI = doc;
-                    i++;
+            snapshot2 = await getDocs(query(collection(db, "libros", doc.id, "Categorias"), where("Nombre", "==", filtro.value)));
+            if (!snapshot2.empty) {
+                books.push({
+                    ...doc.data(),
+                    key: doc.id,
+                });
+                lastI = doc;
+                i++;
                 if (i == 4) {
                     break;
                 }
@@ -101,20 +100,20 @@ export const cargarNuevosLibrosFiltroCategoria = async (lastItemId, filtro) => {
         };
     }
     else {
+        snapshot = await getDocs(query(collection(db, "libros"), orderBy("FechaModificación", "desc"), startAfter(lastItemId)));
 
-        snapshot = await db.collection('libros').orderBy("FechaModificación", "desc").startAfter(lastItemId).get();
         let doc;
         for (doc of snapshot.docs) {
-            let snapshot2 = await db.collection("libros").doc(doc.id).collection("Categorias").where("Nombre", "==", filtro.value).get();
-            if(!snapshot2.empty){
-      
-                    books.push({
-                        ...doc.data(),
-                        key: doc.id,
-                    });
-                    lastI = doc;
-                    i++;
-               
+            snapshot2 = await getDocs(query(collection(db, "libros", doc.id, "Categorias"), where("Nombre", "==", filtro.value)));
+            if (!snapshot2.empty) {
+
+                books.push({
+                    ...doc.data(),
+                    key: doc.id,
+                });
+                lastI = doc;
+                i++;
+
                 if (i == 4) {
                     break;
                 }
@@ -133,14 +132,14 @@ export const cargarDatosLibrosFiltro = async (filtro, lastItemId, tipoFiltro) =>
     let array;
 
     if (tipoFiltro == "Etiqueta") {
-        array = await cargarNuevosLibrosFiltroEtiqueta(lastItemId, filtro);  console.log(array)
+        array = await cargarNuevosLibrosFiltroEtiqueta(lastItemId, filtro); 
     }
     if (tipoFiltro == "Titulo") {
         array = await cargarNuevosLibrosFiltroTitulo(lastItemId, filtro);
     }
     if (tipoFiltro == "Categoría") {
         array = await cargarNuevosLibrosFiltroCategoria(lastItemId, filtro);
-      
+
     }
     let librosInformacion = [];
     let lasItem = "";
@@ -158,7 +157,7 @@ export const cargarDatosLibrosFiltro = async (filtro, lastItemId, tipoFiltro) =>
                 ...libros[i],
                 NumCapitulo: numCapitulos,
                 NumSeguidores: numSeguidores,
-                Categorias:categorias,
+                Categorias: categorias,
 
             });
 
@@ -170,39 +169,27 @@ export const cargarDatosLibrosFiltro = async (filtro, lastItemId, tipoFiltro) =>
 
 
 export const cargarDatosLibros = async (lastItemId) => {
-    let array = await cargarNuevosLibros(lastItemId);
-    let librosInformacion = [];
-    let libros = array[0];
-    let lasItem = array[1];
+    let lasItem = "";
+    let librosInformacion = await cargarNuevosLibros(lastItemId);
+    if (librosInformacion.length != 0)
+        lasItem = librosInformacion[librosInformacion.length - 1].doc
 
-    for (let i = 0, len = libros.length; i < len; i++) {
-
-        let numCapitulos = await contarCapitulosDelLibro(libros[i].key);
-        let numSeguidores = await getNumSeguidoresLibro(libros[i].key);
-        let categorias = await getCategoriasLibro(libros[i].key);
-        librosInformacion.push({
-            ...libros[i],
-            NumCapitulo: numCapitulos,
-            NumSeguidores: numSeguidores,
-            Categorias: categorias
-
-        });
-
-    }
     return [librosInformacion, lasItem];
 }
 
 export const getNumSeguidoresLibro = async (idbook) => {
+    const db = getFirestore();
     let numSeguidores = 0;
+    let snapshot;
+
     let autores = await handleAutores();
     for (let i = 0, len = autores.length; i < len; i++) {
 
-        await db.collection("usuarios").doc(autores[i].Nombre).collection("MeGusta")
-            .where("Nombre", "==", idbook).get().then(qS => {
+        snapshot = await getDocs(query(collection(db, "usuarios", autores[i].Nombre, "MeGusta"), where("Nombre", "==", idbook)));
+        snapshot.docs.map(async (documentSnapshot) => {
+            numSeguidores = numSeguidores + 1
+        })
 
-                numSeguidores = qS.size + numSeguidores;
-
-            })
     }
 
     return numSeguidores;
@@ -210,42 +197,36 @@ export const getNumSeguidoresLibro = async (idbook) => {
 }
 
 export const getCategoriasLibro = async (bookId) => {
-    let snapshot = await db.collection("libros").doc(bookId).collection("Categorias").get();
-    const categorias = [];
-    await snapshot.docs.map(async doc => {
-        categorias.push({
-            Nombre:
-                doc.data().Nombre, Color: doc.data().Color
-        })
-            ;
-    });
 
-    return categorias;
+    const db = getFirestore();
+    let data = [];
+    const snap = await getDocs(collection(db, "libros", bookId, "Categorias"));
+    data = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+        Nombre: documentSnapshot.data().Nombre,
+        Color: documentSnapshot.data().Color
+    })))
+    return data;
 }
 export const getPortadaLibro = async (bookId) => {
 
-    let portada = "";
-
-    await db.collection("libros").doc(bookId).get().then(async documentSnapshot => {
-        portada = documentSnapshot.data().Portada;
-
-    })
-
-
-    return portada
+    const db = getFirestore();
+    const docRefPortada = doc(db, "libros", bookId);
+    const docSnap = await getDoc(docRefPortada);
+    return docSnap.data().Portada;
 
 }
 
 export const getFavoritos = async (favoritosUsuario) => {
-
+    const db = getFirestore();
     let favoritos = [];
     for (let i = 0, len = favoritosUsuario.length; i < len; i++) {
-        await db.collection("libros").doc(favoritosUsuario[i].Nombre).get().then(async documentSnapshot => {
-            let numCapitulos = await contarCapitulosDelLibro(documentSnapshot.id);
 
-            favoritos.push({ ...documentSnapshot.data(), NumCapitulos: numCapitulos, UltimoCapitulo: favoritosUsuario[i].UltimoCapitulo, key: documentSnapshot.id });
+        let snap = await getDoc(doc(db, "libros", favoritosUsuario[i].Nombre));
 
-        })
+        let numCapitulos = await contarCapitulosDelLibro(snap.id);
+
+        favoritos.push({ ...snap.data(), NumCapitulos: numCapitulos, UltimoCapitulo: favoritosUsuario[i].UltimoCapitulo, key: snap.id });
+
     }
 
     return favoritos
@@ -255,314 +236,356 @@ export const getFavoritos = async (favoritosUsuario) => {
 
 export const crearLibroFirebase = async (titulo, descripción, email, etiquetas, categorias) => {
     let id = "";
-    await db
-        .collection('libros')
-        .add({
-            Autor: email,
-            Titulo: titulo,
-            Descripción: descripción,
-            Portada: "",
-            FechaCreación: firebase.firestore.Timestamp.fromDate(new Date()),
-            FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
-            borrador: false,
-            Estado: "En curso",
-            Etiquetas: etiquetas,
-        })
-        .then(function (docRef) {
-            id = docRef.id;
-        });
+    const db = getFirestore();
+    const data = {
+        Autor: email,
+        Titulo: titulo,
+        Descripción: descripción,
+        Portada: "",
+        FechaCreación: Timestamp.fromDate(new Date()),
+        FechaModificación: Timestamp.fromDate(new Date()),
+        borrador: false,
+        Estado: "En curso",
+        Etiquetas: etiquetas,
+    };
+    const dbRef = await collection(db, "libros")
+    await addDoc(dbRef, data).then(docRef => { id = docRef.id; }).catch(error => { console.log(error); })
+
     let i = 0;
     for (i; i < categorias.length; i++) {
-        await db.collection("libros").doc(id).collection("Categorias").doc(categorias[i].Nombre).add({
-            Nombre: categorias[i].Nombre,
-            Color: categorias[i].Color
-        })
+
+        const docRefCategorias = doc(db, "libros", id, "Categorias", categorias[i].Nombre);
+        const dataCategorias = { Nombre: categorias[i].Nombre, Color: categorias[i].Color };
+        setDoc(docRefCategorias, dataCategorias)
+
+
     }
+
     return id;
 }
 
 //---------------------------------------------------CAMBIAR---------------------------------------------------
 export const cambiarPortadadeLibro = async (id, image) => {
-    await db.collection('libros').doc(id)
-        .update({
-            Portada: "" + image
-        })
+    const db = getFirestore();
+    const dbRef = await doc(db, "libros", id)
+    updateDoc(dbRef, {
+        Portada: image,
+    })
 }
 
 export const cambiarTitulo = async (bookId, titulo) => {
-    await db.collection('libros').doc(bookId)
-        .update({
-            Titulo: "" + titulo,
-        })
+    const db = getFirestore();
+    const dbRef = await doc(db, "libros", bookId)
+    updateDoc(dbRef, {
+        Titulo: "" + titulo,
+    })
+}
+
+export const cambiarTituloCapitulo = async (bookId, chapterId, titulo) => {
+    const db = getFirestore();
+    const dbRef = await getDoc(doc(db, "libros", bookId, "Capitulos", chapterId))
+    updateDoc(dbRef.ref, {
+        Titulo: "" + titulo,
+    })
 }
 
 export const cambiarContenidoCapitulo = async (bookId, chapterId, contenido) => {
-    await db.collection('libros').doc(bookId).collection("Capitulos").doc(chapterId)
-        .update({
-            Contenido: "" + contenido,
-        })
+    const db = getFirestore();
+    const dbRef = await getDoc(doc(db, "libros", bookId, "Capitulos", chapterId))
+    updateDoc(dbRef.ref, {
+        Contenido: "" + contenido,
+    })
 }
 
 export const cambiarDescripcion = async (bookId, descripcion) => {
-    await db.collection('libros').doc(bookId)
-        .update({
-            Descripción: "" + descripcion,
-        })
+    const db = getFirestore();
+    const dbRef = await doc(db, "libros", bookId)
+    updateDoc(dbRef, {
+        Descripción: "" + descripcion,
+    })
 }
 export const cambiarFechaModificaciónLibro = async (bookId) => {
-    await db.collection('libros').doc(bookId)
-        .update({
-            FechaModificación: firebase.firestore.Timestamp.fromDate(new Date()),
-        })
+    const db = getFirestore();
+    const dbRef = await doc(db, "libros", bookId)
+    updateDoc(dbRef, {
+        FechaModificación: Timestamp.fromDate(new Date()),
+    })
 }
 export const cambiarEstado = async (bookId, estado) => {
-    await db.collection('libros').doc(bookId)
-        .update({
-            Estado: estado,
-        })
+    const db = getFirestore();
+    const dbRef = await doc(db, "libros", bookId)
+    updateDoc(dbRef, {
+        Estado: estado,
+    })
 }
 
 export const cambiarCategoria = async (bookId, categorias) => {
-    await db.collection("libros").doc(bookId).collection("Categorias").get().then(querySnapshot => {
-        querySnapshot.forEach(async (documentSnapshot) => {
-            await db.collection("libros").doc(bookId).collection("Categorias").doc(documentSnapshot.id).delete();
-        })
-    });
+    const db = getFirestore();
+    //Eliminar todos las categoriaS
+    const snap = await getDocs(collection(db, "libros", bookId, "Categorias"));
+
+    snap.docs.map((documentSnapshot) => {
+
+        deleteDoc(documentSnapshot.ref)
+            .then(() => {
+                console.log("Entire Document has been deleted successfully.")
+            })
+    })
+    //Añadir las nuevas categorias
     let i = 0;
     for (i; i < categorias.length; i++) {
-        await db.collection("libros").doc(bookId).collection("Categorias").doc(categorias[i].Nombre).set({
-            Nombre: categorias[i].Nombre,
-            Color: categorias[i].Color
-        })
+        const docRefCategorias = doc(db, "libros", bookId, "Categorias", categorias[i].Nombre);
+        const dataCategorias = { Nombre: categorias[i].Nombre, Color: categorias[i].Color };
+        setDoc(docRefCategorias, dataCategorias)
     }
 }
 
 //---------------------------------------------------CARGAR---------------------------------------------------
 export const cargarBooks = async () => {
-    const books = [];
-    const snapshot = await db.collection('libros').get();
-    await snapshot.docs.map(async doc => {
-
-        books.push({
-            ...doc.data(),
-            key: doc.id,
-        });
-
-    });
-    return books;
+    const db = getFirestore();
+    let data = [];
+    const snap = await getDocs(query(collection(db, "libros"), orderBy("FechaModificación", "desc"), limit(4)));
+    data = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+        nCapitulos: await contarCapitulosDelLibro(documentSnapshot.id)
+    })))
+    return data;
 }
 
-export const getAutorLibro = async (bookId) => {
-    let autor = "";
-    await db.collection('libros').doc(bookId).get().then(snap => {
-        autor = snap.data().Autor
-    });
+export const getCapitulosDelLibro = async (idBook) => {
+    const db = getFirestore();
+    let data = [];
+    const snap = await getDocs(query(collection(db, "libros", idBook, "Capitulos"), orderBy("Numero", "desc")));
+    data = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+    })))
+    return data;
+}
 
-    return autor;
+export const getCapitulo = async (idBook, numero) => {
+    const db = getFirestore();
+    let data = "";
+    const snap = await getDocs(query(collection(db, "libros", idBook, "Capitulos",), where("Numero", "==", numero)));
+    data = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+    })))
+
+    return data[0];
+}
+
+
+export const getAutorLibro = async (bookId) => {
+
+    const db = getFirestore();
+    const docRefPortada = doc(db, "libros", bookId);
+    const docSnap = await getDoc(docRefPortada);
+    return docSnap.data().Autor;
+
 }
 
 
 export const cargarBooksAutor = async (email, lastItemId) => {
-    const books = [];
-    let snapshot;
-    if (lastItemId == "") {
-        snapshot = await db.collection("libros").orderBy("FechaModificación", "desc").
-            where("Autor", "==", email).limit(4).get();
-        await snapshot.docs.map(async doc => {
-            books.push({
-                ...doc.data(),
-                key: doc.id,
-            });
+    const db = getFirestore();
+    let data = [];
 
-        });
+    if (lastItemId == "") {
+        const snap = await getDocs(query(collection(db, "libros"), where("Autor", "==", email), orderBy("FechaModificación", "desc"), limit(4)));
+
+        data = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+            nCapitulos: await contarCapitulosDelLibro(documentSnapshot.id),
+            doc: documentSnapshot,
+
+        })))
+
     }
     else {
 
-        snapshot = await db.collection('libros').orderBy("FechaModificación", "desc").where("Autor", "==", email).startAfter(lastItemId).limit(4).get();
-        await snapshot.docs.map(async doc => {
-            books.push({
-                ...doc.data(),
-                key: doc.id,
-            });
+        const snap = await getDocs(query(collection(db, "libros"), orderBy("FechaModificación", "desc"), where("Autor", "==", email), startAfter(lastItemId), limit(4)));
+        data = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
+            nCapitulos: await contarCapitulosDelLibro(documentSnapshot.id),
+            doc: documentSnapshot,
+        })))
 
-        });
     }
-
-
-    return books;
+    return data
 }
 export const cargarDatosLibro = async (bookId) => {
-    let data = "";
-    await db.collection("libros").doc(bookId).get().then(documentSnapshot => {
-        data = documentSnapshot.data();
-    })
-    return data;
+    const db = getFirestore();
+    const docRef = doc(db, "libros", bookId);
+    const docSnap = await getDoc(docRef);
+
+    return docSnap.data();;
 }
 
-export const cargarCapitulosLibro = async (bookId) => {
-    const caps = [];
-    await db.collection("libros").doc(bookId).collection("Capitulos")
-        .onSnapshot(querySnapshot => {
-            querySnapshot.forEach(documentSnapshot => {
-                caps.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
-                });
-
-            })
-            return caps;
-        })
-
-}
 
 export const getComentariosCapitulo = async (bookId, capituloId) => {
-    let comentarios = []
+    const db = getFirestore();
 
-    await db.collection('libros').doc(bookId).collection('Capitulos').doc(capituloId).collection("Mensajes")
-        .orderBy("FechaCreación", "desc").get().then(querySnapshot => {
-            querySnapshot.forEach(documentSnapshot => {
+    const snap = await getDocs(query(collection(db, "libros", bookId, "Capitulos", capituloId, "Mensajes"), orderBy("FechaCreación", "desc")));
+    let comentarios = [];
+    comentarios = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
 
-                comentarios.push({
-                    Autor: documentSnapshot.data().Autor,
-                    Comentario: documentSnapshot.data().Comentario,
-                    key: documentSnapshot.id,
-                });
-            })
-        })
+        Autor: documentSnapshot.data().Autor,
+        Comentario: documentSnapshot.data().Comentario,
+        FechaCreacion: documentSnapshot.data().FechaCreación?.toDate().toDateString(),
+        key: documentSnapshot.id,
+    })))
 
     return comentarios
 }
 //--------------------------------CAPITULOS------------------------------
 export const uploadCapitulo = async (bookId, numeroCapitulo, titulo, contenido, borrador) => {
+    const db = getFirestore();
 
-    await db.collection('libros').doc(bookId).collection('Capitulos')
-        .add({
-            Titulo: titulo,
-            Contenido: contenido,
-            FechaCreación: firebase.firestore.Timestamp.fromDate(new Date()),
-            borrador: borrador,
-            Numero: numeroCapitulo,
-        })
+    const docRefCapitulos = collection(db, "libros", bookId, "Capitulos");
+    const datafCapitulos = {
+        Titulo: titulo,
+        Contenido: contenido,
+        FechaCreación: Timestamp.fromDate(new Date()),
+        borrador: borrador,
+        Numero: numeroCapitulo,
+    };
+    addDoc(docRefCapitulos, datafCapitulos)
 }
 
 export const publicarCapituloDelLibro = async (bookId, chapterId) => {
+    const db = getFirestore();
     await db.collection('libros').doc(bookId).collection("Capitulos").doc(chapterId)
         .update({
             borrador: true
         })
 }
 export const enviarComentarioCapitulo = async (bookId, capituloId, texto, autor,) => {
+    const db = getFirestore();
 
-    await db.collection('libros').doc(bookId).collection('Capitulos').doc(capituloId).collection("Mensajes").add({
+    const docReMensajes = await collection(db, "libros", bookId, "Capitulos", capituloId, "Mensajes");
+
+    addDoc(docReMensajes, {
         Autor: autor,
         Comentario: texto,
-        FechaCreación: firebase.firestore.Timestamp.fromDate(new Date()),
+        FechaCreación: Timestamp.fromDate(new Date()),
     })
-
-
 }
-
 
 export const getCapituloId = async (bookId, numeroCapitulo) => {
 
-    let id = "";
-    await db.collection('libros').doc(bookId).collection('Capitulos').where("Numero", "==", numeroCapitulo).get().then(snap => {
-        snap.forEach(documentSnapshot => {
-            id = documentSnapshot.id;
+    let a =await getCapitulo(bookId, numeroCapitulo)
+    return a.key;
 
-        })
-    });
-    return id;
 }
 
 export const getNumeroCapitulo = async (bookId, capituloId) => {
+    const db = getFirestore();
+    const docRef = doc(db, "libros", bookId,"Capitulos",capituloId);
+    const docSnap = await getDoc(docRef);
 
-    let doc = await db.collection('libros').doc(bookId).collection('Capitulos').doc(capituloId).get();
-    return doc.data().Numero;
+    return docSnap.data().Numero;
+
 }
 
 
-export const cambiarTituloCapitulo = async (bookId, chapterId, titulo) => {
-    await db.collection('libros').doc(bookId).collection("Capitulos").doc(chapterId)
-        .update({
-            Titulo: "" + titulo,
-        })
-}
+
 export const mirarSiTieneOtrosCapitulos = async (bookId, titulo, contenido, borrador) => {
     let numberCapitulos = 0;
-    await db.collection('libros').doc(bookId).collection('Capitulos').get().then(snap => {
-        numberCapitulos = snap.size
-    });
+    const db = getFirestore();
+    const dbRef = await getDocs(collection(db, "libros", bookId, "Capitulos"))
+    dbRef.docs.map(() => {
+        numberCapitulos = numberCapitulos + 1
+    })
+
+
     await uploadCapitulo(bookId, numberCapitulos + 1, titulo, contenido, borrador);
+
 }
 
-
-export const contarCapitulosDelLibro = async (bookId) => {
-    let numberCapitulos = 0;
-    await db.collection('libros').doc(bookId).collection('Capitulos').get().then(snap => {
-        numberCapitulos = snap.size
-    });
-    return numberCapitulos;
-}
 
 
 
 //------------------------------------ELIMINAR---------------------------------------
 export const eliminarCapituloLibro = async (bookId, chapterId, n) => {
+    const db = getFirestore();
     let i;
     let caps = await cogerCapitulosConNumeroMayor(bookId, n);
+    //A cada uno restarle uno el numero de capitulo
     for (i = 0; i < caps.length; i++) {
-        await db.collection('libros').doc(bookId).collection("Capitulos").doc(caps[i].key)
-            .update({
-                Numero: caps[i].Numero - 1
-            })
+
+        const snap = await getDoc(doc(db, "libros", bookId, "Capitulos", caps[i].key));
+
+        updateDoc(snap.ref, {
+            Numero: caps[i].Numero - 1
+        })
     }
+
     /*Eliminar el capitulo */
-    await db.collection("libros").doc(bookId).collection("Capitulos").doc(chapterId).delete();
+    const snap2 = await getDoc(doc(db, "libros", bookId, "Capitulos", chapterId));
+    deleteDoc(snap2.ref)
+
 
 }
 
 export const eliminarEtiqueta = async (bookId, etiqueta) => {
-    await db.collection('libros').doc(bookId)
-        .update({
-            Etiquetas: firebase.firestore.FieldValue.arrayRemove(etiqueta),
-        })
+    const db = getFirestore();
+    const dbRef = await doc(db, "libros", bookId)
+    updateDoc(dbRef, {
+        Etiquetas: arrayRemove(etiqueta),
+    })
+
 }
 export const cogerCapitulosConNumeroMayor = async (bookId, n) => {
-    let caps = [];
-    const snapshot = await db.collection("libros").doc(bookId).collection("Capitulos").where("Numero", ">", n).get();
-    await snapshot.docs.map(async doc => {
-        caps.push({
-            ...doc.data(),
-            key: doc.id,
-        });
+    const db = getFirestore();
+    const snap = await getDocs(query(collection(db, "libros", bookId, "Capitulos"), where("Numero", ">", n)));
+    let caps = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+        ...documentSnapshot.data(),
+        key: documentSnapshot.id,
+    })))
 
-    });
     return caps;
 }
 
 export const eliminarLibroFirebase = async (bookId) => {
-    /*Eliminar las personas que tienen megusta en ese libro*/
-    await db.collection("usuarios").get().then(querySnapshot => {
-        querySnapshot.forEach(async (documentSnapshot) => {
-            await db.collection("usuarios").doc(documentSnapshot.id).collection("MeGusta").doc(bookId).delete();
-        })
+    const db = getFirestore();
+
+    /*Eliminar los megusta de las personas que tienen megusta en ese libro*/
+
+    const snap = await getDocs(collection(db, "usuarios"));
+    snap.docs.map(async (documentSnapshot) => {
+        const snap = await getDoc(doc(db, "usuarios", documentSnapshot.id, "MeGusta", bookId));
+        deleteDoc(snap.ref)
+
     })
+
     /*Eliminar todos los capitulos*/
-    await db.collection("libros").doc(bookId).collection("Capitulos")
-        .onSnapshot(async querySnapshot => {
-            await querySnapshot.forEach(async documentSnapshot => {
-                await db.collection("libros").doc(bookId).collection("Capitulos").doc(documentSnapshot.id).delete();
-            })
-        })
+    const snap2 = await getDocs(collection(db, "libros", bookId, "Capitulos"));
+    snap2.docs.map(async (documentSnapshot) => {
+        const snap2 = await getDoc(doc(db, "libros", bookId, "Capitulos", documentSnapshot.id));
+        deleteDoc(snap2.ref)
+    })
+    /*Eliminar todos las categorias*/
+    const snap3 = await getDocs(collection(db, "libros", bookId, "Categorias"));
+    snap3.docs.map(async (documentSnapshot) => {
+        const snap3 = await getDoc(doc(db, "libros", bookId, "Categorias", documentSnapshot.id));
+        deleteDoc(snap3.ref)
+    })
+
     /*Eliminar el libro*/
-    await db.collection("libros").doc(bookId).delete();
+    const dbRef = await doc(db, "libros", bookId)
+    deleteDoc(dbRef)
+
 
 }
 
 export const añadirEtiqueta = async (bookId, etiqueta) => {
-    await db.collection('libros').doc(bookId)
-        .update({
-            Etiquetas: firebase.firestore.FieldValue.arrayUnion(etiqueta),
-        })
+    const db = getFirestore();
+    const dbRef = await doc(db, "libros", bookId)
+    updateDoc(dbRef, {
+        Etiquetas: arrayUnion(etiqueta),
+    })
+
 }

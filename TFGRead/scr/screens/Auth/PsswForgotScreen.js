@@ -6,7 +6,7 @@ import {
   View,
   Image,
   TextInput,
-  TouchableOpacity,Alert 
+  TouchableOpacity ,BackHandler
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
@@ -17,19 +17,31 @@ import {handleReset} from "../../hooks/Auth/Auth"
 const PsswForgotScreen = () => {
   const [email, setEmail] = useState("");
   const navigation = useNavigation();
+
   const handleGoBack = () => {
    navigation.navigate("login");
   };
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleGoBack);
+
+    return () =>
+        BackHandler.removeEventListener('hardwareBackPress', handleGoBack);
+
+}, []);
   useLayoutEffect(() => {
+    
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
+
+
   return (
     <SafeAreaView style={styles.headerBar}>
       {/* Registro Texto */}
       <View style={styles.headName}>
-        <TouchableOpacity style={styles.goBack}  onPress={handleGoBack}>
+        <TouchableOpacity testID="buttonBack"style={styles.goBack}  onPress={()=>handleGoBack()}>
           <Ionicons
             name="arrow-back-circle-outline"
             size={40}
@@ -76,7 +88,7 @@ const PsswForgotScreen = () => {
           justifyContent: "center",
         }}
       >
-        <TouchableOpacity style={styles.buttonReset} onPress={e=>handleReset(email)}>
+        <TouchableOpacity testID="buttonReiniciarContra" style={styles.buttonReset} onPress={e=>handleReset(email)}>
           <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
             Reinicia la contraseña
           </Text>

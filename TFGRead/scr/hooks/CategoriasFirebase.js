@@ -1,18 +1,16 @@
-import { db } from '../config/firebase';
+import { getFirestore, getDoc, doc, getDocs, collection, query, orderBy, onSnapshot, limit, updateDoc, where, startAfter } from "firebase/firestore"
+
 
 
 export const getCategorias = async () => {
-    const categorias = [];
-    const snapshot = await db.collection('categorías').get();
-    await snapshot.docs.map(async doc => {
-
-        categorias.push({
-            label: doc.data().Nombre,
-            value: doc.data().Nombre,
-            color: doc.data().Color,
-        });
-
-    });
+    const db = getFirestore();
+    let categorias = [];
+    const snap = await getDocs(collection(db, "categorías"));
+    categorias = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+        label: documentSnapshot.data().Nombre,
+        value: documentSnapshot.data().Nombre,
+        color: documentSnapshot.data().Color,
+    })))
 
     return categorias;
 }

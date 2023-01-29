@@ -14,22 +14,26 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, AntDesign } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
-import { db } from '../config/firebase';
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, cargarUltimoLibro, cambiarUltimoLibroLeido } from "../hooks/Auth/Firestore";
+import { getFotoPerfil, cargarUltimoLibro, cambiarUltimoLibroLeido ,cargarFirebase} from "../hooks/Auth/Firestore";
 
-function HomeScreen({ route }) {
-  const [newBooks, setNewBooks] = useState([]);
-  const [ultimoLibro, setUltimoLibro] = useState({});
-  const [email, setEmail] = useState();
+
+function HomeScreen() {
+  const [fotoPerfil, setFotoPerfil] = React.useState("");
+  const [newBooks, setNewBooks] = React.useState([]);
+  const [capitulosLeido, setCapitulosLeido] =  React.useState(4);
+  const [ultimoLibro, setUltimoLibro] =React.useState({});
+
+
+  const [email, setEmail] =  React.useState();
+  const [ultimoCapituloLeido, setUltimoCapituloLeido] = React.useState(3);
+ 
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
-  const [fotoPerfil, setFotoPerfil] = useState("");
-  const [ultimoCapituloLeido, setUltimoCapituloLeido] = useState(1);
-  const [capitulosLeido, setCapitulosLeido] = useState(4);
 
   //Para que reenderize al volver a esta página el ultimo libro
   const isFocused = useIsFocused();
+  
   useEffect(() => {
     isFocused && hacerCosas();
 
@@ -41,39 +45,51 @@ function HomeScreen({ route }) {
     });
   },);
 
+
   const handleProfile = () => {
     navigation.navigate("profileScreen", {
       screen: "home",
     });
   }
+
   const handleNotificacion = () => {
     navigation.navigate("notificacionScreen", {
       screen: "home",
     });
   }
+
   const handleBook = (item) => {
     navigation.navigate("detailsBookScreen", {
       bookId: item.key,
     });
   }
+
+ 
   const hacerCosas = async () => {
+
     setModalVisible(true)
+    //Coger usuario
     let e = await getUserAuth();
     setEmail(e);
+    //Coger los libros 
+    setNewBooks(await cargarFirebase());
+    //Coger fotoPerfil
     setFotoPerfil(await getFotoPerfil(e));
-
+    //Coger último libro
     let ultimo = await cargarUltimoLibro(e);
     setUltimoLibro(ultimo);
 
+    //Ultimo Capitulo leido
     setUltimoCapituloLeido(ultimo.UltimoCapitulo)
     setCapitulosLeido(ultimo.NumCapitulos)
-
-    await cargarFirebase();
-
+    setModalVisible(false)
 
   }
+
+ 
+   //Ir al capitulo escogido
   const handleLeerLibro = async () => {
-    //Ir al capitulo escogido
+ 
     let capitulo;
     if (ultimoCapituloLeido == capitulosLeido) {
       capitulo = ultimoCapituloLeido;
@@ -81,33 +97,17 @@ function HomeScreen({ route }) {
     else {
       capitulo = ultimoCapituloLeido + 1;
     }
-    console.log(capitulo)
-
+    //Cambiar el ultimo capitulo
     await cambiarUltimoLibroLeido(ultimoLibro.key, email, capitulo);
+
     navigation.navigate("bookScreen", {
       bookId: ultimoLibro.key,
       capituloNumero: capitulo,
       screen: "home",
     });
-  }
-  const cargarFirebase = async () => {
 
-    await db
-      .collection("libros")
-      .orderBy("FechaCreación", "asc")
-      .onSnapshot(querySnapshot => {
-        const books = [];
-        querySnapshot.forEach(documentSnapshot => {
-          books.push({
-            ...documentSnapshot.data(),
-            key: documentSnapshot.id,
-          });
-        });
-        setNewBooks(books);
-      });
-
-    setModalVisible(false)
   }
+
 
   function renderNewBooks(item, index) {
     return (
@@ -131,7 +131,7 @@ function HomeScreen({ route }) {
           />
         </View>
         {/* Imagenes Books nuevos */}
-        <TouchableOpacity
+        <TouchableOpacity testID="buttonBook"
           style={{
             marginHorizontal: 10,
           }}
@@ -221,6 +221,7 @@ function HomeScreen({ route }) {
                 <View style={{ marginTop: 15, }}>
                   {/* Botón Continuar seguir Leyendo */}
                   <TouchableOpacity
+                    testID="buttonLeerLibro"
                     onPress={() => {
                       handleLeerLibro();
                     }}
@@ -275,15 +276,15 @@ function HomeScreen({ route }) {
           </View>
         </View>
         {/*User*/}
-        <TouchableOpacity onPress={e => handleProfile()}>
-          <Image
+        <TouchableOpacity testID="buttonProfile" onPressIn ={() => handleProfile()}>
+          <Image testID="imageProfile"
             source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
-            style={{ width: 40, height: 40, borderRadius: 40 / 2, marginTop: 10, left: 60 }}
+            style={{ width: 50, height: 50, borderRadius: 50 / 2, marginTop: 10, left: 60 }}
           />
 
         </TouchableOpacity>
         {/*Notifications*/}
-        <TouchableOpacity onPress={e => handleNotificacion()} style={{ marginTop: "auto", marginLeft: 10 }}>
+        <TouchableOpacity testID="buttonNotificacion" onPress={() => handleNotificacion()} style={{ marginTop: "auto", marginLeft: 10 }}>
           <Ionicons name="notifications" size={33} color="black" />
         </TouchableOpacity>
       </View>
@@ -312,9 +313,8 @@ function HomeScreen({ route }) {
         </View>
       </View>
 
-      {ultimoLibro!={} &&
+      {ultimoLibro != "" &&
         < CardUltimoLibro />
-
       }
     </SafeAreaView>
   )

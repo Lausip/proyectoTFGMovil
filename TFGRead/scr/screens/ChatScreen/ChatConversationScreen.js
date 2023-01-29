@@ -3,9 +3,8 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity,
-    ImageBackground, Image,
-    Modal, StatusBar, BackHandler, TextInput, RefreshControlBase
+    TouchableOpacity,Image,
+    Modal, StatusBar, BackHandler,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState, useCallback } from "react";
@@ -36,10 +35,12 @@ function ChatConversationScreen({ route }) {
 
     const { sala, screen } = route.params;
 
-    useEffect(() => {
-
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: false,
+        });
         hacerCosas();
-        cogerMensajes();
+   
         BackHandler.addEventListener('hardwareBackPress', backAction);
 
         return () =>
@@ -52,30 +53,26 @@ function ChatConversationScreen({ route }) {
         });
     }
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: false,
-        });
 
-    }, []);
 
 
     const hacerCosas = async () => {
-
-        setModalVisible(true)
-        if (sala.Usuario1 == email) {
+        setModalVisible(true)  
+        let e = await getUserAuth();
+        if (sala.Usuario1 == e) {
             setAmigo(sala.Usuario2)
             setFotoPerfilAmigo(await getFotoPerfil(sala.Usuario2));
         } else {
             setAmigo(sala.Usuario1)
             setFotoPerfilAmigo(await getFotoPerfil(sala.Usuario1));
         }
-        let e = await getUserAuth();
         setEmail(e);
+        cogerMensajes();
         setDesbloquear(sala.Bloqueado);
         setPonerAmigo(sala.Amigo);
         setFotoPerfil(await getFotoPerfil(e));
         setModalVisible(false)
+
     }
 
     const cogerMensajes = async () => {
@@ -128,6 +125,7 @@ function ChatConversationScreen({ route }) {
         );
     }
     function renderBubble(props) {
+   
         return (
             <Bubble
                 {...props}
@@ -233,7 +231,7 @@ function ChatConversationScreen({ route }) {
 
                 }}>
                     {/* Botón de goBack */}
-                    <TouchableOpacity onPress={() => handleChats()} style={{ marginLeft: 20 }}>
+                    <TouchableOpacity testID="buttonGoBack" onPress={() => handleChats()} style={{ marginLeft: 20 }}>
                         <Ionicons name="arrow-back" size={30} color="white" />
                     </TouchableOpacity>
                     {/* Imagen de Amigo */}
@@ -257,7 +255,7 @@ function ChatConversationScreen({ route }) {
                             height: 30,
 
                         }}>
-                            <TouchableOpacity onPress={() => { añadirAAmigo() }}>
+                            <TouchableOpacity testID="buttonAñadirAmigo" onPress={() => { añadirAAmigo() }}>
                                 <Text>Añadir a amigos</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => { bloquearPersona() }} style={{ marginLeft: 20 }}>
@@ -280,7 +278,7 @@ function ChatConversationScreen({ route }) {
 
                         }}>
 
-                            <TouchableOpacity onPress={() => { desbloquearPersona() }} style={{ marginLeft: 20 }}>
+                            <TouchableOpacity testID="buttonDesbloquear"onPress={() =>  desbloquearPersona() } style={{ marginLeft: 20 }}>
                                 <Text style={{ color: "#B00020" }}>Desbloquear</Text>
                             </TouchableOpacity>
                         </View> : <Text></Text>
@@ -291,18 +289,19 @@ function ChatConversationScreen({ route }) {
 
             </View>
             <GiftedChat
+   
                 messages={messages}
                 user={{
                     _id: email,
-                    name: email.split("@")[0],
+                    name: email,
                     avatar: fotoPerfil
                 }}
-                disableComposer={(!ponerAmigo && sala.Enviado == amigo)||!desbloquear}
+                disableComposer={!((!ponerAmigo && sala.Enviado == amigo)||!desbloquear)}
                 renderBubble={renderBubble}
                 renderTime={renderTime}
                 renderChatFooter={() => <View style={{ marginBottom: 40 }} />}
                 renderInputToolbar={renderInputToolbar}
-                showUserAvatar
+  
                 onSend={messages => onSend(messages)}
                 renderSend={renderSend}
                 renderDay={renderDay}

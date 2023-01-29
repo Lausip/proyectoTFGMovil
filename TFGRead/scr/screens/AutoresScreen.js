@@ -1,18 +1,18 @@
-import { View, ActivityIndicator, Text, FlatList, ScrollView, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal } from 'react-native';
+import { View, Text, FlatList, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal,BackHandler } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, Entypo } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-import { seguirAutor, enviarPeticion, getFotoPerfil, getDescripcionUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor, mirarSiSonAmigos } from "../hooks/Auth/Firestore";
-import { existeSala, addSala } from "../hooks/ChatFirebase";
+import { seguirAutor, enviarPeticion, getFotoPerfil, getDescripcionUsuario, getFechaCreaciónUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor, mirarSiSonAmigos } from "../hooks/Auth/Firestore";
+import { existeSala, addSala, cogerSala } from "../hooks/ChatFirebase";
 import {
     Menu,
     MenuOptions,
-    MenuOption,
     MenuTrigger,
 } from 'react-native-popup-menu';
-import { db } from '../config/firebase';
+
+import { cargarBooksAutor } from "../hooks/FirebaseLibros";
 function AutoresScreen({ route }) {
 
     const [email, setEmail] = useState("");
@@ -21,19 +21,23 @@ function AutoresScreen({ route }) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisibleEnviarMensaje, setModalVisibleEnviarMensaje] = useState(false);
     const [descripcion, setDescripcion] = useState("");
+    const [fechaCreacion, setFechaCreacion] = useState("");
     const [seguidores, setSeguidores] = useState(0);
     const [libros, setLibros] = useState(0);
     const [seguidos, setSeguidos] = useState(0);
     const [estaSeguido, setEstaSeguido] = useState(false);
+    const [sonAmigos, setSonAmigos] = useState(false);
     const { autorElegido, screen } = route.params;
+
     const [librosArray, setLibrosArray] = useState([]);
 
-    const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
-        useState(0);
-    const categorias = ["Libros", "Tablón"];
 
     useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', goBack);
         hacerCosas();
+
+        return () =>
+            BackHandler.removeEventListener('hardwareBackPress', goBack);
     }, [email, fotoPerfil])
 
     useLayoutEffect(() => {
@@ -54,17 +58,26 @@ function AutoresScreen({ route }) {
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(autorElegido));
         setDescripcion(await getDescripcionUsuario(autorElegido));
+        setFechaCreacion(await getFechaCreaciónUsuario(autorElegido))
         setLibros(await getNumeroLibrosUsuario(autorElegido));
         let seguidoss = await getNumAutoresSeguidos(autorElegido);
         setSeguidos(seguidoss);
         setSeguidores(await getNumSeguidores(autorElegido));
         setEstaSeguido(await getEstaSeguido(e, autorElegido, seguidoss))
+        setSonAmigos(mirarSiSonAmigos(e, autorElegido));
         setModalVisible(false);
+        setLibrosArray(await cargarBooks(""));
 
 
     }
-
-
+    const handleBook = (item) => {
+        navigation.navigate("detailsBookScreen", {
+            bookId: item.key,
+        });
+    }
+    const cargarBooks = async (lastItem) => {
+        return cargarBooksAutor(email, lastItem)
+    }
 
     const addAmigo = async () => {
         setModalVisibleEnviarMensaje(true);
@@ -86,39 +99,14 @@ function AutoresScreen({ route }) {
 
     }
 
-    const cogerSala = async (usuarioa, usuariob) => {
-        let salaaaaa = [];
-        await db
-            .collection('salas').doc(usuarioa + "-" + usuariob).get().then(documentSnapshot => {
-                if (documentSnapshot.exists) {
 
-                    salaaaaa.push({
-                        ...documentSnapshot.data(),
-                        key: documentSnapshot.id,
-
-                    });
-                    navigation.replace("chatConversationScreen", {
-                        sala: salaaaaa[0],
-                        screen: "explore",
-
-                    });
-                }
-                return false;
-
-            })
-
-
-    }
     const enviarMensaje = async () => {
-        setModalVisibleEnviarMensaje(true);
+        let salaaaaa;
         let existe = await existeSala(email, autorElegido)
-
         //Mirar si ya hay sala
         if (!existe) {
             //Mirar si son amigos:
-            let sonAmigos = await mirarSiSonAmigos(email, autorElegido);
             if (sonAmigos) {
-
                 await addSala(email, autorElegido, true);
             }
             else {
@@ -127,21 +115,71 @@ function AutoresScreen({ route }) {
                 //Mandar notificación:
                 await enviarPeticion(email, autorElegido, "Conversacion");
             }
-            await cogerSala(email, autorElegido);
-            setModalVisibleEnviarMensaje(false);
+            salaaaaa = await cogerSala(autorElegido, email);
         }
         else {
-            setModalVisibleEnviarMensaje(false);
-            let existe = false;
-            existe = await cogerSala(email, autorElegido);
-
-            if (!existe) {
-                await cogerSala(autorElegido, email);
-            }
-
+            salaaaaa = await cogerSala(autorElegido, email);
         }
-    }
+        navigation.navigate("chatConversationScreen", {
+            sala: salaaaaa,
+            screen: "autorScreen",
 
+        });
+    }
+    function renderNewBooks(item, index) {
+        return (
+            <View style={{ marginTop: 15, }}>
+                {/* Imagenes Books nuevos blur */}
+                <View
+                    style={{
+                        elevation: 12,
+                        position: "absolute",
+                        bottom: 20,
+                        left: 5,
+                        borderRadius: 15,
+                        overflow: "hidden",
+                        opacity: 0.3,
+                    }}
+                >
+                    <Image
+                        blurRadius={15}
+                        style={{ width: 100, height: 60 }}
+                        source={{ uri: `${item.Portada}` }}
+                    />
+                </View>
+                {/* Imagenes Books nuevos */}
+                <TouchableOpacity
+                    testID='buttonHandleBook'
+                    style={{
+                        marginHorizontal: 10,
+                    }}
+                    onPress={() => handleBook(item)}
+                >
+                    <ImageBackground
+                        source={{ uri: `${item.Portada}` }}
+                        style={{
+                            width: 90,
+                            height: 110,
+                            borderRadius: 15,
+                            overflow: "hidden",
+                        }}
+                    ></ImageBackground>
+                </TouchableOpacity>
+
+                <Text
+                    style={{
+                        marginLeft: 10,
+                        marginTop: 10,
+                        fontSize: 13,
+                        color: "black",
+                        fontWeight: "bold",
+                    }}
+                >
+                    {item.Titulo}
+                </Text>
+            </View>
+        );
+    }
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -178,7 +216,7 @@ function AutoresScreen({ route }) {
             />
             {/* Head Cosas */}
             <View style={styles.headView}>
-                <TouchableOpacity onPress={() => { goBack() }}>
+                <TouchableOpacity testID='buttonGoBack' onPress={() => { goBack() }}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
@@ -216,12 +254,14 @@ function AutoresScreen({ route }) {
                             backgroundColor: isModalVisible ? "#A7A7A7" : "white",
 
                         }}>
-                            <MenuOption onSelect={() => addAmigo()} text='Añadir a amigos' />
-                            <MenuOption onSelect={() => enviarMensaje()} text='Enviar Mensaje privado' />
-                            <MenuOption onSelect={() => alert(`Delete`)}>
+                            {!sonAmigos &&
+                                <MenuTrigger testID="buttonAddAmigo" onPress={() => addAmigo()} text='Añadir a amigos' />
+                            }
+                            <MenuTrigger testID="buttonEnviarMensaje" onPress={() => enviarMensaje()} text='Enviar Mensaje privado' />
+                            <MenuTrigger testID="buttonReportar" onPress={() => alert(`Delete`)}>
 
                                 <Text style={{ color: '#B00020' }}>Reportar</Text>
-                            </MenuOption>
+                            </MenuTrigger>
 
                         </MenuOptions>
                     </Menu>
@@ -235,9 +275,10 @@ function AutoresScreen({ route }) {
                     </TouchableOpacity >
 
                     {/* Boton seguir autor */}
-                    <View style={{ marginBottom: 20, }}>
+                    <View style={{}}>
                         {!estaSeguido ?
                             <TouchableOpacity
+                                testID='buttonSeguir'
                                 style={{
                                     marginTop: 20,
                                     backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
@@ -261,10 +302,11 @@ function AutoresScreen({ route }) {
                                 onPress={() => seguir()}
                             >
                                 <Foundation name="foot" size={24} color="white" />
-                                <Text style={styles.lineaH2}>
+                                <Text style={styles.lineaH1}>
                                     Seguir
                                 </Text>
                             </TouchableOpacity> : <TouchableOpacity
+                                testID='buttonDejarSeguir'
                                 style={{
                                     marginTop: 20,
                                     backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
@@ -288,12 +330,14 @@ function AutoresScreen({ route }) {
                                 onPress={() => dejarSeguir()}
                             >
                                 <Foundation name="foot" size={24} color="white" />
-                                <Text style={styles.lineaH2}>
+                                <Text style={styles.lineaH1}>
                                     Dejar de seguir
                                 </Text>
                             </TouchableOpacity>}
                     </View>
-
+                    <Text style={styles.fechaCreacion2}>
+                        Desde:  {fechaCreacion}
+                    </Text>
                     {/* Informacion sobre autor */}
                     <View style={{ flexDirection: "row", marginBottom: 20, }}>
                         {/* Informacion obras*/}
@@ -340,14 +384,27 @@ function AutoresScreen({ route }) {
                 shadowRadius: 10,
                 elevation: 11,
                 backgroundColor: isModalVisible ? "#A7A7A7" : "white",
-
+                marginBottom: 20,
 
             }}>
                 <Text style={{
                     marginHorizontal: 30,
                     marginVertical: 10,
 
+
                 }}>{descripcion}</Text>
+            </View>
+            <View style={{ marginHorizontal: 40, marginBottom: 20, }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", borderBottomColor: "#8EAF20", borderBottomWidth: 3, marginBottom: 5 }}>
+                    Libros{":"}
+                </Text>
+                <FlatList
+                    contentContainerStyle={{ paddingLeft: 5 }}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={librosArray}
+                    renderItem={({ item, index }) => renderNewBooks(item, index)}
+                ></FlatList>
             </View>
         </SafeAreaView>
 
@@ -355,11 +412,17 @@ function AutoresScreen({ route }) {
     )
 }
 const styles = StyleSheet.create({
-    lineaH2: {
+    lineaH1: {
         marginLeft: 5,
         fontSize: 15,
         fontWeight: "bold",
         color: "white"
+    },
+    lineaH2: {
+        marginLeft: 5,
+        fontSize: 15,
+        fontWeight: "bold",
+        color: "black"
     },
     container: {
         flex: 1,
@@ -420,6 +483,11 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
     },
-
+    fechaCreacion2: {
+        fontSize: 15,
+        color: "#B1B1B1",
+        marginBottom: 5,
+        marginTop: 5
+    }
 });
 export default AutoresScreen

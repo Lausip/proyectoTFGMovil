@@ -1,11 +1,9 @@
 import { View, LogBox, Text, BackHandler, ScrollView, SafeAreaView, StyleSheet, Modal, StatusBar, TouchableOpacity, Image, ImageBackground, TextInput, FlatList } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { Ionicons } from '@expo/vector-icons';
-import { db } from '../../config/firebase';
+import { Ionicons, MaterialIcons, AntDesign } from '@expo/vector-icons';
 import LottieView from 'lottie-react-native';
-import { MaterialIcons, AntDesign } from '@expo/vector-icons';
-import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, publicarCapituloDelLibro, cambiarCategoria, cambiarPortadadeLibro, getCategoriasLibro, eliminarLibroFirebase, eliminarCapituloLibro, añadirEtiqueta, eliminarEtiqueta, cambiarFechaModificaciónLibro, cambiarEstado } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, cambiarTitulo, cambiarDescripcion, getCapitulosDelLibro, cambiarCategoria, cambiarPortadadeLibro, getCategoriasLibro, eliminarLibroFirebase, eliminarCapituloLibro, añadirEtiqueta, eliminarEtiqueta, cambiarFechaModificaciónLibro, cambiarEstado } from '../../hooks/FirebaseLibros';
 import { crearLibroStorage } from '../../hooks/Storage';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { pickImage } from "../../utils/ImagePicker";
@@ -51,19 +49,16 @@ function EditBookScreen({ route }) {
 
         LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
         hacerCosas();
-        BackHandler.addEventListener('hardwareBackPress', backAction);
+        BackHandler.addEventListener('hardwareBackPress', handleWrite);
 
         return () =>
-            BackHandler.removeEventListener('hardwareBackPress', backAction);
+            BackHandler.removeEventListener('hardwareBackPress', handleWrite);
 
     }, [email, portada])
 
-    const backAction = async () => {
-        navigation.push("write", {
-
-        });
+    const hacerCosas = async () => {
+        await cargarLibro()
     }
-
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -80,9 +75,6 @@ function EditBookScreen({ route }) {
         navigation.replace("write");
     }
 
-    const hacerCosas = async () => {
-        await cargarLibro()
-    }
 
     const handleEditarCapitulo = (numero, chapterId) => {
 
@@ -93,24 +85,26 @@ function EditBookScreen({ route }) {
         });
     }
 
-    const handlePublicarCapitulo = async (chapterId) => {
-        setModalVisible(true)
-        await publicarCapituloDelLibro(bookId, chapterId);
-        setModalVisible(false)
-    }
-
+    /*  const handlePublicarCapitulo = async (chapterId) => {
+         setModalVisible(true)
+         await publicarCapituloDelLibro(bookId, chapterId);
+         setModalVisible(false)
+     }
+  */
     const handleEliminarCapitulo = async (numero, chapterId) => {
         setModalVisible(true)
         await eliminarCapituloLibro(bookId, chapterId, numero);
         await cambiarFechaModificaciónLibro(bookId);
+        hacerCosas();
         setModalVisible(false)
     }
 
     const cargarCategorias = async () => {
         setModalVisible(true)
-        let cat=await getCategoriasLibro(bookId);
-        let categorias=[];
-        for(let i=0;i<cat.length;i++){
+        let cat = await getCategoriasLibro(bookId);
+
+        let categorias = [];
+        for (let i = 0; i < cat.length; i++) {
             categorias.push(cat[i].Nombre)
         }
         setCategoriasLibroFirebase(categorias);
@@ -131,27 +125,19 @@ function EditBookScreen({ route }) {
         if (data.Etiquetas != undefined) {
             setEtiquetas(data.Etiquetas);
         }
-
         cargarCategorias();
-        setEstadoValue(data.Estado)
-        await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
-            const caps = [];
-            querySnapshot.forEach(documentSnapshot => {
-                caps.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
-                });
-            });
-            setCapitulos(caps);
-        });
+        setEstadoValue(data.Estado);
+        setCapitulos(await getCapitulosDelLibro(bookId));
 
     }
     const actualizarTexto = async () => {
+        setModalVisible(true)
         if (!assertActualizarLibroTitulo()) {
-            setModalVisible(true)
+
             await cambiarTitulo(bookId, titulo)
-            setModalVisible(false)
+
         }
+        setModalVisible(false)
     }
 
     const eliminarLibro = async () => {
@@ -163,17 +149,14 @@ function EditBookScreen({ route }) {
     }
 
     const assertActualizarLibroTitulo = () => {
-
-        if (titulo.length == 0 || titulo.trim().length == 0) {
-
+        if (titulo.length == 0 && titulo.trim().length == 0) {
             setModalVisibleTitulo(true);
             return true;
         }
         return false;
     }
     const assertActualizarLibroDescripcion = () => {
-        console.log(texto)
-        if (texto.length == 0 || texto.trim().length == 0) {
+        if (texto.length == 0 && texto.trim().length == 0) {
             setModalVisibleDescripcion(true);
             return true;
         }
@@ -187,7 +170,7 @@ function EditBookScreen({ route }) {
     }
 
     const añadirEtiquetas = async (texto) => {
-        if (texto.length != 0 || texto.trim().length != 0) {
+        if (texto.length != 0 && texto.trim().length != 0) {
             setModalVisible(true);
             etiquetas.push(
                 texto
@@ -201,7 +184,6 @@ function EditBookScreen({ route }) {
 
     const eliminarEtiquetas = async (texto) => {
         setModalVisible(true);
-        console.log(texto)
         let e = etiquetas.filter(function (obj) {
             return obj !== texto;
         })
@@ -238,13 +220,14 @@ function EditBookScreen({ route }) {
             }
         }
         await cambiarCategoria(bookId, categoria)
+
         setModalVisible(false)
     }
 
     const actualizarImage = async () => {
         let image = await pickImage();
         setModalVisible(true)
-        if (!result.canceled) {
+        if (image != undefined) {
             let urlPortada = await crearLibroStorage(image, email, bookId)
             setPortada(urlPortada);
             await cambiarPortadadeLibro(bookId, urlPortada)
@@ -252,7 +235,7 @@ function EditBookScreen({ route }) {
         setModalVisible(false)
 
     }
-    function renderCategorias(item, index) {
+    function renderCategorias(item) {
         return (
             <View style={styles.viewCategorias}>
                 <Text
@@ -260,12 +243,10 @@ function EditBookScreen({ route }) {
                     {item}
                 </Text>
                 <TouchableOpacity
-                    style={{
-                        marginLeft: 10,
+                    testID="buttonEliminarEtiqueta"
+                    style={{ marginLeft: 10, }}
+                    onPress={() => eliminarEtiquetas(item)}>
 
-                    }}
-                    onPress={e => eliminarEtiquetas(item)}
-                >
                     <AntDesign name="closecircleo" size={20} color="black" />
                 </TouchableOpacity>
             </View>
@@ -282,13 +263,13 @@ function EditBookScreen({ route }) {
 
                 {/* Botones del opcion */}
                 <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
-                    <TouchableOpacity style={{ marginTop: 10, marginRight: 20 }} onPress={e => handleEditarCapitulo(libro.Numero, libro.key)}>
+                    <TouchableOpacity testID="buttonEditarCapitulo" style={{ marginTop: 10, marginRight: 20 }} onPress={() => handleEditarCapitulo(libro.Numero, libro.key)}>
                         <AntDesign name="edit" size={20} color="#E39801" />
                     </TouchableOpacity >
-                    {libro.borrador ? <TouchableOpacity style={{ marginTop: 10, marginRight: 20 }} onPress={e => handlePublicarCapitulo(libro.key)}>
+                    {/*       {libro.borrador ? <TouchableOpacity style={{ marginTop: 10, marginRight: 20 }} onPress={e => handlePublicarCapitulo(libro.key)}>
                         <Text>Publicar</Text>
-                    </TouchableOpacity > : <Text></Text>}
-                    <TouchableOpacity style={{ marginTop: 8, marginRight: 20 }} onPress={e => handleEliminarCapitulo(libro.Numero, libro.key)}>
+                    </TouchableOpacity > : <Text></Text>} */}
+                    <TouchableOpacity testID="buttonEliminarCapitulo" style={{ marginTop: 8, marginRight: 20 }} onPress={() => handleEliminarCapitulo(libro.Numero, libro.key)}>
                         <MaterialIcons name="delete" size={24} color="#B00020" />
                     </TouchableOpacity >
                 </View>
@@ -493,7 +474,7 @@ function EditBookScreen({ route }) {
             />
             {/* Head Cosas */}
             <View style={styles.viewHead}>
-                <TouchableOpacity onPress={() => handleWrite()}>
+                <TouchableOpacity testID='buttonBack' onPress={() => handleWrite()}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
@@ -501,10 +482,10 @@ function EditBookScreen({ route }) {
             </View>
 
             <View>
-                <ScrollView style={{ flexGrow: 0, marginBottom: 70, }}>
+                <ScrollView testID="scrollView" style={{ flexGrow: 0, marginBottom: 70, }}>
 
                     {/* Portada del libro */}
-                    <TouchableOpacity onPress={() => actualizarImage()}>
+                    <TouchableOpacity testID='buttonActualizarImage' onPress={() => actualizarImage()}>
                         <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", height: 200, marginTop: 10, }}>
 
                             {/* Imagenes Books nuevos blur */}
@@ -530,7 +511,7 @@ function EditBookScreen({ route }) {
                             Título
                         </Text>
                         <TextInput
-                            placeholder="Título "
+                            placeholder="Título"
                             placeholderTextColor="black"
                             value={titulo}
                             onChangeText={(text) => setTitulo(text)}
@@ -544,6 +525,7 @@ function EditBookScreen({ route }) {
                             }}
                         ></TextInput>
                         <TouchableOpacity
+                            testID='buttonActualizarTexto'
                             style={{
                                 width: "50%",
                                 marginTop: 10,
@@ -565,7 +547,7 @@ function EditBookScreen({ route }) {
                                 elevation: 15,
                                 marginHorizontal: 10,
                             }}
-                            onPress={e => actualizarTexto()}
+                            onPress={() => actualizarTexto()}
                         >
                             <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
                                 Actualizar
@@ -576,7 +558,7 @@ function EditBookScreen({ route }) {
                             Descripción
                         </Text>
                         <TextInput
-                            placeholder="Título "
+                            placeholder="Descripción"
                             placeholderTextColor="black"
                             value={texto}
                             onChangeText={(text) => setTexto(text)}
@@ -594,6 +576,7 @@ function EditBookScreen({ route }) {
                             textAlignVertical="top"
                         ></TextInput>
                         <TouchableOpacity
+                            testID='buttonActualizarDescripcion'
                             style={{
                                 width: "50%",
                                 marginTop: 10,
@@ -654,6 +637,7 @@ function EditBookScreen({ route }) {
 
                     />
                     <TouchableOpacity
+                        testID="buttonActualizarCategorías"
                         style={{
                             width: "40%",
                             marginTop: 10,
@@ -675,18 +659,18 @@ function EditBookScreen({ route }) {
                             elevation: 15,
                             marginHorizontal: 10,
                         }}
-                        onPress={e => updateCategoria()}
+                        onPress={() => updateCategoria()}
                     >
                         <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
                             Actualizar
                         </Text>
                     </TouchableOpacity>
                     {/* Etiquetas */}
-                    <View style={{ marginHorizontal: 40 }}>
+           
                         <Text style={styles.tituloBorder}>
                             Etiquetas
                         </Text>
-
+                        <View style={{ marginHorizontal: 40 }}>
                         {/* Etiquetas explorar */}
 
                         <FlatList
@@ -701,7 +685,7 @@ function EditBookScreen({ route }) {
                         ></FlatList>
 
                         <TextInput
-                            placeholder="Título "
+                            placeholder="Etiqueta"
                             placeholderTextColor="black"
                             value={textoEtiqueta}
                             onChangeText={(text) => contarPalabrasEtiqueta(text, 50)}
@@ -718,6 +702,7 @@ function EditBookScreen({ route }) {
                             marginLeft: "80%"
                         }}> {textoEtiqueta.length}/50</Text>
                         <TouchableOpacity
+                            testID='buttonAñadirEtiqueta'
                             style={{
                                 width: "50%",
                                 marginTop: 10,
@@ -753,9 +738,7 @@ function EditBookScreen({ route }) {
                     <Text style={styles.tituloBorder}>
                         Estado
                     </Text>
-                    <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
-                        {libroActual.Estado}
-                    </Text>
+
                     <DropDownPicker
                         style={{
                             borderColor: "#8EAF20",
@@ -788,30 +771,39 @@ function EditBookScreen({ route }) {
                     </Text>
 
                     <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
-                        {
-                            capitulos.map((item, index) => <RenderCapitulos key={index} libro={item} />)
-                        }
+                        <FlatList
+                            testID="flatlistbooks"
+                            contentContainerStyle={{ }}
+                            keyExtractor={(item, index) => index}
+                            data={capitulos}
+                            renderItem={({ item, index }) => (
+                                <RenderCapitulos key={index} libro={item} />
+                            )}
+              
+                        />
 
                         {/* Contenedor Botón escribir nuevo capitulo  */}
-                        <TouchableOpacity style={{
-                            marginTop: 20,
-                            marginRight: 20,
-                            marginLeft: 20,
-                            marginBottom: 10,
-                            borderStyle: "dotted",
-                            borderWidth: 2,
-                            borderColor: "#E39801",
-                            flexDirection: "row",
-                            borderRadius: 8,
-                            shadowColor: "black",
-                            shadowOpacity: 0.78,
-                            shadowOffset: { width: 0, height: 9 },
-                            shadowRadius: 10,
-                            elevation: 6,
-                            backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "white",
-                            alignItems: "center",
-                            justifyContent: "center",
-                        }} onPress={() => handleWriteChapter()}>
+                        <TouchableOpacity
+                            testID='buttonHandleWriteChapter'
+                            style={{
+                                marginTop: 20,
+                                marginRight: 20,
+                                marginLeft: 20,
+                                marginBottom: 10,
+                                borderStyle: "dotted",
+                                borderWidth: 2,
+                                borderColor: "#E39801",
+                                flexDirection: "row",
+                                borderRadius: 8,
+                                shadowColor: "black",
+                                shadowOpacity: 0.78,
+                                shadowOffset: { width: 0, height: 9 },
+                                shadowRadius: 10,
+                                elevation: 6,
+                                backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "white",
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }} onPress={() => handleWriteChapter()}>
                             <View
                                 style={{
                                     flexDirection: "column",
@@ -841,6 +833,7 @@ function EditBookScreen({ route }) {
                     </View>
 
                     <TouchableOpacity
+                        testID='buttonEliminarLibro'
                         style={{
                             width: "40%",
                             backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#B00020",
@@ -861,7 +854,7 @@ function EditBookScreen({ route }) {
                             shadowRadius: 6.00,
                             elevation: 15,
                         }}
-                        onPress={e => setModalVisibleBorrar(true)}>
+                        onPress={() => setModalVisibleBorrar(true)}>
                         <Text style={{ fontSize: 15, color: "white", margin: "auto" }}>
                             Borrar libro
                         </Text>

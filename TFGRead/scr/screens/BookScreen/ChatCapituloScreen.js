@@ -1,4 +1,4 @@
-import { View, ActivityIndicator, Text, ScrollView, SafeAreaView, StyleSheet, TouchableOpacity, BackHandler, FlatList, Alert, StatusBar, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, BackHandler, FlatList, Alert, StatusBar, TextInput } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { FontAwesome, Ionicons, Octicons } from '@expo/vector-icons';
@@ -16,15 +16,15 @@ function ChatCapituloScreen({ route }) {
     const [comentario, setComentario] = useState("");
     const [comentarios, setComentarios] = useState([]);
     const navigation = useNavigation();
-    const { bookId, capituloId, capituloNumero } = route.params;
+    const { bookId, capituloId, capituloNumero, screen } = route.params;
 
     useEffect(() => {
 
         hacerCosas();
-        BackHandler.addEventListener('hardwareBackPress', backAction);
+        BackHandler.addEventListener('hardwareBackPress', goback);
 
         return () =>
-            BackHandler.removeEventListener('hardwareBackPress', backAction);
+            BackHandler.removeEventListener('hardwareBackPress', goback);
 
     }, []);
 
@@ -34,19 +34,20 @@ function ChatCapituloScreen({ route }) {
         });
     }, []);
 
-    const backAction = async () => {
-        navigation.push("bookScreen", {
-            bookId: bookId,
-            capituloNumero: capituloNumero,
-            screen: "home",
-        });
-    };
+
     const goback = async () => {
-        navigation.push("bookScreen", {
-            bookId: bookId,
-            capituloNumero: capituloNumero,
-            screen: "home",
-        });
+        if (screen == "bookScreen") {
+            navigation.push("bookScreen", {
+                bookId: bookId,
+                capituloNumero: capituloNumero,
+                screen: "home",
+            })
+        }
+        else {
+            navigation.push("notificacionScreen", {
+
+            })
+        }
     };
     const hacerCosas = async () => {
 
@@ -56,6 +57,7 @@ function ChatCapituloScreen({ route }) {
         let a = await getAutorLibro(bookId);
         setAutor(a);
         setComentarios(com);
+
 
     }
 
@@ -68,7 +70,14 @@ function ChatCapituloScreen({ route }) {
         setComentario("");
 
     }
+    const goAutor = async (autor) => {
 
+        navigation.replace("autorScreen", {
+            autorElegido: autor,
+            screen: "home",
+        });
+
+    }
     const reportarComentario = async (comentarioId, autor) => {
         Alert.alert('Espera', '¿Seguro que quieres reportar el comentario de ' + autor + ' ?', [
             {
@@ -95,18 +104,22 @@ function ChatCapituloScreen({ route }) {
 
             }}>
                 <View style={{ flexDirection: "row", justifyContent: 'space-between', }}>
-                    <Text style={{ marginHorizontal: 20, fontSize: 14, fontWeight: "bold", color: "#429EBD", justifyContent: "flex-start" }}>
-                        {comentario.Autor.split("@")[0]}
-                    </Text>
-                    <TouchableOpacity onPress={() => reportarComentario(comentario.key, comentario.Autor.split("@")[0])}>
+                    <TouchableOpacity onPress={() => { goAutor(comentario.Autor) }} style={{ marginTop: 10, marginHorizontal: 20, justifyContent: "flex-start" }}>
+                        <Text style={{ fontSize: 17, fontWeight: "bold", color: "#8EAF20" }}>
+                            {comentario.Autor.split("@")[0]}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity testID='buttonReportar' onPress={() => reportarComentario(comentario.key, comentario.Autor.split("@")[0])}>
                         <Octicons name="report" size={15} color="#ff6961" style={{ marginHorizontal: 20, marginVertical: 2, }} />
                     </TouchableOpacity>
                 </View>
 
-                <Text style={{ marginHorizontal: 20, marginVertical: 5, fontSize: 13, color: "black" }}>
+                <Text style={{ marginHorizontal: 30, marginTop: 5, fontSize: 14, color: "black" }}>
                     {comentario.Comentario}
                 </Text>
-
+                <Text style={{ left: 200, fontSize: 14, marginBottom: 5, color: "#B1B1B1" }}>
+                    {comentario.FechaCreacion}
+                </Text>
             </View>
 
         );
@@ -129,7 +142,7 @@ function ChatCapituloScreen({ route }) {
                 {/* Head Cosas */}
                 <View style={styles.head}>
                     {/* Botón de goBack */}
-                    <TouchableOpacity onPress={() => goback()} style={{ marginLeft: 30, marginRight: 10 }}>
+                    <TouchableOpacity testID="buttonGoBack" onPress={() => goback()} style={{ marginLeft: 30, marginRight: 10 }}>
                         <Ionicons name="arrow-back" size={30} color="white" />
                     </TouchableOpacity>
 
@@ -160,7 +173,7 @@ function ChatCapituloScreen({ route }) {
                     numberOfLines={2}
 
                 ></TextInput>
-                <TouchableOpacity onPress={() => enviarComentario()} style={{
+                <TouchableOpacity testID="buttonEnviarComentario" onPress={() => enviarComentario()} style={{
                     marginTop: "auto", marginBottom: "auto",
 
                     alignItems: 'center',

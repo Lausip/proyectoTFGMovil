@@ -1,11 +1,13 @@
-import { auth } from '../../config/firebase';
+
 import { Alert } from "react-native";
 import { handleRegistroFirebase } from "../../hooks/Auth/Firestore"
+import { getAuth,signOut,onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
 export const handleIncioSesion = (email, password) => {
-  auth
-    .signInWithEmailAndPassword(email, password)
+  const auth = getAuth();
+  signInWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
+
       const user = userCredentials.user;
       console.log('Logged in with:', user.email);
     })
@@ -16,23 +18,14 @@ function handleContraseñasIguales(password1, password2) {
   return password1 == password2;
 }
 
-
-
-export const signOut = async () => {
-  auth
-    .signOut()
-    .then(() => console.log('User signed out!'));
-}
-
 export const handleRegistro = (email, password1, password2) => {
 
   if (handleContraseñasIguales(password1, password2)) {
-    auth
-      .createUserWithEmailAndPassword(email, password1)
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password1)
       .then(userCredentials => {
         const user = userCredentials.user;
         handleRegistroFirebase(user.email)
-        console.log('Logged in with:', user.email);
       }
       ).catch(error => alert(error.message))
   }
@@ -50,8 +43,8 @@ export const handleRegistro = (email, password1, password2) => {
 };
 
 export const handleReset = (email) => {
-  auth
-    .sendPasswordResetEmail(email)
+  const auth = getAuth();
+  sendPasswordResetEmail(auth, email)
     .then(() => {
       console.log("Reset password of:", email);
       Alert.alert(
@@ -70,11 +63,6 @@ export const handleReset = (email) => {
 };
 
 export const getUserAuth = async () => {
-  let email = "";
-  await auth.onAuthStateChanged((user) => {
-    if (user) {
-      email = user.email;
-    } 
-  });
-  return email;
+  const auth = getAuth();
+  return  auth.currentUser.email;
 }

@@ -83,7 +83,7 @@ function ExploreScreen({ route }) {
       await cargarLibros("");
       setAutores([]);
     }
-    if (index == 1) {
+    else {
       await cargarAutores();
       setLibros([]);
     }
@@ -92,7 +92,6 @@ function ExploreScreen({ route }) {
 
   const cargarMasLibros = async () => {
 
-   
     if (textoBusqueda2 != "") {
       setModalVisible(true)
       if (tag == "Etiqueta") {
@@ -152,7 +151,6 @@ function ExploreScreen({ route }) {
 
   const cargarDatosLibrosFiltroFunction = async (textoBusqueda, lastItem, filtro) => {
     if (filtro == "Etiqueta") {
-
       return await cargarDatosLibrosFiltro(textoBusqueda, lastItem, "Etiqueta");
     }
     if (filtro == "Titulo") {
@@ -192,7 +190,7 @@ function ExploreScreen({ route }) {
         setModalVisible(true)
         //Buscar por título
         if (tag == "Titulo") {
-          let array = await cargarDatosLibrosFiltro(textoB, "", "Titulo");
+          let array =  cargarDatosLibrosFiltro(textoB, "", "Titulo");
           setLastItemIdTitulo(array[1]);
           setLibros(array[0]);
           setLastItemId("");
@@ -202,7 +200,7 @@ function ExploreScreen({ route }) {
         //Buscar por etiqueta
         if (tag == "Etiqueta") {
 
-          let array = await cargarDatosLibrosFiltro(textoB, "", "Etiqueta");
+          let array =  cargarDatosLibrosFiltro(textoB, "", "Etiqueta");
           setLastItemIdEtiqueta(array[1]);
           setLibros(array[0]);
           setLastItemId("");
@@ -212,14 +210,14 @@ function ExploreScreen({ route }) {
         setModalVisible(false)
       }
       //Buscar por Autor
-      if (seleccionadoCategoriaIndex == 1) {
+      else {
         let autoresFiltro = autores.filter((a) => {
           return a.Nombre.toLowerCase().startsWith(textoBusqueda.toLowerCase())
         });
         setAutores(autoresFiltro);
       }
     }
-    if (textoB == "") {
+    else{
       await cargarCategorias(seleccionadoCategoriaIndex);
     }
 
@@ -368,6 +366,7 @@ function ExploreScreen({ route }) {
             data={filtros}
             renderItem={({ item, index }) =>
               <TouchableOpacity
+              testID="buttonclickTag"
                 disabled={item == tag}
                 style={{
                   marginTop: 10,
@@ -404,7 +403,7 @@ function ExploreScreen({ route }) {
   }
   const RenderCategoriaFiltro2 = ({ categoria }) => {
     return (
-      <TouchableOpacity onPress={() => clickCategoriaFiltro(categoria)} style={{
+      <TouchableOpacity testID="buttonclickCategoriaFiltro"onPress={() => clickCategoriaFiltro(categoria)} style={{
         marginHorizontal: 5
       }}>
 
@@ -441,6 +440,7 @@ function ExploreScreen({ route }) {
       <View style={styles.renderCategoriaMisLibros}>
         {categorias.map((item, index) => (
           <TouchableOpacity
+            testID="buttonCargarCategorias"
             key={index}
             activeOpacity={0.8}
             onPress={() => cargarCategorias(index)}
@@ -508,7 +508,7 @@ function ExploreScreen({ route }) {
   /* Autores */
   const CardAutores = ({ autor }) => {
     return (
-      <TouchableOpacity
+      <TouchableOpacity testID="buttonGoAutorProfile"
         onPress={() => { goAutorProfile(autor.Nombre) }}
       >
         <View style={{
@@ -655,7 +655,7 @@ function ExploreScreen({ route }) {
           </View>
         </View>
         {/*User*/}
-        <TouchableOpacity onPress={() => { handleProfile() }}>
+        <TouchableOpacity testID="buttonHandleProfile" onPress={() => { handleProfile() }}>
           <Image
             source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
             style={{ width: 40, height: 40, borderRadius: 40 / 2, marginTop: 10 }}
@@ -685,8 +685,8 @@ function ExploreScreen({ route }) {
         </View>
 
 
-        <TouchableOpacity style={{
-          marginRight: "auto", marginTop: "auto", padding: 11, borderRadius: 18, borderColor: "#E39801", shadowColor: "#000", shadowOffset: { width: 0, height: 12, }, shadowOpacity: 0.8, shadowRadius: 6.00, elevation: 15, borderWidth: 3, alignItems: "center", backgroundColor: isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible ? "#EDEDED" : "white",
+        <TouchableOpacity testID="buttonFiltrado"style={{
+          marginRight: "auto", right: 4, marginTop: "auto", padding: 11, borderRadius: 18, borderColor: "#E39801", shadowColor: "#000", shadowOffset: { width: 0, height: 12, }, shadowOpacity: 0.8, shadowRadius: 6.00, elevation: 15, borderWidth: 3, alignItems: "center", backgroundColor: isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible ? "#EDEDED" : "white",
         }} disabled={isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible} onPress={() => getFiltrado()}>
           <Entypo name="magnifying-glass" size={24} color="black" />
         </TouchableOpacity>
@@ -694,13 +694,13 @@ function ExploreScreen({ route }) {
 
         {/* Botón Tag*/}
         {seleccionadoCategoriaIndex == 0 && isModalTagsVisible ?
-          <TouchableOpacity style={styles.buttonTagsPulsado} onPress={() => getTags()}>
+          <TouchableOpacity testID="buttongetTagsPulsado"style={styles.buttonTagsPulsado} onPress={() => getTags()}>
             <AntDesign name="tags" size={24} color="white" />
           </TouchableOpacity> : <View></View>
         }
 
         {seleccionadoCategoriaIndex == 0 && !isModalTagsVisible ?
-          <TouchableOpacity style={styles.buttonTagsNoPulsado} onPress={() => getTags()}>
+          <TouchableOpacity testID="buttongetTagsNoPulsado" style={styles.buttonTagsNoPulsado} onPress={() => getTags()}>
             <AntDesign name="tags" size={24} color="black" />
           </TouchableOpacity> : <View></View>
         }
@@ -735,24 +735,43 @@ function ExploreScreen({ route }) {
       {seleccionadoCategoriaIndex == 0 &&
 
         <FlatList
+        testID="flatlistbooks"
           style={{ backgroundColor: "white", marginHorizontal: 5, borderRadius: 20, }}
           keyExtractor={(item, index) => index}
           data={libros}
           renderItem={({ item, index }) => (
             <CardLibros key={index} libro={item} />
           )}
-          onEndReached={e => cargarMasLibros()}
+          onEndReached={() => cargarMasLibros()}
           onEndReachedThreshold={0.1}
         />
 
         || seleccionadoCategoriaIndex == 1 &&
 
-        <ScrollView>
+        <View>
           {
-            autores.map((item, index) => <CardAutores key={index} autor={item} />)
-          }
+            autores.length != 0 ?
+              <FlatList
+                testID="flatlistbooks"
+                contentContainerStyle={{ paddingBottom: 60, }}
+                keyExtractor={(item, index) => index}
+                data={autores}
+                renderItem={({ item, index }) => (
+                  <CardAutores key={index} autor={item} />
+                )}
 
-        </ScrollView>
+              />
+              :
+              <View style={{ marginHorizontal: 30 }}  >
+                <Image
+                  resizeMode={'center'}
+                  source={require("../../../assets/NoAuthor.png")}
+                  style={styles.image}
+                />
+                <Text style={styles.textImage}>No hay autores......</Text>
+              </View>
+          }
+        </View>
       }
     </SafeAreaView>
   )
@@ -872,7 +891,7 @@ const styles = StyleSheet.create({
     width: 280,
   },
   textImage: {
-    marginTop: 20,
+    marginTop: 30,
     marginLeft: "auto",
     marginRight: "auto",
     fontSize: 15,

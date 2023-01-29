@@ -1,11 +1,10 @@
-import { View, ActivityIndicator, Text, ScrollView, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, BackHandler, TouchableWithoutFeedback, Modal, ImageBackground } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, BackHandler, TouchableWithoutFeedback, Modal, ImageBackground } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { db } from '../../config/firebase';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { updateUltimoCapitulo, cambiarUltimoLibroLeido, handleElLibroEstaEnMeGusta, handleAñadirLibroMeGustaFirebaseCapitulo } from '../../hooks/Auth/Firestore';
 import { AntDesign, MaterialCommunityIcons, Ionicons, Feather, Entypo } from '@expo/vector-icons';
-import { getPortadaLibro, getCapituloId, } from '../../hooks/FirebaseLibros';
+import { getPortadaLibro, getCapituloId,getCapitulo ,getCapitulosDelLibro} from '../../hooks/FirebaseLibros';
 
 
 
@@ -35,10 +34,10 @@ function BooksScreen({ route }) {
   useEffect(() => {
 
     hacerCosas();
-    BackHandler.addEventListener('hardwareBackPress', backAction);
+    BackHandler.addEventListener('hardwareBackPress', goBack);
 
     return () =>
-      BackHandler.removeEventListener('hardwareBackPress', backAction);
+      BackHandler.removeEventListener('hardwareBackPress', goBack);
 
   }, [capituloNumero]);
 
@@ -51,16 +50,17 @@ function BooksScreen({ route }) {
       goBack();
     }
   }
-  
+
   const añadirElLibroABiblioteca = async () => {
     let e = await getUserAuth();
-    await handleAñadirLibroMeGustaFirebaseCapitulo(e, bookId,capituloNumero)
+    await handleAñadirLibroMeGustaFirebaseCapitulo(e, bookId, capituloNumero)
     setTimeout(() => 1000);
     goBack();
   }
 
   const goBack = () => {
     if (navigation.isFocused()) {
+      preguntarBibliotecaMegusta()
       if (screen == "detailsBookScreen" || screen == undefined) {
         navigation.navigate("detailsBookScreen", {
           bookId: bookId,
@@ -72,12 +72,7 @@ function BooksScreen({ route }) {
       return true;
     }
   }
-  const backAction = async () => {
-    if (navigation.isFocused()) {
-    preguntarBibliotecaMegusta()
 
-    };
-  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -91,44 +86,27 @@ function BooksScreen({ route }) {
     let e = await getUserAuth();
     setEmail(e);
     await cargarCapituloLibros();
-    let a = await mirarSiHayMasCapitulo(bookId, capituloNumero + 1);
+    let a= await getCapitulo(bookId, capituloNumero + 1);
+
+    if(a==undefined){
+      setHayCapituloSiguiente(false)
+    }
+    else{
+      setHayCapituloSiguiente(true)
+    }
     setPortada(await getPortadaLibro(bookId))
     await updateUltimoCapitulo(e, bookId, capituloNumero);
-    await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
-      const caps = [];
-      querySnapshot.forEach(documentSnapshot => {
-        caps.push({
-          ...documentSnapshot.data(),
-          key: documentSnapshot.id,
-        });
-      });
-      setCapitulos(caps);
-    });
-
-    setHayCapituloSiguiente(a);
+    setCapitulos(await getCapitulosDelLibro(bookId));
     setSacarCapitulos(false)
-  
-  }
 
-  const mirarSiHayMasCapitulo = async (bookId, capSiguiente) => {
-    let hay = false;
-    let querySnapshot = await db.collection("libros").doc(bookId).collection("Capitulos")
-      .where("Numero", "==", capSiguiente).get()
-    if (!querySnapshot.empty) {
-      hay = true;
-    }
-
-    return hay;
   }
 
   const cargarCapituloLibros = async () => {
 
-    let querySnapshot = await db.collection("libros").doc(bookId).collection("Capitulos")
-      .where("Numero", "==", capituloNumero).get()
-    querySnapshot.forEach((queryDocumentSnapshot) => {
-      setTexto(queryDocumentSnapshot.data().Contenido)
-      setTitulo(queryDocumentSnapshot.data().Titulo)
-    })
+    let d = await getCapitulo(bookId,capituloNumero);
+    setTexto(d.Contenido)
+    setTitulo(d.Titulo)
+
 
   }
 
@@ -177,7 +155,8 @@ function BooksScreen({ route }) {
     navigation.replace("comentariosCapituloScreen", {
       bookId: bookId,
       capituloId: capituloId,
-      capituloNumero: capituloNumero
+      capituloNumero: capituloNumero,
+      screen:"bookScreen"
     });
 
   }
@@ -214,7 +193,7 @@ function BooksScreen({ route }) {
 
   const CardCapitulosLibros = ({ libro }) => {
     return (
-      <TouchableOpacity key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
+      <TouchableOpacity testID="buttonLeerCapitulo" key={libro.id} onPress={() => handleLeerLibroCapitulo(libro.Numero)}>
         <View style={{
           marginTop: 5, borderBottomColor: "#8EAF20",
           borderBottomWidth: 1,
@@ -233,7 +212,7 @@ function BooksScreen({ route }) {
 
   return (
 
-    <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => cargarOpciones()}>
+    <TouchableWithoutFeedback testID="buttonCargarOpciones" style={{ flex: 1 }} onPress={() => cargarOpciones()}>
       <SafeAreaView style={{
         flex: 1,
         backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
@@ -262,7 +241,7 @@ function BooksScreen({ route }) {
             {/* Contenedor de siguiente o no capitulo */}
             {
               hayCapituloSiguiente ?
-                < TouchableOpacity onPress={() => irAotroCapitulo()} style={{
+                < TouchableOpacity testID="buttonIrCapitulo" onPress={() => irAotroCapitulo()} style={{
                   marginTop: 20,
                   marginHorizontal: 20,
                   marginBottom: 50,
@@ -437,17 +416,17 @@ function BooksScreen({ route }) {
                 style={styles.modalOpciones}>
 
                 <View style={{ justifyContent: "flex-start", flexDirection: "row", marginHorizontal: 20 }}>
-                  <TouchableOpacity style={{ flexDirection: "row", marginLeft: 10, }} onPress={sumarTexto}>
+                  <TouchableOpacity testID="buttonSumarLetra" style={{ flexDirection: "row", marginLeft: 10, }} onPress={()=>sumarTexto()}>
                     <MaterialCommunityIcons name="format-letter-case" size={30} color="black" />
                     <Text>+</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{ flexDirection: "row", marginLeft: 10, }} onPress={restarTexto}>
+                  <TouchableOpacity testID="buttonRestarLetra" style={{ flexDirection: "row", marginLeft: 10, }} onPress={()=>restarTexto()}>
                     <MaterialCommunityIcons name="format-letter-case" size={30} color="black" />
                     <Text>-</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{ marginLeft: 10, }} onPress={cambiarNocheDia}>
+                  <TouchableOpacity  testID="buttonCambiarSol" style={{ marginLeft: 10, }} onPress={()=>cambiarNocheDia()}>
 
                     {!nocheDia ?
                       <Ionicons name="md-sunny-outline" size={30} color="black" /> :
@@ -456,11 +435,11 @@ function BooksScreen({ route }) {
 
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{ marginLeft: 10, }} onPress={() => siguienteCapitulo()}>
+                  <TouchableOpacity testID="buttonSiguienteCapitulo" style={{ marginLeft: 10, }} onPress={() => siguienteCapitulo()}>
                     <Feather name="arrow-right" size={30} color="black" />
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={{ marginLeft: 50, }} onPress={() => sacarCapitulosView(!sacarCapitulos)}>
+                  <TouchableOpacity testID="buttonSacarCapitulos"  style={{ marginLeft: 50, }} onPress={() => sacarCapitulosView(!sacarCapitulos)}>
                     <Entypo name="menu" size={30} color="black" />
                   </TouchableOpacity>
 

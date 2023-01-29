@@ -1,32 +1,18 @@
-import { StatusBar } from "expo-status-bar";
 import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-} from "react-native";
-import {
-  useNavigation,
   getFocusedRouteNameFromRoute,
 } from "@react-navigation/native";
-import React, { useLayoutEffect, useState } from "react";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import { AntDesign, Entypo,MaterialCommunityIcons  } from '@expo/vector-icons';
 import HomeStack from "../navigation/HomeStack";
 import BibliotecaStack from "../navigation/BibliotecaStack";
 import BookWriteNavigator from "../navigation/BookWriteNavigator";
 import ExploreStack from "../navigation/ExploreStack";
 import ChatStack from "../navigation/ChatStack";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 const Tab = createBottomTabNavigator();
-
+/* istanbul ignore next */
 const BottomTab = () => {
   return (
 
@@ -140,7 +126,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "bookScreen" || routeName == "comentariosCapituloScreen") {
+            if (routeName === "bookScreen" || routeName == "comentariosCapituloScreen"||routeName == "autorScreen") {
               return { display: "none" };
             }
             return {
@@ -217,7 +203,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            console.log(routeName);
+  
             if (routeName === "chatConversationScreen") {
               return { display: "none" };
 

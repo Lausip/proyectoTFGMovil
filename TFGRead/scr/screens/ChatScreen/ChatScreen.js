@@ -12,9 +12,8 @@ import React, { useLayoutEffect, useEffect, useState } from "react";
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil, getAmigos } from "../../hooks/Auth/Firestore";
 import { getUserAuth } from "../../hooks/Auth/Auth";
-import { getSalas, existeSala, getFotoPerfilConversaciones, getUltimoMensajeConversacion, getUltimoMensaje, addSala, getSalaId } from "../../hooks/ChatFirebase";
-import { db } from '../../config/firebase';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { existeSala, getSalasDelEmail, getFotoPerfilConversaciones, cogerSala, getUltimoMensaje, addSala } from "../../hooks/ChatFirebase";
+import { Ionicons } from '@expo/vector-icons';
 
 function ChatScreen({ route }) {
     const navigation = useNavigation();
@@ -40,22 +39,7 @@ function ChatScreen({ route }) {
 
     //Coger los datos 
     const getTodasLasSalas = async () => {
-        let salas = [];
-        await db.collection("salas").orderBy("Tiempo", "asc")
-            .onSnapshot(querySnapshot => {
-                querySnapshot.forEach((documentSnapshot) => {
-                    if (documentSnapshot.data().Usuario1 == email || documentSnapshot.data().Usuario2 == email) {
-
-                        salas.push({
-                            ...documentSnapshot.data(),
-                            key: documentSnapshot.id,
-
-                        });
-                    }
-                })
-
-                getSalasFotoPerfil(salas);
-            })
+        getSalasFotoPerfil(await getSalasDelEmail(email));
     }
 
     //Coger los datos 
@@ -67,30 +51,12 @@ function ChatScreen({ route }) {
         setModalVisible(false)
     }
 
-    //Coger todas los mensajes 
-    const getUltimoMensaje = async (salas) => {
-        let salasss = []
-        for (let i = 0, len = salas.length; i < len; i++) {
-            await db.collection("salas").doc(salas[i].key).collection("mensajes").orderBy("FechaCreacion", "desc").limit(1).onSnapshot(querySnapshot => {
 
-                if (!querySnapshot.empty) {
-                    querySnapshot.forEach((documentSnapshot) => {
-
-                        salasss.push({ ...salas[i], UltimoMensaje: documentSnapshot.data().Texto });
-                    });
-                }
-                else {
-                    salasss.push({ ...salas[i], UltimoMensaje: "" });
-                }
-
-                setSalas(salasss)
-            })
-        }
-    }
 
     //Coger Fotos de perfil 
     const getSalasFotoPerfil = async (salas) => {
-        getUltimoMensaje(await getFotoPerfilConversaciones(salas, email));
+        let s = await getFotoPerfilConversaciones(salas, email);
+        setSalas(await getUltimoMensaje(s,email));
     }
 
     //Coger el email y foto de perfil
@@ -114,47 +80,32 @@ function ChatScreen({ route }) {
         });
     }
 
-    const cogerSala = async (usuarioa, usuariob) => {
-        let salaaaaa = [];
-        await db
-            .collection('salas').doc(usuarioa + "-" + usuariob).get().then(documentSnapshot => {
-                if (documentSnapshot.exists) {
-                    console.log(documentSnapshot.data());
-                    salaaaaa.push({
-                        ...documentSnapshot.data(),
-                        key: documentSnapshot.id,
-
-                    });
-                    navigation.replace("chatConversationScreen", {
-                        sala: salaaaaa[0],
-                        screen: "chatScreen",
-
-                    });
-                }
-                return false;
-
-            })
-
-
-    }
     const añadirSala = async (amigo) => {
 
         //Mirar si ya hay sala
         if (!await existeSala(email, amigo)) {
             //Añadir Sala
             await addSala(email, amigo, true, "");
+            let salaaaaa = await cogerSala(email, amigo);
             setModalVisibleConversacion(false);
-            await cogerSala(email, amigo);
+            navigation.replace("chatConversationScreen", {
+                sala: salaaaaa,
+                screen: "chatScreen",
+
+            });
+
 
         }
         else {
             setModalVisibleConversacion(false);
-            let existe = false;
-            existe = await cogerSala(email, amigo);
 
-            if (!existe) {
-                await cogerSala(amigo, email);
-            }
+            let salaaaaa = await cogerSala(email, amigo);
+            navigation.replace("chatConversationScreen", {
+                sala: salaaaaa,
+                screen: "chatScreen",
+
+            });
+
 
         }
 
@@ -164,12 +115,13 @@ function ChatScreen({ route }) {
     const modalAnadirSala = async () => {
         setModalVisibleConversacion(true);
         setAmigos(await getAmigos(email));
+
     }
 
     /* Chats nuevos */
     const CardAmigos = ({ amigo }) => {
         return (
-            <TouchableOpacity onPress={() => añadirSala(amigo)}>
+            <TouchableOpacity testID="buttonAñadirSala" onPress={() => añadirSala(amigo)}>
                 <View style={{
                     marginVertical: 5,
                     marginHorizontal: 30, marginBottom: 10, borderRadius: 8,
@@ -191,10 +143,11 @@ function ChatScreen({ route }) {
     /* Chats nuevos */
     const Card = ({ sala }) => {
         return (
-            <TouchableOpacity onPress={() => enterChat(sala)}>
+            <TouchableOpacity testID="buttonEnterChat" onPress={() => enterChat(sala)}>
                 <View style={{
                     marginVertical: 10,
-                    marginHorizontal: 30, marginBottom: 10, borderRadius: 8,
+                    padding:5,
+                    marginHorizontal: 30,borderRadius: 8,
                     shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
                     backgroundColor: "white", flexDirection: "row"
 
@@ -202,17 +155,17 @@ function ChatScreen({ route }) {
 
                     <Image
                         source={{ uri: sala.FotoPerfil != "" ? sala.FotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
-                        style={{ width: 50, height: 50, borderRadius: 50 / 2, marginTop: 10, marginHorizontal: 30 }}
+                        style={{ width: 50, height: 50, borderRadius: 50 / 2, marginTop: 10, marginHorizontal: 20 }}
                     />
                     <View style={{
-                        flexDirection: "column",
+                        flexDirection: "column",marginLeft:5,marginTop:5,
                     }} >
                         {sala.Usuario2 == email ?
-                            <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
+                            <Text style={{ marginVertical: 5, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
                                 {sala.Usuario1.split("@")[0]}
                             </Text> :
 
-                            <Text style={{ marginVertical: 10, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
+                            <Text style={{ marginVertical: 5, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
                                 {sala.Usuario2.split("@")[0]}
                             </Text>
                         }
@@ -271,6 +224,10 @@ function ChatScreen({ route }) {
                     setModalVisibleConversacion(false)
                 }}>
                     <View style={{
+                        paddingTop: 10,
+                        paddingBottom: 60,
+                        paddingLeft: 30,
+                        paddingRight: 30,
                         maxHeight: 400,
                         marginTop: "auto",
                         marginBottom: "auto",
@@ -284,20 +241,38 @@ function ChatScreen({ route }) {
                         shadowOffset: { width: 0, height: 9 },
                         shadowRadius: 10,
                         elevation: 12,
-                    }}
-                    >
-
+                    }}>
+                        <Text style={styles.tituloBorder}>
+                            Amigos:
+                        </Text>
                         <View style={{
                             alignItems: 'center', justifyContent: "center"
                         }}>
-                            <FlatList
 
-                                data={amigos}
-                                keyExtractor={(item) => item}
-                                renderItem={({ item, index }) => (
-                                    <CardAmigos key={index} amigo={item} />
-                                )}
-                            />
+                            {
+                                amigos.length != 0 ?
+                                    <FlatList
+                                        data={amigos}
+                                        keyExtractor={(item) => item}
+                                        renderItem={({ item, index }) => (
+                                            <CardAmigos key={index} amigo={item} />
+                                        )}
+                                    /> :
+                                    <View style={{ marginHorizontal: 30 }}  >
+                                        <Image
+                                            resizeMode={'center'}
+                                            source={require("../../../assets/NoAuthor.png")}
+                                            style={{
+                                                marginLeft: "auto",
+                                                marginRight: "auto",
+                                                marginTop: 30,
+                                                height: 160,
+                                                width: 180,
+                                            }}
+                                        />
+                                        <Text style={styles.textImage}>No hay amigos......</Text>
+                                    </View>
+                            }
 
                         </View>
                     </View>
@@ -320,7 +295,7 @@ function ChatScreen({ route }) {
                     </View>
                 </View>
                 {/*User*/}
-                <TouchableOpacity onPress={() => { handleProfile() }}>
+                <TouchableOpacity testID="buttonProfile" onPress={() => { handleProfile() }}>
                     <Image
                         source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
                         style={{ width: 40, height: 40, borderRadius: 40 / 2, marginTop: 10 }}
@@ -328,7 +303,7 @@ function ChatScreen({ route }) {
                 </TouchableOpacity>
             </View>
             {/* Contenedor Botón escribir nuevo libro  */}
-            <TouchableOpacity style={styles.containerNuevaConversacion} onPress={() => modalAnadirSala()}>
+            <TouchableOpacity testID="buttonModalAñadirSala" style={styles.containerNuevaConversacion} onPress={() => modalAnadirSala()}>
                 <View
                     style={{
                         flexDirection: "column",
@@ -484,16 +459,26 @@ const styles = StyleSheet.create({
     image: {
         marginLeft: "auto",
         marginRight: "auto",
-        marginTop: 30,
+        marginTop: 50,
         height: 270,
         width: 330,
     },
     textImage: {
-
+        marginTop: 20,
         marginLeft: "auto",
         marginRight: "auto",
         fontSize: 15,
 
+    },
+    tituloBorder: {
+        marginHorizontal: 10,
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "black",
+        borderBottomColor: "#8EAF20",
+        borderBottomWidth: 3,
+        width: "50%",
+        marginBottom: 20,
     },
 });
 export default ChatScreen

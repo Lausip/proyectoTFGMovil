@@ -6,9 +6,9 @@ import WriteChapterBooksScreen from '../screens/WriteNewBook/WriteChapterBooksSc
 import ProfileScreen from "../screens/ProfileScreen";
 import EditBookScreen from "../screens/EditBookScreen/EditBookScreen";
 import EditChapterScreen from "../screens/EditBookScreen/EditChapterScreen";
-
+const Stack = createNativeStackNavigator();
 function BookWriteNavigator() {
-    const Stack = createNativeStackNavigator();
+
     return (
         <Stack.Navigator>
             <Stack.Screen name="write" component={WriteScreen} />

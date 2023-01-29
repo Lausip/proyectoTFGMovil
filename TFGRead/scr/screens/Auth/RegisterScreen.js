@@ -7,7 +7,7 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, BackHandler
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
@@ -20,20 +20,36 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
+
   const navigation = useNavigation();
-  const handleRegistroTodo = async () => {
-    await handleRegistro(email, password, password2);
-    await crearFotoPerfilStorage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", email);
-  };
+ 
+
+  useEffect(() => {
+
+
+    BackHandler.addEventListener('hardwareBackPress', handleIncioSesion);
+
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', handleIncioSesion);
+
+  }, []);
+  
   const handleIncioSesion = () => {
     navigation.replace("login");
   };
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
+  const handleRegistroTodo = async () => {
+    await handleRegistro(email, password, password2);
+    await crearFotoPerfilStorage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png", email);
+  };
+  
   return (
     <SafeAreaView style={styles.headerBar}>
       {/* Registro Texto */}
@@ -119,7 +135,7 @@ const RegisterScreen = () => {
           justifyContent: "center",
         }}
       >
-        <TouchableOpacity
+        <TouchableOpacity testID="buttonRegistroTodo"
           style={styles.buttonInicio}
           onPress={e => handleRegistroTodo()}
         >
@@ -128,7 +144,7 @@ const RegisterScreen = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleIncioSesion}>
+        <TouchableOpacity testID="buttonInicioSesion"onPress={()=>handleIncioSesion()}>
           <Text style={{ fontSize: 12, color: "black" }}>
             ¿Ya tienes cuenta?{" "}
             <Text style={styles.textoLetraPequeña}>

@@ -5,25 +5,26 @@ import {
   View, FlatList,
   TouchableOpacity,
   ImageBackground, Image,
-  Modal, StatusBar, ScrollView
+  Modal, StatusBar
 } from "react-native";
-import { useNavigation,useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { AntDesign, Foundation } from '@expo/vector-icons';
 
 import { getUserAuth } from "../../hooks/Auth/Auth";
-import { contarCapitulosDelLibro, cargarBooksAutor } from "../../hooks/FirebaseLibros";
+import { cargarBooksAutor } from "../../hooks/FirebaseLibros";
 import LottieView from 'lottie-react-native';
 import { getFotoPerfil } from "../../hooks/Auth/Firestore";
 
 
 function WriteScreen() {
   const navigation = useNavigation();
-  const [books, setBooks] = useState([]);
+
+  const [books, setBooks] = React.useState([]);
   const [fotoPerfil, setFotoPerfil] = useState("");
   const [email, setEmail] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
-  const [lastItemId, setLastItemId] = useState("");
+  const [lastItemId, setLastItemId] =  useState("");
 
 
   useEffect(() => {
@@ -48,53 +49,29 @@ function WriteScreen() {
     let e = await getUserAuth()
     setEmail(e);
     setFotoPerfil(await getFotoPerfil(e));
-    let libros = await cargarBooks("");
-    if (libros.length != 0) {
-      let item;
-      const booksA = [];
-      for (item in libros) {
-        let numeroCapt = await contarCapitulosDelLibro(libros[item].key);
-        booksA.push({
-          ...libros[item],
-          nCapitulos: numeroCapt,
-        });
-        setLastItemId(booksA[booksA.length - 1].FechaModificación);
-  
-      }
-      setBooks(booksA)
-    } 
+    let libros = await cargarBooksAutor(e, lastItemId);
+    if (libros.length >=1) {
+      setLastItemId(libros[libros.length-1].doc)
+      setBooks(libros)
+    }else{
+      setLastItemId("")
+    }
+
     setModalVisible(false)
   }
 
   const cargarMas = async () => {
     setModalVisible(true)
-    let libros = await cargarBooks(lastItemId);
-    if (!libros.length == 0) {
-      let item;
-      let i = 0;
-      const booksA = [];
-      let booksFinal = [];
 
-      for (item in libros) {
-        let numeroCapt = await contarCapitulosDelLibro(libros[item].key);
-        booksA.push({
-          ...libros[item],
-          nCapitulos: numeroCapt,
-        });
+    let libros = await cargarBooksAutor(email, lastItemId);
 
-        if (i < booksA.length) {
-          ///HAY QUE PONER EL MISMO QUE EL STARTAT
-          setLastItemId(booksA[booksA.length - 1].FechaModificación);
-          booksFinal = [...books, ...booksA];
-          setBooks(booksFinal)
-          setModalVisible(false)
-        }
-        i++;
-      }
+    if (libros.length >0) {
+      setBooks([ ...books,... libros]);
+      setLastItemId(libros[libros.length-1].doc)
+    }else{
+      setLastItemId(books[books.length-1].doc)
     }
-    else {
-      setModalVisible(false)
-    }
+    setModalVisible(false)
 
   }
 
@@ -108,9 +85,7 @@ function WriteScreen() {
       bookId: bookId
     });
   }
-  const cargarBooks = async (lastItem) => {
-    return cargarBooksAutor(email, lastItem)
-  }
+
 
   /* Books nuevos */
   const Card = ({ libro }) => {
@@ -137,20 +112,20 @@ function WriteScreen() {
         ></ImageBackground>
         <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
           <Text style={{ fontSize: 15, fontWeight: "bold", color: "#429EBD" }}>
-            
+
             {libro.Titulo}
           </Text>
           <Text style={{ marginTop: 5, fontSize: 13, color: "black" }}>
-            {libro.nCapitulos} {""}
+            {libro.nCapitulos}
             <Foundation name="page-multiple" size={12} color="#8EAF20" />
           </Text>
           <Text style={{ marginTop: 5, fontSize: 11, color: "black" }}>
             Modificado:
             <Text style={{ marginTop: 5, fontSize: 11, color: "black", fontWeight: "bold" }}>
-              {" "}{libro.FechaModificación.toDate().toDateString()}
+           {libro.FechaModificación?.toDate().toDateString()}
             </Text>
           </Text>
-          <TouchableOpacity
+          <TouchableOpacity testID="buttonEdit"
             style={{
               marginTop: 10,
               width: 90,
@@ -216,7 +191,7 @@ function WriteScreen() {
           </View>
         </View>
         {/*User*/}
-        <TouchableOpacity onPress={() => { handleProfile() }}>
+        <TouchableOpacity testID="buttonProfile" onPress={() =>  handleProfile() }>
           <Image
             source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
             style={{ width: 40, height: 40, borderRadius: 40 / 2, marginTop: 10 }}
@@ -224,7 +199,7 @@ function WriteScreen() {
         </TouchableOpacity>
       </View>
       {/* Contenedor Botón escribir nuevo libro  */}
-      <TouchableOpacity style={styles.containerEscribeNuevaHistoria} onPress={handleWriteNewBook}>
+      <TouchableOpacity testID="buttonNewBook" style={styles.containerEscribeNuevaHistoria} onPress={()=>handleWriteNewBook()}>
         <View
           style={{
             flexDirection: "column",
@@ -259,24 +234,28 @@ function WriteScreen() {
         </Text>
         {
           books.length != 0 ?
+  
             <FlatList
-              style={{ marginVertical: 10 }}
+            testID="flatlistbooks"
+            contentContainerStyle={{  paddingBottom: 70,marginVertical: 10 }}
               keyExtractor={(item, index) => index}
               data={books}
               renderItem={({ item, index }) => (
                 <Card key={index} libro={item} />
               )}
-              onEndReached={e => cargarMas()}
-              onEndReachedThreshold={0.1}
+              onEndReached={()=> cargarMas()}
+              onEndReachedThreshold={0.01}
             />
-            : <View  style={{ marginHorizontal: 30 }}  >
+   
+            : <View style={{ marginHorizontal: 30 }}  >
               <Image
                 resizeMode={'center'}
                 source={require("../../../assets/NoLibrosWrite.png")}
                 style={styles.image}
               />
-              <Text  style={styles.textImage}>No hay libros......</Text>
+              <Text style={styles.textImage}>No hay libros......</Text>
             </View>
+
         }
       </View>
     </SafeAreaView>
@@ -357,17 +336,17 @@ const styles = StyleSheet.create({
     marginRight: "auto"
   },
   image: {
-    marginLeft:"auto",
-    marginRight:"auto",
+    marginLeft: "auto",
+    marginRight: "auto",
     marginTop: 30,
     height: 270,
     width: 330,
   },
   textImage: {
 
-    marginLeft:"auto",
-    marginRight:"auto",
-    fontSize:15,
+    marginLeft: "auto",
+    marginRight: "auto",
+    fontSize: 15,
 
   },
 });

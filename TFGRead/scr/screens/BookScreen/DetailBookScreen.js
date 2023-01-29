@@ -1,13 +1,12 @@
-import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, BackHandler, TouchableOpacity, Image, ImageBackground, Modal, FlatList } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal, FlatList } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign } from '@expo/vector-icons';
-import { db } from '../../config/firebase';
 import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
-import { cargarDatosLibro, getCategoriasLibro } from '../../hooks/FirebaseLibros';
+import { cargarDatosLibro, getCategoriasLibro, getCapitulosDelLibro } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-import { useFocusEffect } from '@react-navigation/native';
+
 
 function DetailBookScreen({ route }) {
     const [email, setEmail] = useState("");
@@ -15,24 +14,23 @@ function DetailBookScreen({ route }) {
     const [portada, setPortada] = useState("");
     const [libroActual, setLibroActual] = useState({});
     const [megusta, setMeGusta] = useState(false);
+    const [hayCapitulo, setHayCapitulo] = useState(true);
     const [capitulos, setCapitulos] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [etiquetas, setEtiquetas] = useState([]);
 
     const [isModalVisible, setModalVisible] = useState(false);
 
+
     const navigation = useNavigation();
     const { bookId } = route.params;
 
-    useFocusEffect(
-        React.useCallback(() => {
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
             hacerCosas();
-        }, [email, portada, megusta])
-    )
-
-
-
-
+        });
+        return unsubscribe;
+    }, [email, portada, megusta]);
 
 
     useLayoutEffect(() => {
@@ -41,12 +39,6 @@ function DetailBookScreen({ route }) {
         });
 
     });
-    const backAction = async () => {
-        navigation.navigate("home", {
-
-        });
-
-    };
 
     const hacerCosas = async () => {
 
@@ -54,32 +46,24 @@ function DetailBookScreen({ route }) {
     }
 
     const cargarLibro = async () => {
-   
+
         let e = await getUserAuth();
         setEmail(e);
         setMeGusta(await handleElLibroEstaEnMeGusta(e, bookId));
-        //Error el render no espera a la imagen,se rendera primero y luego coe la imagen
         let data = await cargarDatosLibro(bookId)
         setLibroActual(data);
         setPortada(data.Portada)
-        setCategorias(await getCategoriasLibro(bookId))
+        let ca=await getCategoriasLibro(bookId)
+        setCategorias(ca)
         setEtiquetas(data.Etiquetas)
- 
-        await db.collection("libros").doc(bookId).collection("Capitulos").orderBy("Numero", "asc").onSnapshot(querySnapshot => {
-            const caps = [];
-            querySnapshot.forEach(documentSnapshot => {
-                caps.push({
-                    ...documentSnapshot.data(),
-                    key: documentSnapshot.id,
-                });
-            });
-            setCapitulos(caps);
-
-        });
+        let c = await getCapitulosDelLibro(bookId)
+        setCapitulos(c);
+        setHayCapitulo(c.length != 0)
     }
 
     const handleLeerLibro = async () => {
         setModalVisible(true)
+
         //Cambiar el ultimo libro leido:
         await cambiarUltimoLibroLeido(bookId, email, 1);
         setModalVisible(false)
@@ -88,6 +72,12 @@ function DetailBookScreen({ route }) {
             bookId: bookId,
             capituloNumero: 1,
             screen: "detailsBookScreen",
+        });
+    }
+    const goAutor = async (autorPulsado) => {
+        navigation.replace("autorScreen", {
+            autorElegido: autorPulsado,
+            screen: "home",
         });
     }
 
@@ -120,7 +110,7 @@ function DetailBookScreen({ route }) {
         return (
             <View
                 style={{
-                    marginTop:10,
+                    marginTop: 10,
                     borderColor: "#429EBD",
                     marginHorizontal: 5,
                     paddingHorizontal: 10,
@@ -183,7 +173,7 @@ function DetailBookScreen({ route }) {
     };
     const RenderCapitulos = ({ libro }) => {
         return (
-            <TouchableOpacity key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
+            <TouchableOpacity testID='buttonhandleLeerLibroCapitulo' key={libro.id} onPress={e => handleLeerLibroCapitulo(libro.Numero)}>
                 <View style={{
                     marginTop: 5, borderBottomColor: "#8EAF20",
                     borderBottomWidth: 1,
@@ -231,7 +221,7 @@ function DetailBookScreen({ route }) {
                 height: 70,
 
             }}>
-                <TouchableOpacity onPress={() => handleHome()}>
+                <TouchableOpacity testID='buttonGoHome' onPress={() => handleHome()}>
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
@@ -258,17 +248,17 @@ function DetailBookScreen({ route }) {
 
                 </View>
 
-                <View style={{  flexDirection: "row", justifyContent: "center"}}>
+                <View style={{ flexDirection: "row", justifyContent: "center" }}>
 
                     {/* Boton de leer */}
-                    <TouchableOpacity style={styles.buttonLeer} onPress={e => handleLeerLibro()}>
+                    <TouchableOpacity testID='buttonLeer' disabled={!hayCapitulo} style={styles.buttonLeer} onPress={() => handleLeerLibro()}>
                         <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
                             Leer
                         </Text>
                     </TouchableOpacity>
 
                     {/* Boton de gustar */}
-                    <TouchableOpacity style={{ marginTop: "auto", marginBottom: "auto",marginLeft:15,marginRight:"auto" }} onPress={e => handleLibroMeGustaFirebase()}>
+                    <TouchableOpacity testID='buttonMeGusta' style={{ marginTop: "auto", marginBottom: "auto", marginLeft: 15, marginRight: "auto" }} onPress={() => handleLibroMeGustaFirebase()}>
                         {megusta ? <AntDesign name="heart" size={30} color="#429EBD" /> : <AntDesign name="hearto" size={30} color="#429EBD" />}
                     </TouchableOpacity>
 
@@ -286,50 +276,61 @@ function DetailBookScreen({ route }) {
                 ></FlatList>
 
                 {/* Descripción del libro*/}
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
-                    Descripción
-                </Text>
-
-                <ScrollView style={{ marginHorizontal: 40, flexGrow: 0 }}>
-                    <Text style={{ textAlign: 'justify' }}>
-                        {libroActual.Descripción}
+                <View style={{ marginHorizontal: 40, marginBottom: 20, }}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
+                        Descripción
                     </Text>
-                </ScrollView>
 
+                    <ScrollView style={{ flexGrow: 0 }}>
+                        <Text style={{ textAlign: 'justify' }}>
+                            {libroActual.Descripción}
+                        </Text>
+                    </ScrollView>
+                </View>
                 {/* Capitulos */}
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 40, borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
-                    Capitulos{":    "}
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>{libroActual.Estado}</Text>
-                </Text>
-                {
-                    capitulos.length != 0 ?
-                        <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
-                            {
-                                capitulos.map((item, index) => <RenderCapitulos libro={item} key={index} />)
-                            }
-                        </View>
+                <View style={{ marginHorizontal: 40, marginBottom: 20, }}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
+                        Capitulos{":    "}
+                        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>{libroActual.Estado}</Text>
+                    </Text>
+                    {
+                        capitulos.length != 0 ?
+                            <View style={{ marginBottom: 10 }}>
+                                {
+                                    capitulos.map((item, index) => <RenderCapitulos libro={item} key={index} />)
+                                }
+                            </View>
 
-                        : <View></View>
-                }
+                            : <View></View>
+                    }
+                </View>
                 {/* Etiquetas */}
-                {       
-                        etiquetas.length != 0 ?
-                            <View style={{ marginHorizontal: 40, marginBottom: 30, }}>
-                                <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 3, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
-                                    Etiquetas
-                                </Text>
-                                {/* Etiquetas explorar */}
-                                <FlatList
-                                    contentContainerStyle={{ paddingLeft: 5 }}
-                                    horizontal
-                                    showsHorizontalScrollIndicator={false}
-                                    data={etiquetas}
-                                    renderItem={({ item, index }) =>  <RenderEtiquetas libro={item} key={index} />}
-                                ></FlatList>
-                            </View> 
+                {
+                    etiquetas.length != 0 ?
+                        <View style={{ marginHorizontal: 40, marginBottom: 20, }}>
+                            <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+                                Etiquetas
+                            </Text>
+                            {/* Etiquetas explorar */}
+                            <FlatList
+                                contentContainerStyle={{ paddingLeft: 5 }}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                                data={etiquetas}
+                                renderItem={({ item, index }) => <RenderEtiquetas libro={item} key={index} />}
+                            ></FlatList>
+                        </View>
                         : <Text></Text>
                 }
 
+                <TouchableOpacity testID='buttonGoAutor' onPress={() => goAutor(libroActual.Autor)} style={{ marginHorizontal: 40, fontSize: 17 }}>
+                    <Text>
+                        Autor: {" "}
+                        <Text style={{ fontSize: 15, color: "#429EBD" }}>
+                            {libroActual.Autor}
+                        </Text>
+                    </Text>
+                </TouchableOpacity>
             </ScrollView>
 
         </SafeAreaView>
@@ -393,7 +394,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     buttonLeer: {
-        marginLeft:"auto",
+        marginLeft: "auto",
         width: "35%",
         marginTop: 20,
         backgroundColor: "#E39801",

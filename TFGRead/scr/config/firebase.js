@@ -1,10 +1,9 @@
 // Import the functions you need from the SDKs you need
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import { deleteObject,getStorage,listAll,getMetadata,ref,put,getDownloadURL,uploadBytesResumable} from "firebase/storage";
-import Constants from 'expo-constants';
+import { initializeApp ,getApps} from 'firebase/app';
+import { getAuth ,initializeAuth,getReactNativePersistence } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,19 +18,17 @@ const firebaseConfig = {
   appId:"1:108512310726:web:cb7608b0ed91f7a3bdeec7",
   measurementId: "G-Z59L7NRWRN"
 };
-
 let app;
-let storage
-if (firebase.apps.length === 0) {
-  app = firebase.initializeApp(firebaseConfig)
-  storage = getStorage();
+let auth;
+if (getApps().length < 1) {
+  app = initializeApp(firebaseConfig);
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage),
+  });
 } else {
-  app = firebase.app();
-  storage = getStorage();
+  app = getApp();
+  auth = getAuth();
 }
-
-const db = app.firestore();
-const auth = firebase.auth();
-const google= new firebase.auth.GoogleAuthProvider();
-
-export { db, auth,google,firebase,storage,ref,put,getDownloadURL,uploadBytesResumable,deleteObject };
+/* const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); */
+const storage = getStorage(app);
