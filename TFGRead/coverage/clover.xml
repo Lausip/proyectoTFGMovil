@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1674948999819" clover="3.2.0">
-  <project timestamp="1674948999819" name="All files">
-    <metrics statements="1967" coveredstatements="1238" conditionals="587" coveredconditionals="430" methods="589" coveredmethods="344" elements="3143" coveredelements="2012" complexity="0" loc="1967" ncloc="1967" packages="14" files="42" classes="42"/>
+<coverage generated="1677077425583" clover="3.2.0">
+  <project timestamp="1677077425583" name="All files">
+    <metrics statements="1969" coveredstatements="1238" conditionals="587" coveredconditionals="430" methods="589" coveredmethods="344" elements="3145" coveredelements="2012" complexity="0" loc="1969" ncloc="1969" packages="14" files="42" classes="42"/>
     <package name="TFGRead">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="App.js" path="E:\TFG\TFGRead\App.js">
+      <file name="App.js" path="D:\TFG\TFGRead\App.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="5" count="1" type="stmt"/>
       </file>
-      <file name="app.config.js" path="E:\TFG\TFGRead\app.config.js">
+      <file name="app.config.js" path="D:\TFG\TFGRead\app.config.js">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
-      <file name="index.js" path="E:\TFG\TFGRead\index.js">
+      <file name="index.js" path="D:\TFG\TFGRead\index.js">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
-      <file name="metro.config.js" path="E:\TFG\TFGRead\metro.config.js">
+      <file name="metro.config.js" path="D:\TFG\TFGRead\metro.config.js">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
     </package>
-    <package name="TFGRead.scr.components">
+    <package name="TFGRead.src.components">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="BottomTab.js" path="E:\TFG\TFGRead\scr\components\BottomTab.js">
+      <file name="BottomTab.js" path="D:\TFG\TFGRead\src\components\BottomTab.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="14" count="2" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.config">
+    <package name="TFGRead.src.config">
       <metrics statements="7" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
-      <file name="firebase.js" path="E:\TFG\TFGRead\scr\config\firebase.js">
+      <file name="firebase.js" path="D:\TFG\TFGRead\src\config\firebase.js">
         <metrics statements="7" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
         <line num="12" count="3" type="stmt"/>
         <line num="23" count="3" type="cond" truecount="1" falsecount="1"/>
@@ -38,9 +38,9 @@
         <line num="34" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.hooks">
+    <package name="TFGRead.src.hooks">
       <metrics statements="366" coveredstatements="60" conditionals="46" coveredconditionals="0" methods="82" coveredmethods="5"/>
-      <file name="CategoriasFirebase.js" path="E:\TFG\TFGRead\scr\hooks\CategoriasFirebase.js">
+      <file name="CategoriasFirebase.js" path="D:\TFG\TFGRead\src\hooks\CategoriasFirebase.js">
         <metrics statements="6" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
         <line num="5" count="3" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
@@ -49,7 +49,7 @@
         <line num="9" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
       </file>
-      <file name="ChatFirebase.js" path="E:\TFG\TFGRead\scr\hooks\ChatFirebase.js">
+      <file name="ChatFirebase.js" path="D:\TFG\TFGRead\src\hooks\ChatFirebase.js">
         <metrics statements="76" coveredstatements="11" conditionals="14" coveredconditionals="0" methods="15" coveredmethods="0"/>
         <line num="6" count="3" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -128,7 +128,7 @@
         <line num="157" count="0" type="stmt"/>
         <line num="174" count="0" type="stmt"/>
       </file>
-      <file name="FirebaseLibros.js" path="E:\TFG\TFGRead\scr\hooks\FirebaseLibros.js">
+      <file name="FirebaseLibros.js" path="D:\TFG\TFGRead\src\hooks\FirebaseLibros.js">
         <metrics statements="264" coveredstatements="39" conditionals="32" coveredconditionals="0" methods="57" coveredmethods="2"/>
         <line num="5" count="4" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
@@ -395,7 +395,7 @@
         <line num="586" count="0" type="stmt"/>
         <line num="587" count="0" type="stmt"/>
       </file>
-      <file name="Storage.js" path="E:\TFG\TFGRead\scr\hooks\Storage.js">
+      <file name="Storage.js" path="D:\TFG\TFGRead\src\hooks\Storage.js">
         <metrics statements="20" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="2"/>
         <line num="4" count="3" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
@@ -419,9 +419,9 @@
         <line num="37" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.hooks.Auth">
-      <metrics statements="243" coveredstatements="60" conditionals="20" coveredconditionals="1" methods="62" coveredmethods="9"/>
-      <file name="Auth.js" path="E:\TFG\TFGRead\scr\hooks\Auth\Auth.js">
+    <package name="TFGRead.src.hooks.Auth">
+      <metrics statements="245" coveredstatements="60" conditionals="20" coveredconditionals="1" methods="62" coveredmethods="9"/>
+      <file name="Auth.js" path="D:\TFG\TFGRead\src\hooks\Auth\Auth.js">
         <metrics statements="25" coveredstatements="20" conditionals="2" coveredconditionals="1" methods="12" coveredmethods="9"/>
         <line num="6" count="5" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
@@ -449,8 +449,8 @@
         <line num="66" count="0" type="stmt"/>
         <line num="67" count="0" type="stmt"/>
       </file>
-      <file name="Firestore.js" path="E:\TFG\TFGRead\scr\hooks\Auth\Firestore.js">
-        <metrics statements="218" coveredstatements="40" conditionals="18" coveredconditionals="0" methods="50" coveredmethods="0"/>
+      <file name="Firestore.js" path="D:\TFG\TFGRead\src\hooks\Auth\Firestore.js">
+        <metrics statements="220" coveredstatements="40" conditionals="18" coveredconditionals="0" methods="50" coveredmethods="0"/>
         <line num="3" count="5" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
@@ -506,211 +506,213 @@
         <line num="121" count="0" type="stmt"/>
         <line num="122" count="0" type="stmt"/>
         <line num="127" count="5" type="stmt"/>
-        <line num="128" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
         <line num="130" count="0" type="stmt"/>
         <line num="131" count="0" type="stmt"/>
-        <line num="132" count="0" type="stmt"/>
-        <line num="134" count="0" type="stmt"/>
-        <line num="137" count="5" type="stmt"/>
-        <line num="138" count="0" type="stmt"/>
-        <line num="139" count="0" type="stmt"/>
-        <line num="140" count="0" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="140" count="5" type="stmt"/>
         <line num="141" count="0" type="stmt"/>
-        <line num="144" count="5" type="stmt"/>
-        <line num="145" count="0" type="stmt"/>
-        <line num="146" count="0" type="stmt"/>
-        <line num="147" count="0" type="stmt"/>
-        <line num="157" count="5" type="stmt"/>
-        <line num="158" count="0" type="stmt"/>
-        <line num="159" count="0" type="stmt"/>
-        <line num="160" count="0" type="stmt"/>
-        <line num="164" count="5" type="stmt"/>
-        <line num="165" count="0" type="stmt"/>
-        <line num="166" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="167" count="0" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="143" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
+        <line num="147" count="5" type="stmt"/>
+        <line num="148" count="0" type="stmt"/>
+        <line num="149" count="0" type="stmt"/>
+        <line num="150" count="0" type="stmt"/>
+        <line num="160" count="5" type="stmt"/>
+        <line num="161" count="0" type="stmt"/>
+        <line num="162" count="0" type="stmt"/>
+        <line num="163" count="0" type="stmt"/>
+        <line num="167" count="5" type="stmt"/>
         <line num="168" count="0" type="stmt"/>
-        <line num="169" count="0" type="stmt"/>
-        <line num="175" count="0" type="stmt"/>
-        <line num="179" count="5" type="stmt"/>
-        <line num="180" count="0" type="stmt"/>
-        <line num="181" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="182" count="0" type="stmt"/>
+        <line num="169" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="170" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="172" count="0" type="stmt"/>
+        <line num="178" count="0" type="stmt"/>
+        <line num="182" count="5" type="stmt"/>
         <line num="183" count="0" type="stmt"/>
-        <line num="184" count="0" type="stmt"/>
-        <line num="185" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="184" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="185" count="0" type="stmt"/>
         <line num="186" count="0" type="stmt"/>
-        <line num="194" count="0" type="stmt"/>
-        <line num="198" count="5" type="stmt"/>
-        <line num="200" count="0" type="stmt"/>
-        <line num="201" count="0" type="stmt"/>
-        <line num="202" count="0" type="stmt"/>
-        <line num="213" count="5" type="stmt"/>
-        <line num="215" count="0" type="stmt"/>
-        <line num="217" count="0" type="stmt"/>
-        <line num="227" count="5" type="stmt"/>
-        <line num="228" count="0" type="stmt"/>
-        <line num="230" count="0" type="stmt"/>
-        <line num="235" count="5" type="stmt"/>
-        <line num="237" count="0" type="stmt"/>
-        <line num="238" count="0" type="stmt"/>
-        <line num="244" count="5" type="stmt"/>
-        <line num="246" count="0" type="stmt"/>
-        <line num="250" count="5" type="stmt"/>
-        <line num="252" count="0" type="stmt"/>
-        <line num="254" count="0" type="stmt"/>
+        <line num="187" count="0" type="stmt"/>
+        <line num="188" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="189" count="0" type="stmt"/>
+        <line num="197" count="0" type="stmt"/>
+        <line num="201" count="5" type="stmt"/>
+        <line num="203" count="0" type="stmt"/>
+        <line num="204" count="0" type="stmt"/>
+        <line num="205" count="0" type="stmt"/>
+        <line num="216" count="5" type="stmt"/>
+        <line num="218" count="0" type="stmt"/>
+        <line num="220" count="0" type="stmt"/>
+        <line num="230" count="5" type="stmt"/>
+        <line num="231" count="0" type="stmt"/>
+        <line num="233" count="0" type="stmt"/>
+        <line num="238" count="5" type="stmt"/>
+        <line num="240" count="0" type="stmt"/>
+        <line num="241" count="0" type="stmt"/>
+        <line num="247" count="5" type="stmt"/>
+        <line num="249" count="0" type="stmt"/>
+        <line num="253" count="5" type="stmt"/>
         <line num="255" count="0" type="stmt"/>
-        <line num="260" count="5" type="stmt"/>
-        <line num="261" count="0" type="stmt"/>
-        <line num="262" count="0" type="stmt"/>
-        <line num="263" count="0" type="stmt"/>
-        <line num="266" count="5" type="stmt"/>
-        <line num="268" count="0" type="stmt"/>
-        <line num="269" count="0" type="stmt"/>
-        <line num="270" count="0" type="stmt"/>
+        <line num="257" count="0" type="stmt"/>
+        <line num="258" count="0" type="stmt"/>
+        <line num="263" count="5" type="stmt"/>
+        <line num="264" count="0" type="stmt"/>
+        <line num="265" count="0" type="stmt"/>
+        <line num="266" count="0" type="stmt"/>
+        <line num="269" count="5" type="stmt"/>
         <line num="271" count="0" type="stmt"/>
-        <line num="275" count="5" type="stmt"/>
-        <line num="277" count="0" type="stmt"/>
-        <line num="279" count="0" type="stmt"/>
-        <line num="280" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="281" count="0" type="stmt"/>
+        <line num="272" count="0" type="stmt"/>
+        <line num="273" count="0" type="stmt"/>
+        <line num="274" count="0" type="stmt"/>
+        <line num="278" count="5" type="stmt"/>
+        <line num="280" count="0" type="stmt"/>
+        <line num="282" count="0" type="stmt"/>
+        <line num="283" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="284" count="0" type="stmt"/>
-        <line num="288" count="5" type="stmt"/>
-        <line num="289" count="0" type="stmt"/>
-        <line num="290" count="0" type="stmt"/>
-        <line num="291" count="0" type="stmt"/>
-        <line num="297" count="5" type="stmt"/>
-        <line num="298" count="0" type="stmt"/>
-        <line num="299" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="300" count="0" type="stmt"/>
+        <line num="287" count="0" type="stmt"/>
+        <line num="291" count="5" type="stmt"/>
+        <line num="292" count="0" type="stmt"/>
+        <line num="293" count="0" type="stmt"/>
+        <line num="294" count="0" type="stmt"/>
+        <line num="300" count="5" type="stmt"/>
         <line num="301" count="0" type="stmt"/>
-        <line num="302" count="0" type="stmt"/>
-        <line num="303" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="302" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="303" count="0" type="stmt"/>
         <line num="304" count="0" type="stmt"/>
-        <line num="312" count="0" type="stmt"/>
-        <line num="316" count="5" type="stmt"/>
-        <line num="318" count="0" type="stmt"/>
-        <line num="319" count="0" type="stmt"/>
-        <line num="320" count="0" type="stmt"/>
+        <line num="305" count="0" type="stmt"/>
+        <line num="306" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="307" count="0" type="stmt"/>
+        <line num="315" count="0" type="stmt"/>
+        <line num="319" count="5" type="stmt"/>
+        <line num="321" count="0" type="stmt"/>
         <line num="322" count="0" type="stmt"/>
-        <line num="330" count="5" type="stmt"/>
-        <line num="333" count="0" type="stmt"/>
-        <line num="334" count="0" type="stmt"/>
-        <line num="340" count="0" type="stmt"/>
-        <line num="341" count="0" type="stmt"/>
-        <line num="342" count="0" type="stmt"/>
+        <line num="323" count="0" type="stmt"/>
+        <line num="325" count="0" type="stmt"/>
+        <line num="333" count="5" type="stmt"/>
+        <line num="336" count="0" type="stmt"/>
+        <line num="337" count="0" type="stmt"/>
         <line num="343" count="0" type="stmt"/>
-        <line num="345" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="347" count="0" type="stmt"/>
-        <line num="348" count="0" type="stmt"/>
+        <line num="344" count="0" type="stmt"/>
+        <line num="345" count="0" type="stmt"/>
+        <line num="346" count="0" type="stmt"/>
+        <line num="348" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="350" count="0" type="stmt"/>
         <line num="351" count="0" type="stmt"/>
-        <line num="352" count="0" type="stmt"/>
         <line num="353" count="0" type="stmt"/>
+        <line num="354" count="0" type="stmt"/>
+        <line num="355" count="0" type="stmt"/>
         <line num="356" count="0" type="stmt"/>
-        <line num="361" count="5" type="stmt"/>
-        <line num="363" count="0" type="stmt"/>
-        <line num="364" count="0" type="stmt"/>
-        <line num="365" count="0" type="stmt"/>
+        <line num="359" count="0" type="stmt"/>
+        <line num="364" count="5" type="stmt"/>
         <line num="366" count="0" type="stmt"/>
-        <line num="370" count="5" type="stmt"/>
-        <line num="371" count="0" type="stmt"/>
-        <line num="373" count="0" type="stmt"/>
+        <line num="367" count="0" type="stmt"/>
+        <line num="368" count="0" type="stmt"/>
+        <line num="369" count="0" type="stmt"/>
+        <line num="373" count="5" type="stmt"/>
         <line num="374" count="0" type="stmt"/>
-        <line num="375" count="0" type="stmt"/>
+        <line num="376" count="0" type="stmt"/>
         <line num="377" count="0" type="stmt"/>
-        <line num="380" count="5" type="stmt"/>
-        <line num="381" count="0" type="stmt"/>
+        <line num="378" count="0" type="stmt"/>
+        <line num="380" count="0" type="stmt"/>
         <line num="382" count="0" type="stmt"/>
-        <line num="383" count="0" type="stmt"/>
-        <line num="384" count="0" type="stmt"/>
-        <line num="385" count="0" type="stmt"/>
+        <line num="385" count="5" type="stmt"/>
         <line num="386" count="0" type="stmt"/>
+        <line num="387" count="0" type="stmt"/>
         <line num="388" count="0" type="stmt"/>
+        <line num="389" count="0" type="stmt"/>
         <line num="390" count="0" type="stmt"/>
         <line num="391" count="0" type="stmt"/>
         <line num="393" count="0" type="stmt"/>
+        <line num="395" count="0" type="stmt"/>
+        <line num="396" count="0" type="stmt"/>
         <line num="398" count="0" type="stmt"/>
-        <line num="401" count="5" type="stmt"/>
-        <line num="402" count="0" type="stmt"/>
         <line num="403" count="0" type="stmt"/>
-        <line num="404" count="0" type="stmt"/>
-        <line num="407" count="5" type="stmt"/>
+        <line num="406" count="5" type="stmt"/>
+        <line num="407" count="0" type="stmt"/>
+        <line num="408" count="0" type="stmt"/>
         <line num="409" count="0" type="stmt"/>
-        <line num="410" count="0" type="stmt"/>
-        <line num="411" count="0" type="stmt"/>
-        <line num="412" count="0" type="stmt"/>
-        <line num="416" count="5" type="stmt"/>
-        <line num="418" count="0" type="stmt"/>
-        <line num="419" count="0" type="stmt"/>
-        <line num="420" count="0" type="stmt"/>
+        <line num="412" count="5" type="stmt"/>
+        <line num="414" count="0" type="stmt"/>
+        <line num="415" count="0" type="stmt"/>
+        <line num="416" count="0" type="stmt"/>
+        <line num="417" count="0" type="stmt"/>
+        <line num="421" count="5" type="stmt"/>
         <line num="423" count="0" type="stmt"/>
-        <line num="427" count="5" type="stmt"/>
-        <line num="429" count="0" type="stmt"/>
-        <line num="430" count="0" type="stmt"/>
-        <line num="431" count="0" type="stmt"/>
+        <line num="424" count="0" type="stmt"/>
+        <line num="425" count="0" type="stmt"/>
+        <line num="428" count="0" type="stmt"/>
+        <line num="432" count="5" type="stmt"/>
         <line num="434" count="0" type="stmt"/>
-        <line num="437" count="5" type="stmt"/>
-        <line num="438" count="0" type="stmt"/>
-        <line num="440" count="0" type="stmt"/>
-        <line num="441" count="0" type="stmt"/>
-        <line num="445" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="435" count="0" type="stmt"/>
+        <line num="436" count="0" type="stmt"/>
+        <line num="439" count="0" type="stmt"/>
+        <line num="442" count="5" type="stmt"/>
+        <line num="443" count="0" type="stmt"/>
+        <line num="445" count="0" type="stmt"/>
         <line num="446" count="0" type="stmt"/>
-        <line num="447" count="0" type="stmt"/>
-        <line num="452" count="5" type="stmt"/>
-        <line num="454" count="0" type="stmt"/>
-        <line num="455" count="0" type="stmt"/>
-        <line num="456" count="0" type="stmt"/>
+        <line num="450" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="451" count="0" type="stmt"/>
+        <line num="452" count="0" type="stmt"/>
+        <line num="457" count="5" type="stmt"/>
+        <line num="459" count="0" type="stmt"/>
         <line num="460" count="0" type="stmt"/>
-        <line num="464" count="5" type="stmt"/>
+        <line num="461" count="0" type="stmt"/>
         <line num="465" count="0" type="stmt"/>
-        <line num="467" count="0" type="stmt"/>
-        <line num="468" count="0" type="stmt"/>
-        <line num="469" count="0" type="stmt"/>
+        <line num="469" count="5" type="stmt"/>
         <line num="470" count="0" type="stmt"/>
-        <line num="471" count="0" type="stmt"/>
-        <line num="478" count="0" type="stmt"/>
+        <line num="472" count="0" type="stmt"/>
+        <line num="473" count="0" type="stmt"/>
+        <line num="474" count="0" type="stmt"/>
+        <line num="475" count="0" type="stmt"/>
+        <line num="476" count="0" type="stmt"/>
+        <line num="483" count="0" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.navigation">
+    <package name="TFGRead.src.navigation">
       <metrics statements="23" coveredstatements="17" conditionals="4" coveredconditionals="1" methods="10" coveredmethods="4"/>
-      <file name="AuthStack.js" path="E:\TFG\TFGRead\scr\navigation\AuthStack.js">
+      <file name="AuthStack.js" path="D:\TFG\TFGRead\src\navigation\AuthStack.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="9" count="2" type="stmt"/>
         <line num="12" count="2" type="stmt"/>
       </file>
-      <file name="AuthenticatedUserProvider.js" path="E:\TFG\TFGRead\scr\navigation\AuthenticatedUserProvider.js">
+      <file name="AuthenticatedUserProvider.js" path="D:\TFG\TFGRead\src\navigation\AuthenticatedUserProvider.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="BibliotecaStack.js" path="E:\TFG\TFGRead\scr\navigation\BibliotecaStack.js">
+      <file name="BibliotecaStack.js" path="D:\TFG\TFGRead\src\navigation\BibliotecaStack.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="7" count="2" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
       </file>
-      <file name="BookWriteNavigator.js" path="E:\TFG\TFGRead\scr\navigation\BookWriteNavigator.js">
+      <file name="BookWriteNavigator.js" path="D:\TFG\TFGRead\src\navigation\BookWriteNavigator.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="9" count="2" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
       </file>
-      <file name="ChatStack.js" path="E:\TFG\TFGRead\scr\navigation\ChatStack.js">
+      <file name="ChatStack.js" path="D:\TFG\TFGRead\src\navigation\ChatStack.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="8" count="2" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
       </file>
-      <file name="ExploreStack.js" path="E:\TFG\TFGRead\scr\navigation\ExploreStack.js">
+      <file name="ExploreStack.js" path="D:\TFG\TFGRead\src\navigation\ExploreStack.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="8" count="2" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
       </file>
-      <file name="HomeStack.js" path="E:\TFG\TFGRead\scr\navigation\HomeStack.js">
+      <file name="HomeStack.js" path="D:\TFG\TFGRead\src\navigation\HomeStack.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="11" count="2" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
       </file>
-      <file name="RootNavigator.js" path="E:\TFG\TFGRead\scr\navigation\RootNavigator.js">
+      <file name="RootNavigator.js" path="D:\TFG\TFGRead\src\navigation\RootNavigator.js">
         <metrics statements="7" coveredstatements="6" conditionals="4" coveredconditionals="1" methods="3" coveredmethods="2"/>
         <line num="11" count="3" type="stmt"/>
         <line num="14" count="2" type="stmt"/>
@@ -720,13 +722,13 @@
         <line num="24" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
       </file>
-      <file name="Routes.js" path="E:\TFG\TFGRead\scr\navigation\Routes.js">
+      <file name="Routes.js" path="D:\TFG\TFGRead\src\navigation\Routes.js">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
     </package>
-    <package name="TFGRead.scr.screens">
+    <package name="TFGRead.src.screens">
       <metrics statements="341" coveredstatements="297" conditionals="106" coveredconditionals="89" methods="114" coveredmethods="90"/>
-      <file name="AutoresScreen.js" path="E:\TFG\TFGRead\scr\screens\AutoresScreen.js">
+      <file name="AutoresScreen.js" path="D:\TFG\TFGRead\src\screens\AutoresScreen.js">
         <metrics statements="75" coveredstatements="69" conditionals="22" coveredconditionals="20" methods="21" coveredmethods="19"/>
         <line num="18" count="210" type="stmt"/>
         <line num="19" count="210" type="stmt"/>
@@ -796,15 +798,15 @@
         <line num="156" count="1" type="stmt"/>
         <line num="183" count="210" type="stmt"/>
         <line num="219" count="1" type="stmt"/>
-        <line num="258" count="1" type="stmt"/>
-        <line num="260" count="1" type="stmt"/>
-        <line num="261" count="1" type="stmt"/>
-        <line num="302" count="0" type="stmt"/>
-        <line num="330" count="1" type="stmt"/>
-        <line num="406" count="28" type="stmt"/>
-        <line num="414" count="3" type="stmt"/>
+        <line num="263" count="1" type="stmt"/>
+        <line num="269" count="1" type="stmt"/>
+        <line num="274" count="1" type="stmt"/>
+        <line num="315" count="0" type="stmt"/>
+        <line num="343" count="1" type="stmt"/>
+        <line num="419" count="28" type="stmt"/>
+        <line num="427" count="3" type="stmt"/>
       </file>
-      <file name="BibliotecaScreen.js" path="E:\TFG\TFGRead\scr\screens\BibliotecaScreen.js">
+      <file name="BibliotecaScreen.js" path="D:\TFG\TFGRead\src\screens\BibliotecaScreen.js">
         <metrics statements="81" coveredstatements="66" conditionals="32" coveredconditionals="25" methods="29" coveredmethods="22"/>
         <line num="21" count="61" type="stmt"/>
         <line num="22" count="61" type="stmt"/>
@@ -888,7 +890,7 @@
         <line num="450" count="6" type="stmt"/>
         <line num="469" count="3" type="stmt"/>
       </file>
-      <file name="HomeScreen.js" path="E:\TFG\TFGRead\scr\screens\HomeScreen.js">
+      <file name="HomeScreen.js" path="D:\TFG\TFGRead\src\screens\HomeScreen.js">
         <metrics statements="46" coveredstatements="45" conditionals="8" coveredconditionals="7" methods="15" coveredmethods="15"/>
         <line num="22" count="27" type="stmt"/>
         <line num="23" count="26" type="stmt"/>
@@ -937,7 +939,7 @@
         <line num="311" count="42" type="stmt"/>
         <line num="322" count="3" type="stmt"/>
       </file>
-      <file name="NotificacionesScreen.js" path="E:\TFG\TFGRead\scr\screens\NotificacionesScreen.js">
+      <file name="NotificacionesScreen.js" path="D:\TFG\TFGRead\src\screens\NotificacionesScreen.js">
         <metrics statements="82" coveredstatements="60" conditionals="30" coveredconditionals="24" methods="29" coveredmethods="14"/>
         <line num="12" count="31" type="stmt"/>
         <line num="13" count="31" type="stmt"/>
@@ -1022,7 +1024,7 @@
         <line num="386" count="0" type="stmt"/>
         <line num="410" count="3" type="stmt"/>
       </file>
-      <file name="PrimeraScreen.js" path="E:\TFG\TFGRead\scr\screens\PrimeraScreen.js">
+      <file name="PrimeraScreen.js" path="D:\TFG\TFGRead\src\screens\PrimeraScreen.js">
         <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
         <line num="13" count="3" type="stmt"/>
         <line num="14" count="5" type="stmt"/>
@@ -1037,7 +1039,7 @@
         <line num="81" count="1" type="stmt"/>
         <line num="121" count="3" type="stmt"/>
       </file>
-      <file name="ProfileScreen.js" path="E:\TFG\TFGRead\scr\screens\ProfileScreen.js">
+      <file name="ProfileScreen.js" path="D:\TFG\TFGRead\src\screens\ProfileScreen.js">
         <metrics statements="45" coveredstatements="45" conditionals="14" coveredconditionals="13" methods="14" coveredmethods="14"/>
         <line num="14" count="38" type="stmt"/>
         <line num="15" count="38" type="stmt"/>
@@ -1086,9 +1088,9 @@
         <line num="241" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.screens.Auth">
+    <package name="TFGRead.src.screens.Auth">
       <metrics statements="56" coveredstatements="56" conditionals="0" coveredconditionals="0" methods="28" coveredmethods="28"/>
-      <file name="LoginScreen.js" path="E:\TFG\TFGRead\scr\screens\Auth\LoginScreen.js">
+      <file name="LoginScreen.js" path="D:\TFG\TFGRead\src\screens\Auth\LoginScreen.js">
         <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="9"/>
         <line num="17" count="3" type="stmt"/>
         <line num="18" count="8" type="stmt"/>
@@ -1108,7 +1110,7 @@
         <line num="122" count="1" type="stmt"/>
         <line num="135" count="3" type="stmt"/>
       </file>
-      <file name="PsswForgotScreen.js" path="E:\TFG\TFGRead\scr\screens\Auth\PsswForgotScreen.js">
+      <file name="PsswForgotScreen.js" path="D:\TFG\TFGRead\src\screens\Auth\PsswForgotScreen.js">
         <metrics statements="16" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
         <line num="17" count="3" type="stmt"/>
         <line num="18" count="5" type="stmt"/>
@@ -1127,7 +1129,7 @@
         <line num="91" count="1" type="stmt"/>
         <line num="100" count="3" type="stmt"/>
       </file>
-      <file name="RegisterScreen.js" path="E:\TFG\TFGRead\scr\screens\Auth\RegisterScreen.js">
+      <file name="RegisterScreen.js" path="D:\TFG\TFGRead\src\screens\Auth\RegisterScreen.js">
         <metrics statements="23" coveredstatements="23" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="11"/>
         <line num="18" count="3" type="stmt"/>
         <line num="19" count="10" type="stmt"/>
@@ -1154,9 +1156,9 @@
         <line num="159" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.screens.BookScreen">
+    <package name="TFGRead.src.screens.BookScreen">
       <metrics statements="224" coveredstatements="161" conditionals="56" coveredconditionals="29" methods="75" coveredmethods="43"/>
-      <file name="BooksScreen.js" path="E:\TFG\TFGRead\scr\screens\BookScreen\BooksScreen.js">
+      <file name="BooksScreen.js" path="D:\TFG\TFGRead\src\screens\BookScreen\BooksScreen.js">
         <metrics statements="109" coveredstatements="80" conditionals="40" coveredconditionals="22" methods="33" coveredmethods="21"/>
         <line num="13" count="57" type="stmt"/>
         <line num="14" count="57" type="stmt"/>
@@ -1268,7 +1270,7 @@
         <line num="442" count="3" type="stmt"/>
         <line num="464" count="3" type="stmt"/>
       </file>
-      <file name="ChatCapituloScreen.js" path="E:\TFG\TFGRead\scr\screens\BookScreen\ChatCapituloScreen.js">
+      <file name="ChatCapituloScreen.js" path="D:\TFG\TFGRead\src\screens\BookScreen\ChatCapituloScreen.js">
         <metrics statements="46" coveredstatements="30" conditionals="2" coveredconditionals="1" methods="19" coveredmethods="10"/>
         <line num="14" count="5" type="stmt"/>
         <line num="15" count="5" type="stmt"/>
@@ -1317,7 +1319,7 @@
         <line num="176" count="1" type="stmt"/>
         <line num="197" count="3" type="stmt"/>
       </file>
-      <file name="DetailBookScreen.js" path="E:\TFG\TFGRead\scr\screens\BookScreen\DetailBookScreen.js">
+      <file name="DetailBookScreen.js" path="D:\TFG\TFGRead\src\screens\BookScreen\DetailBookScreen.js">
         <metrics statements="69" coveredstatements="51" conditionals="14" coveredconditionals="6" methods="23" coveredmethods="12"/>
         <line num="12" count="11" type="stmt"/>
         <line num="14" count="11" type="stmt"/>
@@ -1382,17 +1384,17 @@
         <line num="224" count="1" type="stmt"/>
         <line num="254" count="1" type="stmt"/>
         <line num="261" count="0" type="stmt"/>
-        <line num="273" count="0" type="stmt"/>
-        <line num="275" count="0" type="stmt"/>
-        <line num="300" count="0" type="stmt"/>
-        <line num="320" count="0" type="stmt"/>
-        <line num="326" count="1" type="stmt"/>
-        <line num="341" count="3" type="stmt"/>
+        <line num="274" count="0" type="stmt"/>
+        <line num="276" count="0" type="stmt"/>
+        <line num="301" count="0" type="stmt"/>
+        <line num="321" count="0" type="stmt"/>
+        <line num="327" count="1" type="stmt"/>
+        <line num="342" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.screens.ChatScreen">
+    <package name="TFGRead.src.screens.ChatScreen">
       <metrics statements="122" coveredstatements="94" conditionals="34" coveredconditionals="25" methods="45" coveredmethods="27"/>
-      <file name="ChatConversationScreen.js" path="E:\TFG\TFGRead\scr\screens\ChatScreen\ChatConversationScreen.js">
+      <file name="ChatConversationScreen.js" path="D:\TFG\TFGRead\src\screens\ChatScreen\ChatConversationScreen.js">
         <metrics statements="66" coveredstatements="43" conditionals="22" coveredconditionals="16" methods="23" coveredmethods="7"/>
         <line num="25" count="17" type="stmt"/>
         <line num="26" count="17" type="stmt"/>
@@ -1461,7 +1463,7 @@
         <line num="305" count="0" type="stmt"/>
         <line num="321" count="3" type="stmt"/>
       </file>
-      <file name="ChatScreen.js" path="E:\TFG\TFGRead\scr\screens\ChatScreen\ChatScreen.js">
+      <file name="ChatScreen.js" path="D:\TFG\TFGRead\src\screens\ChatScreen\ChatScreen.js">
         <metrics statements="56" coveredstatements="51" conditionals="12" coveredconditionals="9" methods="22" coveredmethods="20"/>
         <line num="19" count="61" type="stmt"/>
         <line num="20" count="61" type="stmt"/>
@@ -1521,9 +1523,9 @@
         <line num="355" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.screens.EditBookScreen">
+    <package name="TFGRead.src.screens.EditBookScreen">
       <metrics statements="190" coveredstatements="161" conditionals="127" coveredconditionals="121" methods="61" coveredmethods="48"/>
-      <file name="EditBookScreen.js" path="E:\TFG\TFGRead\scr\screens\EditBookScreen\EditBookScreen.js">
+      <file name="EditBookScreen.js" path="D:\TFG\TFGRead\src\screens\EditBookScreen\EditBookScreen.js">
         <metrics statements="158" coveredstatements="129" conditionals="117" coveredconditionals="111" methods="49" coveredmethods="36"/>
         <line num="15" count="302" type="stmt"/>
         <line num="16" count="302" type="stmt"/>
@@ -1684,7 +1686,7 @@
         <line num="857" count="1" type="stmt"/>
         <line num="870" count="3" type="stmt"/>
       </file>
-      <file name="EditChapterScreen.js" path="E:\TFG\TFGRead\scr\screens\EditBookScreen\EditChapterScreen.js">
+      <file name="EditChapterScreen.js" path="D:\TFG\TFGRead\src\screens\EditBookScreen\EditChapterScreen.js">
         <metrics statements="32" coveredstatements="32" conditionals="10" coveredconditionals="10" methods="12" coveredmethods="12"/>
         <line num="10" count="16" type="stmt"/>
         <line num="11" count="16" type="stmt"/>
@@ -1720,9 +1722,9 @@
         <line num="184" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.screens.ExploreScreen">
+    <package name="TFGRead.src.screens.ExploreScreen">
       <metrics statements="200" coveredstatements="140" conditionals="90" coveredconditionals="69" methods="48" coveredmethods="32"/>
-      <file name="ExploreScreen.js" path="E:\TFG\TFGRead\scr\screens\ExploreScreen\ExploreScreen.js">
+      <file name="ExploreScreen.js" path="D:\TFG\TFGRead\src\screens\ExploreScreen\ExploreScreen.js">
         <metrics statements="200" coveredstatements="140" conditionals="90" coveredconditionals="69" methods="48" coveredmethods="32"/>
         <line num="21" count="129" type="stmt"/>
         <line num="23" count="129" type="stmt"/>
@@ -1926,49 +1928,49 @@
         <line num="779" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.screens.WriteNewBook">
+    <package name="TFGRead.src.screens.WriteNewBook">
       <metrics statements="191" coveredstatements="183" conditionals="102" coveredconditionals="94" methods="62" coveredmethods="56"/>
-      <file name="WriteChapterBooksScreen.js" path="E:\TFG\TFGRead\scr\screens\WriteNewBook\WriteChapterBooksScreen.js">
+      <file name="WriteChapterBooksScreen.js" path="D:\TFG\TFGRead\src\screens\WriteNewBook\WriteChapterBooksScreen.js">
         <metrics statements="46" coveredstatements="44" conditionals="24" coveredconditionals="24" methods="16" coveredmethods="14"/>
-        <line num="12" count="26" type="stmt"/>
-        <line num="13" count="26" type="stmt"/>
-        <line num="16" count="26" type="stmt"/>
-        <line num="17" count="26" type="stmt"/>
-        <line num="18" count="26" type="stmt"/>
-        <line num="19" count="26" type="stmt"/>
-        <line num="20" count="26" type="stmt"/>
-        <line num="21" count="26" type="stmt"/>
-        <line num="23" count="26" type="stmt"/>
+        <line num="12" count="25" type="stmt"/>
+        <line num="13" count="25" type="stmt"/>
+        <line num="16" count="25" type="stmt"/>
+        <line num="17" count="25" type="stmt"/>
+        <line num="18" count="25" type="stmt"/>
+        <line num="19" count="25" type="stmt"/>
+        <line num="20" count="25" type="stmt"/>
+        <line num="21" count="25" type="stmt"/>
+        <line num="23" count="25" type="stmt"/>
         <line num="25" count="12" type="stmt"/>
         <line num="26" count="12" type="stmt"/>
         <line num="28" count="12" type="stmt"/>
         <line num="29" count="12" type="stmt"/>
-        <line num="33" count="26" type="stmt"/>
+        <line num="33" count="25" type="stmt"/>
         <line num="34" count="4" type="cond" truecount="4" falsecount="0"/>
         <line num="35" count="2" type="stmt"/>
         <line num="36" count="2" type="stmt"/>
         <line num="37" count="2" type="stmt"/>
         <line num="38" count="2" type="stmt"/>
         <line num="39" count="2" type="stmt"/>
-        <line num="44" count="26" type="stmt"/>
+        <line num="44" count="25" type="stmt"/>
         <line num="45" count="3" type="stmt"/>
-        <line num="48" count="26" type="stmt"/>
+        <line num="48" count="25" type="stmt"/>
         <line num="49" count="4" type="cond" truecount="4" falsecount="0"/>
         <line num="50" count="1" type="stmt"/>
         <line num="51" count="1" type="stmt"/>
         <line num="53" count="3" type="stmt"/>
-        <line num="57" count="26" type="stmt"/>
+        <line num="57" count="25" type="stmt"/>
         <line num="58" count="3" type="cond" truecount="4" falsecount="0"/>
         <line num="59" count="1" type="stmt"/>
         <line num="60" count="1" type="stmt"/>
         <line num="62" count="2" type="stmt"/>
-        <line num="66" count="26" type="stmt"/>
+        <line num="66" count="25" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
-        <line num="70" count="26" type="stmt"/>
+        <line num="70" count="25" type="stmt"/>
         <line num="71" count="12" type="stmt"/>
-        <line num="74" count="26" type="stmt"/>
+        <line num="74" count="25" type="stmt"/>
         <line num="75" count="6" type="stmt"/>
-        <line num="80" count="26" type="stmt"/>
+        <line num="80" count="25" type="stmt"/>
         <line num="144" count="0" type="stmt"/>
         <line num="185" count="0" type="stmt"/>
         <line num="205" count="1" type="stmt"/>
@@ -1977,7 +1979,7 @@
         <line num="275" count="2" type="stmt"/>
         <line num="292" count="3" type="stmt"/>
       </file>
-      <file name="WriteNewBookScreen.js" path="E:\TFG\TFGRead\scr\screens\WriteNewBook\WriteNewBookScreen.js">
+      <file name="WriteNewBookScreen.js" path="D:\TFG\TFGRead\src\screens\WriteNewBook\WriteNewBookScreen.js">
         <metrics statements="100" coveredstatements="95" conditionals="70" coveredconditionals="62" methods="31" coveredmethods="27"/>
         <line num="17" count="68" type="stmt"/>
         <line num="18" count="67" type="stmt"/>
@@ -2080,7 +2082,7 @@
         <line num="636" count="6" type="stmt"/>
         <line num="648" count="3" type="stmt"/>
       </file>
-      <file name="WriteScreen.js" path="E:\TFG\TFGRead\scr\screens\WriteNewBook\WriteScreen.js">
+      <file name="WriteScreen.js" path="D:\TFG\TFGRead\src\screens\WriteNewBook\WriteScreen.js">
         <metrics statements="45" coveredstatements="44" conditionals="8" coveredconditionals="8" methods="15" coveredmethods="15"/>
         <line num="21" count="40" type="stmt"/>
         <line num="23" count="40" type="stmt"/>
@@ -2129,9 +2131,9 @@
         <line num="264" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.scr.utils">
+    <package name="TFGRead.src.utils">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="ImagePicker.js" path="E:\TFG\TFGRead\scr\utils\ImagePicker.js">
+      <file name="ImagePicker.js" path="D:\TFG\TFGRead\src\utils\ImagePicker.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="3" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
