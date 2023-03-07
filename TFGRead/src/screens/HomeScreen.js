@@ -116,7 +116,7 @@ function HomeScreen() {
   }
   function renderRecomendados(item, index) {
     return (
-      <TouchableOpacity >
+      <TouchableOpacity onPress={() => handleBook(item)} >
         <View
           style={{
             marginVertical: 5,
@@ -228,7 +228,7 @@ function HomeScreen() {
           width: 200,
           height: 150,
         }}
-        onPress={{}}
+        onPress={() => handleBook(item)}
       >
         <View style={{
           borderRadius: 10,

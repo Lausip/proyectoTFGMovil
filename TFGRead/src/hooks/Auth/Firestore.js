@@ -83,7 +83,9 @@ export const getEstaSeguido = async (emailTuyo, emailAutor) => {
   const docRefDescripcion = doc(db, "usuarios", emailTuyo);
   const docSnapDescripcion = await getDoc(docRefDescripcion);
   let autores = docSnapDescripcion.data().Autores;
+
   let esta = false;
+  console.log(autores)
   for (let i = 0, len = autores.length; i < len; i++) {
 
     if (autores[i] == emailAutor)
@@ -350,7 +352,7 @@ export const cargarUltimoLibro = async (email) => {
   const docReIdUltimoLibroLeido = doc(db, "usuarios", email);
   const docSnapIdUltimoLibro = await getDoc(docReIdUltimoLibroLeido);
   idUltimoLibro = docSnapIdUltimoLibro.data().UltimoLibroLeido;
-
+  console.log(idUltimoLibro)
   if (idUltimoLibro != "") {
     //Coger datos del libro:
     const docReUltimoLibroLeido = doc(db, "libros", idUltimoLibro);

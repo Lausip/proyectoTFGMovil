@@ -228,7 +228,7 @@ export const cargarRecomendadoBook = async (email) => {
             }))
     }))
     let da = d.slice().sort((a, b) => { return b.NumSeguidores - a.NumSeguidores }).slice(0, 3);
-    console.log(da);
+
     return da;
 }
 

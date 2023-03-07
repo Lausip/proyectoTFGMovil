@@ -2,17 +2,17 @@ import { View, Text, FlatList, SafeAreaView, StyleSheet, StatusBar, TouchableOpa
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, Entypo } from '@expo/vector-icons';
-import { getUserAuth } from "../hooks/Auth/Auth";
+import { getUserAuth } from "../../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-import { seguirAutor, enviarPeticion, getFotoPerfil, getDescripcionUsuario, getFechaCreaciónUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor, mirarSiSonAmigos } from "../hooks/Auth/Firestore";
-import { existeSala, addSala, cogerSala } from "../hooks/ChatFirebase";
+import { seguirAutor, enviarPeticion, getFotoPerfil, getDescripcionUsuario, getFechaCreaciónUsuario, getEstaSeguido, getNumeroLibrosUsuario, getNumAutoresSeguidos, getNumSeguidores, dejarSeguirAutor, mirarSiSonAmigos } from "../../hooks/Auth/Firestore";
+import { existeSala, addSala, cogerSala } from "../../hooks/ChatFirebase";
 import {
     Menu,
     MenuOptions,
     MenuTrigger,
 } from 'react-native-popup-menu';
 
-import { cargarBooksAutorPerfil } from "../hooks/FirebaseLibros";
+import { cargarBooksAutorPerfil } from "../../hooks/FirebaseLibros";
 function AutoresScreen({ route }) {
 
     const [email, setEmail] = useState("");
@@ -30,7 +30,7 @@ function AutoresScreen({ route }) {
     const { autorElegido, screen } = route.params;
 
     const [librosArray, setLibrosArray] = useState([]);
-
+    const [openMenu, setOpenMenu] = useState(false);
 
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', goBack);
@@ -91,7 +91,13 @@ function AutoresScreen({ route }) {
         setSeguidores(await getNumSeguidores(autorElegido));
 
     }
+    const reportarAutor = async () => {
+        setOpenMenu(false);
+        navigation.navigate("reportAutorScreen", {
+            autorElegido:autorElegido
+        });
 
+    }
     const dejarSeguir = async () => {
         setEstaSeguido(false);
         await dejarSeguirAutor(email, autorElegido);
@@ -193,7 +199,7 @@ function AutoresScreen({ route }) {
             >
                 <View style={styles.modalView} >
                     <LottieView style={styles.lottieModalWait}
-                        source={require('../../assets/animations/waitFunction.json')} autoPlay loop />
+                        source={require('../../../assets/animations/waitFunction.json')} autoPlay loop />
                     <Text style={styles.textWait}>Cargando.....</Text>
                 </View>
             </Modal>
@@ -204,7 +210,7 @@ function AutoresScreen({ route }) {
             >
                 <View style={styles.modalView}>
                     <LottieView style={styles.lottieModalWait}
-                        source={require('../../assets/animations/waitFunction.json')} autoPlay loop />
+                        source={require('../../../assets/animations/waitFunction.json')} autoPlay loop />
                     <Text style={styles.textWait}>Enviando petición...</Text>
                 </View>
             </Modal>
@@ -239,8 +245,8 @@ function AutoresScreen({ route }) {
             }}>
                 {/* Menu de acciones*/}
                 <View style={{ marginTop: 20, alignItems: "flex-end", marginHorizontal: 20, }}>
-                    <Menu>
-                        <MenuTrigger>
+                    <Menu opened={openMenu}>
+                        <MenuTrigger  onPress={()=>setOpenMenu(true)}>
                             <Entypo name="dots-three-vertical" size={24} color="black" />
                         </MenuTrigger>
                         <MenuOptions style={{
@@ -256,12 +262,12 @@ function AutoresScreen({ route }) {
 
                         }}>
                             {!sonAmigos &&
-                                <MenuTrigger style={{ marginBottom: 5 }} testID="buttonAddAmigo" onPress={() => addAmigo()} text='Añadir a amigos' />
+                                <MenuTrigger style={{ marginBottom: 5 }} testID="buttonAddAmigo" onPress={() => addAmigo()} text='Añadir a amigos'  />
                             }
                             <MenuTrigger style={{ marginBottom: 5 }} testID="buttonEnviarMensaje" onPress={() => enviarMensaje()} text='Enviar Mensaje privado' />
                             <MenuTrigger style={{
                                 marginBottom: 5
-                            }} testID="buttonReportar" onPress={() => alert(`Delete`)}>
+                            }} testID="buttonReportar" onPress={() => reportarAutor()}>
                                 <Text style={{ color: '#B00020' }}>Reportar</Text>
                             </MenuTrigger>
 
@@ -413,7 +419,7 @@ function AutoresScreen({ route }) {
                         <View style={{ marginHorizontal: 30 }}  >
                             <Image
                                 resizeMode={'center'}
-                                source={require("../../assets/NoLibros.png")}
+                                source={require("../../../assets/NoLibros.png")}
                                 style={styles.image}
                             />
                             <Text style={styles.textImage}>No hay libros......</Text>

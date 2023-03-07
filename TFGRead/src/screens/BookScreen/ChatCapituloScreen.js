@@ -86,12 +86,19 @@ function ChatCapituloScreen({ route }) {
                 style: 'cancel',
             },
             {
-                text: 'SI', onPress: () => { }
+                text: 'SI', onPress: () => {reportarComentarioIr(comentarioId) }
             },
         ]);
 
     }
-
+    const reportarComentarioIr = async (comentarioId) => {
+        navigation.replace("reportcomentariosCapituloScreen", {
+          bookId: bookId,
+          capituloId: capituloId,
+          comentarioId:comentarioId,
+          capituloNumero: capituloNumero,
+        });
+    }
     /* Comentarios */
     const RenderComentarios = (comentario) => {
         return (

@@ -1,12 +1,16 @@
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal, FlatList } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { Ionicons, AntDesign,Entypo } from '@expo/vector-icons';
 import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
 import { cargarDatosLibro, getCategoriasLibro, getCapitulosDelLibro } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
-
+import {
+    Menu,
+    MenuOptions,
+    MenuTrigger,
+} from 'react-native-popup-menu';
 
 function DetailBookScreen({ route }) {
     const [email, setEmail] = useState("");
@@ -23,6 +27,8 @@ function DetailBookScreen({ route }) {
 
 
     const navigation = useNavigation();
+    const [openMenu, setOpenMenu] = useState(false);
+
     const { bookId } = route.params;
 
     useEffect(() => {
@@ -53,7 +59,7 @@ function DetailBookScreen({ route }) {
         let data = await cargarDatosLibro(bookId)
         setLibroActual(data);
         setPortada(data.Portada)
-        let ca=await getCategoriasLibro(bookId)
+        let ca = await getCategoriasLibro(bookId)
         setCategorias(ca)
         setEtiquetas(data.Etiquetas)
         let c = await getCapitulosDelLibro(bookId)
@@ -78,6 +84,12 @@ function DetailBookScreen({ route }) {
         navigation.replace("autorScreen", {
             autorElegido: autorPulsado,
             screen: "home",
+        });
+    }
+    const reportarLibro = async () => {
+        setOpenMenu(false)
+        navigation.navigate("reportBookScreen", {
+            bookId: bookId,
         });
     }
 
@@ -226,9 +238,36 @@ function DetailBookScreen({ route }) {
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
                 <Text style={styles.fontTitulo}>{libroActual.Titulo}</Text>
+                   {/* Menu de acciones*/}
+                   <View style={{alignItems: "flex-end", marginHorizontal: 30, }}>
+                    <Menu opened={openMenu}>
+                        <MenuTrigger onPress={()=>setOpenMenu(true)}>
+                            <Entypo name="dots-three-vertical" size={24} color="white" />
+                        </MenuTrigger>
+                        <MenuOptions style={{
+                            
+                            alignItems: "center",
+                            borderRadius: 8,
+                            shadowColor: "black",
+                            shadowOpacity: 0.78,
+                            shadowOffset: { width: 0, height: 9 },
+                            shadowRadius: 10,
+                            elevation: 11,
+                            backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+                        }}>
+
+                            <MenuTrigger style={{
+                                marginBottom: 5,marginTop:5
+                            }} testID="buttonReportar" onPress={() => reportarLibro()}>
+                                <Text style={{ color: '#B00020',fontSize:15,padding:10 }}>Reportar</Text>
+                            </MenuTrigger>
+
+                        </MenuOptions>
+                    </Menu>
+                </View>
             </View>
             <ScrollView style={{ flexGrow: 0 }}>
-
+             
                 {/* Portada del libro */}
                 <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", height: 200, marginTop: 10, }}>
 
@@ -263,7 +302,7 @@ function DetailBookScreen({ route }) {
                     </TouchableOpacity>
 
                 </View>
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD",marginLeft:"auto",marginRight:"auto",marginBottom:10 }}>{libroActual.Estado}</Text>
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD", marginLeft: "auto", marginRight: "auto", marginBottom: 10 }}>{libroActual.Estado}</Text>
                 {/* Categorias explorar */}
                 <FlatList
                     contentContainerStyle={{ marginLeft: "auto", marginRight: "auto" }}
@@ -292,7 +331,7 @@ function DetailBookScreen({ route }) {
                 <View style={{ marginHorizontal: 40, marginBottom: 20, }}>
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
                         Capitulos{":    "}
-                       
+
                     </Text>
                     {
                         capitulos.length != 0 ?
@@ -388,7 +427,7 @@ const styles = StyleSheet.create({
         marginTop: "auto",
         marginBottom: "auto",
         marginLeft: "auto",
-        marginRight: 170,
+        marginRight:"auto",
         marginVertical: 30,
         fontSize: 25,
         color: "white",

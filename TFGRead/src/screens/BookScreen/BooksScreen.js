@@ -321,7 +321,6 @@ function BooksScreen({ route }) {
         </ScrollView>
 
         {/* Menu de capitulo */}
-
         {
           sacarCapitulos ?
 

@@ -1,10 +1,13 @@
 import React from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AutoresScreen from "../screens/AutoresScreen";
+import AutoresScreen from "../screens/AutoresScreen/AutoresScreen";
 import BooksScreen from "../screens/BookScreen/BooksScreen";
+import ReportarBookScreen from "../screens/BookScreen/ReportBookScreen";
 import BibliotecaScreen from '../screens/BibliotecaScreen';
 import ChatCapituloScreen from '../screens/BookScreen/ChatCapituloScreen';
 import ExploreScreen from "../screens/ExploreScreen/ExploreScreen";
+import ReportarComentarioScreen from '../screens/BookScreen/ReportComentarioScreen';
+import ReportAutorScreen from '../screens/AutoresScreen/ReportAutorScreen';
 const Stack = createNativeStackNavigator();
 
 export default function BibliotecaStack() {
@@ -12,7 +15,10 @@ export default function BibliotecaStack() {
     <Stack.Navigator>
       <Stack.Screen initialRouteName name="biblioteca" component={BibliotecaScreen} />
       <Stack.Screen name="bookScreen" component={BooksScreen} /> 
+      <Stack.Screen name="reportBookScreen" component={ReportarBookScreen} /> 
       <Stack.Screen name="comentariosCapituloScreen" component={ChatCapituloScreen} /> 
+      <Stack.Screen name="reportcomentariosCapituloScreen" component={ReportarComentarioScreen} /> 
+      <Stack.Screen name="reportAutorScreen" component={ReportAutorScreen} /> 
       <Stack.Screen  name="autorScreen" component={AutoresScreen} />
       <Stack.Screen initialRouteName name="explore" component={ExploreScreen} />
     </Stack.Navigator>

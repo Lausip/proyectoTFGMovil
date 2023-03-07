@@ -46,7 +46,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "detailsBookScreen" || routeName == "bookScreen" || routeName == "profileScreen" || routeName == "notificacionScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen") {
+            if (routeName === "detailsBookScreen" || routeName == "bookScreen"||routeName=="reportAutorScreen"||routeName=="reportBookScreen" || routeName == "profileScreen" || routeName == "notificacionScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen"||routeName=="reportcomentariosCapituloScreen") {
               return { display: "none" };
             }
             if (routeName == "" || routeName == "home"|| routeName == "autorScreen") {
@@ -85,7 +85,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "autorScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen") {
+            if (routeName === "autorScreen" || routeName == "chatConversationScreen" ||routeName=="reportAutorScreen"|| routeName == "comentariosCapituloScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen") {
               return { display: "none" };
             }
             if (routeName == "" || routeName == "explore") {
@@ -126,7 +126,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "bookScreen" || routeName == "comentariosCapituloScreen"||routeName == "autorScreen") {
+            if (routeName === "bookScreen" || routeName == "comentariosCapituloScreen"||routeName == "autorScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen"||routeName=="reportAutorScreen") {
               return { display: "none" };
             }
             return {

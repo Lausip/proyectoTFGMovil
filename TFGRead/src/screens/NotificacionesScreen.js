@@ -5,7 +5,7 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { getUserAuth } from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
 import { getPeticionesAmistad, rechazarPeticionAmistad, aceptarPeticionAmistad, getPeticionesConversacion, eliminarPeticion, getComentarios, eliminarNotificacionConversacion } from "../hooks/Auth/Firestore";
-import {  cogerSala } from "../hooks/ChatFirebase";
+import { cogerSala } from "../hooks/ChatFirebase";
 import { getNumeroCapitulo } from "../hooks/FirebaseLibros";
 
 function NotificacionesScreen({ route }) {
@@ -75,7 +75,7 @@ function NotificacionesScreen({ route }) {
             setNotificacionComentario([]);
         }
         if (index == 2) {
-    
+
             let a = await getComentarios(email);
             setNotificacionComentario(a);
             setPeticionAmistad([]);
@@ -106,7 +106,7 @@ function NotificacionesScreen({ route }) {
             bookId: idBook,
             capituloId: idCapitulo,
             capituloNumero: numeroCapitulo,
-            screen:"notificacionScreen"
+            screen: "notificacionScreen"
         });
     }
 
@@ -131,9 +131,9 @@ function NotificacionesScreen({ route }) {
                         <View>
                             <Text
                                 style={{
-                                    ...styles.categoriaText,
-                                    color:
-                                        seleccionadoCategoriaIndex == index ? "#000" : "#D8D8D8",
+                                    fontSize: 14,
+                                    fontWeight: "bold",
+                                    color: seleccionadoCategoriaIndex == index ? "#000" : "#D8D8D8",
                                 }}
                             >
                                 {item}
@@ -178,13 +178,16 @@ function NotificacionesScreen({ route }) {
                     </Text>
 
                     <View style={{
-
+            
                         flexDirection: "row", marginTop: "auto", marginBottom: "auto"
                     }}>
-                        <TouchableOpacity testID='buttonAceptarAmistad'onPress={() => aceptarAmistad(peticion.key, peticion.Nombre)}>
+                        <TouchableOpacity testID='buttonAceptarAmistad' onPress={() => aceptarAmistad(peticion.key, peticion.Nombre)}>
                             <AntDesign name="checkcircleo" size={24} color="#8EAF20" />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => rechazarAmistad(peticion.key)}>
+                        <TouchableOpacity style={{
+                            marginLeft: 10,
+
+                        }} onPress={() => rechazarAmistad(peticion.key)}>
                             <AntDesign name="closecircleo" size={24} color="#B00020" />
                         </TouchableOpacity>
                     </View>
@@ -246,17 +249,19 @@ function NotificacionesScreen({ route }) {
                     <Text style={{ marginVertical: 10, fontSize: 14, color: "black" }}>
                         ha realizado un comentario
                     </Text>
-                    <TouchableOpacity onPress={() => irAlComentario(notificacion.Libro, notificacion.CapituloId, notificacion.key)}>
-                        <AntDesign style={{
-                            marginHorizontal: 15,
-                            marginVertical: 10,
-                        }} name="rightcircleo" size={24} color="black" />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => funcionEliminarNotificacionConversacion(notificacion.key)}>
-                        <AntDesign style={{
-                            marginVertical: 10,
-                        }} name="closecircleo" size={24} color="black" />
-                    </TouchableOpacity>
+                    <View onPress={{ marginLeft: 10, }}>
+                        <TouchableOpacity onPress={() => irAlComentario(notificacion.Libro, notificacion.CapituloId, notificacion.key)}>
+                            <AntDesign style={{
+                                marginHorizontal: 15,
+                                marginVertical: 10,
+                            }} name="rightcircleo" size={24} color="black" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => funcionEliminarNotificacionConversacion(notificacion.key)}>
+                            <AntDesign style={{
+                                marginVertical: 10,
+                            }} name="closecircleo" size={24} color="black" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
             </View>
