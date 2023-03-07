@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal, FlatList } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { Ionicons, AntDesign,Entypo } from '@expo/vector-icons';
+import { Ionicons, AntDesign, Entypo } from '@expo/vector-icons';
 import { handleAñadirLibroMeGustaFirebase, handleElLibroEstaEnMeGusta, handleEliminarLibroMeGustaFirebase, cambiarUltimoLibroLeido } from '../../hooks/Auth/Firestore';
 import { cargarDatosLibro, getCategoriasLibro, getCapitulosDelLibro } from '../../hooks/FirebaseLibros';
 import { getUserAuth } from "../../hooks/Auth/Auth";
@@ -238,14 +238,14 @@ function DetailBookScreen({ route }) {
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
                 <Text style={styles.fontTitulo}>{libroActual.Titulo}</Text>
-                   {/* Menu de acciones*/}
-                   <View style={{alignItems: "flex-end", marginHorizontal: 30, }}>
+                {/* Menu de acciones*/}
+                <View style={{ alignItems: "flex-end", marginHorizontal: 30, }}>
                     <Menu opened={openMenu}>
-                        <MenuTrigger onPress={()=>setOpenMenu(true)}>
+                        <MenuTrigger onPress={() => setOpenMenu(true)}>
                             <Entypo name="dots-three-vertical" size={24} color="white" />
                         </MenuTrigger>
                         <MenuOptions style={{
-                            
+
                             alignItems: "center",
                             borderRadius: 8,
                             shadowColor: "black",
@@ -257,9 +257,9 @@ function DetailBookScreen({ route }) {
                         }}>
 
                             <MenuTrigger style={{
-                                marginBottom: 5,marginTop:5
+                                marginBottom: 5, marginTop: 5
                             }} testID="buttonReportar" onPress={() => reportarLibro()}>
-                                <Text style={{ color: '#B00020',fontSize:15,padding:10 }}>Reportar</Text>
+                                <Text style={{ color: '#B00020', fontSize: 15, padding: 10 }}>Reportar</Text>
                             </MenuTrigger>
 
                         </MenuOptions>
@@ -267,7 +267,7 @@ function DetailBookScreen({ route }) {
                 </View>
             </View>
             <ScrollView style={{ flexGrow: 0 }}>
-             
+
                 {/* Portada del libro */}
                 <View style={{ flexDirection: "column", justifyContent: "center", alignItems: "center", height: 200, marginTop: 10, }}>
 
@@ -341,7 +341,14 @@ function DetailBookScreen({ route }) {
                                 }
                             </View>
 
-                            : <View></View>
+                            : <View style={{ marginHorizontal: 30 }}  >
+                                <Image
+                                    resizeMode={'center'}
+                                    source={require("../../../assets/NoLibrosWrite.png")}
+                                    style={styles.image}
+                                />
+                                <Text style={styles.textImage}>No hay capitulos......</Text>
+                            </View>
                     }
                 </View>
                 {/* Etiquetas */}
@@ -371,6 +378,7 @@ function DetailBookScreen({ route }) {
                         </Text>
                     </Text>
                 </TouchableOpacity>
+
             </ScrollView>
 
         </SafeAreaView>
@@ -427,7 +435,7 @@ const styles = StyleSheet.create({
         marginTop: "auto",
         marginBottom: "auto",
         marginLeft: "auto",
-        marginRight:"auto",
+        marginRight: "auto",
         marginVertical: 30,
         fontSize: 25,
         color: "white",
@@ -449,9 +457,21 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 6.00,
         elevation: 15,
-
         alignItems: "center",
         marginBottom: 20,
+    },
+    image: {
+        marginTop:"auto",
+        marginBottom:"auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: 100,
+        width: 150,
+    },
+    textImage: {
+        marginLeft: "auto",
+        marginRight: "auto",
+        fontSize: 15,
     },
 });
 export default DetailBookScreen
