@@ -1,18 +1,37 @@
 
 import { Alert } from "react-native";
 import { handleRegistroFirebase } from "../../hooks/Auth/Firestore"
-import { getAuth,signOut,onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { getFirestore, Timestamp, getDoc, doc, onSnapshot, deleteDoc, arrayUnion, arrayRemove, getDocs, collection, query, orderBy, addDoc, limit, updateDoc, where, startAfter, setDoc } from "firebase/firestore"
 
-export const handleIncioSesion = (email, password) => {
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
-    .then(userCredentials => {
+export const handleIncioSesion = async (email, password) => {
+  //1. Mirar si esta bloqueado:
+  const db = getFirestore();
+  const docRefEmail = doc(db, "usuarios", email);
+  const docSnapEmail = await getDoc(docRefEmail);
+  let autorBloqueado = docSnapEmail.data().AutorBloqueado;
+  if (autorBloqueado) {
+    Alert.alert(
+      'Aviso',
+      'El usuario ha sido bloqueado',
+      [
+        {
+          text: 'Ok',
+          style: 'destructive',
+        },
+      ],);
+  }
+  else {
+    //2. Mirar si existe:
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredentials => {
 
-      const user = userCredentials.user;
-      console.log('Logged in with:', user.email);
-    })
-    .catch(error => alert(error.message))
-
+        const user = userCredentials.user;
+        console.log('Logged in with:', user.email);
+      })
+      .catch(error => alert(error.message))
+  }
 }
 function handleContraseñasIguales(password1, password2) {
   return password1 == password2;
@@ -64,5 +83,5 @@ export const handleReset = (email) => {
 
 export const getUserAuth = async () => {
   const auth = getAuth();
-  return  auth.currentUser.email;
+  return auth.currentUser.email;
 }

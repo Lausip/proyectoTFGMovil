@@ -37,7 +37,7 @@ const PrimeraScreen = () => {
       {/* Imagen  */}
       <View style={styles.imageBox}>
         <Image
-          source={require("../../assets/homeImage.png")}
+          source={require("../../../assets/homeImage.png")}
           style={styles.image}
         />
       </View>

@@ -14,6 +14,7 @@ export const handleRegistroFirebase = (email) => {
     UltimoCapituloLeido: 0,
     Bloqueados: [],
     FechaCreacion: Timestamp.fromDate(new Date()),
+	AutorBloqueado:false
   };
   setDoc(docRefRegistro, dataRegistro)
 }

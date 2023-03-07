@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import PrimeraScreen from '../screens/PrimeraScreen';
+import PrimeraScreen from '../screens/Auth/PrimeraScreen';
 import LoginScreen from '../screens/Auth/LoginScreen';
 import RegisterScreen from '../screens/Auth/RegisterScreen';
 import PsswForgotScreen from '../screens/Auth/PsswForgotScreen';
