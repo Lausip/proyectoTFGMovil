@@ -7,7 +7,7 @@ import {
   ImageBackground, Image,
   Modal, StatusBar
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
 import { AntDesign, Foundation } from '@expo/vector-icons';
 
@@ -24,12 +24,13 @@ function WriteScreen() {
   const [fotoPerfil, setFotoPerfil] = useState("");
   const [email, setEmail] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
-  const [lastItemId, setLastItemId] =  useState("");
+  const [lastItemId, setLastItemId] = useState("");
 
 
   useEffect(() => {
-    hacerCosas();
-  }, [email]);
+   hacerCosas();
+
+  }, [ email]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -45,15 +46,17 @@ function WriteScreen() {
   }
 
   const hacerCosas = async () => {
+    setLastItemId("")
     setModalVisible(true)
     let e = await getUserAuth()
     setEmail(e);
+
     setFotoPerfil(await getFotoPerfil(e));
     let libros = await cargarBooksAutor(e, lastItemId);
-    if (libros.length >=1) {
-      setLastItemId(libros[libros.length-1].doc)
+    if (libros.length >= 1) {
+      setLastItemId(libros[libros.length - 1].doc)
       setBooks(libros)
-    }else{
+    } else {
       setLastItemId("")
     }
 
@@ -65,11 +68,11 @@ function WriteScreen() {
 
     let libros = await cargarBooksAutor(email, lastItemId);
 
-    if (libros.length >0) {
-      setBooks([ ...books,... libros]);
-      setLastItemId(libros[libros.length-1].doc)
-    }else{
-      setLastItemId(books[books.length-1].doc)
+    if (libros.length > 0) {
+      setBooks([...books, ...libros]);
+      setLastItemId(libros[libros.length - 1].doc)
+    } else {
+      setLastItemId(books[books.length - 1].doc)
     }
     setModalVisible(false)
 
@@ -122,7 +125,7 @@ function WriteScreen() {
           <Text style={{ marginTop: 5, fontSize: 11, color: "black" }}>
             Modificado:
             <Text style={{ marginTop: 5, fontSize: 11, color: "black", fontWeight: "bold" }}>
-           {libro.FechaModificación?.toDate().toDateString()}
+              {libro.FechaModificación?.toDate().toDateString()}
             </Text>
           </Text>
           <TouchableOpacity testID="buttonEdit"
@@ -191,7 +194,7 @@ function WriteScreen() {
           </View>
         </View>
         {/*User*/}
-        <TouchableOpacity testID="buttonProfile" onPress={() =>  handleProfile() }>
+        <TouchableOpacity testID="buttonProfile" onPress={() => handleProfile()}>
           <Image
             source={{ uri: fotoPerfil != "" ? fotoPerfil : "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png" }}
             style={{ width: 40, height: 40, borderRadius: 40 / 2, marginTop: 10 }}
@@ -199,7 +202,7 @@ function WriteScreen() {
         </TouchableOpacity>
       </View>
       {/* Contenedor Botón escribir nuevo libro  */}
-      <TouchableOpacity testID="buttonNewBook" style={styles.containerEscribeNuevaHistoria} onPress={()=>handleWriteNewBook()}>
+      <TouchableOpacity testID="buttonNewBook" style={styles.containerEscribeNuevaHistoria} onPress={() => handleWriteNewBook()}>
         <View
           style={{
             flexDirection: "column",
@@ -228,36 +231,36 @@ function WriteScreen() {
       </TouchableOpacity>
 
       {/* Libros creados*/}
-      <View>
+     
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3 }}>
           Editar libros
         </Text>
         {
           books.length != 0 ?
-  
-            <FlatList
-            testID="flatlistbooks"
-            contentContainerStyle={{  paddingBottom: 70,marginVertical: 10 }}
-              keyExtractor={(item, index) => index}
-              data={books}
-              renderItem={({ item, index }) => (
-                <Card key={index} libro={item} />
-              )}
-              onEndReached={()=> cargarMas()}
-              onEndReachedThreshold={0.01}
-            />
-   
-            : <View style={{ marginHorizontal: 30 }}  >
-              <Image
-                resizeMode={'center'}
-                source={require("../../../assets/NoLibrosWrite.png")}
-                style={styles.image}
+        
+              <FlatList
+                testID="flatlistbooks"
+                contentContainerStyle={{paddingBottom: 10, marginVertical: 10 }}
+                keyExtractor={(item, index) => index}
+                data={books}
+                renderItem={({ item, index }) => (
+                  <Card key={index} libro={item} />
+                )}
+                onEndReached={() => cargarMas()}
+                onEndReachedThreshold={0.01}
               />
-              <Text style={styles.textImage}>No hay libros......</Text>
-            </View>
-
+      
+              : <View style={{ marginHorizontal: 30 }}  >
+                <Image
+                  resizeMode={'center'}
+                  source={require("../../../assets/NoLibrosWrite.png")}
+                  style={styles.image}
+                />
+                <Text style={styles.textImage}>No hay libros......</Text>
+              </View>
+          
         }
-      </View>
+           
     </SafeAreaView>
   )
 }

@@ -76,18 +76,22 @@ function HomeScreen() {
     //Coger usuario
     let e = await getUserAuth();
     setEmail(e);
-    //Coger los libros 
-    setNewBooks(await cargarFirebase());
-    //Coger fotoPerfil
-    setFotoPerfil(await getFotoPerfil(e));
+
     //Coger último libro
     let ultimo = await cargarUltimoLibro(e);
     setUltimoLibro(ultimo);
+    //Ultimo Capitulo leido
+    if (ultimo != "") {
+      setUltimoCapituloLeido(ultimo.UltimoCapitulo)
+      setCapitulosLeido(ultimo.NumCapitulos)
+    }
+    //Coger fotoPerfil
+    setFotoPerfil(await getFotoPerfil(e));
+    //Coger los libros 
+    setNewBooks(await cargarFirebase());
     setHotBooks(await cargarHotBook());
     setRecomendadoBooks(await cargarRecomendadoBook(e));
-    //Ultimo Capitulo leido
-    setUltimoCapituloLeido(ultimo.UltimoCapitulo)
-    setCapitulosLeido(ultimo.NumCapitulos)
+
     setModalVisible(false)
     //Hot Libros:
 
@@ -119,6 +123,7 @@ function HomeScreen() {
       <TouchableOpacity onPress={() => handleBook(item)} >
         <View
           style={{
+
             marginVertical: 5,
             marginHorizontal: 20,
             width: 300,
@@ -148,20 +153,20 @@ function HomeScreen() {
               borderColor: "black",
             }}
           ></ImageBackground>
-      
-          <View style={{ marginTop: 15, marginBottom: 10,backgroundColor: "white" }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD", marginLeft: 15,marginBottom:5,}}>
+
+          <View style={{ marginTop: 15, marginBottom: 10, backgroundColor: "white" }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD", marginLeft: 15, marginBottom: 5, }}>
               {item.Titulo}
             </Text>
-        
-          {/* Informacion capitulo*/}
-  
-            <Text style={{ marginLeft: 15, fontSize: 12, color: "black" }}
-             numberOfLines={4}>
+
+            {/* Informacion capitulo*/}
+
+            <Text style={{ width: 180, marginLeft: 5, fontSize: 12, color: "black" }}
+              numberOfLines={3}>
               {item.Descripción}
             </Text>
 
-            </View>
+          </View>
 
         </View>
       </TouchableOpacity>)
@@ -175,7 +180,7 @@ function HomeScreen() {
           style={{
             elevation: 12,
             position: "absolute",
-            bottom: 20,
+            bottom: 35,
             left: 5,
             borderRadius: 15,
             overflow: "hidden",
@@ -184,7 +189,7 @@ function HomeScreen() {
         >
           <Image
             blurRadius={15}
-            style={{ width: 100, height: 60 }}
+            style={{ width: 100, height: 40 }}
             source={{ uri: `${item.Portada}` }}
           />
         </View>
@@ -213,6 +218,7 @@ function HomeScreen() {
             fontSize: 13,
             color: "black",
             fontWeight: "bold",
+            width:100,
           }}
         >
           {item.Titulo}
@@ -355,9 +361,7 @@ function HomeScreen() {
                 >
                   {ultimoLibro.Titulo}
                 </Text>
-                <Text style={styles.ultimoLibroAutor}>
-                  {ultimoLibro.Autor}
-                </Text>
+
                 <Text style={styles.ultimoLibroPorcentaje}>
                   {Math.round((ultimoLibro.UltimoCapitulo / ultimoLibro.NumCapitulos) * 100)}%
                   <Foundation name="page-multiple" size={15} color="#8EAF20" />
@@ -483,33 +487,33 @@ function HomeScreen() {
               onSnapToItem={(index) => setIndex(index)}
             />
           </View>
-          <View>
-            <Text
-              style={{
-                marginTop: 5,
-                fontSize: 20,
-                color: "black",
-                paddingHorizontal: 20,
-                fontWeight: "bold",
-              }}
-            >
-              Recomendado para ti
-            </Text>
-          </View>
 
-
-          <FlatList
-            contentContainerStyle={{ paddingLeft: 5 }}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            data={recomendadoBooks}
-            renderItem={({ item, index }) => renderRecomendados(item, index)}
-          ></FlatList>
+          {recomendadoBooks.length != 0 ?
+            < View >
+              < Text
+                style={{
+                  marginTop: 5,
+                  fontSize: 20,
+                  color: "black",
+                  paddingHorizontal: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                Recomendado para ti
+              </Text>
+              <FlatList
+                contentContainerStyle={{ paddingLeft: 5 }}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={recomendadoBooks}
+                renderItem={({ item, index }) => renderRecomendados(item, index)}
+              ></FlatList>
+            </View> : <View />}
 
         </View>
       </ScrollView>
 
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }
 const styles = StyleSheet.create({

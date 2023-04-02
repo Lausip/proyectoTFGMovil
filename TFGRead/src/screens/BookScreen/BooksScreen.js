@@ -4,9 +4,8 @@ import React, { useLayoutEffect, useState, useEffect } from "react";
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { updateUltimoCapitulo, cambiarUltimoLibroLeido, handleElLibroEstaEnMeGusta, handleAñadirLibroMeGustaFirebaseCapitulo } from '../../hooks/Auth/Firestore';
 import { AntDesign, MaterialCommunityIcons, Ionicons, Feather, Entypo } from '@expo/vector-icons';
-import { getPortadaLibro, getCapituloId,getCapitulo ,getCapitulosDelLibro} from '../../hooks/FirebaseLibros';
-
-
+import { getPortadaLibro, getCapituloId, getCapitulo, getCapitulosDelLibro } from '../../hooks/FirebaseLibros';
+import * as Progress from 'react-native-progress';
 
 function BooksScreen({ route }) {
 
@@ -31,6 +30,9 @@ function BooksScreen({ route }) {
   const navigation = useNavigation();
   const { bookId, capituloNumero, screen } = route.params;
 
+  const [scrollView_height, setScrollView_height] = useState(0)
+  const [scrollViewContent_height, setScrollViewContent_height] = useState(0)
+  const [progress, setProgress] = useState(0)
   useEffect(() => {
 
     hacerCosas();
@@ -80,18 +82,27 @@ function BooksScreen({ route }) {
     });
   }, []);
 
+  const UpdateProgressBar = (value) => {
+
+    setProgress(
+      Math.abs(
+        value.nativeEvent.contentOffset.y /
+        (scrollView_height - scrollViewContent_height ),
+      ),
+    );
+  };
 
   const hacerCosas = async () => {
 
     let e = await getUserAuth();
     setEmail(e);
     await cargarCapituloLibros();
-    let a= await getCapitulo(bookId, capituloNumero + 1);
+    let a = await getCapitulo(bookId, capituloNumero + 1);
 
-    if(a==undefined){
+    if (a == undefined) {
       setHayCapituloSiguiente(false)
     }
-    else{
+    else {
       setHayCapituloSiguiente(true)
     }
     setPortada(await getPortadaLibro(bookId))
@@ -103,7 +114,7 @@ function BooksScreen({ route }) {
 
   const cargarCapituloLibros = async () => {
 
-    let d = await getCapitulo(bookId,capituloNumero);
+    let d = await getCapitulo(bookId, capituloNumero);
     setTexto(d.Contenido)
     setTitulo(d.Titulo)
 
@@ -156,7 +167,7 @@ function BooksScreen({ route }) {
       bookId: bookId,
       capituloId: capituloId,
       capituloNumero: capituloNumero,
-      screen:"bookScreen"
+      screen: "bookScreen"
     });
 
   }
@@ -217,13 +228,34 @@ function BooksScreen({ route }) {
         flex: 1,
         backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
       }}>
+        <Progress.Bar
 
+          height={3}
+          borderWidth={0}
+          progress={progress}
+          color="#8EAF20"
+          width={null}
+        />
         <ScrollView
-          showsVerticalScrollIndicator={true}>
+          showsVerticalScrollIndicator={false}
+          onScroll={UpdateProgressBar}
+          onContentSizeChange={(width, height) => {
+            setScrollViewContent_height(height);
+          }}
+
+          onLayout={(event) => {
+
+
+            setScrollView_height(event.nativeEvent.layout.height)
+          }
+          }
+
+          bounces={false}
+        >
           <View onStartShouldSetResponder={() => true} style={{
             backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
             marginHorizontal: 20,
-            marginVertical: 30,
+
           }}>
 
             {/* Contenido */}
@@ -244,7 +276,7 @@ function BooksScreen({ route }) {
                 < TouchableOpacity testID="buttonIrCapitulo" onPress={() => irAotroCapitulo()} style={{
                   marginTop: 20,
                   marginHorizontal: 20,
-                  marginBottom: 50,
+                  marginBottom: 10,
                   borderStyle: "dotted",
                   borderWidth: 2,
                   borderColor: "#E39801",
@@ -288,7 +320,7 @@ function BooksScreen({ route }) {
                 < View style={{
                   marginTop: 20,
                   marginHorizontal: 20,
-                  marginBottom: 50,
+                  marginBottom: 10,
                   borderStyle: "dotted",
                   borderWidth: 2,
                   borderColor: "#8EAF20",
@@ -415,17 +447,17 @@ function BooksScreen({ route }) {
                 style={styles.modalOpciones}>
 
                 <View style={{ justifyContent: "flex-start", flexDirection: "row", marginHorizontal: 20 }}>
-                  <TouchableOpacity testID="buttonSumarLetra" style={{ flexDirection: "row", marginLeft: 10, }} onPress={()=>sumarTexto()}>
+                  <TouchableOpacity testID="buttonSumarLetra" style={{ flexDirection: "row", marginLeft: 10, }} onPress={() => sumarTexto()}>
                     <MaterialCommunityIcons name="format-letter-case" size={30} color="black" />
                     <Text>+</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity testID="buttonRestarLetra" style={{ flexDirection: "row", marginLeft: 10, }} onPress={()=>restarTexto()}>
+                  <TouchableOpacity testID="buttonRestarLetra" style={{ flexDirection: "row", marginLeft: 10, }} onPress={() => restarTexto()}>
                     <MaterialCommunityIcons name="format-letter-case" size={30} color="black" />
                     <Text>-</Text>
                   </TouchableOpacity>
 
-                  <TouchableOpacity  testID="buttonCambiarSol" style={{ marginLeft: 10, }} onPress={()=>cambiarNocheDia()}>
+                  <TouchableOpacity testID="buttonCambiarSol" style={{ marginLeft: 10, }} onPress={() => cambiarNocheDia()}>
 
                     {!nocheDia ?
                       <Ionicons name="md-sunny-outline" size={30} color="black" /> :
@@ -438,7 +470,7 @@ function BooksScreen({ route }) {
                     <Feather name="arrow-right" size={30} color="black" />
                   </TouchableOpacity>
 
-                  <TouchableOpacity testID="buttonSacarCapitulos"  style={{ marginLeft: 50, }} onPress={() => sacarCapitulosView(!sacarCapitulos)}>
+                  <TouchableOpacity testID="buttonSacarCapitulos" style={{ marginLeft: 50, }} onPress={() => sacarCapitulosView(!sacarCapitulos)}>
                     <Entypo name="menu" size={30} color="black" />
                   </TouchableOpacity>
 

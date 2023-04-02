@@ -17,7 +17,7 @@ import {
     GiftedChat,
     Bubble,
     Send,
-    Day, InputToolbar, Time
+    Day, InputToolbar, Time,Avatar
 } from 'react-native-gifted-chat';
 
 
@@ -68,6 +68,7 @@ function ChatConversationScreen({ route }) {
         }
         setEmail(e);
         cogerMensajes();
+
         setDesbloquear(sala.Bloqueado);
         setPonerAmigo(sala.Amigo);
         setFotoPerfil(await getFotoPerfil(e));
@@ -77,6 +78,7 @@ function ChatConversationScreen({ route }) {
 
     const cogerMensajes = async () => {
         let m = await getMessage(sala.key);
+   
         setMessages(m);
     }
 
@@ -185,6 +187,24 @@ function ChatConversationScreen({ route }) {
             />
         );
     }
+    function renderAvatar(props) {
+        const { currentMessage } = props;
+   
+        console.log(fotoPerfilAmigo)
+        if (currentMessage.user._id !== email) { // Cambia 'tu_id_usuario' con el ID de usuario de la otra persona en la conversación
+            console.log(currentMessage)
+          return (
+            <Avatar
+              {...props}
+              size={40}
+              style={{ marginLeft: 8 }}
+              source={{ uri: fotoPerfilAmigo }} // Cambia la imagen con la URL de la imagen del avatar
+            />
+          );
+        }
+        return null;
+    }
+      
     return (
         <SafeAreaView style={styles.back}>
             <Modal
@@ -289,19 +309,18 @@ function ChatConversationScreen({ route }) {
 
             </View>
             <GiftedChat
-   
+      
                 messages={messages}
                 user={{
                     _id: email,
                     name: email,
-                    avatar: fotoPerfil
                 }}
+                renderAvatar={renderAvatar}
                 disableComposer={!((!ponerAmigo && sala.Enviado == amigo)||!desbloquear)}
                 renderBubble={renderBubble}
                 renderTime={renderTime}
                 renderChatFooter={() => <View style={{ marginBottom: 40 }} />}
                 renderInputToolbar={renderInputToolbar}
-  
                 onSend={messages => onSend(messages)}
                 renderSend={renderSend}
                 renderDay={renderDay}
@@ -313,6 +332,7 @@ function ChatConversationScreen({ route }) {
                         backgroundColor: '#EDECED',
                     },
                 }}
+         
             />
 
         </SafeAreaView >

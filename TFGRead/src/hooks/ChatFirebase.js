@@ -122,10 +122,10 @@ export const addMessage = async (salaId, message) => {
     const db = getFirestore();
     const dbRef = await collection(db, "salas", salaId, 'mensajes')
     await addDoc(dbRef, {
-        _id: message._id,
+
         createdAt: message.createdAt,
         texto: message.text,
-        usuario: message.user,
+        user: message.user,
     })
     await updateTiempoSalas(salaId, message);
 }
@@ -150,18 +150,17 @@ export const bloquearPersonaSala = async (salaId, bloqueado) => {
 export const getMessage = async (salaId) => {
     const db = getFirestore();
     const mensajes = [];
-    const querySnapshot = query(collection(db, "salas", salaId, "mensajes"), orderBy("createdAt", "desc"), limit(4));
+    const querySnapshot = query(collection(db, "salas", salaId, "mensajes"), orderBy("createdAt", "desc"));
     await onSnapshot(querySnapshot, async (querySnapshot2) => {
         await querySnapshot2.forEach((doc) => {
         
             mensajes.push({
-                _id: doc.data()._id,
+                _id: doc.id,
                 text: doc.data().texto,
                 createdAt: doc.data().createdAt.toDate(),
                 user:{
-                    _id:doc.data().usuario._id,
-                    avatar:doc.data().usuario.avatar,
-                    name:doc.data().usuario.name,
+                    _id:doc.data().user._id,
+                    name:doc.data().user.name,
                 }
 
             });
@@ -170,6 +169,6 @@ export const getMessage = async (salaId) => {
      
     })
 
-  
+
     return mensajes;
 }

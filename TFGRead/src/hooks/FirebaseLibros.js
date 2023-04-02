@@ -186,8 +186,10 @@ export const cargarRecomendadoBook = async (email) => {
     const db = getFirestore();
     let categorias = [];
     let books = [];
+
     //Coger los libros favoritos:
     let snapshot = await getDocs(collection(db, "usuarios", email, "MeGusta"));
+    if(!snapshot.empty){
     //Coger libros que tengan esa id
     await Promise.all(snapshot.docs.map(async (documentSnapshot) => {
         let snap = await getDocs(collection(db, "libros", documentSnapshot.data().Nombre, "Categorias"));
@@ -197,8 +199,10 @@ export const cargarRecomendadoBook = async (email) => {
         })
 
     }))
+
     //Coger cuantas veces está cada categoría
     let categoriasRepetidas = compressArray(categorias);
+
     //Coger el top 3 de categorías:
     let topCategorias = categoriasRepetidas.slice().sort((a, b) => { return b.count - a.count }).slice(0, 2);
 
@@ -227,9 +231,9 @@ export const cargarRecomendadoBook = async (email) => {
 
             }))
     }))
-    let da = d.slice().sort((a, b) => { return b.NumSeguidores - a.NumSeguidores }).slice(0, 3);
-
-    return da;
+    books = d.slice().sort((a, b) => { return b.NumSeguidores - a.NumSeguidores }).slice(0, 3);
+    }
+    return books;
 }
 
 
@@ -492,6 +496,7 @@ export const cargarBooksAutor = async (email, lastItemId) => {
         })))
 
     }
+
     return data
 }
 export const cargarDatosLibro = async (bookId) => {
@@ -655,6 +660,7 @@ export const eliminarLibroFirebase = async (bookId) => {
     /*Eliminar el libro*/
     const dbRef = await doc(db, "libros", bookId)
     deleteDoc(dbRef)
+    
 
 
 }

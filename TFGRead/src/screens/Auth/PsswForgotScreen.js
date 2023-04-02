@@ -42,11 +42,7 @@ const PsswForgotScreen = () => {
       {/* Registro Texto */}
       <View style={styles.headName}>
         <TouchableOpacity testID="buttonBack"style={styles.goBack}  onPress={()=>handleGoBack()}>
-          <Ionicons
-            name="arrow-back-circle-outline"
-            size={40}
-            color="white"
-          />
+        <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
         </TouchableOpacity>
         <Text style={styles.fontIncioSesion}>Cambiar contraseña </Text>
       </View>

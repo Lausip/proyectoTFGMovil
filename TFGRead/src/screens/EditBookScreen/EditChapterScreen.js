@@ -2,7 +2,7 @@ import { View, BackHandler, TextInput, ScrollView, SafeAreaView, StyleSheet, Sta
 import { useNavigation } from "@react-navigation/native";
 import LottieView from 'lottie-react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { cambiarContenidoCapitulo, cambiarTituloCapitulo,getCapitulo } from '../../hooks/FirebaseLibros';
+import { cambiarContenidoCapitulo, cambiarTituloCapitulo, getCapitulo, cambiarFechaModificaciónLibro, } from '../../hooks/FirebaseLibros';
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { db } from '../../config/firebase';
 
@@ -33,12 +33,10 @@ function EditChapterScreen({ route }) {
             bookId: bookId
         });
     }
-    const handleWrite = () => {
-        navigation.replace("write");
-    }
+
 
     const cargarCapituloLibros = async () => {
-        let cap= await getCapitulo(bookId,capituloNumero)
+        let cap = await getCapitulo(bookId, capituloNumero)
 
         setTexto(cap.Contenido)
         setTitulo(cap.Titulo)
@@ -48,8 +46,10 @@ function EditChapterScreen({ route }) {
         setModalVisible(true)
         await cambiarTituloCapitulo(bookId, chapterId, titulo)
         await cambiarContenidoCapitulo(bookId, chapterId, texto)
-        setModalVisible(false)
-        handleWrite();
+        await cambiarFechaModificaciónLibro(bookId);
+        setModalVisible(false);
+
+        handleEdit();
     }
 
     return (
@@ -101,17 +101,43 @@ function EditChapterScreen({ route }) {
                     <View>
                         <Text style={styles.fontTitulo}>Editar Capítulo</Text>
                     </View>
-                   
+                    <TouchableOpacity
+                        testID="buttonActualizar"
+                        style={{
+                            padding: 12,
+                            borderRadius: 20,
+                            alignItems: "center",
+                            marginLeft: 35,
+                            marginRight: "auto",
+                            backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0,
+                                height: 12,
+                            },
+                            shadowOpacity: 0.8,
+                            shadowRadius: 6.00,
+                            elevation: 15,
+                        }}
+                        onPress={() => actualizarCapituloLibro()}
+                    >
+                        <Text style={{
+                            fontWeight: "bold",
+                            color: "white",
+                            fontSize: 13,
+                        }}>Actualizar</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
             <ScrollView>
 
                 <View style={{
+                    maxHeight: 850,
                     backgroundColor: isModalVisible ? "#A7A7A7" : "white",
                     marginHorizontal: 30,
                     marginTop: 10,
                 }}>
-                    <Text style={{fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3,width:"50%" }}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
                         Título
                     </Text>
                     <TextInput
@@ -120,7 +146,7 @@ function EditChapterScreen({ route }) {
                         value={titulo}
                         onChangeText={(text) => setTitulo(text)}
                         style={{
-                            marginBottom: 10,
+
                             marginRight: 20,
                             marginLeft: 20,
                             paddingHorizontal: 20,
@@ -143,39 +169,20 @@ function EditChapterScreen({ route }) {
                                 paddingHorizontal: 10,
                                 borderRadius: 10,
                                 color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
-                                textAlign: 'justify'
+                                textAlign: 'justify',
+
+                              
                             }}
                             multiline={true}
                             scrollEnabled={true}
                         ></TextInput>
 
                     </KeyboardAvoidingView>
-                    
+
                 </View>
-                <TouchableOpacity
-                        testID='buttonActualizar'
-                        style={{
-                            width: "70%",
-                            marginHorizontal:20,
-                            marginTop:20,
-                            backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
-                            padding: 6,
-                            borderRadius: 20,
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                            marginBottom: 10,
-                        }}
-                        onPress={() => actualizarCapituloLibro()}
-                    >
-                        <Text style={{
-                            color: "white",
-                            fontSize: 13,
-                        }}>Actualizar</Text>
-                    </TouchableOpacity>
+
             </ScrollView>
-            
+
         </SafeAreaView>
 
 

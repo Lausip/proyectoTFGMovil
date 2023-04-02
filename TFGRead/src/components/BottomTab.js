@@ -85,7 +85,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "autorScreen" || routeName == "chatConversationScreen" ||routeName=="reportAutorScreen"|| routeName == "comentariosCapituloScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen") {
+            if (routeName === "autorScreen" || routeName == "profileScreen" || routeName == "chatConversationScreen" ||routeName=="reportAutorScreen"|| routeName == "comentariosCapituloScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen") {
               return { display: "none" };
             }
             if (routeName == "" || routeName == "explore") {
@@ -126,7 +126,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "bookScreen" || routeName == "comentariosCapituloScreen"||routeName == "autorScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen"||routeName=="reportAutorScreen") {
+            if (routeName === "bookScreen" ||  routeName == "profileScreen" ||routeName == "comentariosCapituloScreen"||routeName == "autorScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen"||routeName=="reportAutorScreen") {
               return { display: "none" };
             }
             return {
@@ -165,7 +165,7 @@ const BottomTab = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-            if (routeName === "writeNewBook" || routeName == "writeChapter" || routeName == "editBook" || routeName == "editChapter") {
+            if (routeName === "writeNewBook" ||  routeName == "profileScreen" || routeName == "writeChapter" || routeName == "editBook" || routeName == "editChapter") {
               return { display: "none" };
             }
             return {
@@ -204,7 +204,7 @@ const BottomTab = () => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
   
-            if (routeName === "chatConversationScreen") {
+            if (routeName === "chatConversationScreen"|| routeName == "profileScreen" ) {
               return { display: "none" };
 
             } return {

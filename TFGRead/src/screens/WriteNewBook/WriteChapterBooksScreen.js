@@ -276,7 +276,7 @@ function WriteChapterBooksScreen({ route }) {
               style={{
                 paddingHorizontal: 10,
                 borderRadius: 10,
-                color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
+                color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
                 textAlign: 'justify'
               }}
               multiline={true}

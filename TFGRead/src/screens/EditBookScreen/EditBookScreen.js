@@ -135,7 +135,7 @@ function EditBookScreen({ route }) {
         if (!assertActualizarLibroTitulo()) {
 
             await cambiarTitulo(bookId, titulo)
-
+            await cambiarFechaModificaciónLibro(bookId);
         }
         setModalVisible(false)
     }
@@ -177,7 +177,7 @@ function EditBookScreen({ route }) {
             );
             setTextoEtiqueta("");
             await añadirEtiqueta(bookId, texto);
-
+            await cambiarFechaModificaciónLibro(bookId);
             setModalVisible(false);
         }
     }
@@ -189,19 +189,22 @@ function EditBookScreen({ route }) {
         })
         setEtiquetas(e);
         await eliminarEtiqueta(bookId, texto);
+        await cambiarFechaModificaciónLibro(bookId);
         setModalVisible(false);
     }
 
     const actualizarDescripcion = async () => {
         if (!assertActualizarLibroDescripcion()) {
             setModalVisible(true)
-            await cambiarDescripcion(bookId, texto)
+            await cambiarDescripcion(bookId, texto);
+            await cambiarFechaModificaciónLibro(bookId);
             setModalVisible(false)
         }
     }
     const updateEstado = async () => {
         setModalVisible(true)
         await cambiarEstado(bookId, estadoValue);
+        await cambiarFechaModificaciónLibro(bookId);
         setModalVisible(false)
     }
 
@@ -220,7 +223,7 @@ function EditBookScreen({ route }) {
             }
         }
         await cambiarCategoria(bookId, categoria)
-
+        await cambiarFechaModificaciónLibro(bookId);
         setModalVisible(false)
     }
 
@@ -230,7 +233,8 @@ function EditBookScreen({ route }) {
         if (image != undefined) {
             let urlPortada = await crearLibroStorage(image, email, bookId)
             setPortada(urlPortada);
-            await cambiarPortadadeLibro(bookId, urlPortada)
+            await cambiarPortadadeLibro(bookId, urlPortada);
+            await cambiarFechaModificaciónLibro(bookId);
         }
         setModalVisible(false)
 
@@ -563,8 +567,7 @@ function EditBookScreen({ route }) {
                             value={texto}
                             onChangeText={(text) => setTexto(text)}
                             style={{
-                                marginRight: 20,
-                                marginLeft: 20,
+                        
                                 paddingHorizontal: 20,
                                 paddingVertical: 10,
                                 borderRadius: 10,

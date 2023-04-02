@@ -341,7 +341,7 @@ export const contarCapitulosDelLibro = async (bookId) => {
 //Cargar el Ultimo Libro leido del Usuario
 export const cargarUltimoLibro = async (email) => {
   let idUltimoLibro;
-  let ultimoLibro;
+  let ultimoLibro="";
   let numCapitulos = 0;
   let UltimoCapituloLeido = 0;
 
@@ -480,7 +480,7 @@ export const cargarFirebase = async () => {
   const books = [];
   //Coger el ID del ultimo libro
   const db = getFirestore();
-  const q = query(collection(db, "libros"), orderBy('FechaCreación', "asc"), limit(5));
+  const q = query(collection(db, "libros"), orderBy('FechaCreación', "desc"), limit(5));
   onSnapshot(q, (querySnapshot) => {
     querySnapshot.forEach(documentSnapshot => {
       books.push({
@@ -488,6 +488,7 @@ export const cargarFirebase = async () => {
         key: documentSnapshot.id,
       });
     });
+
   });
 
   return books;
