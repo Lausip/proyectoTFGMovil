@@ -70,7 +70,7 @@ const RegisterScreen = () => {
               name="user"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#429EBD"
+              color="#2B809C"
             />
             <TextInput
               placeholder="Email"
@@ -91,7 +91,7 @@ const RegisterScreen = () => {
               name="lock"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#429EBD"
+              color="#2B809C"
             />
             <TextInput
               placeholder="Contraseña"
@@ -113,7 +113,7 @@ const RegisterScreen = () => {
               name="lock"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#429EBD"
+              color="#2B809C"
             />
             <TextInput
               placeholder="Confirmar Contraseña"
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   },
   headName: {
     height: "15%",
-    backgroundColor: "#429EBD",
+    backgroundColor: "#2B809C",
     borderBottomRightRadius: 500,
     alignItems: "center",
     justifyContent: "center",

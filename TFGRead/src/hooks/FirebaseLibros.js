@@ -3,6 +3,7 @@ import { handleAutores, contarCapitulosDelLibro } from "./Auth/Firestore";
 import { compressArray } from "../utils/functions";
 
 export const cargarNuevosLibros = async (lastItemId) => {
+
     const db = getFirestore();
 
     let snapshot;
@@ -20,6 +21,7 @@ export const cargarNuevosLibros = async (lastItemId) => {
         Categorias: await getCategoriasLibro(documentSnapshot.id),
         doc: documentSnapshot,
     })))
+    
     return data;
 
 }
@@ -134,7 +136,7 @@ export const cargarDatosLibrosFiltro = async (filtro, lastItemId, tipoFiltro) =>
     if (tipoFiltro == "Etiqueta") {
         array = await cargarNuevosLibrosFiltroEtiqueta(lastItemId, filtro);
     }
-    if (tipoFiltro == "Titulo") {
+    if (tipoFiltro == "Título") {
         array = await cargarNuevosLibrosFiltroTitulo(lastItemId, filtro);
     }
     if (tipoFiltro == "Categoría") {
@@ -255,6 +257,7 @@ export const getNumSeguidoresLibro = async (idbook) => {
     for (let i = 0, len = autores.length; i < len; i++) {
 
         snapshot = await getDocs(query(collection(db, "usuarios", autores[i].Nombre, "MeGusta"), where("Nombre", "==", idbook)));
+    
         snapshot.docs.map(async (documentSnapshot) => {
             numSeguidores = numSeguidores + 1
         })

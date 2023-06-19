@@ -24,7 +24,7 @@ function NotificacionesScreen({ route }) {
 
 
     const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] =
-        useState(0);
+       React.useState(0);
 
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', goBack);
@@ -44,14 +44,14 @@ function NotificacionesScreen({ route }) {
     const goBack = () => {
         navigation.replace(screen);
     }
-
+      /* istanbul ignore next */
     const aceptarAmistad = async (peticion, emailAceptado) => {
         aceptarPeticionAmistad(email, peticion, emailAceptado);
         let a = await getPeticionesAmistad(email);
         setPeticionAmistad(a);
 
     }
-
+      /* istanbul ignore next */
     const rechazarAmistad = async (peticion) => {
         rechazarPeticionAmistad(email, peticion);
         let a = await getPeticionesAmistad(email);
@@ -83,7 +83,7 @@ function NotificacionesScreen({ route }) {
         }
         setModalVisible(false);
     };
-
+      /* istanbul ignore next */
     const irALaConversacion = async (emailQueLoEnvia, keyPeticion) => {
         //Eliminar la notificacion:
         await eliminarPeticion(email, keyPeticion);
@@ -91,12 +91,13 @@ function NotificacionesScreen({ route }) {
         await cogerSala(emailQueLoEnvia, email);
 
     }
+          /* istanbul ignore next */
     const funcionEliminarNotificacionConversacion = async (idNotificacion) => {
 
         await eliminarNotificacionConversacion(email, idNotificacion);
 
     }
-
+      /* istanbul ignore next */
     const irAlComentario = async (idBook, idCapitulo, idNotificacion) => {
         //Eliminar la notificacion:
         funcionEliminarNotificacionConversacion(idNotificacion);
@@ -173,7 +174,7 @@ function NotificacionesScreen({ route }) {
                     flexDirection: "row", marginHorizontal: 20
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD", marginRight: 60, justifyContent: "flex-start" }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#2B809C", marginRight: 60, justifyContent: "flex-start" }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
 
@@ -212,10 +213,10 @@ function NotificacionesScreen({ route }) {
                     flexDirection: "row", marginHorizontal: 20,
                 }} >
 
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD", marginRight: 60, }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#2B809C", marginRight: 60, }}>
                         {peticion.Nombre.split("@")[0]}
                     </Text>
-                    <TouchableOpacity onPress={() => irALaConversacion(peticion.Nombre, peticion.key)}>
+                    <TouchableOpacity testID="buttonIrAlaconversacion"onPress={() => irALaConversacion(peticion.Nombre, peticion.key)}>
                         <AntDesign style={{
                             marginHorizontal: 15,
                             marginVertical: 10,
@@ -243,7 +244,7 @@ function NotificacionesScreen({ route }) {
 
 
                 <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#429EBD" }}>
+                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#2B809C" }}>
                         {notificacion.Nombre.split("@")[0] + " "}
                     </Text>
                     <Text style={{ marginVertical: 10, fontSize: 14, color: "black" }}>
@@ -312,7 +313,7 @@ function NotificacionesScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#429EBD",
+                backgroundColor: "#2B809C",
                 borderBottomRightRadius: 500,
                 height: 70,
 

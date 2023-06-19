@@ -4,7 +4,7 @@ import React from "react";
 import { render ,fireEvent} from '@testing-library/react-native'
 import '@testing-library/jest-dom'
 import * as firebase from "@firebase/testing";
-import PrimeraScreen from "../../screens/PrimeraScreen";
+import PrimeraScreen from "../../../screens/Auth/PrimeraScreen";
 
 
 firebase.initializeTestApp({

@@ -1,10 +1,10 @@
 import { View, BackHandler, TextInput, ScrollView, SafeAreaView, StyleSheet, StatusBar, Text, Modal, TouchableOpacity, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import LottieView from 'lottie-react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { cambiarContenidoCapitulo, cambiarTituloCapitulo, getCapitulo, cambiarFechaModificaciónLibro, } from '../../hooks/FirebaseLibros';
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { db } from '../../config/firebase';
+
 
 function EditChapterScreen({ route }) {
     const [texto, setTexto] = useState("");
@@ -12,7 +12,7 @@ function EditChapterScreen({ route }) {
     const navigation = useNavigation();
     const { bookId, capituloNumero, chapterId } = route.params;
     const [isModalVisible, setModalVisible] = useState(false);
-
+    const [isModalVisibleTitulo, setModalVisibleTitulo] = useState(false);
     useEffect(() => {
         cargarCapituloLibros();
         BackHandler.addEventListener('hardwareBackPress', handleEdit);
@@ -41,22 +41,34 @@ function EditChapterScreen({ route }) {
         setTexto(cap.Contenido)
         setTitulo(cap.Titulo)
     }
+    const assertActualizarLibroTitulo = () => {
+
+        if (titulo.length == 0 && titulo.trim().length == 0) {
+            setModalVisibleTitulo(true);
+            return true;
+        }
+        return false;
+    }
 
     const actualizarCapituloLibro = async () => {
         setModalVisible(true)
-        await cambiarTituloCapitulo(bookId, chapterId, titulo)
-        await cambiarContenidoCapitulo(bookId, chapterId, texto)
-        await cambiarFechaModificaciónLibro(bookId);
+        if (!assertActualizarLibroTitulo()) {
+            await cambiarTituloCapitulo(bookId, chapterId, titulo)
+            await cambiarContenidoCapitulo(bookId, chapterId, texto)
+            await cambiarFechaModificaciónLibro(bookId);
+            setModalVisible(false);
+            handleEdit();
+        }
         setModalVisible(false);
 
-        handleEdit();
+    
     }
 
     return (
 
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+            backgroundColor: isModalVisible || isModalVisibleTitulo ? "#A7A7A7" : "white",
         }}>
             <Modal
                 animationType="fade"
@@ -83,7 +95,39 @@ function EditChapterScreen({ route }) {
                     <Text style={styles.textWait}>Cargando.....</Text>
                 </View>
             </Modal>
+            <Modal
+                animationType="fade"
+                visible={isModalVisibleTitulo}
+                transparent>
+                <View style={styles.modalAviso}>
+                    <AntDesign name="warning" size={35} color="#E39801" />
+                    <Text style={styles.textoAviso}>
+                        NO puedes dejar un capítulo sin titulo</Text>
+                    <TouchableOpacity style={{
+                        width: "50%",
+                        padding: 12,
+                        borderRadius: 20,
+                        alignItems: "center",
+                        marginLeft: "auto",
+                        marginRight: "auto",
+                        backgroundColor:  "#B00020",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                            width: 0,
+                            height: 12,
+                        },
+                        shadowOpacity: 0.8,
+                        shadowRadius: 6.00,
+                        elevation: 15,
+                    }}
+                        onPress={e => setModalVisibleTitulo(false)}>
+                        <Text style={styles.textoAvisoButton}>
+                            Aceptar
+                        </Text>
+                    </TouchableOpacity>
 
+                </View>
+            </Modal>
             {/* Head */}
             <StatusBar
                 translucent={false}
@@ -109,7 +153,7 @@ function EditChapterScreen({ route }) {
                             alignItems: "center",
                             marginLeft: 35,
                             marginRight: "auto",
-                            backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
+                            backgroundColor: isModalVisible || isModalVisibleTitulo ? "#8D8D8D" : "#E39801",
                             shadowColor: "#000",
                             shadowOffset: {
                                 width: 0,
@@ -133,9 +177,10 @@ function EditChapterScreen({ route }) {
 
                 <View style={{
                     maxHeight: 850,
-                    backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+                    backgroundColor: isModalVisible || isModalVisibleTitulo ? "#A7A7A7" : "white",
                     marginHorizontal: 30,
                     marginTop: 10,
+            
                 }}>
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
                         Título
@@ -146,19 +191,17 @@ function EditChapterScreen({ route }) {
                         value={titulo}
                         onChangeText={(text) => setTitulo(text)}
                         style={{
-
-                            marginRight: 20,
-                            marginLeft: 20,
                             paddingHorizontal: 20,
                             paddingVertical: 10,
                             borderRadius: 10,
-                            color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+                            color: "black", backgroundColor: isModalVisible || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
                         }}
                         multiline={true}
                         scrollEnabled={true}
                     ></TextInput>
 
                     <Text style={{ fontSize: 15, color: "black", marginTop: 10, marginBottom: 10 }}>Descripción</Text>
+                   <View>
                     <KeyboardAvoidingView behavior="padding">
                         <TextInput
                             placeholder="Contenido"
@@ -166,12 +209,10 @@ function EditChapterScreen({ route }) {
                             value={texto}
                             onChangeText={(text) => setTexto(text)}
                             style={{
-                                paddingHorizontal: 10,
+                                padding:10,
                                 borderRadius: 10,
-                                color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
-                                textAlign: 'justify',
-
-                              
+                                color: "black", backgroundColor: isModalVisible || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8",
+                   
                             }}
                             multiline={true}
                             scrollEnabled={true}
@@ -180,7 +221,7 @@ function EditChapterScreen({ route }) {
                     </KeyboardAvoidingView>
 
                 </View>
-
+                </View>
             </ScrollView>
 
         </SafeAreaView>
@@ -204,6 +245,21 @@ const styles = StyleSheet.create({
         height: '100%',
         width: '100%'
     },
+    modalAviso: {
+        marginTop: "auto",
+        marginBottom: "auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: 200,
+        borderColor: "#8EAF20",
+        borderRadius: 20,
+        borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+        shadowColor: "black",
+        shadowOpacity: 0.89,
+        shadowOffset: { width: 0, height: 9 },
+        shadowRadius: 10,
+        elevation: 12,
+    },
     textWait: {
         marginBottom: 10,
         fontSize: 15,
@@ -211,6 +267,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginLeft: "auto",
         marginRight: "auto"
+    },
+    textoAviso: {
+        marginVertical: 20,
+        marginHorizontal: 20,
     },
     head: {
         paddingTop: 20,
@@ -222,5 +282,10 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         borderRadius: 60,
     },
+    textoAvisoButton: {
+        fontSize: 15,
+        fontWeight: "bold",
+        color: "white"
+    }, 
 });
 export default EditChapterScreen

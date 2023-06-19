@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
 import { List, Checkbox } from 'react-native-paper';
@@ -18,7 +18,7 @@ import { enviarReporteAutor } from "../../hooks/FirebaseReportes"
 
 
 function ReportarAutorScreen({ route }) {
-    const [selectedOption1, setSelectedOption1] = useState(false);
+    const [selectedOption1, setSelectedOption1] = React.useState(false);
 
     const [selectedOptionMini, setSelectedOptionMini] = useState('');
     const [email, setEmail] = useState("");
@@ -102,7 +102,7 @@ function ReportarAutorScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#429EBD",
+                backgroundColor: "#2B809C",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -124,28 +124,32 @@ function ReportarAutorScreen({ route }) {
                 </Text>
 
                 <List.Accordion
+                    testID='buttonListAccordation'
                     title="Contenido inapropiado"
                     titleStyle={{ color: "black", fontWeight: "bold", backgroundColor: isModalVisible ? "#A7A7A7" : "white", }}
                     expanded={selectedOption1}
                     onPress={() => handleOption1Change(!selectedOption1)}>
                     <View >
                         <Checkbox.Item
+                             testID='buttonCheckboxAccordationDivulgacion'
                             label="Divulgación de Información personal"
                             status={selectedOptionMini === 'Divulgación de Información personal' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Divulgación de Información personal')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                         <Checkbox.Item
                             label="Spam"
+                            testID='buttonSpam'
                             status={selectedOptionMini === 'Spam' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Spam')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                         <Checkbox.Item
+                              testID='buttonOdio'
                             label="Odio y Acoso"
                             status={selectedOptionMini === 'Odio y Acoso' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Odio y Acoso')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                     </View>
                 </List.Accordion>
@@ -163,6 +167,7 @@ function ReportarAutorScreen({ route }) {
                                 Por favor escribe tantos detalles como sean posible.
                             </Text>
                             <TextInput
+                            placeholder="Motivo"
                                 placeholderTextColor="black"
                                 value={motivo}
                                 onChangeText={(text) => setMotivo(text)}
@@ -188,7 +193,24 @@ function ReportarAutorScreen({ route }) {
                         >
                             <TouchableOpacity
                                 testID="buttonEnviar"
-                                style={styles.buttonEnviar}
+                                style={{
+                                    backgroundColor: (motivo.length == 0 || motivo.trim().length == 0) ? "#8D8D8D" : "#E39801",
+                                    width: "50%",
+                                    marginTop: 10,
+                       
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 12,
+                                    },
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 6.00,
+                                    elevation: 15,
+                                    padding: 12,
+                                    borderRadius: 20,
+                                    alignItems: "center",
+                                    marginBottom: 15,
+                                }}
                                 onPress={() => enviarReporte()}
                                 disabled={(motivo.length == 0 || motivo.trim().length == 0)}
                             >
@@ -254,23 +276,6 @@ const styles = StyleSheet.create({
     },
     buttonEnviar: {
 
-        width: "50%",
-        marginTop: 10,
-        backgroundColor: "#E39801",
-
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 12,
-        },
-        shadowOpacity: 0.8,
-        shadowRadius: 6.00,
-        elevation: 15,
-
-        padding: 12,
-        borderRadius: 20,
-        alignItems: "center",
-        marginBottom: 15,
 
     }
 

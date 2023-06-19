@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/20</span>
+                <span class='fraction'>0/20</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/20</span>
+                <span class='fraction'>0/20</span>
             </div>
         
             
@@ -103,28 +103,28 @@
 <a name='L38'></a><a href='#L38'>38</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -140,9 +140,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { getStorage, ref, uploadBytes,getDownloadURL } from "firebase/storage";
 &nbsp;
 &nbsp;
-export const crearLibroStorage = async (image, email, id) =&gt; {
-    let urlPortada = "";
-    let imageFile = await fetch(image)
+export const crearLibroStorage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (image, email, id) =&gt; {</span>
+    let urlPortada = <span class="cstat-no" title="statement not covered" >"";</span>
+    let imageFile = <span class="cstat-no" title="statement not covered" >await fetch(image)</span>
     const imageBlob = <span class="cstat-no" title="statement not covered" >await imageFile.blob();</span>
     const storage = <span class="cstat-no" title="statement not covered" >getStorage();</span>
     const refi = <span class="cstat-no" title="statement not covered" >ref(storage, `Portadas/${email}/${id}`);</span>
@@ -158,10 +158,10 @@ export const crearLibroStorage = async (image, email, id) =&gt; {
 <span class="cstat-no" title="statement not covered" >    return urlPortada;</span>
 }
 &nbsp;
-export const crearFotoPerfilStorage = async (image, email) =&gt; {
+export const crearFotoPerfilStorage = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync (image, email) =&gt; {</span>
 &nbsp;
-    let urlPerfil = "";
-    let imageFile = await fetch(image)
+    let urlPerfil = <span class="cstat-no" title="statement not covered" >"";</span>
+    let imageFile = <span class="cstat-no" title="statement not covered" >await fetch(image)</span>
     const imageBlob = <span class="cstat-no" title="statement not covered" >await imageFile.blob();</span>
     const storage = <span class="cstat-no" title="statement not covered" >getStorage();</span>
     const refi = <span class="cstat-no" title="statement not covered" >ref(storage, `Perfil/${email}/Foto`);</span>
@@ -181,7 +181,7 @@ export const crearFotoPerfilStorage = async (image, email) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-22T14:50:24.977Z
+                at 2023-06-04T21:41:46.417Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal, FlatList } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal, FlatList ,BackHandler} from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, AntDesign, Entypo } from '@expo/vector-icons';
@@ -19,9 +19,9 @@ function DetailBookScreen({ route }) {
     const [libroActual, setLibroActual] = useState({});
     const [megusta, setMeGusta] = useState(false);
     const [hayCapitulo, setHayCapitulo] = useState(true);
-    const [capitulos, setCapitulos] = useState([]);
-    const [categorias, setCategorias] = useState([]);
-    const [etiquetas, setEtiquetas] = useState([]);
+    const [capitulos, setCapitulos] = React.useState([]);
+    const [categorias, setCategorias] = React.useState([]);
+    const [etiquetas, setEtiquetas] = React.useState([]);
 
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -32,9 +32,13 @@ function DetailBookScreen({ route }) {
     const { bookId } = route.params;
 
     useEffect(() => {
+        BackHandler.addEventListener('hardwareBackPress', handleHome);
         const unsubscribe = navigation.addListener('focus', () => {
+
             hacerCosas();
+            BackHandler.removeEventListener('hardwareBackPress', handleHome);
         });
+        
         return unsubscribe;
     }, [email, portada, megusta]);
 
@@ -68,8 +72,9 @@ function DetailBookScreen({ route }) {
     }
 
     const handleLeerLibro = async () => {
-        setModalVisible(true)
-
+       
+        if(hayCapitulo){
+            setModalVisible(true)
         //Cambiar el ultimo libro leido:
         await cambiarUltimoLibroLeido(bookId, email, 1);
         setModalVisible(false)
@@ -78,7 +83,8 @@ function DetailBookScreen({ route }) {
             bookId: bookId,
             capituloNumero: 1,
             screen: "detailsBookScreen",
-        });
+        });}
+        
     }
     const goAutor = async (autorPulsado) => {
         navigation.replace("autorScreen", {
@@ -87,7 +93,7 @@ function DetailBookScreen({ route }) {
         });
     }
     const reportarLibro = async () => {
-        setOpenMenu(false)
+        setOpenMenu(false);
         navigation.navigate("reportBookScreen", {
             bookId: bookId,
         });
@@ -123,7 +129,7 @@ function DetailBookScreen({ route }) {
             <View
                 style={{
                     marginTop: 10,
-                    borderColor: "#429EBD",
+                    borderColor: "#2B809C",
                     marginHorizontal: 5,
                     paddingHorizontal: 10,
                     paddingVertical: 5,
@@ -192,7 +198,7 @@ function DetailBookScreen({ route }) {
                     borderBottomEndRadius: 1,
                     marginLeft: 10,
 
-                    width: libro.Titulo.length ? 150 : libro.Titulo.length + 50
+                    width: libro.Titulo?.length ? 150 : libro.Titulo?.length + 50
                 }}>
                     <Text style={{ marginTop: 10, fontSize: 15, color: "black", }}>
                         {libro.Titulo}
@@ -228,7 +234,7 @@ function DetailBookScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#429EBD",
+                backgroundColor: "#2B809C",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -240,8 +246,8 @@ function DetailBookScreen({ route }) {
                 <Text style={styles.fontTitulo}>{libroActual.Titulo}</Text>
                 {/* Menu de acciones*/}
                 <View style={{ alignItems: "flex-end", marginHorizontal: 30, }}>
-                    <Menu opened={openMenu}>
-                        <MenuTrigger onPress={() => setOpenMenu(true)}>
+                    <Menu  testID="buttonOnBackdropPress" onBackdropPress={() => setOpenMenu(false)} opened={openMenu}>
+                        <MenuTrigger testID="buttonMenuTrigger" onPress={() => setOpenMenu(true)}>
                             <Entypo name="dots-three-vertical" size={24} color="white" />
                         </MenuTrigger>
                         <MenuOptions style={{
@@ -298,11 +304,11 @@ function DetailBookScreen({ route }) {
 
                     {/* Boton de gustar */}
                     <TouchableOpacity testID='buttonMeGusta' style={{ marginTop: "auto", marginBottom: "auto", marginLeft: 15, marginRight: "auto" }} onPress={() => handleLibroMeGustaFirebase()}>
-                        {megusta ? <AntDesign name="heart" size={30} color="#429EBD" /> : <AntDesign name="hearto" size={30} color="#429EBD" />}
+                        {megusta ? <AntDesign name="heart" size={30} color="#2B809C" /> : <AntDesign name="hearto" size={30} color="#2B809C" />}
                     </TouchableOpacity>
 
                 </View>
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: "#429EBD", marginLeft: "auto", marginRight: "auto", marginBottom: 10 }}>{libroActual.Estado}</Text>
+                <Text style={{ fontSize: 20, fontWeight: "bold", color: "#2B809C", marginLeft: "auto", marginRight: "auto", marginBottom: 10 }}>{libroActual.Estado}</Text>
                 {/* Categorias explorar */}
                 <FlatList
                     contentContainerStyle={{ marginLeft: "auto", marginRight: "auto" }}
@@ -328,9 +334,9 @@ function DetailBookScreen({ route }) {
                     </ScrollView>
                 </View>
                 {/* Capitulos */}
-                <View style={{ marginHorizontal: 40, marginBottom: 20, }}>
+                <View style={{ marginHorizontal: 40,  }}>
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
-                        Capitulos{":    "}
+                    Capítulos{":    "}
 
                     </Text>
                     {
@@ -347,7 +353,7 @@ function DetailBookScreen({ route }) {
                                     source={require("../../../assets/NoLibrosWrite.png")}
                                     style={styles.image}
                                 />
-                                <Text style={styles.textImage}>No hay capitulos......</Text>
+                                <Text style={styles.textImage}>No hay capítulos......</Text>
                             </View>
                     }
                 </View>
@@ -373,7 +379,7 @@ function DetailBookScreen({ route }) {
                 <TouchableOpacity testID='buttonGoAutor' onPress={() => goAutor(libroActual.Autor)} style={{ marginHorizontal: 40, fontSize: 17 }}>
                     <Text>
                         Autor: {" "}
-                        <Text style={{ fontSize: 15, color: "#429EBD" }}>
+                        <Text style={{ fontSize: 15, color: "#2B809C" }}>
                             {libroActual.Autor}
                         </Text>
                     </Text>

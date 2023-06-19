@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
-import { AntDesign, Foundation } from '@expo/vector-icons';
+import { AntDesign, Foundation,Entypo } from '@expo/vector-icons';
 
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { cargarBooksAutor } from "../../hooks/FirebaseLibros";
@@ -114,7 +114,7 @@ function WriteScreen() {
           }}
         ></ImageBackground>
         <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
-          <Text style={{ fontSize: 15, fontWeight: "bold", color: "#429EBD" }}>
+          <Text style={{ fontSize: 15, fontWeight: "bold", color: "#2B809C" }}>
 
             {libro.Titulo}
           </Text>
@@ -134,6 +134,7 @@ function WriteScreen() {
               width: 90,
               height: 30,
               borderWidth: 2,
+
               borderColor: "#E39801",
               borderRadius: 8,
               alignItems: "center",
@@ -144,7 +145,8 @@ function WriteScreen() {
               handleEditBook(libro.key)
             }}
           >
-            <AntDesign name="edit" size={24} color="#E39801" />
+            <Entypo name="pencil" size={24} color="#E39801" />
+
           </TouchableOpacity>
         </View>
       </View>
@@ -235,6 +237,7 @@ function WriteScreen() {
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "black", marginHorizontal: 10, marginTop: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3 }}>
           Editar libros
         </Text>
+        <View style={{flex:1,}}>
         {
           books.length != 0 ?
         
@@ -260,7 +263,7 @@ function WriteScreen() {
               </View>
           
         }
-           
+           </View>   
     </SafeAreaView>
   )
 }

@@ -8,6 +8,8 @@ import ChatCapituloScreen from '../screens/BookScreen/ChatCapituloScreen';
 import ExploreScreen from "../screens/ExploreScreen/ExploreScreen";
 import ReportarComentarioScreen from '../screens/BookScreen/ReportComentarioScreen';
 import ReportAutorScreen from '../screens/AutoresScreen/ReportAutorScreen';
+import HomeScreen from "../screens/HomeScreen";
+import ChatScreen from "../screens/ChatScreen/ChatScreen";
 const Stack = createNativeStackNavigator();
 
 export default function BibliotecaStack() {
@@ -20,7 +22,9 @@ export default function BibliotecaStack() {
       <Stack.Screen name="reportcomentariosCapituloScreen" component={ReportarComentarioScreen} /> 
       <Stack.Screen name="reportAutorScreen" component={ReportAutorScreen} /> 
       <Stack.Screen  name="autorScreen" component={AutoresScreen} />
-      <Stack.Screen initialRouteName name="explore" component={ExploreScreen} />
+      <Stack.Screen  name="explore" component={ExploreScreen} />
+      <Stack.Screen  name="home" component={HomeScreen} />
+      <Stack.Screen  name="chatScreen" component={ChatScreen} /> 
     </Stack.Navigator>
   );
 }

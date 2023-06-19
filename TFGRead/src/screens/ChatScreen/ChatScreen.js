@@ -161,11 +161,11 @@ function ChatScreen({ route }) {
                         flexDirection: "column",marginLeft:5,marginTop:5,
                     }} >
                         {sala.Usuario2 == email ?
-                            <Text style={{ marginVertical: 5, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
+                            <Text style={{ marginVertical: 5, fontSize: 20, fontWeight: "bold", color: "#2B809C" }}>
                                 {sala.Usuario1.split("@")[0]}
                             </Text> :
 
-                            <Text style={{ marginVertical: 5, fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
+                            <Text style={{ marginVertical: 5, fontSize: 20, fontWeight: "bold", color: "#2B809C" }}>
                                 {sala.Usuario2.split("@")[0]}
                             </Text>
                         }

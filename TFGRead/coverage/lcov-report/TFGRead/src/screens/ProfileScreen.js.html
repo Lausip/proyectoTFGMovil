@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>13/14</span>
+                <span class='fraction'>11/12</span>
             </div>
         
             
@@ -342,7 +342,12 @@
 <a name='L277'></a><a href='#L277'>277</a>
 <a name='L278'></a><a href='#L278'>278</a>
 <a name='L279'></a><a href='#L279'>279</a>
-<a name='L280'></a><a href='#L280'>280</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -469,6 +474,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -571,18 +581,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -624,7 +634,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { View, Text,TextInput, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, Modal,BackHandler } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons,AntDesign  } from '@expo/vector-icons';
 import { getUserAuth} from "../hooks/Auth/Auth";
 import LottieView from 'lottie-react-native';
 import { crearFotoPerfilStorage } from "../hooks/Storage";
@@ -748,6 +758,11 @@ function ProfileScreen({ route }) {
                 &lt;/TouchableOpacity&gt;
                 {/*nombre e inicio*/}
                 &lt;Text style={styles.fontTitulo}&gt;Perfil&lt;/Text&gt;
+                &lt;TouchableOpacity testID='buttonSalir' onPress={() =&gt;  handleSignOut()}&gt;
+                &lt;AntDesign style={{
+                marginRight:30 }}name="poweroff" size={24} color="#E39801" /&gt;
+                &lt;/TouchableOpacity&gt;
+             
             &lt;/View&gt;
             {/* Contenedor Perfil*/}
             &lt;View style={{
@@ -828,7 +843,7 @@ function ProfileScreen({ route }) {
             {/* Descripción del libro*/}
 &nbsp;
 &nbsp;
-&nbsp;
+{/* 
             &lt;TouchableOpacity
             testID='buttonSalir'
                 style={{
@@ -855,7 +870,7 @@ function ProfileScreen({ route }) {
                 &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
                     Desconectarse
                 &lt;/Text&gt;
-            &lt;/TouchableOpacity&gt;
+            &lt;/TouchableOpacity&gt; */}
         &lt;/SafeAreaView&gt;
 &nbsp;
 &nbsp;
@@ -892,7 +907,7 @@ const styles = StyleSheet.create({
         marginTop: "auto",
         marginBottom: "auto",
         marginLeft: "auto",
-        marginRight: 170,
+        marginRight: "auto",
         marginVertical: 30,
         fontSize: 25,
         color: "white",
@@ -907,7 +922,7 @@ export default ProfileScreen</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-22T14:50:24.977Z
+                at 2023-06-04T21:41:46.417Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

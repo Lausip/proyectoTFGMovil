@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -105,24 +105,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -135,28 +135,28 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthStack from './AuthStack';
 import BottomTab from '../components/BottomTab';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../config/firebase"
+export default function <span class="fstat-no" title="function not covered" >RootNavigator(</span>) {
+  const [user, setUser] = <span class="cstat-no" title="statement not covered" >useState(null);</span>
 &nbsp;
-export default function RootNavigator() {
-  const [user, setUser] = useState(null);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
 &nbsp;
 &nbsp;
-  useEffect(() =&gt; {
-    const auth = getAuth();
-   
     // onAuthStateChanged returns an unsubscriber
-    const unsubscribeAuth = onAuthStateChanged(auth, <span class="fstat-no" title="function not covered" >au</span>thenticatedUser =&gt; {
-<span class="cstat-no" title="statement not covered" >        authenticatedUser ? setUser(authenticatedUser) : setUser(null);</span>
-    
+    const unsubscribeAuth = <span class="cstat-no" title="statement not covered" >onAuthStateChanged(auth, <span class="fstat-no" title="function not covered" >au</span>thenticatedUser =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      authenticatedUser ? setUser(authenticatedUser) : setUser(null);</span>
+&nbsp;
     });
 &nbsp;
     // unsubscribe auth listener on unmount
-    return unsubscribeAuth;
+<span class="cstat-no" title="statement not covered" >    return unsubscribeAuth;</span>
   }, []);
 &nbsp;
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;NavigationContainer&gt;
-      {user ? <span class="branch-0 cbranch-no" title="branch not covered" >&lt;BottomTab /&gt; </span>: &lt;AuthStack /&gt;}
+      {user ? &lt;BottomTab /&gt; : &lt;AuthStack /&gt;}
     &lt;/NavigationContainer&gt;
   );
 }</pre></td></tr></table></pre>
@@ -166,7 +166,7 @@ export default function RootNavigator() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-22T14:50:24.977Z
+                at 2023-06-04T21:41:46.417Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

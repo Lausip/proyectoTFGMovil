@@ -50,7 +50,7 @@ const PrimeraScreen = () => {
             style={{
               fontSize: 17,
               fontWeight: "bold",
-              color: "#429EBD",
+              color: "#2B809C",
               marginLeft: 20,
             }}
           >
@@ -83,13 +83,13 @@ const PrimeraScreen = () => {
             ¿No tienes cuenta?{" "}
             <Text
               style={{
-                fontSize: 12,
+                fontSize: 15,
                 fontWeight: "bold",
                 color: "#8EAF20",
                 marginLeft: 10,
               }}
             >
-              Registrate
+              Regístrate
             </Text>
           </Text>
         </TouchableOpacity>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     marginLeft: 100,
     fontSize: 30,
     fontWeight: "bold",
-    color: "#429EBD",
+    color: "#2B809C",
   },
   fontEnunciado: {
     marginTop: 20,

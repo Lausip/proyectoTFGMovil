@@ -1,13 +1,13 @@
 /** @jest-environment jsdom */
 
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react-native'
+import { render, fireEvent, waitFor, act } from '@testing-library/react-native'
 import '@testing-library/jest-dom'
 import * as firebase from "@firebase/testing";
 
 import BooksScreen from '../../../screens/BookScreen/BooksScreen';
-import {getCapitulo,getCapitulosDelLibro} from "../../../hooks/FirebaseLibros";
-
+import { getCapitulo, getCapitulosDelLibro, } from "../../../hooks/FirebaseLibros";
+import { handleElLibroEstaEnMeGusta } from '../../../hooks/Auth/Firestore';;
 firebase.initializeTestApp({
     projectId: "tfgbook-f69af",
     auth: { uid: "63ToLd0bNfaiwcxYHpX9kxm99ae2", email: "admin@gmail.com" }
@@ -43,6 +43,10 @@ const mockultimoLibro = new Object({
 const mockedReplace = jest.fn();
 const mockedNavigate = jest.fn();
 
+
+
+
+
 jest.mock('@react-navigation/native', () => {
     const actualNav = jest.requireActual('@react-navigation/native');
     return {
@@ -52,57 +56,67 @@ jest.mock('@react-navigation/native', () => {
             setOptions: jest.fn(),
             replace: mockedReplace,
 
+
         }),
-        useIsFocused: () => true,
+
+
         useFocusEffect: () => jest.fn(),
     };
 });
 
+
+
+
 jest.mock('../../../hooks/Auth/Auth', () => {
     return {
-        getUserAuth: () => {return ""},
+        getUserAuth: () => { return "" },
     };
 });
 
-jest.mock('../../../hooks/Auth/Firestore', () => {
-    return {
-        updateUltimoCapitulo: () => jest.fn(),
-        handleElLibroEstaEnMeGusta: () => jest.fn(),
-        cambiarUltimoLibroLeido: () => jest.fn(),
-    };
-});
-jest.mock('../../../hooks/FirebaseLibros', () => ({
- 
-        cargarDatosLibro: () => { return mockultimoLibro },
-        getCategoriasLibro: () => { return [{ Nombre: "Romance", Color: "#7897" }] },
-        cambiarDescripcion: () => jest.fn(),
-        cambiarTitulo: () => jest.fn(),
-        cambiarEstado: () => jest.fn(),
-        cambiarCategoria: () => jest.fn(),
-        getPortadaLibro: () => jest.fn(),
-        getCapitulosDelLibro: jest.fn(),
-        eliminarEtiqueta:  jest.fn(),
-        getCapitulo:  jest.fn()
+jest.mock('../../../hooks/Auth/Firestore', () => ({
+
+    updateUltimoCapitulo: () => jest.fn(),
+    handleElLibroEstaEnMeGusta: jest.fn(),
+    cambiarUltimoLibroLeido: () => jest.fn(),
 
 }));
+
+jest.mock('../../../hooks/FirebaseLibros', () => ({
+
+    cargarDatosLibro: () => { return mockultimoLibro },
+    getCategoriasLibro: () => { return [{ Nombre: "Romance", Color: "#7897" }] },
+    cambiarDescripcion: () => jest.fn(),
+    cambiarTitulo: () => jest.fn(),
+    cambiarEstado: () => jest.fn(),
+    cambiarCategoria: () => jest.fn(),
+    getPortadaLibro: () => jest.fn(),
+    getCapitulosDelLibro: jest.fn(),
+    eliminarEtiqueta: jest.fn(),
+    getCapitulo: jest.fn(),
+
+
+}));
+
 describe('BooksScreen test', () => {
 
 
     afterEach(async () => {
+
         jest.clearAllMocks();
+
         console.error = jest.fn();
         console.warn = () => { return };
 
     });
     it('Should render BooksScreen', async () => {
-        getCapitulo.mockReturnValue({mockultimoLibro});
+        getCapitulo.mockReturnValue({ mockultimoLibro });
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<BooksScreen route={{ params: "" }} />)
 
 
     });
 
-    
+
     it('Should render  wuhotu capituloSiguiente', async () => {
         getCapitulo.mockReturnValue("");
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
@@ -125,7 +139,7 @@ describe('BooksScreen test', () => {
 
     });
 
-    
+
     it('BooksScreen Should click cargarOpciones with cambiarNocheDia', async () => {
 
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
@@ -143,6 +157,8 @@ describe('BooksScreen test', () => {
     });
 
     it('BooksScreen Should click cargarOpciones with siguienteCapitulo', async () => {
+        React.useState = jest.fn()
+            .mockReturnValue([true, {}])
 
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<BooksScreen route={{ params: "" }} />)
@@ -154,8 +170,22 @@ describe('BooksScreen test', () => {
 
     });
 
+    it('BooksScreen Should click irAotroCapitulo', async () => {
+        React.useState = jest.fn()
+            .mockReturnValue([true, {}])
+
+
+        const component = render(<BooksScreen route={{ params: "" }} />)
+        const touchableEl = component.queryByTestId('buttonIrCapitulo');
+        fireEvent.press(touchableEl);
+
+
+
+    });
+
     it('BooksScreen Should click cargarOpciones with sacarCapitulosView', async () => {
-        getCapitulosDelLibro.mockReturnValue([new Object({Titulo:"hey"})]);
+        getCapitulosDelLibro.mockReturnValue([new Object({ Titulo: "hey" })]);
+        handleElLibroEstaEnMeGusta.mockImplementation(() => false)
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<BooksScreen route={{ params: "" }} />)
         const touchableEl = component.queryByTestId('buttonCargarOpciones');
@@ -171,4 +201,64 @@ describe('BooksScreen test', () => {
 
 
     });
+
+    it('BooksScreen Should view modalAñadirMegusta and goBack and megusta false', async () => {
+        React.useState = jest.fn()
+            .mockReturnValue([true, {}])
+            .mockReturnValue(["holiiii", {}])
+            .mockReturnValue([true, {}])
+
+        handleElLibroEstaEnMeGusta.mockImplementation(() => false)
+        const component = render(<BooksScreen route={{ params: "" }} />)
+        const touchableEl = component.queryByTestId('buttonGoBack');
+
+        fireEvent.press(touchableEl);
+
+    });
+
+    it('BooksScreen Should view modalAñadirMegusta and goBack and megusta true', async () => {
+        React.useState = jest.fn()
+            .mockReturnValue([true, {}])
+            .mockReturnValue(["holiiii", {}])
+            .mockReturnValue([true, {}])
+
+        handleElLibroEstaEnMeGusta.mockImplementation(() => true)
+        const component = render(<BooksScreen route={{ params: "" }} />)
+        const touchableEl = component.queryByTestId('buttonGoBack');
+
+        fireEvent.press(touchableEl);
+
+    });
+    it('BooksScreen Should view modalAñadirMegusta and añadirLibroBiblioteca', async () => {
+        React.useState = jest.fn()
+            .mockReturnValue([true, {}])
+            .mockReturnValue(["holiiii", {}])
+            .mockReturnValue([true, {}])
+
+        handleElLibroEstaEnMeGusta.mockImplementation(() => false)
+        const component = render(<BooksScreen route={{ params: "" }} />)
+        component.debug();
+        const touchableEl = component.queryByTestId('buttonAñadirMegusta');
+
+        fireEvent.press(touchableEl);
+
+    });
+
+    it('BooksScreen Should click irAComentarios', async () => {
+        React.useState = jest.fn()
+            .mockReturnValue([false, {}])
+
+
+
+        const component = render(<BooksScreen route={{ params: "" }} />)
+
+        const touchableEl = component.queryByTestId('buttonCargarOpciones');
+        fireEvent.press(touchableEl);
+        const touchableEl2 = component.queryByTestId('buttonIrComentarios');
+
+        fireEvent.press(touchableEl2);
+
+    });
+
+
 });

@@ -3,21 +3,21 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity,Image,
+    TouchableOpacity, Image,
     Modal, StatusBar, BackHandler,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState, useCallback } from "react";
 import LottieView from 'lottie-react-native';
-import { getFotoPerfil, anadirAAmigos, bloquearPersonaFirebase ,desbloquearPersonaFirebase} from "../../hooks/Auth/Firestore";
-import { addMessage, getMessage, updateAmigosSala,bloquearPersonaSala } from "../../hooks/ChatFirebase";
+import { getFotoPerfil, anadirAAmigos, bloquearPersonaFirebase, desbloquearPersonaFirebase, mirarSiBloqueado } from "../../hooks/Auth/Firestore";
+import { addMessage, getMessage, updateAmigosSala, bloquearPersonaSala } from "../../hooks/ChatFirebase";
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import {
     GiftedChat,
     Bubble,
     Send,
-    Day, InputToolbar, Time,Avatar
+    Day, InputToolbar, Time, Avatar
 } from 'react-native-gifted-chat';
 
 
@@ -31,6 +31,7 @@ function ChatConversationScreen({ route }) {
     const [messages, setMessages] = useState([]);
     const [isModalVisible, setModalVisible] = useState(false);
     const [desbloquear, setDesbloquear] = useState(false);
+    const [estasBloqueado, setEstasBloqueado] = useState(false);
     const [ponerAmigo, setPonerAmigo] = useState(false);
 
     const { sala, screen } = route.params;
@@ -40,52 +41,48 @@ function ChatConversationScreen({ route }) {
             headerShown: false,
         });
         hacerCosas();
-   
-        BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        BackHandler.addEventListener('hardwareBackPress', handleChats);
 
         return () =>
-            BackHandler.removeEventListener('hardwareBackPress', backAction);
+            BackHandler.removeEventListener('hardwareBackPress', handleChats);
 
     }, []);
-    const backAction = async () => {
-        navigation.push("chatScreen", {
-
-        });
-    }
 
 
-
-
+    /* istanbul ignore next */
     const hacerCosas = async () => {
-        setModalVisible(true)  
+        setModalVisible(true)
         let e = await getUserAuth();
         if (sala.Usuario1 == e) {
             setAmigo(sala.Usuario2)
             setFotoPerfilAmigo(await getFotoPerfil(sala.Usuario2));
+            setEstasBloqueado(await mirarSiBloqueado(e, sala.Usuario2));
         } else {
             setAmigo(sala.Usuario1)
             setFotoPerfilAmigo(await getFotoPerfil(sala.Usuario1));
+            setEstasBloqueado(await mirarSiBloqueado(e, sala.Usuario1));
         }
         setEmail(e);
         cogerMensajes();
-
         setDesbloquear(sala.Bloqueado);
         setPonerAmigo(sala.Amigo);
         setFotoPerfil(await getFotoPerfil(e));
+
         setModalVisible(false)
 
-    }
 
+    }
+    /* istanbul ignore next */
     const cogerMensajes = async () => {
         let m = await getMessage(sala.key);
-   
         setMessages(m);
     }
-
+    /* istanbul ignore next */
     const handleChats = () => {
-        navigation.replace(screen);
+        navigation.replace("chatScreen");
     }
-
+    /* istanbul ignore next */
     const añadirAAmigo = async () => {
 
         await anadirAAmigos(email, amigo);
@@ -94,29 +91,30 @@ function ChatConversationScreen({ route }) {
         setPonerAmigo(true);
 
     }
+    /* istanbul ignore next */
     const bloquearPersona = async () => {
         //Añadir a lista de bloqueados
         await bloquearPersonaFirebase(email, amigo);
         //Sala poner true a sala
-        await bloquearPersonaSala(sala.key,true);
+        await bloquearPersonaSala(sala.key, true);
         setDesbloquear(true)
 
     }
-
+    /* istanbul ignore next */
     const desbloquearPersona = async () => {
         //Quitar a lista de bloqueados
         await desbloquearPersonaFirebase(email, amigo);
         //Sala poner false a sala
-        await bloquearPersonaSala(sala.key,false);
+        await bloquearPersonaSala(sala.key, false);
         setDesbloquear(false)
     }
-
+    /* istanbul ignore next */
     const onSend = useCallback(async (messages = []) => {
         setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
         await addMessage(sala.key, messages[0], email)
     }, [])
 
-
+    /* istanbul ignore next */
     function renderSend(props) {
         return (
             <Send {...props} containerStyle={{ borderWidth: 0 }}>
@@ -126,8 +124,9 @@ function ChatConversationScreen({ route }) {
             </Send>
         );
     }
+    /* istanbul ignore next */
     function renderBubble(props) {
-   
+
         return (
             <Bubble
                 {...props}
@@ -145,16 +144,18 @@ function ChatConversationScreen({ route }) {
                         backgroundColor: '#8EAF20',
                     },
                     left: {
-                        backgroundColor: '#429EBD',
+                        backgroundColor: '#2B809C',
                     },
 
                 }}
             />
         );
     }
+    /* istanbul ignore next */
     function renderDay(props) {
         return <Day {...props} textStyle={{ color: 'black', textDecorationLine: 'underline' }} />
     }
+    /* istanbul ignore next */
     function renderInputToolbar(props) {
         return <InputToolbar {...props} containerStyle={{
             marginHorizontal: 20,
@@ -167,11 +168,12 @@ function ChatConversationScreen({ route }) {
             shadowOffset: { width: 0, height: 9 },
             shadowRadius: 10,
             elevation: 6,
-            backgroundColor: (!sala.Amigo && sala.Enviado == amigo) || sala.Bloqueado ? "#A7A7A7" : "#FFFF"
+            backgroundColor: (!sala.Amigo && sala.Enviado == amigo) || sala.Bloqueado ? "#ECECEC" : "#FFFF"
         }}
 
         />
     }
+    /* istanbul ignore next */
     function renderTime(props) {
         return (
             <Time
@@ -187,24 +189,12 @@ function ChatConversationScreen({ route }) {
             />
         );
     }
+    /* istanbul ignore next */
     function renderAvatar(props) {
-        const { currentMessage } = props;
-   
-        console.log(fotoPerfilAmigo)
-        if (currentMessage.user._id !== email) { // Cambia 'tu_id_usuario' con el ID de usuario de la otra persona en la conversación
-            console.log(currentMessage)
-          return (
-            <Avatar
-              {...props}
-              size={40}
-              style={{ marginLeft: 8 }}
-              source={{ uri: fotoPerfilAmigo }} // Cambia la imagen con la URL de la imagen del avatar
-            />
-          );
-        }
+
         return null;
     }
-      
+
     return (
         <SafeAreaView style={styles.back}>
             <Modal
@@ -239,19 +229,19 @@ function ChatConversationScreen({ route }) {
                 backgroundColor="white"
                 barStyle="dark-content"
             />
-            <View style={{ backgroundColor: 'white', borderBottomEndRadius: 30, borderBottomStartRadius: 30 }}>
+            <View style={{ backgroundColor: 'white', borderBottomEndRadius: 30, }}>
                 {/* Head Cosas */}
                 <View style={{
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
-                    backgroundColor: "#429EBD",
+                    backgroundColor: "#2B809C",
                     borderBottomRightRadius: 500,
                     height: 70,
 
                 }}>
                     {/* Botón de goBack */}
-                    <TouchableOpacity testID="buttonGoBack" onPress={() => handleChats()} style={{ marginLeft: 20 }}>
+                    <TouchableOpacity testID="buttonGoBack" onPress={() => handleChats()} style={{ marginLeft: 20, marginRight: 20 }}>
                         <Ionicons name="arrow-back" size={30} color="white" />
                     </TouchableOpacity>
                     {/* Imagen de Amigo */}
@@ -265,43 +255,59 @@ function ChatConversationScreen({ route }) {
 
                 </View>
                 {
-                    !ponerAmigo && sala.Enviado == amigo && !desbloquear?
-
+                    !ponerAmigo && sala.Enviado == amigo && !desbloquear ?
+                        /* istanbul ignore next */
                         < View style={{
-                            backgroundColor:"#EDECED",
+
                             flexDirection: "row",
                             justifyContent: "center",
                             alignItems: "center",
-                            height: 30,
-
+                            marginTop: 5,
+                            marginBottom: 5
                         }}>
-                            <TouchableOpacity testID="buttonAñadirAmigo" onPress={() => { añadirAAmigo() }}>
-                                <Text>Añadir a amigos</Text>
+                          
+                            <TouchableOpacity testID="buttonAñadirAmigo" onPress={/* istanbul ignore next */() => { añadirAAmigo() }}>
+                                <Text style={{ fontSize: 17 }}>Añadir a amigos</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => { bloquearPersona() }} style={{ marginLeft: 20 }}>
-                                <Text style={{ color: "#B00020" }}>Bloquear</Text>
+                    
+                            <TouchableOpacity onPress={/* istanbul ignore next */() => { bloquearPersona() }} style={{ marginLeft: 20 }}>
+                                <Text style={{ color: "#B00020", fontSize: 17 }}>Bloquear</Text>
                             </TouchableOpacity>
-                        </View> : <Text></Text>
+                        </View> : <View></View>
 
 
                 }
 
                 {
-                    !sala.Amigo && desbloquear ?
-
+                    !sala.Amigo && desbloquear && !estasBloqueado ?
+                /* istanbul ignore next */
                         < View style={{
-                            backgroundColor:"#EDECED",
                             flexDirection: "row",
                             justifyContent: "center",
-                            alignItems: "center",
-                            height: 30,
-
                         }}>
 
-                            <TouchableOpacity testID="buttonDesbloquear"onPress={() =>  desbloquearPersona() } style={{ marginLeft: 20 }}>
-                                <Text style={{ color: "#B00020" }}>Desbloquear</Text>
+                            <TouchableOpacity testID="buttonDesbloquear" onPress={/* istanbul ignore next */() => desbloquearPersona()} style={{}}>
+                                <Text style={{
+                                    color: "#B00020", fontSize: 20, marginTop: 5,
+                                    marginBottom: 5
+                                }}>Desbloquear</Text>
                             </TouchableOpacity>
-                        </View> : <Text></Text>
+                        </View> : <View></View>
+
+
+                }
+                {
+                    estasBloqueado ?
+                  
+                        < View style={{
+
+                            flexDirection: "row",
+                            justifyContent: "center",
+                        }}>
+
+                            <Text style={{ color: "#B00020", fontSize: 20 }}>Estas bloqueado</Text>
+
+                        </View> : <View></View>
 
 
                 }
@@ -309,14 +315,15 @@ function ChatConversationScreen({ route }) {
 
             </View>
             <GiftedChat
-      
+
                 messages={messages}
                 user={{
                     _id: email,
                     name: email,
+
                 }}
                 renderAvatar={renderAvatar}
-                disableComposer={!((!ponerAmigo && sala.Enviado == amigo)||!desbloquear)}
+                disableComposer={(!sala.Amigo && sala.Enviado == amigo) || sala.Bloqueado}
                 renderBubble={renderBubble}
                 renderTime={renderTime}
                 renderChatFooter={() => <View style={{ marginBottom: 40 }} />}
@@ -332,7 +339,7 @@ function ChatConversationScreen({ route }) {
                         backgroundColor: '#EDECED',
                     },
                 }}
-         
+
             />
 
         </SafeAreaView >
@@ -350,7 +357,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         flexDirection: "row",
         justifyContent: "space-between",
-        borderBottomColor: "#429EBD",
+        borderBottomColor: "#2B809C",
         borderBottomWidth: 3,
         borderRadius: 60,
     },

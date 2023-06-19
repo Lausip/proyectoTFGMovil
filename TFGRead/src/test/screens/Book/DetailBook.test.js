@@ -76,17 +76,25 @@ jest.mock('../../../hooks/Auth/Firestore', () => {
     return {
         handleElLibroEstaEnMeGusta: () => { return true },
         cambiarUltimoLibroLeido: () => jest.fn(),
+        handleAñadirLibroMeGustaFirebase: () => jest.fn(),
+        handleEliminarLibroMeGustaFirebase: () => jest.fn(),
 
     };
 });
 jest.mock('../../../hooks/FirebaseLibros', () => {
     return {
         cargarDatosLibro: () => { return mockultimoLibro },
-        getCategoriasLibro: () => { return [{ Nombre: "Holaa",Color:"#2349"}, { Nombre: "jijiji" }] },
-        getCapitulosDelLibro: () => { return [{ Titulo: "Holaa"}] },
+        getCategoriasLibro: () => { return [{ Nombre: "Holaa", Color: "#2349" }, { Nombre: "jijiji" }] },
+        getCapitulosDelLibro: () => { return [{ Titulo: "Holaa" }] },
     };
 });
-
+jest.mock('react-native-popup-menu', () => ({
+    Menu: 'Menu',
+    MenuContext: 'MenuContext',
+    MenuOptions: 'MenuOptions',
+    MenuOption: 'MenuOption',
+    MenuTrigger: 'MenuTrigger',
+}));
 describe('DetailBookScreen test', () => {
 
 
@@ -126,12 +134,42 @@ describe('DetailBookScreen test', () => {
 
     it('DetailBookScreen should click goAutor', async () => {
 
-        await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
+
         const component = render(<DetailBookScreen route={{ params: "" }} />)
         const touchableEl = component.queryByTestId('buttonGoAutor');
         fireEvent.press(touchableEl);
 
     });
 
+    it('DetailBookScreen should click buttonLeer', async () => {
+        const component = render(<DetailBookScreen route={{ params: "" }} />)
+        const touchableEl = component.queryByTestId('buttonLeer');
+        fireEvent.press(touchableEl);
 
-});
+    });
+
+    it('DetailBookScreen should click buttonOnBackdropPress', async () => {
+        React.useState = jest.fn()
+        .mockReturnValue([[], {}])
+        .mockReturnValue([[], {}])
+        .mockReturnValue([[], {}])
+        const component = render(<DetailBookScreen route={{ params: "" }} />)
+        const touchableEl = component.queryByTestId('buttonOnBackdropPress');
+        fireEvent.press(touchableEl);
+        const touchableEl2 = component.queryByTestId('buttonMenuTrigger');
+        fireEvent.press(touchableEl2);
+        const touchableEl3 = component.queryByTestId('buttonReportar');
+        fireEvent.press(touchableEl3);
+    });
+
+    it('DetailBookScreen should view etiquetas and click handleLeerLibroCapitulo', async () => {
+        React.useState = jest.fn()
+        .mockReturnValue([[{Titulo:"hola"}], {}])
+        .mockReturnValue([[{Nombre:"fjdsaklf"}], {}])
+        .mockReturnValue([["jejeje", "fjdlks"], {}])
+        const component = render(<DetailBookScreen route={{ params: "" }} />)
+        const touchableEl = component.getAllByTestId('buttonhandleLeerLibroCapitulo')[0];
+        fireEvent.press(touchableEl);
+
+    });
+    });

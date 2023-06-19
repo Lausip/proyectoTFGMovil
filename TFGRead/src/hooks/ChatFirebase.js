@@ -1,7 +1,7 @@
 
 import { getFotoPerfil } from "./Auth/Firestore";
 
-import { getFirestore, getDoc, doc, getDocs, Timestamp, collection, query, orderBy, addDoc, limit, updateDoc, where, onSnapshot  } from "firebase/firestore"
+import { getFirestore, getDoc, doc, getDocs, Timestamp, collection, query, orderBy, addDoc, limit, updateDoc, setDoc, onSnapshot } from "firebase/firestore"
 
 export const addSala = async (usuario1, usuario2, esAmigo) => {
     const db = getFirestore();
@@ -24,13 +24,14 @@ export const existeSala = async (usuario1, usuario2) => {
 
 
     const snap = await getDoc(doc(db, "salas", usuario1 + "-" + usuario2));
-    if (snap.exists) {
+
+    if (snap.exists()) {
         existe = true;
     }
 
     const snap2 = await getDoc(doc(db, "salas", usuario2 + "-" + usuario1));
 
-    if (snap2.exists) {
+    if (snap2.exists()) {
         existe = true;
     }
 
@@ -84,19 +85,19 @@ export const getFotoPerfilConversaciones = async (salas, email) => {
 
     return salasss;
 }
-export const getUltimoMensaje = async (salas,email) => {
+export const getUltimoMensaje = async (salas, email) => {
 
     const db = getFirestore();
     let salasss = [];
     let i;
 
     for (i = 0; i < salas.length; i++) {
-        console.log(salas[i].key)
+
         const snap = await getDocs(query(collection(db, "salas", salas[i].key, "mensajes"), orderBy("createdAt", "desc"), limit(1)));
         if (snap.docs.length == 0) {
             salasss.push({ ...salas[i], UltimoMensaje: "" });
         } else {
-            snap.docs.map(async (documentSnapshot) => { 
+            snap.docs.map(async (documentSnapshot) => {
                 salasss.push({ ...salas[i], UltimoMensaje: documentSnapshot.data().texto });
             })
         }
@@ -110,11 +111,21 @@ export const cogerSala = async (usuarioa, usuariob) => {
     const db = getFirestore();
     let caps = {};
     const snap = await getDoc(doc(db, "salas", usuarioa + "-" + usuariob));
-    caps = {
-        ...snap.data(),
-        key: snap.id,
+    if (snap.exists()) {
+        caps = {
+            ...snap.data(),
+            key:  usuarioa + "-" + usuariob
+        }
+    }
+    const snap2 = await getDoc(doc(db, "salas", usuariob + "-" + usuarioa));
+    if (snap2.exists()) {
+        caps = {
+            ...snap2.data(),
+            key: usuariob + "-" + usuarioa
+        }
     }
 
+  
     return caps;
 }
 
@@ -153,20 +164,20 @@ export const getMessage = async (salaId) => {
     const querySnapshot = query(collection(db, "salas", salaId, "mensajes"), orderBy("createdAt", "desc"));
     await onSnapshot(querySnapshot, async (querySnapshot2) => {
         await querySnapshot2.forEach((doc) => {
-        
+
             mensajes.push({
                 _id: doc.id,
                 text: doc.data().texto,
                 createdAt: doc.data().createdAt.toDate(),
-                user:{
-                    _id:doc.data().user._id,
-                    name:doc.data().user.name,
+                user: {
+                    _id: doc.data().user._id,
+                    name: doc.data().user.name,
                 }
 
             });
-           
+
         });
-     
+
     })
 
 

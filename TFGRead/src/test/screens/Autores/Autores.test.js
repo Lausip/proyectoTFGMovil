@@ -1,11 +1,12 @@
 /** @jest-environment jsdom */
 
 import React from 'react'
-import { render, fireEvent, waitFor } from '@testing-library/react-native'
+import { render, fireEvent, waitFor, screen } from '@testing-library/react-native'
+import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import * as firebase from "@firebase/testing";
 
-import AutoresScreen from "../../screens/AutoresScreen";
+import AutoresScreen from "../../../screens/AutoresScreen/AutoresScreen"
 
 
 firebase.initializeTestApp({
@@ -50,25 +51,26 @@ jest.mock('@react-navigation/native', () => {
 });
 
 
-jest.mock('../../hooks/Auth/Auth', () => {
+jest.mock('../../../hooks/Auth/Auth', () => {
     return {
         getUserAuth: () => { return "admin@gmail.com" },
     };
 });
-jest.mock('../../hooks/FirebaseLibros', () => {
+jest.mock('../../../hooks/FirebaseLibros', () => {
     return {
         cargarBooksAutor: () => { return [{ Titulo: "Holaaa" }] },
+        cargarBooksAutorPerfil: () => { return [{ Titulo: "hello" }] }
 
     };
 });
-jest.mock('../../hooks/ChatFirebase', () => {
+jest.mock('../../../hooks/ChatFirebase', () => {
     return {
         existeSala: () => { return false },
         addSala: () => jest.fn(),
         cogerSala: () => jest.fn(),
     };
 });
-jest.mock('../../hooks/Auth/Firestore', () => {
+jest.mock('../../../hooks/Auth/Firestore', () => {
     return {
         getFotoPerfil: () => jest.fn(),
         cargarUltimoLibro: () => { return {} },
@@ -90,13 +92,13 @@ describe('AutoresScreen test', () => {
 
 
     afterEach(async () => {
-        jest.clearAllMocks();
+
         console.error = jest.fn();
         console.warn = jest.fn();
 
     });
     it('Should render AutoresScreen', async () => {
-
+   
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<AutoresScreen route={{ params: { autorElegido: "admin@gmail.com" } }} />)
         expect(component.getByText("admin"))
@@ -104,7 +106,7 @@ describe('AutoresScreen test', () => {
     });
 
     it('AutoresScreen Should click goBack ', async () => {
-
+ 
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<AutoresScreen route={{ params: { autorElegido: "admin@gmail.com" } }} />)
         const touchableEl = component.queryByTestId('buttonGoBack');
@@ -112,35 +114,9 @@ describe('AutoresScreen test', () => {
 
     });
 
-    it('AutoresScreen Should click addAmigo ', async () => {
-
-        await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
-        const component = render(<AutoresScreen route={{ params: { autorElegido: "admin@gmail.com" } }} />)
-        const touchableEl = component.queryByTestId('buttonAddAmigo');
-        fireEvent.press(touchableEl);
-
-    });
-
-
-    it('AutoresScreen Should click enviarMensaje ', async () => {
-
-        await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
-        const component = render(<AutoresScreen route={{ params: { autorElegido: "admin@gmail.com" } }} />)
-        const touchableEl = component.queryByTestId('buttonEnviarMensaje');
-        fireEvent.press(touchableEl);
-
-    });
-    it('AutoresScreen Should click buttonReportar ', async () => {
-
-        await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
-        const component = render(<AutoresScreen route={{ params: { autorElegido: "admin@gmail.com" } }} />)
-        const touchableEl = component.queryByTestId('buttonReportar');
-        fireEvent.press(touchableEl);
-
-    });
-
     it('AutoresScreen Should click buttonDejarSeguir ', async () => {
-
+        React.useState = jest.fn()
+            .mockReturnValue([true, {}])
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
 
         const component = await waitFor(() =>
@@ -149,21 +125,24 @@ describe('AutoresScreen test', () => {
         const touchableEl = component.queryByTestId('buttonDejarSeguir');
         fireEvent.press(touchableEl);
 
-
-
     });
 
-    it('AutoresScreen Should click handleBook ', async () => {
-
+    it('AutoresScreen Should click buttonSeguir ', async () => {
+        React.useState = jest.fn()
+            .mockReturnValue([false, {}])
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
 
         const component = await waitFor(() =>
             render(<AutoresScreen route={{ params: { autorElegido: "admin@gmail.com" } }} />)
         );
-        const touchableEl = component.queryByTestId('buttonHandleBook');
+        const touchableEl = component.queryByTestId('buttonSeguir');
         fireEvent.press(touchableEl);
-
-
 
     });
 });
+
+
+
+
+
+

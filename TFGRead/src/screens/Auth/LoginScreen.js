@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,10 +7,9 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView, LogBox
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import React, { useLayoutEffect, useState, useEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import AntDesign from "react-native-vector-icons/AntDesign"
 import { handleIncioSesion } from "../../hooks/Auth/Auth"
 
@@ -55,7 +54,7 @@ const LoginScreen = () => {
               name="user"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#429EBD"
+              color="#2B809C"
             />
             <TextInput
               placeholder="Usuario"
@@ -76,7 +75,7 @@ const LoginScreen = () => {
               name="lock"
               style={{ position: "absolute", left: 10 }}
               size={20}
-              color="#429EBD"
+              color="#2B809C"
             />
             <TextInput
               placeholder="Contraseña"
@@ -124,7 +123,7 @@ const LoginScreen = () => {
             ¿No tienes cuenta?{" "}
             <Text
               style={styles.textoLetraPequeña}>
-              Registrate
+              Regístrate
             </Text>
           </Text>
         </TouchableOpacity>
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
   },
   headName: {
     height: "15%",
-    backgroundColor: "#429EBD",
+    backgroundColor: "#2B809C",
     borderBottomRightRadius: 500,
     alignItems: "center",
     justifyContent: "center",
@@ -212,7 +211,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   textoLetraPequeña: {
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: "bold",
     color: "#8EAF20",
     marginLeft: 10,

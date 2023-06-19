@@ -1,976 +1,254 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1677077425583" clover="3.2.0">
-  <project timestamp="1677077425583" name="All files">
-    <metrics statements="1969" coveredstatements="1238" conditionals="587" coveredconditionals="430" methods="589" coveredmethods="344" elements="3145" coveredelements="2012" complexity="0" loc="1969" ncloc="1969" packages="14" files="42" classes="42"/>
-    <package name="TFGRead">
-      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="App.js" path="D:\TFG\TFGRead\App.js">
-        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="5" count="1" type="stmt"/>
-      </file>
-      <file name="app.config.js" path="D:\TFG\TFGRead\app.config.js">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-      <file name="index.js" path="D:\TFG\TFGRead\index.js">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-      <file name="metro.config.js" path="D:\TFG\TFGRead\metro.config.js">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      </file>
-    </package>
-    <package name="TFGRead.src.components">
+<coverage generated="1686519426627" clover="3.2.0">
+  <project timestamp="1686519426628" name="All files">
+    <metrics statements="1509" coveredstatements="1254" conditionals="675" coveredconditionals="584" methods="493" coveredmethods="388" elements="2677" coveredelements="2226" complexity="0" loc="1509" ncloc="1509" packages="11" files="34" classes="34"/>
+    <package name="components">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="BottomTab.js" path="D:\TFG\TFGRead\src\components\BottomTab.js">
+      <file name="BottomTab.js" path="E:\TFG\TFGRead\src\components\BottomTab.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="14" count="2" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.src.config">
-      <metrics statements="7" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
-      <file name="firebase.js" path="D:\TFG\TFGRead\src\config\firebase.js">
-        <metrics statements="7" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+    <package name="config">
+      <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
+      <file name="firebase.js" path="E:\TFG\TFGRead\src\config\firebase.js">
+        <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="0" coveredmethods="0"/>
         <line num="12" count="3" type="stmt"/>
-        <line num="23" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="24" count="3" type="stmt"/>
+        <line num="24" count="3" type="cond" truecount="1" falsecount="1"/>
         <line num="25" count="3" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="34" count="3" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="39" count="3" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.src.hooks">
-      <metrics statements="366" coveredstatements="60" conditionals="46" coveredconditionals="0" methods="82" coveredmethods="5"/>
-      <file name="CategoriasFirebase.js" path="D:\TFG\TFGRead\src\hooks\CategoriasFirebase.js">
-        <metrics statements="6" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
-        <line num="5" count="3" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-      </file>
-      <file name="ChatFirebase.js" path="D:\TFG\TFGRead\src\hooks\ChatFirebase.js">
-        <metrics statements="76" coveredstatements="11" conditionals="14" coveredconditionals="0" methods="15" coveredmethods="0"/>
-        <line num="6" count="3" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="21" count="3" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="41" count="3" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="43" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="50" count="3" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="54" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="67" count="3" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="73" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="75" count="0" type="stmt"/>
-        <line num="78" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="81" count="0" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="87" count="3" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="90" count="0" type="stmt"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="96" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="104" count="0" type="stmt"/>
-        <line num="109" count="3" type="stmt"/>
-        <line num="110" count="0" type="stmt"/>
-        <line num="111" count="0" type="stmt"/>
-        <line num="112" count="0" type="stmt"/>
-        <line num="113" count="0" type="stmt"/>
-        <line num="118" count="0" type="stmt"/>
-        <line num="121" count="3" type="stmt"/>
-        <line num="122" count="0" type="stmt"/>
-        <line num="123" count="0" type="stmt"/>
-        <line num="124" count="0" type="stmt"/>
-        <line num="130" count="0" type="stmt"/>
-        <line num="133" count="3" type="stmt"/>
-        <line num="134" count="0" type="stmt"/>
-        <line num="135" count="0" type="stmt"/>
-        <line num="136" count="0" type="stmt"/>
-        <line num="140" count="3" type="stmt"/>
-        <line num="141" count="0" type="stmt"/>
-        <line num="142" count="0" type="stmt"/>
-        <line num="143" count="0" type="stmt"/>
-        <line num="150" count="3" type="stmt"/>
-        <line num="151" count="0" type="stmt"/>
-        <line num="152" count="0" type="stmt"/>
-        <line num="153" count="0" type="stmt"/>
-        <line num="154" count="0" type="stmt"/>
-        <line num="155" count="0" type="stmt"/>
-        <line num="157" count="0" type="stmt"/>
-        <line num="174" count="0" type="stmt"/>
-      </file>
-      <file name="FirebaseLibros.js" path="D:\TFG\TFGRead\src\hooks\FirebaseLibros.js">
-        <metrics statements="264" coveredstatements="39" conditionals="32" coveredconditionals="0" methods="57" coveredmethods="2"/>
-        <line num="5" count="4" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="9" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="28" count="4" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="32" count="0" type="stmt"/>
-        <line num="33" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-        <line num="39" count="0" type="stmt"/>
-        <line num="45" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="51" count="4" type="stmt"/>
-        <line num="52" count="0" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="64" count="0" type="stmt"/>
-        <line num="70" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="71" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="77" count="4" type="stmt"/>
-        <line num="78" count="0" type="stmt"/>
-        <line num="79" count="0" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="84" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
-        <line num="88" count="0" type="stmt"/>
-        <line num="89" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="90" count="0" type="stmt"/>
-        <line num="94" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="96" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="103" count="0" type="stmt"/>
-        <line num="106" count="0" type="stmt"/>
-        <line num="107" count="0" type="stmt"/>
-        <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="110" count="0" type="stmt"/>
-        <line num="114" count="0" type="stmt"/>
-        <line num="115" count="0" type="stmt"/>
-        <line num="117" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="118" count="0" type="stmt"/>
-        <line num="127" count="0" type="stmt"/>
-        <line num="131" count="4" type="stmt"/>
-        <line num="134" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="135" count="0" type="stmt"/>
-        <line num="137" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="138" count="0" type="stmt"/>
-        <line num="140" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="141" count="0" type="stmt"/>
-        <line num="144" count="0" type="stmt"/>
-        <line num="145" count="0" type="stmt"/>
-        <line num="146" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="147" count="0" type="stmt"/>
-        <line num="148" count="0" type="stmt"/>
-        <line num="150" count="0" type="stmt"/>
-        <line num="152" count="0" type="stmt"/>
-        <line num="153" count="0" type="stmt"/>
-        <line num="154" count="0" type="stmt"/>
-        <line num="156" count="0" type="stmt"/>
-        <line num="166" count="0" type="stmt"/>
-        <line num="171" count="4" type="stmt"/>
-        <line num="172" count="0" type="stmt"/>
-        <line num="173" count="0" type="stmt"/>
-        <line num="174" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="175" count="0" type="stmt"/>
-        <line num="177" count="0" type="stmt"/>
-        <line num="180" count="4" type="stmt"/>
-        <line num="181" count="0" type="stmt"/>
-        <line num="182" count="0" type="stmt"/>
-        <line num="185" count="0" type="stmt"/>
-        <line num="186" count="0" type="stmt"/>
-        <line num="188" count="0" type="stmt"/>
-        <line num="189" count="0" type="stmt"/>
-        <line num="190" count="0" type="stmt"/>
-        <line num="195" count="0" type="stmt"/>
-        <line num="199" count="4" type="stmt"/>
-        <line num="201" count="0" type="stmt"/>
-        <line num="202" count="0" type="stmt"/>
-        <line num="203" count="0" type="stmt"/>
-        <line num="204" count="0" type="stmt"/>
-        <line num="208" count="0" type="stmt"/>
-        <line num="210" count="4" type="stmt"/>
-        <line num="212" count="0" type="stmt"/>
-        <line num="213" count="0" type="stmt"/>
-        <line num="214" count="0" type="stmt"/>
-        <line num="215" count="0" type="stmt"/>
-        <line num="219" count="4" type="stmt"/>
-        <line num="220" count="0" type="stmt"/>
-        <line num="221" count="0" type="stmt"/>
-        <line num="222" count="0" type="stmt"/>
-        <line num="224" count="0" type="stmt"/>
-        <line num="226" count="0" type="stmt"/>
-        <line num="228" count="0" type="stmt"/>
-        <line num="232" count="0" type="stmt"/>
-        <line num="237" count="4" type="stmt"/>
-        <line num="238" count="0" type="stmt"/>
-        <line num="239" count="0" type="stmt"/>
-        <line num="240" count="0" type="stmt"/>
-        <line num="251" count="0" type="stmt"/>
-        <line num="252" count="0" type="stmt"/>
-        <line num="254" count="0" type="stmt"/>
-        <line num="255" count="0" type="stmt"/>
-        <line num="257" count="0" type="stmt"/>
-        <line num="258" count="0" type="stmt"/>
-        <line num="259" count="0" type="stmt"/>
-        <line num="264" count="0" type="stmt"/>
-        <line num="268" count="4" type="stmt"/>
-        <line num="269" count="0" type="stmt"/>
-        <line num="270" count="0" type="stmt"/>
-        <line num="271" count="0" type="stmt"/>
-        <line num="276" count="4" type="stmt"/>
-        <line num="277" count="0" type="stmt"/>
-        <line num="278" count="0" type="stmt"/>
-        <line num="279" count="0" type="stmt"/>
-        <line num="284" count="4" type="stmt"/>
-        <line num="285" count="0" type="stmt"/>
-        <line num="286" count="0" type="stmt"/>
-        <line num="287" count="0" type="stmt"/>
-        <line num="292" count="4" type="stmt"/>
-        <line num="293" count="0" type="stmt"/>
-        <line num="294" count="0" type="stmt"/>
-        <line num="295" count="0" type="stmt"/>
-        <line num="300" count="4" type="stmt"/>
-        <line num="301" count="0" type="stmt"/>
-        <line num="302" count="0" type="stmt"/>
-        <line num="303" count="0" type="stmt"/>
-        <line num="307" count="4" type="stmt"/>
-        <line num="308" count="0" type="stmt"/>
-        <line num="309" count="0" type="stmt"/>
-        <line num="310" count="0" type="stmt"/>
-        <line num="314" count="4" type="stmt"/>
-        <line num="315" count="0" type="stmt"/>
-        <line num="316" count="0" type="stmt"/>
-        <line num="317" count="0" type="stmt"/>
-        <line num="322" count="4" type="stmt"/>
-        <line num="323" count="0" type="stmt"/>
-        <line num="325" count="0" type="stmt"/>
-        <line num="327" count="0" type="stmt"/>
-        <line num="329" count="0" type="stmt"/>
-        <line num="331" count="0" type="stmt"/>
-        <line num="335" count="0" type="stmt"/>
-        <line num="336" count="0" type="stmt"/>
-        <line num="337" count="0" type="stmt"/>
-        <line num="338" count="0" type="stmt"/>
-        <line num="339" count="0" type="stmt"/>
-        <line num="344" count="4" type="stmt"/>
-        <line num="345" count="0" type="stmt"/>
-        <line num="346" count="0" type="stmt"/>
-        <line num="347" count="0" type="stmt"/>
-        <line num="348" count="0" type="stmt"/>
-        <line num="353" count="0" type="stmt"/>
-        <line num="356" count="4" type="stmt"/>
-        <line num="357" count="0" type="stmt"/>
-        <line num="358" count="0" type="stmt"/>
-        <line num="359" count="0" type="stmt"/>
-        <line num="360" count="0" type="stmt"/>
-        <line num="364" count="0" type="stmt"/>
-        <line num="367" count="4" type="stmt"/>
-        <line num="368" count="0" type="stmt"/>
-        <line num="369" count="0" type="stmt"/>
-        <line num="370" count="0" type="stmt"/>
-        <line num="371" count="0" type="stmt"/>
-        <line num="376" count="0" type="stmt"/>
-        <line num="380" count="4" type="stmt"/>
-        <line num="382" count="0" type="stmt"/>
-        <line num="383" count="0" type="stmt"/>
-        <line num="384" count="0" type="stmt"/>
-        <line num="385" count="0" type="stmt"/>
-        <line num="390" count="4" type="stmt"/>
-        <line num="391" count="0" type="stmt"/>
-        <line num="392" count="0" type="stmt"/>
-        <line num="394" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="395" count="0" type="stmt"/>
-        <line num="397" count="0" type="stmt"/>
-        <line num="408" count="0" type="stmt"/>
-        <line num="409" count="0" type="stmt"/>
-        <line num="417" count="0" type="stmt"/>
-        <line num="419" count="4" type="stmt"/>
-        <line num="420" count="0" type="stmt"/>
-        <line num="421" count="0" type="stmt"/>
-        <line num="422" count="0" type="stmt"/>
-        <line num="424" count="0" type="stmt"/>
-        <line num="428" count="4" type="stmt"/>
-        <line num="429" count="3" type="stmt"/>
-        <line num="431" count="0" type="stmt"/>
-        <line num="432" count="0" type="stmt"/>
-        <line num="433" count="0" type="stmt"/>
-        <line num="441" count="0" type="stmt"/>
-        <line num="444" count="4" type="stmt"/>
-        <line num="445" count="0" type="stmt"/>
-        <line num="447" count="0" type="stmt"/>
-        <line num="448" count="0" type="stmt"/>
-        <line num="455" count="0" type="stmt"/>
-        <line num="458" count="4" type="stmt"/>
-        <line num="459" count="0" type="stmt"/>
-        <line num="460" count="0" type="stmt"/>
-        <line num="465" count="4" type="stmt"/>
-        <line num="466" count="1" type="stmt"/>
-        <line num="468" count="0" type="stmt"/>
-        <line num="470" count="0" type="stmt"/>
-        <line num="477" count="4" type="stmt"/>
-        <line num="479" count="0" type="stmt"/>
-        <line num="480" count="0" type="stmt"/>
-        <line num="484" count="4" type="stmt"/>
-        <line num="485" count="0" type="stmt"/>
-        <line num="486" count="0" type="stmt"/>
-        <line num="487" count="0" type="stmt"/>
-        <line num="489" count="0" type="stmt"/>
-        <line num="495" count="4" type="stmt"/>
-        <line num="496" count="0" type="stmt"/>
-        <line num="497" count="0" type="stmt"/>
-        <line num="498" count="0" type="stmt"/>
-        <line num="499" count="0" type="stmt"/>
-        <line num="500" count="0" type="stmt"/>
-        <line num="504" count="0" type="stmt"/>
-        <line num="512" count="4" type="stmt"/>
-        <line num="513" count="0" type="stmt"/>
-        <line num="515" count="0" type="stmt"/>
-        <line num="517" count="0" type="stmt"/>
-        <line num="519" count="0" type="stmt"/>
-        <line num="521" count="0" type="stmt"/>
-        <line num="527" count="0" type="stmt"/>
-        <line num="528" count="0" type="stmt"/>
-        <line num="533" count="4" type="stmt"/>
-        <line num="534" count="0" type="stmt"/>
-        <line num="535" count="0" type="stmt"/>
-        <line num="536" count="0" type="stmt"/>
-        <line num="541" count="4" type="stmt"/>
-        <line num="542" count="0" type="stmt"/>
-        <line num="543" count="0" type="stmt"/>
-        <line num="544" count="0" type="stmt"/>
-        <line num="549" count="0" type="stmt"/>
-        <line num="552" count="4" type="stmt"/>
-        <line num="553" count="0" type="stmt"/>
-        <line num="557" count="0" type="stmt"/>
-        <line num="558" count="0" type="stmt"/>
-        <line num="559" count="0" type="stmt"/>
-        <line num="560" count="0" type="stmt"/>
-        <line num="565" count="0" type="stmt"/>
-        <line num="566" count="0" type="stmt"/>
-        <line num="567" count="0" type="stmt"/>
-        <line num="568" count="0" type="stmt"/>
-        <line num="571" count="0" type="stmt"/>
-        <line num="572" count="0" type="stmt"/>
-        <line num="573" count="0" type="stmt"/>
-        <line num="574" count="0" type="stmt"/>
-        <line num="578" count="0" type="stmt"/>
-        <line num="579" count="0" type="stmt"/>
-        <line num="584" count="4" type="stmt"/>
-        <line num="585" count="0" type="stmt"/>
-        <line num="586" count="0" type="stmt"/>
-        <line num="587" count="0" type="stmt"/>
-      </file>
-      <file name="Storage.js" path="D:\TFG\TFGRead\src\hooks\Storage.js">
-        <metrics statements="20" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="2"/>
-        <line num="4" count="3" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="22" count="3" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="37" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="TFGRead.src.hooks.Auth">
-      <metrics statements="245" coveredstatements="60" conditionals="20" coveredconditionals="1" methods="62" coveredmethods="9"/>
-      <file name="Auth.js" path="D:\TFG\TFGRead\src\hooks\Auth\Auth.js">
-        <metrics statements="25" coveredstatements="20" conditionals="2" coveredconditionals="1" methods="12" coveredmethods="9"/>
-        <line num="6" count="5" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="21" count="5" type="stmt"/>
-        <line num="23" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="27" count="1" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="45" count="5" type="stmt"/>
-        <line num="46" count="1" type="stmt"/>
-        <line num="47" count="1" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
-        <line num="50" count="1" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="62" count="0" type="stmt"/>
-        <line num="65" count="5" type="stmt"/>
-        <line num="66" count="0" type="stmt"/>
-        <line num="67" count="0" type="stmt"/>
-      </file>
-      <file name="Firestore.js" path="D:\TFG\TFGRead\src\hooks\Auth\Firestore.js">
-        <metrics statements="220" coveredstatements="40" conditionals="18" coveredconditionals="0" methods="50" coveredmethods="0"/>
-        <line num="3" count="5" type="stmt"/>
-        <line num="4" count="0" type="stmt"/>
-        <line num="5" count="0" type="stmt"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="21" count="5" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="31" count="5" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="45" count="5" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="55" count="5" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="68" count="5" type="stmt"/>
-        <line num="69" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="73" count="0" type="stmt"/>
-        <line num="74" count="0" type="stmt"/>
-        <line num="76" count="0" type="stmt"/>
-        <line num="80" count="5" type="stmt"/>
-        <line num="82" count="0" type="stmt"/>
-        <line num="83" count="0" type="stmt"/>
-        <line num="84" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="88" count="0" type="stmt"/>
-        <line num="91" count="5" type="stmt"/>
-        <line num="93" count="0" type="stmt"/>
-        <line num="95" count="0" type="stmt"/>
-        <line num="100" count="5" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="103" count="0" type="stmt"/>
-        <line num="109" count="5" type="stmt"/>
-        <line num="111" count="0" type="stmt"/>
-        <line num="112" count="0" type="stmt"/>
-        <line num="113" count="0" type="stmt"/>
-        <line num="114" count="0" type="stmt"/>
-        <line num="117" count="5" type="stmt"/>
-        <line num="119" count="0" type="stmt"/>
-        <line num="120" count="0" type="stmt"/>
-        <line num="121" count="0" type="stmt"/>
-        <line num="122" count="0" type="stmt"/>
-        <line num="127" count="5" type="stmt"/>
-        <line num="129" count="0" type="stmt"/>
-        <line num="130" count="0" type="stmt"/>
-        <line num="131" count="0" type="stmt"/>
-        <line num="133" count="0" type="stmt"/>
-        <line num="135" count="0" type="stmt"/>
-        <line num="137" count="0" type="stmt"/>
-        <line num="140" count="5" type="stmt"/>
-        <line num="141" count="0" type="stmt"/>
-        <line num="142" count="0" type="stmt"/>
-        <line num="143" count="0" type="stmt"/>
-        <line num="144" count="0" type="stmt"/>
-        <line num="147" count="5" type="stmt"/>
-        <line num="148" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
-        <line num="150" count="0" type="stmt"/>
-        <line num="160" count="5" type="stmt"/>
-        <line num="161" count="0" type="stmt"/>
-        <line num="162" count="0" type="stmt"/>
-        <line num="163" count="0" type="stmt"/>
-        <line num="167" count="5" type="stmt"/>
-        <line num="168" count="0" type="stmt"/>
-        <line num="169" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="170" count="0" type="stmt"/>
-        <line num="171" count="0" type="stmt"/>
-        <line num="172" count="0" type="stmt"/>
-        <line num="178" count="0" type="stmt"/>
-        <line num="182" count="5" type="stmt"/>
-        <line num="183" count="0" type="stmt"/>
-        <line num="184" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="185" count="0" type="stmt"/>
-        <line num="186" count="0" type="stmt"/>
-        <line num="187" count="0" type="stmt"/>
-        <line num="188" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="189" count="0" type="stmt"/>
-        <line num="197" count="0" type="stmt"/>
-        <line num="201" count="5" type="stmt"/>
-        <line num="203" count="0" type="stmt"/>
-        <line num="204" count="0" type="stmt"/>
-        <line num="205" count="0" type="stmt"/>
-        <line num="216" count="5" type="stmt"/>
-        <line num="218" count="0" type="stmt"/>
-        <line num="220" count="0" type="stmt"/>
-        <line num="230" count="5" type="stmt"/>
-        <line num="231" count="0" type="stmt"/>
-        <line num="233" count="0" type="stmt"/>
-        <line num="238" count="5" type="stmt"/>
-        <line num="240" count="0" type="stmt"/>
-        <line num="241" count="0" type="stmt"/>
-        <line num="247" count="5" type="stmt"/>
-        <line num="249" count="0" type="stmt"/>
-        <line num="253" count="5" type="stmt"/>
-        <line num="255" count="0" type="stmt"/>
-        <line num="257" count="0" type="stmt"/>
-        <line num="258" count="0" type="stmt"/>
-        <line num="263" count="5" type="stmt"/>
-        <line num="264" count="0" type="stmt"/>
-        <line num="265" count="0" type="stmt"/>
-        <line num="266" count="0" type="stmt"/>
-        <line num="269" count="5" type="stmt"/>
-        <line num="271" count="0" type="stmt"/>
-        <line num="272" count="0" type="stmt"/>
-        <line num="273" count="0" type="stmt"/>
-        <line num="274" count="0" type="stmt"/>
-        <line num="278" count="5" type="stmt"/>
-        <line num="280" count="0" type="stmt"/>
-        <line num="282" count="0" type="stmt"/>
-        <line num="283" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="284" count="0" type="stmt"/>
-        <line num="287" count="0" type="stmt"/>
-        <line num="291" count="5" type="stmt"/>
-        <line num="292" count="0" type="stmt"/>
-        <line num="293" count="0" type="stmt"/>
-        <line num="294" count="0" type="stmt"/>
-        <line num="300" count="5" type="stmt"/>
-        <line num="301" count="0" type="stmt"/>
-        <line num="302" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="303" count="0" type="stmt"/>
-        <line num="304" count="0" type="stmt"/>
-        <line num="305" count="0" type="stmt"/>
-        <line num="306" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="307" count="0" type="stmt"/>
-        <line num="315" count="0" type="stmt"/>
-        <line num="319" count="5" type="stmt"/>
-        <line num="321" count="0" type="stmt"/>
-        <line num="322" count="0" type="stmt"/>
-        <line num="323" count="0" type="stmt"/>
-        <line num="325" count="0" type="stmt"/>
-        <line num="333" count="5" type="stmt"/>
-        <line num="336" count="0" type="stmt"/>
-        <line num="337" count="0" type="stmt"/>
-        <line num="343" count="0" type="stmt"/>
-        <line num="344" count="0" type="stmt"/>
-        <line num="345" count="0" type="stmt"/>
-        <line num="346" count="0" type="stmt"/>
-        <line num="348" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="350" count="0" type="stmt"/>
-        <line num="351" count="0" type="stmt"/>
-        <line num="353" count="0" type="stmt"/>
-        <line num="354" count="0" type="stmt"/>
-        <line num="355" count="0" type="stmt"/>
-        <line num="356" count="0" type="stmt"/>
-        <line num="359" count="0" type="stmt"/>
-        <line num="364" count="5" type="stmt"/>
-        <line num="366" count="0" type="stmt"/>
-        <line num="367" count="0" type="stmt"/>
-        <line num="368" count="0" type="stmt"/>
-        <line num="369" count="0" type="stmt"/>
-        <line num="373" count="5" type="stmt"/>
-        <line num="374" count="0" type="stmt"/>
-        <line num="376" count="0" type="stmt"/>
-        <line num="377" count="0" type="stmt"/>
-        <line num="378" count="0" type="stmt"/>
-        <line num="380" count="0" type="stmt"/>
-        <line num="382" count="0" type="stmt"/>
-        <line num="385" count="5" type="stmt"/>
-        <line num="386" count="0" type="stmt"/>
-        <line num="387" count="0" type="stmt"/>
-        <line num="388" count="0" type="stmt"/>
-        <line num="389" count="0" type="stmt"/>
-        <line num="390" count="0" type="stmt"/>
-        <line num="391" count="0" type="stmt"/>
-        <line num="393" count="0" type="stmt"/>
-        <line num="395" count="0" type="stmt"/>
-        <line num="396" count="0" type="stmt"/>
-        <line num="398" count="0" type="stmt"/>
-        <line num="403" count="0" type="stmt"/>
-        <line num="406" count="5" type="stmt"/>
-        <line num="407" count="0" type="stmt"/>
-        <line num="408" count="0" type="stmt"/>
-        <line num="409" count="0" type="stmt"/>
-        <line num="412" count="5" type="stmt"/>
-        <line num="414" count="0" type="stmt"/>
-        <line num="415" count="0" type="stmt"/>
-        <line num="416" count="0" type="stmt"/>
-        <line num="417" count="0" type="stmt"/>
-        <line num="421" count="5" type="stmt"/>
-        <line num="423" count="0" type="stmt"/>
-        <line num="424" count="0" type="stmt"/>
-        <line num="425" count="0" type="stmt"/>
-        <line num="428" count="0" type="stmt"/>
-        <line num="432" count="5" type="stmt"/>
-        <line num="434" count="0" type="stmt"/>
-        <line num="435" count="0" type="stmt"/>
-        <line num="436" count="0" type="stmt"/>
-        <line num="439" count="0" type="stmt"/>
-        <line num="442" count="5" type="stmt"/>
-        <line num="443" count="0" type="stmt"/>
-        <line num="445" count="0" type="stmt"/>
-        <line num="446" count="0" type="stmt"/>
-        <line num="450" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="451" count="0" type="stmt"/>
-        <line num="452" count="0" type="stmt"/>
-        <line num="457" count="5" type="stmt"/>
-        <line num="459" count="0" type="stmt"/>
-        <line num="460" count="0" type="stmt"/>
-        <line num="461" count="0" type="stmt"/>
-        <line num="465" count="0" type="stmt"/>
-        <line num="469" count="5" type="stmt"/>
-        <line num="470" count="0" type="stmt"/>
-        <line num="472" count="0" type="stmt"/>
-        <line num="473" count="0" type="stmt"/>
-        <line num="474" count="0" type="stmt"/>
-        <line num="475" count="0" type="stmt"/>
-        <line num="476" count="0" type="stmt"/>
-        <line num="483" count="0" type="stmt"/>
-      </file>
-    </package>
-    <package name="TFGRead.src.navigation">
-      <metrics statements="23" coveredstatements="17" conditionals="4" coveredconditionals="1" methods="10" coveredmethods="4"/>
-      <file name="AuthStack.js" path="D:\TFG\TFGRead\src\navigation\AuthStack.js">
+    <package name="navigation">
+      <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="1" methods="9" coveredmethods="9"/>
+      <file name="AuthStack.js" path="E:\TFG\TFGRead\src\navigation\AuthStack.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="12" count="2" type="stmt"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="12" count="3" type="stmt"/>
       </file>
-      <file name="AuthenticatedUserProvider.js" path="D:\TFG\TFGRead\src\navigation\AuthenticatedUserProvider.js">
+      <file name="AuthenticatedUserProvider.js" path="E:\TFG\TFGRead\src\navigation\AuthenticatedUserProvider.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
       </file>
-      <file name="BibliotecaStack.js" path="D:\TFG\TFGRead\src\navigation\BibliotecaStack.js">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
+      <file name="BibliotecaStack.js" path="E:\TFG\TFGRead\src\navigation\BibliotecaStack.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
       </file>
-      <file name="BookWriteNavigator.js" path="D:\TFG\TFGRead\src\navigation\BookWriteNavigator.js">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="12" count="0" type="stmt"/>
+      <file name="BookWriteNavigator.js" path="E:\TFG\TFGRead\src\navigation\BookWriteNavigator.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
       </file>
-      <file name="ChatStack.js" path="D:\TFG\TFGRead\src\navigation\ChatStack.js">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+      <file name="ChatStack.js" path="E:\TFG\TFGRead\src\navigation\ChatStack.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
       </file>
-      <file name="ExploreStack.js" path="D:\TFG\TFGRead\src\navigation\ExploreStack.js">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="8" count="2" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+      <file name="ExploreStack.js" path="E:\TFG\TFGRead\src\navigation\ExploreStack.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="12" count="3" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
       </file>
-      <file name="HomeStack.js" path="D:\TFG\TFGRead\src\navigation\HomeStack.js">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="11" count="2" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
+      <file name="HomeStack.js" path="E:\TFG\TFGRead\src\navigation\HomeStack.js">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
       </file>
-      <file name="RootNavigator.js" path="D:\TFG\TFGRead\src\navigation\RootNavigator.js">
-        <metrics statements="7" coveredstatements="6" conditionals="4" coveredconditionals="1" methods="3" coveredmethods="2"/>
+      <file name="RootNavigator.js" path="E:\TFG\TFGRead\src\navigation\RootNavigator.js">
+        <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
         <line num="11" count="3" type="stmt"/>
         <line num="14" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
-        <line num="18" count="2" type="stmt"/>
-        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="24" count="2" type="stmt"/>
         <line num="28" count="2" type="stmt"/>
       </file>
-      <file name="Routes.js" path="D:\TFG\TFGRead\src\navigation\Routes.js">
+      <file name="Routes.js" path="E:\TFG\TFGRead\src\navigation\Routes.js">
         <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
     </package>
-    <package name="TFGRead.src.screens">
-      <metrics statements="341" coveredstatements="297" conditionals="106" coveredconditionals="89" methods="114" coveredmethods="90"/>
-      <file name="AutoresScreen.js" path="D:\TFG\TFGRead\src\screens\AutoresScreen.js">
-        <metrics statements="75" coveredstatements="69" conditionals="22" coveredconditionals="20" methods="21" coveredmethods="19"/>
-        <line num="18" count="210" type="stmt"/>
-        <line num="19" count="210" type="stmt"/>
-        <line num="20" count="210" type="stmt"/>
-        <line num="21" count="210" type="stmt"/>
-        <line num="22" count="210" type="stmt"/>
-        <line num="23" count="210" type="stmt"/>
-        <line num="24" count="210" type="stmt"/>
-        <line num="25" count="210" type="stmt"/>
-        <line num="26" count="210" type="stmt"/>
-        <line num="27" count="210" type="stmt"/>
-        <line num="28" count="210" type="stmt"/>
-        <line num="29" count="210" type="stmt"/>
-        <line num="30" count="210" type="stmt"/>
-        <line num="32" count="210" type="stmt"/>
-        <line num="35" count="210" type="stmt"/>
-        <line num="36" count="27" type="stmt"/>
-        <line num="37" count="27" type="stmt"/>
-        <line num="39" count="27" type="stmt"/>
-        <line num="40" count="25" type="stmt"/>
-        <line num="43" count="210" type="stmt"/>
-        <line num="44" count="127" type="stmt"/>
-        <line num="50" count="210" type="stmt"/>
-        <line num="51" count="1" type="stmt"/>
-        <line num="54" count="210" type="stmt"/>
-        <line num="56" count="27" type="stmt"/>
-        <line num="57" count="27" type="stmt"/>
-        <line num="58" count="27" type="stmt"/>
-        <line num="59" count="27" type="stmt"/>
-        <line num="60" count="27" type="stmt"/>
-        <line num="61" count="27" type="stmt"/>
-        <line num="62" count="27" type="stmt"/>
-        <line num="63" count="27" type="stmt"/>
-        <line num="64" count="27" type="stmt"/>
-        <line num="65" count="27" type="stmt"/>
-        <line num="66" count="27" type="stmt"/>
-        <line num="67" count="27" type="stmt"/>
-        <line num="68" count="27" type="stmt"/>
-        <line num="69" count="27" type="stmt"/>
-        <line num="73" count="210" type="stmt"/>
-        <line num="74" count="1" type="stmt"/>
-        <line num="78" count="210" type="stmt"/>
-        <line num="79" count="27" type="stmt"/>
-        <line num="82" count="210" type="stmt"/>
-        <line num="83" count="1" type="stmt"/>
-        <line num="84" count="1" type="stmt"/>
-        <line num="85" count="1" type="stmt"/>
-        <line num="88" count="210" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="90" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="95" count="210" type="stmt"/>
-        <line num="96" count="1" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="98" count="1" type="stmt"/>
-        <line num="103" count="210" type="stmt"/>
-        <line num="105" count="1" type="stmt"/>
-        <line num="107" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="109" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="110" count="0" type="stmt"/>
-        <line num="114" count="1" type="stmt"/>
-        <line num="116" count="1" type="stmt"/>
-        <line num="118" count="1" type="stmt"/>
-        <line num="121" count="0" type="stmt"/>
-        <line num="123" count="1" type="stmt"/>
-        <line num="130" count="28" type="stmt"/>
-        <line num="156" count="1" type="stmt"/>
-        <line num="183" count="210" type="stmt"/>
-        <line num="219" count="1" type="stmt"/>
-        <line num="263" count="1" type="stmt"/>
-        <line num="269" count="1" type="stmt"/>
-        <line num="274" count="1" type="stmt"/>
-        <line num="315" count="0" type="stmt"/>
-        <line num="343" count="1" type="stmt"/>
-        <line num="419" count="28" type="stmt"/>
-        <line num="427" count="3" type="stmt"/>
-      </file>
-      <file name="BibliotecaScreen.js" path="D:\TFG\TFGRead\src\screens\BibliotecaScreen.js">
-        <metrics statements="81" coveredstatements="66" conditionals="32" coveredconditionals="25" methods="29" coveredmethods="22"/>
-        <line num="21" count="61" type="stmt"/>
-        <line num="22" count="61" type="stmt"/>
-        <line num="23" count="60" type="stmt"/>
-        <line num="24" count="60" type="stmt"/>
-        <line num="25" count="60" type="stmt"/>
-        <line num="26" count="60" type="stmt"/>
-        <line num="27" count="60" type="stmt"/>
-        <line num="28" count="60" type="stmt"/>
-        <line num="29" count="60" type="stmt"/>
-        <line num="32" count="60" type="stmt"/>
-        <line num="34" count="60" type="stmt"/>
-        <line num="35" count="6" type="stmt"/>
-        <line num="36" count="6" type="stmt"/>
-        <line num="38" count="6" type="stmt"/>
-        <line num="41" count="60" type="stmt"/>
-        <line num="42" count="6" type="stmt"/>
-        <line num="48" count="60" type="stmt"/>
+    <package name="screens">
+      <metrics statements="257" coveredstatements="224" conditionals="86" coveredconditionals="70" methods="90" coveredmethods="70"/>
+      <file name="BibliotecaScreen.js" path="E:\TFG\TFGRead\src\screens\BibliotecaScreen.js">
+        <metrics statements="84" coveredstatements="69" conditionals="32" coveredconditionals="25" methods="29" coveredmethods="22"/>
+        <line num="21" count="67" type="stmt"/>
+        <line num="22" count="67" type="stmt"/>
+        <line num="23" count="66" type="stmt"/>
+        <line num="24" count="66" type="stmt"/>
+        <line num="25" count="66" type="stmt"/>
+        <line num="26" count="66" type="stmt"/>
+        <line num="27" count="66" type="stmt"/>
+        <line num="28" count="66" type="stmt"/>
+        <line num="29" count="66" type="stmt"/>
+        <line num="32" count="66" type="stmt"/>
+        <line num="34" count="66" type="stmt"/>
+        <line num="35" count="7" type="stmt"/>
+        <line num="36" count="7" type="stmt"/>
+        <line num="38" count="7" type="stmt"/>
+        <line num="41" count="66" type="stmt"/>
+        <line num="42" count="7" type="stmt"/>
+        <line num="48" count="66" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
-        <line num="54" count="60" type="stmt"/>
+        <line num="54" count="66" type="stmt"/>
         <line num="55" count="9" type="stmt"/>
         <line num="56" count="9" type="cond" truecount="2" falsecount="0"/>
         <line num="57" count="8" type="stmt"/>
         <line num="58" count="8" type="stmt"/>
-        <line num="61" count="1" type="stmt"/>
+        <line num="59" count="8" type="stmt"/>
         <line num="62" count="1" type="stmt"/>
-        <line num="66" count="60" type="stmt"/>
-        <line num="67" count="8" type="stmt"/>
-        <line num="68" count="8" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="68" count="66" type="stmt"/>
         <line num="69" count="8" type="stmt"/>
+        <line num="70" count="8" type="stmt"/>
         <line num="71" count="8" type="stmt"/>
         <line num="73" count="8" type="stmt"/>
-        <line num="78" count="60" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
+        <line num="75" count="8" type="stmt"/>
+        <line num="80" count="66" type="stmt"/>
         <line num="81" count="1" type="stmt"/>
         <line num="82" count="1" type="stmt"/>
-        <line num="85" count="60" type="stmt"/>
-        <line num="86" count="3" type="cond" truecount="4" falsecount="0"/>
-        <line num="87" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="89" count="1" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="93" count="1" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
+        <line num="87" count="66" type="stmt"/>
+        <line num="88" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="89" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="91" count="1" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="95" count="1" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="101" count="0" type="stmt"/>
+        <line num="103" count="0" type="stmt"/>
+        <line num="107" count="2" type="stmt"/>
+        <line num="113" count="66" type="stmt"/>
+        <line num="114" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="116" count="0" type="stmt"/>
+        <line num="118" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="134" count="66" type="stmt"/>
+        <line num="136" count="7" type="stmt"/>
+        <line num="137" count="6" type="stmt"/>
+        <line num="138" count="6" type="stmt"/>
+        <line num="139" count="6" type="stmt"/>
+        <line num="140" count="6" type="stmt"/>
+        <line num="144" count="66" type="stmt"/>
+        <line num="145" count="0" type="stmt"/>
+        <line num="150" count="66" type="stmt"/>
+        <line num="151" count="49" type="stmt"/>
+        <line num="154" count="98" type="stmt"/>
+        <line num="158" count="1" type="stmt"/>
+        <line num="187" count="66" type="stmt"/>
+        <line num="188" count="6" type="stmt"/>
+        <line num="190" count="0" type="stmt"/>
+        <line num="211" count="66" type="stmt"/>
+        <line num="213" count="28" type="stmt"/>
+        <line num="219" count="0" type="stmt"/>
+        <line num="286" count="66" type="stmt"/>
+        <line num="338" count="0" type="stmt"/>
+        <line num="390" count="1" type="stmt"/>
+        <line num="404" count="3" type="stmt"/>
+        <line num="409" count="3" type="stmt"/>
+        <line num="424" count="28" type="stmt"/>
+        <line num="427" count="28" type="stmt"/>
+        <line num="452" count="6" type="stmt"/>
+        <line num="455" count="6" type="stmt"/>
+        <line num="474" count="4" type="stmt"/>
+      </file>
+      <file name="HomeScreen.js" path="E:\TFG\TFGRead\src\screens\HomeScreen.js">
+        <metrics statements="63" coveredstatements="55" conditionals="12" coveredconditionals="10" methods="23" coveredmethods="20"/>
+        <line num="25" count="21" type="stmt"/>
+        <line num="26" count="20" type="stmt"/>
+        <line num="29" count="20" type="stmt"/>
+        <line num="30" count="20" type="stmt"/>
+        <line num="31" count="20" type="stmt"/>
+        <line num="34" count="20" type="stmt"/>
+        <line num="35" count="20" type="stmt"/>
+        <line num="36" count="20" type="stmt"/>
+        <line num="38" count="20" type="stmt"/>
+        <line num="39" count="20" type="stmt"/>
+        <line num="40" count="20" type="stmt"/>
+        <line num="42" count="20" type="stmt"/>
+        <line num="43" count="20" type="stmt"/>
+        <line num="44" count="20" type="stmt"/>
+        <line num="45" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="46" count="6" type="stmt"/>
+        <line num="49" count="20" type="stmt"/>
+        <line num="50" count="18" type="stmt"/>
+        <line num="56" count="20" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="62" count="20" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+        <line num="68" count="20" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="75" count="20" type="stmt"/>
+        <line num="77" count="6" type="stmt"/>
+        <line num="79" count="6" type="stmt"/>
+        <line num="80" count="5" type="stmt"/>
+        <line num="83" count="2" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="86" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="87" count="2" type="stmt"/>
+        <line num="88" count="2" type="stmt"/>
+        <line num="92" count="2" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
         <line num="97" count="0" type="stmt"/>
         <line num="99" count="0" type="stmt"/>
         <line num="101" count="0" type="stmt"/>
-        <line num="105" count="2" type="stmt"/>
-        <line num="111" count="60" type="stmt"/>
-        <line num="112" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="114" count="0" type="stmt"/>
-        <line num="116" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="117" count="0" type="stmt"/>
-        <line num="120" count="0" type="stmt"/>
-        <line num="122" count="0" type="stmt"/>
-        <line num="128" count="0" type="stmt"/>
-        <line num="132" count="60" type="stmt"/>
-        <line num="134" count="6" type="stmt"/>
-        <line num="135" count="6" type="stmt"/>
-        <line num="136" count="6" type="stmt"/>
-        <line num="137" count="6" type="stmt"/>
-        <line num="141" count="60" type="stmt"/>
-        <line num="142" count="0" type="stmt"/>
-        <line num="147" count="60" type="stmt"/>
-        <line num="148" count="47" type="stmt"/>
-        <line num="151" count="94" type="stmt"/>
-        <line num="155" count="1" type="stmt"/>
-        <line num="184" count="60" type="stmt"/>
-        <line num="185" count="6" type="stmt"/>
-        <line num="187" count="0" type="stmt"/>
-        <line num="208" count="60" type="stmt"/>
-        <line num="210" count="28" type="stmt"/>
-        <line num="216" count="0" type="stmt"/>
-        <line num="283" count="60" type="stmt"/>
-        <line num="335" count="0" type="stmt"/>
-        <line num="387" count="1" type="stmt"/>
-        <line num="401" count="3" type="stmt"/>
-        <line num="406" count="3" type="stmt"/>
-        <line num="420" count="28" type="stmt"/>
-        <line num="423" count="28" type="stmt"/>
-        <line num="447" count="6" type="stmt"/>
-        <line num="450" count="6" type="stmt"/>
-        <line num="469" count="3" type="stmt"/>
+        <line num="108" count="20" type="stmt"/>
+        <line num="111" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="112" count="1" type="stmt"/>
+        <line num="115" count="0" type="stmt"/>
+        <line num="118" count="1" type="stmt"/>
+        <line num="120" count="1" type="stmt"/>
+        <line num="128" count="2" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="182" count="2" type="stmt"/>
+        <line num="207" count="1" type="stmt"/>
+        <line num="237" count="2" type="stmt"/>
+        <line num="243" count="0" type="stmt"/>
+        <line num="306" count="20" type="stmt"/>
+        <line num="307" count="18" type="stmt"/>
+        <line num="326" count="2" type="stmt"/>
+        <line num="333" count="20" type="stmt"/>
+        <line num="334" count="18" type="stmt"/>
+        <line num="391" count="1" type="stmt"/>
+        <line num="408" count="20" type="stmt"/>
+        <line num="444" count="1" type="stmt"/>
+        <line num="452" count="1" type="stmt"/>
+        <line num="492" count="2" type="stmt"/>
+        <line num="493" count="0" type="stmt"/>
+        <line num="515" count="2" type="stmt"/>
+        <line num="525" count="4" type="stmt"/>
       </file>
-      <file name="HomeScreen.js" path="D:\TFG\TFGRead\src\screens\HomeScreen.js">
-        <metrics statements="46" coveredstatements="45" conditionals="8" coveredconditionals="7" methods="15" coveredmethods="15"/>
-        <line num="22" count="27" type="stmt"/>
-        <line num="23" count="26" type="stmt"/>
-        <line num="24" count="26" type="stmt"/>
-        <line num="25" count="26" type="stmt"/>
-        <line num="28" count="26" type="stmt"/>
-        <line num="29" count="26" type="stmt"/>
-        <line num="31" count="26" type="stmt"/>
-        <line num="32" count="26" type="stmt"/>
-        <line num="35" count="26" type="stmt"/>
-        <line num="37" count="26" type="stmt"/>
-        <line num="38" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="42" count="26" type="stmt"/>
-        <line num="43" count="24" type="stmt"/>
-        <line num="49" count="26" type="stmt"/>
-        <line num="50" count="1" type="stmt"/>
-        <line num="55" count="26" type="stmt"/>
-        <line num="56" count="1" type="stmt"/>
-        <line num="61" count="26" type="stmt"/>
-        <line num="62" count="1" type="stmt"/>
-        <line num="68" count="26" type="stmt"/>
-        <line num="70" count="6" type="stmt"/>
-        <line num="72" count="6" type="stmt"/>
-        <line num="73" count="6" type="stmt"/>
-        <line num="75" count="2" type="stmt"/>
-        <line num="77" count="2" type="stmt"/>
-        <line num="79" count="2" type="stmt"/>
-        <line num="80" count="2" type="stmt"/>
-        <line num="83" count="2" type="stmt"/>
-        <line num="84" count="2" type="stmt"/>
-        <line num="85" count="2" type="stmt"/>
-        <line num="91" count="26" type="stmt"/>
-        <line num="94" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="95" count="1" type="stmt"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="101" count="1" type="stmt"/>
-        <line num="103" count="1" type="stmt"/>
-        <line num="113" count="42" type="stmt"/>
-        <line num="138" count="1" type="stmt"/>
-        <line num="166" count="26" type="stmt"/>
-        <line num="167" count="24" type="stmt"/>
-        <line num="226" count="1" type="stmt"/>
-        <line num="243" count="26" type="stmt"/>
-        <line num="279" count="1" type="stmt"/>
-        <line num="287" count="1" type="stmt"/>
-        <line num="311" count="42" type="stmt"/>
-        <line num="322" count="3" type="stmt"/>
-      </file>
-      <file name="NotificacionesScreen.js" path="D:\TFG\TFGRead\src\screens\NotificacionesScreen.js">
-        <metrics statements="82" coveredstatements="60" conditionals="30" coveredconditionals="24" methods="29" coveredmethods="14"/>
-        <line num="12" count="31" type="stmt"/>
-        <line num="13" count="31" type="stmt"/>
-        <line num="14" count="31" type="stmt"/>
-        <line num="15" count="31" type="stmt"/>
-        <line num="16" count="31" type="stmt"/>
-        <line num="18" count="31" type="stmt"/>
-        <line num="19" count="31" type="stmt"/>
-        <line num="21" count="31" type="stmt"/>
-        <line num="23" count="31" type="stmt"/>
-        <line num="27" count="31" type="stmt"/>
-        <line num="29" count="31" type="stmt"/>
-        <line num="30" count="3" type="stmt"/>
-        <line num="31" count="3" type="stmt"/>
-        <line num="33" count="3" type="stmt"/>
-        <line num="34" count="3" type="stmt"/>
-        <line num="37" count="31" type="stmt"/>
-        <line num="38" count="26" type="stmt"/>
-        <line num="44" count="31" type="stmt"/>
+      <file name="NotificacionesScreen.js" path="E:\TFG\TFGRead\src\screens\NotificacionesScreen.js">
+        <metrics statements="65" coveredstatements="55" conditionals="30" coveredconditionals="24" methods="24" coveredmethods="14"/>
+        <line num="12" count="33" type="stmt"/>
+        <line num="13" count="33" type="stmt"/>
+        <line num="14" count="33" type="stmt"/>
+        <line num="15" count="33" type="stmt"/>
+        <line num="16" count="33" type="stmt"/>
+        <line num="18" count="33" type="stmt"/>
+        <line num="19" count="33" type="stmt"/>
+        <line num="21" count="33" type="stmt"/>
+        <line num="23" count="33" type="stmt"/>
+        <line num="27" count="33" type="stmt"/>
+        <line num="29" count="33" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="37" count="33" type="stmt"/>
+        <line num="38" count="28" type="stmt"/>
+        <line num="44" count="33" type="stmt"/>
         <line num="45" count="1" type="stmt"/>
-        <line num="48" count="31" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="55" count="31" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="61" count="31" type="stmt"/>
-        <line num="62" count="5" type="stmt"/>
-        <line num="64" count="5" type="stmt"/>
+        <line num="61" count="33" type="stmt"/>
+        <line num="62" count="6" type="stmt"/>
+        <line num="64" count="6" type="stmt"/>
         <line num="65" count="5" type="cond" truecount="2" falsecount="0"/>
         <line num="66" count="3" type="stmt"/>
         <line num="67" count="3" type="stmt"/>
@@ -987,60 +265,36 @@
         <line num="81" count="1" type="stmt"/>
         <line num="82" count="1" type="stmt"/>
         <line num="84" count="5" type="stmt"/>
-        <line num="87" count="31" type="stmt"/>
-        <line num="89" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="94" count="31" type="stmt"/>
-        <line num="96" count="0" type="stmt"/>
-        <line num="100" count="31" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="104" count="0" type="stmt"/>
-        <line num="105" count="0" type="stmt"/>
-        <line num="113" count="31" type="stmt"/>
-        <line num="115" count="3" type="stmt"/>
-        <line num="116" count="3" type="stmt"/>
-        <line num="117" count="3" type="stmt"/>
-        <line num="121" count="31" type="stmt"/>
-        <line num="122" count="26" type="stmt"/>
-        <line num="125" count="78" type="stmt"/>
-        <line num="129" count="2" type="stmt"/>
-        <line num="160" count="31" type="stmt"/>
-        <line num="161" count="11" type="stmt"/>
-        <line num="184" count="0" type="stmt"/>
-        <line num="187" count="0" type="stmt"/>
-        <line num="198" count="31" type="stmt"/>
-        <line num="199" count="0" type="stmt"/>
-        <line num="215" count="0" type="stmt"/>
-        <line num="230" count="31" type="stmt"/>
-        <line num="231" count="0" type="stmt"/>
-        <line num="249" count="0" type="stmt"/>
-        <line num="255" count="0" type="stmt"/>
-        <line num="268" count="31" type="stmt"/>
-        <line num="315" count="1" type="stmt"/>
-        <line num="334" count="11" type="stmt"/>
-        <line num="336" count="11" type="stmt"/>
-        <line num="357" count="0" type="stmt"/>
-        <line num="384" count="0" type="stmt"/>
-        <line num="386" count="0" type="stmt"/>
-        <line num="410" count="3" type="stmt"/>
+        <line num="114" count="33" type="stmt"/>
+        <line num="116" count="4" type="stmt"/>
+        <line num="117" count="4" type="stmt"/>
+        <line num="118" count="4" type="stmt"/>
+        <line num="122" count="33" type="stmt"/>
+        <line num="123" count="28" type="stmt"/>
+        <line num="126" count="84" type="stmt"/>
+        <line num="130" count="2" type="stmt"/>
+        <line num="161" count="33" type="stmt"/>
+        <line num="162" count="11" type="stmt"/>
+        <line num="185" count="0" type="stmt"/>
+        <line num="191" count="0" type="stmt"/>
+        <line num="202" count="33" type="stmt"/>
+        <line num="203" count="0" type="stmt"/>
+        <line num="219" count="0" type="stmt"/>
+        <line num="234" count="33" type="stmt"/>
+        <line num="235" count="0" type="stmt"/>
+        <line num="254" count="0" type="stmt"/>
+        <line num="260" count="0" type="stmt"/>
+        <line num="274" count="33" type="stmt"/>
+        <line num="321" count="1" type="stmt"/>
+        <line num="340" count="11" type="stmt"/>
+        <line num="342" count="11" type="stmt"/>
+        <line num="363" count="0" type="stmt"/>
+        <line num="390" count="0" type="stmt"/>
+        <line num="392" count="0" type="stmt"/>
+        <line num="416" count="4" type="stmt"/>
       </file>
-      <file name="PrimeraScreen.js" path="D:\TFG\TFGRead\src\screens\PrimeraScreen.js">
-        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
-        <line num="13" count="3" type="stmt"/>
-        <line num="14" count="5" type="stmt"/>
-        <line num="15" count="5" type="stmt"/>
-        <line num="16" count="5" type="stmt"/>
-        <line num="21" count="5" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="24" count="5" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
-        <line num="27" count="5" type="stmt"/>
-        <line num="74" count="1" type="stmt"/>
-        <line num="81" count="1" type="stmt"/>
-        <line num="121" count="3" type="stmt"/>
-      </file>
-      <file name="ProfileScreen.js" path="D:\TFG\TFGRead\src\screens\ProfileScreen.js">
-        <metrics statements="45" coveredstatements="45" conditionals="14" coveredconditionals="13" methods="14" coveredmethods="14"/>
+      <file name="ProfileScreen.js" path="E:\TFG\TFGRead\src\screens\ProfileScreen.js">
+        <metrics statements="45" coveredstatements="45" conditionals="12" coveredconditionals="11" methods="14" coveredmethods="14"/>
         <line num="14" count="38" type="stmt"/>
         <line num="15" count="38" type="stmt"/>
         <line num="17" count="38" type="stmt"/>
@@ -1081,18 +335,18 @@
         <line num="74" count="1" type="stmt"/>
         <line num="76" count="38" type="stmt"/>
         <line num="123" count="1" type="stmt"/>
-        <line num="145" count="1" type="stmt"/>
-        <line num="161" count="1" type="stmt"/>
-        <line num="195" count="1" type="stmt"/>
-        <line num="230" count="1" type="stmt"/>
-        <line num="241" count="3" type="stmt"/>
+        <line num="128" count="1" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="166" count="1" type="stmt"/>
+        <line num="200" count="1" type="stmt"/>
+        <line num="246" count="4" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.src.screens.Auth">
-      <metrics statements="56" coveredstatements="56" conditionals="0" coveredconditionals="0" methods="28" coveredmethods="28"/>
-      <file name="LoginScreen.js" path="D:\TFG\TFGRead\src\screens\Auth\LoginScreen.js">
+    <package name="screens.Auth">
+      <metrics statements="68" coveredstatements="68" conditionals="0" coveredconditionals="0" methods="34" coveredmethods="34"/>
+      <file name="LoginScreen.js" path="E:\TFG\TFGRead\src\screens\Auth\LoginScreen.js">
         <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="9"/>
-        <line num="17" count="3" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
         <line num="18" count="8" type="stmt"/>
         <line num="19" count="8" type="stmt"/>
         <line num="20" count="8" type="stmt"/>
@@ -1108,11 +362,26 @@
         <line num="91" count="1" type="stmt"/>
         <line num="115" count="1" type="stmt"/>
         <line num="122" count="1" type="stmt"/>
-        <line num="135" count="3" type="stmt"/>
+        <line num="135" count="4" type="stmt"/>
       </file>
-      <file name="PsswForgotScreen.js" path="D:\TFG\TFGRead\src\screens\Auth\PsswForgotScreen.js">
+      <file name="PrimeraScreen.js" path="E:\TFG\TFGRead\src\screens\Auth\PrimeraScreen.js">
+        <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="15" count="6" type="stmt"/>
+        <line num="16" count="6" type="stmt"/>
+        <line num="21" count="6" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="24" count="6" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
+        <line num="74" count="1" type="stmt"/>
+        <line num="81" count="1" type="stmt"/>
+        <line num="121" count="4" type="stmt"/>
+      </file>
+      <file name="PsswForgotScreen.js" path="E:\TFG\TFGRead\src\screens\Auth\PsswForgotScreen.js">
         <metrics statements="16" coveredstatements="16" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="8"/>
-        <line num="17" count="3" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
         <line num="18" count="5" type="stmt"/>
         <line num="19" count="5" type="stmt"/>
         <line num="21" count="5" type="stmt"/>
@@ -1125,153 +394,292 @@
         <line num="33" count="4" type="stmt"/>
         <line num="40" count="5" type="stmt"/>
         <line num="44" count="1" type="stmt"/>
-        <line num="76" count="1" type="stmt"/>
-        <line num="91" count="1" type="stmt"/>
-        <line num="100" count="3" type="stmt"/>
+        <line num="72" count="1" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="96" count="4" type="stmt"/>
       </file>
-      <file name="RegisterScreen.js" path="D:\TFG\TFGRead\src\screens\Auth\RegisterScreen.js">
+      <file name="RegisterScreen.js" path="E:\TFG\TFGRead\src\screens\Auth\RegisterScreen.js">
         <metrics statements="23" coveredstatements="23" conditionals="0" coveredconditionals="0" methods="11" coveredmethods="11"/>
-        <line num="18" count="3" type="stmt"/>
-        <line num="19" count="10" type="stmt"/>
-        <line num="20" count="10" type="stmt"/>
-        <line num="21" count="10" type="stmt"/>
-        <line num="24" count="10" type="stmt"/>
-        <line num="27" count="10" type="stmt"/>
-        <line num="30" count="7" type="stmt"/>
-        <line num="32" count="7" type="stmt"/>
-        <line num="33" count="7" type="stmt"/>
-        <line num="37" count="10" type="stmt"/>
+        <line num="18" count="4" type="stmt"/>
+        <line num="19" count="12" type="stmt"/>
+        <line num="20" count="12" type="stmt"/>
+        <line num="21" count="12" type="stmt"/>
+        <line num="24" count="12" type="stmt"/>
+        <line num="27" count="12" type="stmt"/>
+        <line num="30" count="6" type="stmt"/>
+        <line num="32" count="6" type="stmt"/>
+        <line num="33" count="6" type="stmt"/>
+        <line num="37" count="12" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
-        <line num="42" count="10" type="stmt"/>
-        <line num="43" count="7" type="stmt"/>
-        <line num="48" count="10" type="stmt"/>
+        <line num="42" count="12" type="stmt"/>
+        <line num="43" count="6" type="stmt"/>
+        <line num="48" count="12" type="stmt"/>
         <line num="49" count="1" type="stmt"/>
         <line num="50" count="1" type="stmt"/>
-        <line num="53" count="10" type="stmt"/>
-        <line num="79" count="1" type="stmt"/>
-        <line num="100" count="1" type="stmt"/>
-        <line num="122" count="1" type="stmt"/>
+        <line num="53" count="12" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="100" count="2" type="stmt"/>
+        <line num="122" count="2" type="stmt"/>
         <line num="140" count="1" type="stmt"/>
         <line num="147" count="1" type="stmt"/>
-        <line num="159" count="3" type="stmt"/>
+        <line num="159" count="4" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.src.screens.BookScreen">
-      <metrics statements="224" coveredstatements="161" conditionals="56" coveredconditionals="29" methods="75" coveredmethods="43"/>
-      <file name="BooksScreen.js" path="D:\TFG\TFGRead\src\screens\BookScreen\BooksScreen.js">
-        <metrics statements="109" coveredstatements="80" conditionals="40" coveredconditionals="22" methods="33" coveredmethods="21"/>
-        <line num="13" count="57" type="stmt"/>
-        <line num="14" count="57" type="stmt"/>
-        <line num="15" count="57" type="stmt"/>
-        <line num="16" count="57" type="stmt"/>
-        <line num="17" count="57" type="stmt"/>
-        <line num="20" count="57" type="stmt"/>
-        <line num="21" count="57" type="stmt"/>
-        <line num="22" count="57" type="stmt"/>
-        <line num="24" count="57" type="stmt"/>
-        <line num="25" count="57" type="stmt"/>
-        <line num="26" count="57" type="stmt"/>
-        <line num="27" count="57" type="stmt"/>
-        <line num="29" count="57" type="stmt"/>
-        <line num="31" count="57" type="stmt"/>
-        <line num="32" count="57" type="stmt"/>
-        <line num="34" count="57" type="stmt"/>
-        <line num="36" count="6" type="stmt"/>
-        <line num="37" count="6" type="stmt"/>
-        <line num="39" count="6" type="stmt"/>
-        <line num="40" count="6" type="stmt"/>
-        <line num="44" count="57" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
-        <line num="47" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="54" count="57" type="stmt"/>
-        <line num="55" count="0" type="stmt"/>
-        <line num="56" count="0" type="stmt"/>
-        <line num="57" count="0" type="stmt"/>
-        <line num="58" count="0" type="stmt"/>
-        <line num="61" count="57" type="stmt"/>
-        <line num="62" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="63" count="0" type="stmt"/>
-        <line num="64" count="0" type="cond" truecount="0" falsecount="4"/>
-        <line num="65" count="0" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
-        <line num="72" count="0" type="stmt"/>
-        <line num="77" count="57" type="stmt"/>
-        <line num="78" count="6" type="stmt"/>
-        <line num="84" count="57" type="stmt"/>
-        <line num="86" count="6" type="stmt"/>
-        <line num="87" count="6" type="stmt"/>
-        <line num="88" count="6" type="stmt"/>
-        <line num="89" count="6" type="stmt"/>
-        <line num="91" count="6" type="cond" truecount="1" falsecount="1"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="95" count="6" type="stmt"/>
-        <line num="97" count="6" type="stmt"/>
-        <line num="98" count="6" type="stmt"/>
-        <line num="99" count="6" type="stmt"/>
-        <line num="100" count="6" type="stmt"/>
-        <line num="104" count="57" type="stmt"/>
-        <line num="106" count="6" type="stmt"/>
-        <line num="107" count="6" type="stmt"/>
-        <line num="108" count="6" type="stmt"/>
-        <line num="113" count="57" type="stmt"/>
+    <package name="screens.AutoresScreen">
+      <metrics statements="122" coveredstatements="90" conditionals="46" coveredconditionals="42" methods="39" coveredmethods="27"/>
+      <file name="AutoresScreen.js" path="E:\TFG\TFGRead\src\screens\AutoresScreen\AutoresScreen.js">
+        <metrics statements="85" coveredstatements="55" conditionals="24" coveredconditionals="20" methods="23" coveredmethods="13"/>
+        <line num="19" count="60" type="stmt"/>
+        <line num="20" count="60" type="stmt"/>
+        <line num="21" count="60" type="stmt"/>
+        <line num="22" count="60" type="stmt"/>
+        <line num="23" count="60" type="stmt"/>
+        <line num="24" count="60" type="stmt"/>
+        <line num="25" count="60" type="stmt"/>
+        <line num="26" count="60" type="stmt"/>
+        <line num="27" count="60" type="stmt"/>
+        <line num="28" count="60" type="stmt"/>
+        <line num="29" count="60" type="stmt"/>
+        <line num="30" count="60" type="stmt"/>
+        <line num="31" count="60" type="stmt"/>
+        <line num="33" count="60" type="stmt"/>
+        <line num="34" count="60" type="stmt"/>
+        <line num="36" count="60" type="stmt"/>
+        <line num="37" count="14" type="stmt"/>
+        <line num="38" count="14" type="stmt"/>
+        <line num="40" count="14" type="stmt"/>
+        <line num="41" count="12" type="stmt"/>
+        <line num="44" count="60" type="stmt"/>
+        <line num="45" count="38" type="stmt"/>
+        <line num="51" count="60" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="56" count="60" type="stmt"/>
+        <line num="58" count="14" type="stmt"/>
+        <line num="59" count="14" type="stmt"/>
+        <line num="60" count="14" type="stmt"/>
+        <line num="61" count="14" type="stmt"/>
+        <line num="62" count="14" type="stmt"/>
+        <line num="63" count="6" type="stmt"/>
+        <line num="64" count="6" type="stmt"/>
+        <line num="65" count="6" type="stmt"/>
+        <line num="66" count="6" type="stmt"/>
+        <line num="67" count="6" type="stmt"/>
+        <line num="68" count="6" type="stmt"/>
+        <line num="69" count="6" type="stmt"/>
+        <line num="70" count="6" type="stmt"/>
+        <line num="71" count="6" type="stmt"/>
+        <line num="72" count="6" type="stmt"/>
+        <line num="77" count="60" type="stmt"/>
+        <line num="78" count="0" type="stmt"/>
+        <line num="84" count="60" type="stmt"/>
+        <line num="85" count="0" type="stmt"/>
+        <line num="86" count="0" type="stmt"/>
+        <line num="87" count="0" type="stmt"/>
+        <line num="88" count="0" type="stmt"/>
+        <line num="91" count="60" type="stmt"/>
+        <line num="92" count="1" type="stmt"/>
+        <line num="93" count="0" type="stmt"/>
+        <line num="94" count="0" type="stmt"/>
+        <line num="97" count="60" type="stmt"/>
+        <line num="98" count="0" type="stmt"/>
+        <line num="99" count="0" type="stmt"/>
+        <line num="104" count="60" type="stmt"/>
+        <line num="105" count="1" type="stmt"/>
+        <line num="106" count="0" type="stmt"/>
+        <line num="107" count="0" type="stmt"/>
+        <line num="112" count="60" type="stmt"/>
+        <line num="113" count="0" type="stmt"/>
         <line num="115" count="0" type="stmt"/>
-        <line num="117" count="0" type="stmt"/>
-        <line num="123" count="57" type="stmt"/>
-        <line num="125" count="4" type="stmt"/>
-        <line num="127" count="57" type="stmt"/>
-        <line num="129" count="1" type="stmt"/>
-        <line num="130" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="131" count="1" type="stmt"/>
-        <line num="133" count="57" type="stmt"/>
-        <line num="135" count="1" type="stmt"/>
-        <line num="136" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="137" count="1" type="stmt"/>
-        <line num="139" count="57" type="stmt"/>
-        <line num="141" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="142" count="1" type="stmt"/>
-        <line num="143" count="1" type="stmt"/>
-        <line num="144" count="1" type="stmt"/>
-        <line num="147" count="1" type="stmt"/>
-        <line num="148" count="1" type="stmt"/>
-        <line num="149" count="1" type="stmt"/>
-        <line num="152" count="57" type="stmt"/>
-        <line num="153" count="0" type="stmt"/>
-        <line num="155" count="0" type="stmt"/>
-        <line num="164" count="57" type="stmt"/>
-        <line num="165" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="166" count="2" type="stmt"/>
-        <line num="168" count="1" type="stmt"/>
-        <line num="170" count="3" type="stmt"/>
-        <line num="173" count="57" type="stmt"/>
-        <line num="174" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="175" count="0" type="stmt"/>
-        <line num="179" count="57" type="stmt"/>
-        <line num="181" count="0" type="stmt"/>
-        <line num="184" count="0" type="stmt"/>
-        <line num="187" count="0" type="stmt"/>
-        <line num="194" count="57" type="stmt"/>
-        <line num="195" count="1" type="stmt"/>
-        <line num="196" count="0" type="stmt"/>
-        <line num="213" count="57" type="stmt"/>
-        <line num="215" count="4" type="stmt"/>
-        <line num="223" count="0" type="stmt"/>
-        <line num="244" count="0" type="stmt"/>
-        <line num="361" count="1" type="stmt"/>
-        <line num="365" count="1" type="stmt"/>
-        <line num="391" count="0" type="stmt"/>
-        <line num="399" count="0" type="stmt"/>
-        <line num="419" count="1" type="stmt"/>
-        <line num="424" count="1" type="stmt"/>
-        <line num="429" count="2" type="stmt"/>
-        <line num="438" count="1" type="stmt"/>
-        <line num="442" count="3" type="stmt"/>
-        <line num="464" count="3" type="stmt"/>
+        <line num="118" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="120" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="134" count="0" type="stmt"/>
+        <line num="135" count="0" type="stmt"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="146" count="0" type="stmt"/>
+        <line num="147" count="0" type="stmt"/>
+        <line num="156" count="6" type="stmt"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="210" count="60" type="stmt"/>
+        <line num="246" count="1" type="stmt"/>
+        <line num="269" count="0" type="stmt"/>
+        <line num="270" count="0" type="stmt"/>
+        <line num="287" count="0" type="stmt"/>
+        <line num="289" count="0" type="stmt"/>
+        <line num="292" count="0" type="stmt"/>
+        <line num="332" count="1" type="stmt"/>
+        <line num="360" count="1" type="stmt"/>
+        <line num="438" count="6" type="stmt"/>
+        <line num="456" count="4" type="stmt"/>
       </file>
-      <file name="ChatCapituloScreen.js" path="D:\TFG\TFGRead\src\screens\BookScreen\ChatCapituloScreen.js">
-        <metrics statements="46" coveredstatements="30" conditionals="2" coveredconditionals="1" methods="19" coveredmethods="10"/>
+      <file name="ReportAutorScreen.js" path="E:\TFG\TFGRead\src\screens\AutoresScreen\ReportAutorScreen.js">
+        <metrics statements="37" coveredstatements="35" conditionals="22" coveredconditionals="22" methods="16" coveredmethods="14"/>
+        <line num="21" count="10" type="stmt"/>
+        <line num="23" count="10" type="stmt"/>
+        <line num="24" count="10" type="stmt"/>
+        <line num="25" count="10" type="stmt"/>
+        <line num="27" count="10" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="10" type="stmt"/>
+        <line num="33" count="3" type="stmt"/>
+        <line num="35" count="10" type="stmt"/>
+        <line num="37" count="10" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
+        <line num="40" count="10" type="stmt"/>
+        <line num="41" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="50" count="10" type="stmt"/>
+        <line num="52" count="2" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="56" count="10" type="stmt"/>
+        <line num="57" count="1" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="63" count="10" type="stmt"/>
+        <line num="64" count="10" type="stmt"/>
+        <line num="70" count="10" type="stmt"/>
+        <line num="71" count="2" type="stmt"/>
+        <line num="79" count="10" type="stmt"/>
+        <line num="110" count="1" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
+        <line num="137" count="1" type="stmt"/>
+        <line num="144" count="1" type="stmt"/>
+        <line num="151" count="1" type="stmt"/>
+        <line num="173" count="1" type="stmt"/>
+        <line num="214" count="1" type="stmt"/>
+        <line num="230" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.BookScreen">
+      <metrics statements="327" coveredstatements="267" conditionals="128" coveredconditionals="107" methods="120" coveredmethods="88"/>
+      <file name="BooksScreen.js" path="E:\TFG\TFGRead\src\screens\BookScreen\BooksScreen.js">
+        <metrics statements="117" coveredstatements="95" conditionals="42" coveredconditionals="31" methods="37" coveredmethods="26"/>
+        <line num="12" count="52" type="stmt"/>
+        <line num="14" count="52" type="stmt"/>
+        <line num="15" count="52" type="stmt"/>
+        <line num="16" count="52" type="stmt"/>
+        <line num="19" count="52" type="stmt"/>
+        <line num="20" count="52" type="stmt"/>
+        <line num="21" count="52" type="stmt"/>
+        <line num="23" count="52" type="stmt"/>
+        <line num="24" count="52" type="stmt"/>
+        <line num="25" count="52" type="stmt"/>
+        <line num="26" count="52" type="stmt"/>
+        <line num="27" count="52" type="stmt"/>
+        <line num="30" count="52" type="stmt"/>
+        <line num="32" count="52" type="stmt"/>
+        <line num="33" count="52" type="stmt"/>
+        <line num="35" count="52" type="stmt"/>
+        <line num="36" count="52" type="stmt"/>
+        <line num="37" count="52" type="stmt"/>
+        <line num="38" count="52" type="stmt"/>
+        <line num="40" count="11" type="stmt"/>
+        <line num="41" count="11" type="stmt"/>
+        <line num="43" count="11" type="stmt"/>
+        <line num="44" count="11" type="stmt"/>
+        <line num="48" count="52" type="stmt"/>
+        <line num="49" count="0" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="51" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="58" count="52" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="65" count="52" type="stmt"/>
+        <line num="66" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="68" count="2" type="cond" truecount="3" falsecount="1"/>
+        <line num="69" count="2" type="stmt"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="76" count="2" type="stmt"/>
+        <line num="81" count="52" type="stmt"/>
+        <line num="82" count="11" type="stmt"/>
+        <line num="87" count="52" type="stmt"/>
+        <line num="89" count="0" type="stmt"/>
+        <line num="97" count="52" type="stmt"/>
+        <line num="99" count="11" type="stmt"/>
+        <line num="100" count="11" type="stmt"/>
+        <line num="101" count="11" type="stmt"/>
+        <line num="102" count="4" type="stmt"/>
+        <line num="104" count="4" type="cond" truecount="1" falsecount="1"/>
+        <line num="105" count="0" type="stmt"/>
+        <line num="108" count="4" type="stmt"/>
+        <line num="110" count="4" type="stmt"/>
+        <line num="111" count="4" type="stmt"/>
+        <line num="112" count="4" type="stmt"/>
+        <line num="113" count="4" type="stmt"/>
+        <line num="117" count="52" type="stmt"/>
+        <line num="119" count="11" type="stmt"/>
+        <line num="120" count="11" type="stmt"/>
+        <line num="121" count="4" type="stmt"/>
+        <line num="126" count="52" type="stmt"/>
+        <line num="128" count="2" type="stmt"/>
+        <line num="130" count="2" type="stmt"/>
+        <line num="136" count="52" type="stmt"/>
+        <line num="138" count="5" type="stmt"/>
+        <line num="140" count="52" type="stmt"/>
+        <line num="142" count="1" type="stmt"/>
+        <line num="143" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="144" count="1" type="stmt"/>
+        <line num="146" count="52" type="stmt"/>
+        <line num="148" count="1" type="stmt"/>
+        <line num="149" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="152" count="52" type="stmt"/>
+        <line num="154" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="155" count="1" type="stmt"/>
+        <line num="156" count="1" type="stmt"/>
+        <line num="157" count="1" type="stmt"/>
+        <line num="160" count="1" type="stmt"/>
+        <line num="161" count="1" type="stmt"/>
+        <line num="162" count="1" type="stmt"/>
+        <line num="165" count="52" type="stmt"/>
+        <line num="166" count="1" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+        <line num="177" count="52" type="stmt"/>
+        <line num="178" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="179" count="2" type="stmt"/>
+        <line num="181" count="1" type="stmt"/>
+        <line num="183" count="3" type="stmt"/>
+        <line num="186" count="52" type="stmt"/>
+        <line num="187" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="188" count="1" type="stmt"/>
+        <line num="192" count="52" type="stmt"/>
+        <line num="194" count="0" type="stmt"/>
+        <line num="197" count="0" type="stmt"/>
+        <line num="200" count="0" type="stmt"/>
+        <line num="207" count="52" type="stmt"/>
+        <line num="208" count="0" type="stmt"/>
+        <line num="209" count="0" type="stmt"/>
+        <line num="226" count="52" type="stmt"/>
+        <line num="228" count="5" type="stmt"/>
+        <line num="244" count="0" type="stmt"/>
+        <line num="250" count="0" type="stmt"/>
+        <line num="256" count="0" type="stmt"/>
+        <line num="277" count="1" type="stmt"/>
+        <line num="393" count="0" type="stmt"/>
+        <line num="397" count="0" type="stmt"/>
+        <line num="424" count="2" type="stmt"/>
+        <line num="434" count="1" type="stmt"/>
+        <line num="454" count="1" type="stmt"/>
+        <line num="459" count="1" type="stmt"/>
+        <line num="464" count="2" type="stmt"/>
+        <line num="473" count="1" type="stmt"/>
+        <line num="477" count="3" type="stmt"/>
+        <line num="483" count="1" type="stmt"/>
+        <line num="499" count="4" type="stmt"/>
+      </file>
+      <file name="ChatCapituloScreen.js" path="E:\TFG\TFGRead\src\screens\BookScreen\ChatCapituloScreen.js">
+        <metrics statements="49" coveredstatements="31" conditionals="8" coveredconditionals="7" methods="20" coveredmethods="10"/>
         <line num="14" count="5" type="stmt"/>
         <line num="15" count="5" type="stmt"/>
         <line num="16" count="5" type="stmt"/>
@@ -1307,194 +715,251 @@
         <line num="81" count="5" type="stmt"/>
         <line num="82" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
-        <line num="96" count="5" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="107" count="0" type="stmt"/>
-        <line num="112" count="0" type="stmt"/>
-        <line num="127" count="5" type="stmt"/>
-        <line num="145" count="1" type="stmt"/>
-        <line num="161" count="0" type="stmt"/>
-        <line num="163" count="0" type="stmt"/>
-        <line num="170" count="1" type="stmt"/>
-        <line num="176" count="1" type="stmt"/>
-        <line num="197" count="3" type="stmt"/>
-      </file>
-      <file name="DetailBookScreen.js" path="D:\TFG\TFGRead\src\screens\BookScreen\DetailBookScreen.js">
-        <metrics statements="69" coveredstatements="51" conditionals="14" coveredconditionals="6" methods="23" coveredmethods="12"/>
-        <line num="12" count="11" type="stmt"/>
-        <line num="14" count="11" type="stmt"/>
-        <line num="15" count="11" type="stmt"/>
-        <line num="16" count="11" type="stmt"/>
-        <line num="17" count="11" type="stmt"/>
-        <line num="18" count="11" type="stmt"/>
-        <line num="19" count="11" type="stmt"/>
-        <line num="20" count="11" type="stmt"/>
-        <line num="22" count="11" type="stmt"/>
-        <line num="25" count="11" type="stmt"/>
-        <line num="26" count="11" type="stmt"/>
-        <line num="28" count="11" type="stmt"/>
-        <line num="29" count="8" type="stmt"/>
-        <line num="30" count="8" type="stmt"/>
-        <line num="32" count="8" type="stmt"/>
-        <line num="36" count="11" type="stmt"/>
-        <line num="37" count="10" type="stmt"/>
-        <line num="43" count="11" type="stmt"/>
-        <line num="45" count="8" type="stmt"/>
-        <line num="48" count="11" type="stmt"/>
-        <line num="50" count="8" type="stmt"/>
-        <line num="51" count="8" type="stmt"/>
-        <line num="52" count="8" type="stmt"/>
-        <line num="53" count="8" type="stmt"/>
-        <line num="54" count="8" type="stmt"/>
-        <line num="55" count="4" type="stmt"/>
-        <line num="56" count="4" type="stmt"/>
-        <line num="57" count="4" type="stmt"/>
-        <line num="58" count="4" type="stmt"/>
-        <line num="59" count="4" type="stmt"/>
-        <line num="60" count="4" type="stmt"/>
-        <line num="61" count="4" type="stmt"/>
-        <line num="64" count="11" type="stmt"/>
-        <line num="65" count="1" type="stmt"/>
-        <line num="68" count="1" type="stmt"/>
-        <line num="69" count="1" type="stmt"/>
-        <line num="71" count="1" type="stmt"/>
-        <line num="77" count="11" type="stmt"/>
-        <line num="78" count="1" type="stmt"/>
-        <line num="84" count="11" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
-        <line num="88" count="0" type="stmt"/>
-        <line num="90" count="0" type="stmt"/>
-        <line num="96" count="11" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="99" count="11" type="stmt"/>
-        <line num="100" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="105" count="0" type="stmt"/>
-        <line num="106" count="0" type="stmt"/>
-        <line num="109" count="11" type="stmt"/>
-        <line num="110" count="0" type="stmt"/>
-        <line num="139" count="11" type="stmt"/>
-        <line num="140" count="0" type="stmt"/>
-        <line num="174" count="11" type="stmt"/>
-        <line num="175" count="0" type="stmt"/>
-        <line num="176" count="0" type="stmt"/>
-        <line num="193" count="11" type="stmt"/>
-        <line num="224" count="1" type="stmt"/>
-        <line num="254" count="1" type="stmt"/>
-        <line num="261" count="0" type="stmt"/>
-        <line num="274" count="0" type="stmt"/>
-        <line num="276" count="0" type="stmt"/>
-        <line num="301" count="0" type="stmt"/>
-        <line num="321" count="0" type="stmt"/>
-        <line num="327" count="1" type="stmt"/>
-        <line num="342" count="3" type="stmt"/>
-      </file>
-    </package>
-    <package name="TFGRead.src.screens.ChatScreen">
-      <metrics statements="122" coveredstatements="94" conditionals="34" coveredconditionals="25" methods="45" coveredmethods="27"/>
-      <file name="ChatConversationScreen.js" path="D:\TFG\TFGRead\src\screens\ChatScreen\ChatConversationScreen.js">
-        <metrics statements="66" coveredstatements="43" conditionals="22" coveredconditionals="16" methods="23" coveredmethods="7"/>
-        <line num="25" count="17" type="stmt"/>
-        <line num="26" count="17" type="stmt"/>
-        <line num="27" count="17" type="stmt"/>
-        <line num="28" count="17" type="stmt"/>
-        <line num="30" count="17" type="stmt"/>
-        <line num="31" count="17" type="stmt"/>
-        <line num="32" count="17" type="stmt"/>
-        <line num="33" count="17" type="stmt"/>
-        <line num="34" count="17" type="stmt"/>
-        <line num="36" count="17" type="stmt"/>
-        <line num="38" count="17" type="stmt"/>
-        <line num="39" count="2" type="stmt"/>
-        <line num="42" count="2" type="stmt"/>
-        <line num="44" count="2" type="stmt"/>
-        <line num="46" count="2" type="stmt"/>
-        <line num="47" count="2" type="stmt"/>
-        <line num="50" count="17" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="59" count="17" type="stmt"/>
-        <line num="60" count="2" type="stmt"/>
-        <line num="61" count="2" type="stmt"/>
-        <line num="62" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="63" count="1" type="stmt"/>
-        <line num="64" count="1" type="stmt"/>
-        <line num="66" count="1" type="stmt"/>
-        <line num="67" count="1" type="stmt"/>
-        <line num="69" count="2" type="stmt"/>
-        <line num="70" count="2" type="stmt"/>
-        <line num="71" count="2" type="stmt"/>
-        <line num="72" count="2" type="stmt"/>
-        <line num="73" count="2" type="stmt"/>
-        <line num="74" count="2" type="stmt"/>
-        <line num="78" count="17" type="stmt"/>
-        <line num="79" count="2" type="stmt"/>
-        <line num="80" count="2" type="stmt"/>
-        <line num="83" count="17" type="stmt"/>
-        <line num="84" count="1" type="stmt"/>
-        <line num="87" count="17" type="stmt"/>
         <line num="89" count="0" type="stmt"/>
-        <line num="90" count="0" type="stmt"/>
-        <line num="91" count="0" type="stmt"/>
-        <line num="92" count="0" type="stmt"/>
-        <line num="95" count="17" type="stmt"/>
-        <line num="97" count="0" type="stmt"/>
-        <line num="99" count="0" type="stmt"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="104" count="17" type="stmt"/>
-        <line num="106" count="0" type="stmt"/>
-        <line num="108" count="0" type="stmt"/>
-        <line num="109" count="0" type="stmt"/>
-        <line num="112" count="17" type="cond" truecount="0" falsecount="1"/>
-        <line num="113" count="0" type="stmt"/>
+        <line num="94" count="5" type="stmt"/>
+        <line num="95" count="0" type="stmt"/>
+        <line num="103" count="5" type="stmt"/>
+        <line num="104" count="0" type="stmt"/>
         <line num="114" count="0" type="stmt"/>
         <line num="119" count="0" type="stmt"/>
-        <line num="129" count="0" type="stmt"/>
-        <line num="154" count="0" type="stmt"/>
-        <line num="157" count="0" type="stmt"/>
-        <line num="174" count="0" type="stmt"/>
-        <line num="188" count="17" type="stmt"/>
-        <line num="234" count="1" type="stmt"/>
-        <line num="258" count="0" type="stmt"/>
-        <line num="261" count="0" type="stmt"/>
-        <line num="281" count="0" type="stmt"/>
-        <line num="302" count="0" type="stmt"/>
-        <line num="305" count="0" type="stmt"/>
-        <line num="321" count="3" type="stmt"/>
+        <line num="134" count="5" type="stmt"/>
+        <line num="152" count="1" type="stmt"/>
+        <line num="169" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="178" count="1" type="stmt"/>
+        <line num="186" count="1" type="stmt"/>
+        <line num="207" count="4" type="stmt"/>
       </file>
-      <file name="ChatScreen.js" path="D:\TFG\TFGRead\src\screens\ChatScreen\ChatScreen.js">
-        <metrics statements="56" coveredstatements="51" conditionals="12" coveredconditionals="9" methods="22" coveredmethods="20"/>
-        <line num="19" count="61" type="stmt"/>
-        <line num="20" count="61" type="stmt"/>
-        <line num="21" count="61" type="stmt"/>
-        <line num="22" count="61" type="stmt"/>
-        <line num="23" count="61" type="stmt"/>
-        <line num="24" count="61" type="stmt"/>
-        <line num="25" count="61" type="stmt"/>
-        <line num="27" count="61" type="stmt"/>
-        <line num="29" count="14" type="stmt"/>
-        <line num="33" count="61" type="stmt"/>
-        <line num="34" count="7" type="stmt"/>
-        <line num="41" count="61" type="stmt"/>
+      <file name="DetailBookScreen.js" path="E:\TFG\TFGRead\src\screens\BookScreen\DetailBookScreen.js">
+        <metrics statements="79" coveredstatements="72" conditionals="18" coveredconditionals="12" methods="27" coveredmethods="24"/>
+        <line num="16" count="26" type="stmt"/>
+        <line num="18" count="26" type="stmt"/>
+        <line num="19" count="26" type="stmt"/>
+        <line num="20" count="26" type="stmt"/>
+        <line num="21" count="26" type="stmt"/>
+        <line num="22" count="26" type="stmt"/>
+        <line num="23" count="26" type="stmt"/>
+        <line num="24" count="26" type="stmt"/>
+        <line num="26" count="26" type="stmt"/>
+        <line num="29" count="26" type="stmt"/>
+        <line num="30" count="26" type="stmt"/>
+        <line num="32" count="26" type="stmt"/>
+        <line num="34" count="26" type="stmt"/>
+        <line num="35" count="14" type="stmt"/>
+        <line num="36" count="14" type="stmt"/>
+        <line num="38" count="14" type="stmt"/>
+        <line num="39" count="14" type="stmt"/>
         <line num="42" count="14" type="stmt"/>
-        <line num="46" count="61" type="stmt"/>
-        <line num="48" count="14" type="stmt"/>
-        <line num="49" count="14" type="stmt"/>
-        <line num="50" count="14" type="stmt"/>
-        <line num="51" count="14" type="stmt"/>
-        <line num="57" count="61" type="stmt"/>
+        <line num="46" count="26" type="stmt"/>
+        <line num="47" count="22" type="stmt"/>
+        <line num="53" count="26" type="stmt"/>
+        <line num="55" count="14" type="stmt"/>
+        <line num="58" count="26" type="stmt"/>
+        <line num="60" count="14" type="stmt"/>
+        <line num="61" count="14" type="stmt"/>
+        <line num="62" count="14" type="stmt"/>
+        <line num="63" count="14" type="stmt"/>
+        <line num="64" count="14" type="stmt"/>
+        <line num="65" count="7" type="stmt"/>
+        <line num="66" count="7" type="stmt"/>
+        <line num="67" count="7" type="stmt"/>
+        <line num="68" count="5" type="stmt"/>
+        <line num="69" count="5" type="stmt"/>
+        <line num="70" count="5" type="stmt"/>
+        <line num="71" count="5" type="stmt"/>
+        <line num="74" count="26" type="stmt"/>
+        <line num="76" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="77" count="2" type="stmt"/>
+        <line num="79" count="2" type="stmt"/>
+        <line num="80" count="2" type="stmt"/>
+        <line num="82" count="2" type="stmt"/>
+        <line num="89" count="26" type="stmt"/>
+        <line num="90" count="1" type="stmt"/>
+        <line num="95" count="26" type="stmt"/>
+        <line num="96" count="1" type="stmt"/>
+        <line num="97" count="1" type="stmt"/>
+        <line num="102" count="26" type="stmt"/>
+        <line num="103" count="1" type="stmt"/>
+        <line num="105" count="1" type="stmt"/>
+        <line num="106" count="1" type="stmt"/>
+        <line num="108" count="1" type="stmt"/>
+        <line num="114" count="26" type="stmt"/>
+        <line num="115" count="1" type="stmt"/>
+        <line num="117" count="26" type="stmt"/>
+        <line num="118" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="119" count="0" type="stmt"/>
+        <line num="120" count="0" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
+        <line num="124" count="0" type="stmt"/>
+        <line num="127" count="26" type="stmt"/>
+        <line num="128" count="8" type="stmt"/>
+        <line num="157" count="26" type="stmt"/>
+        <line num="158" count="8" type="stmt"/>
+        <line num="192" count="26" type="stmt"/>
+        <line num="193" count="8" type="stmt"/>
+        <line num="194" count="1" type="stmt"/>
+        <line num="211" count="26" type="stmt"/>
+        <line num="242" count="1" type="stmt"/>
+        <line num="249" count="0" type="stmt"/>
+        <line num="250" count="1" type="stmt"/>
+        <line num="267" count="1" type="stmt"/>
+        <line num="299" count="2" type="stmt"/>
+        <line num="306" count="0" type="stmt"/>
+        <line num="319" count="8" type="stmt"/>
+        <line num="321" count="8" type="stmt"/>
+        <line num="346" count="10" type="stmt"/>
+        <line num="373" count="8" type="stmt"/>
+        <line num="379" count="1" type="stmt"/>
+        <line num="395" count="4" type="stmt"/>
+      </file>
+      <file name="ReportBookScreen.js" path="E:\TFG\TFGRead\src\screens\BookScreen\ReportBookScreen.js">
+        <metrics statements="45" coveredstatements="36" conditionals="38" coveredconditionals="35" methods="20" coveredmethods="14"/>
+        <line num="22" count="9" type="stmt"/>
+        <line num="23" count="9" type="stmt"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="25" count="9" type="stmt"/>
+        <line num="26" count="9" type="stmt"/>
+        <line num="28" count="9" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="31" count="9" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="35" count="9" type="stmt"/>
+        <line num="36" count="3" type="stmt"/>
+        <line num="38" count="9" type="stmt"/>
+        <line num="40" count="9" type="stmt"/>
+        <line num="41" count="9" type="stmt"/>
+        <line num="43" count="9" type="stmt"/>
+        <line num="44" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="52" count="9" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="55" count="2" type="stmt"/>
+        <line num="58" count="9" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="64" count="0" type="stmt"/>
+        <line num="66" count="0" type="stmt"/>
+        <line num="67" count="0" type="stmt"/>
+        <line num="69" count="9" type="stmt"/>
+        <line num="70" count="9" type="stmt"/>
+        <line num="76" count="9" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="83" count="9" type="stmt"/>
+        <line num="117" count="1" type="stmt"/>
+        <line num="137" count="0" type="stmt"/>
+        <line num="143" count="1" type="stmt"/>
+        <line num="150" count="1" type="stmt"/>
+        <line num="157" count="1" type="stmt"/>
+        <line num="166" count="0" type="stmt"/>
+        <line num="171" count="0" type="stmt"/>
+        <line num="177" count="0" type="stmt"/>
+        <line num="198" count="1" type="stmt"/>
+        <line num="242" count="1" type="stmt"/>
+        <line num="258" count="4" type="stmt"/>
+      </file>
+      <file name="ReportComentarioScreen.js" path="E:\TFG\TFGRead\src\screens\BookScreen\ReportComentarioScreen.js">
+        <metrics statements="37" coveredstatements="33" conditionals="22" coveredconditionals="22" methods="16" coveredmethods="14"/>
+        <line num="22" count="9" type="stmt"/>
+        <line num="24" count="9" type="stmt"/>
+        <line num="25" count="9" type="stmt"/>
+        <line num="26" count="9" type="stmt"/>
+        <line num="28" count="9" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="33" count="9" type="stmt"/>
+        <line num="34" count="3" type="stmt"/>
+        <line num="36" count="9" type="stmt"/>
+        <line num="38" count="9" type="stmt"/>
+        <line num="39" count="9" type="stmt"/>
+        <line num="41" count="9" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
+        <line num="53" count="2" type="stmt"/>
+        <line num="54" count="2" type="stmt"/>
+        <line num="57" count="9" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="61" count="0" type="stmt"/>
+        <line num="64" count="9" type="stmt"/>
+        <line num="65" count="9" type="stmt"/>
+        <line num="71" count="9" type="stmt"/>
+        <line num="73" count="1" type="stmt"/>
+        <line num="82" count="9" type="stmt"/>
+        <line num="113" count="1" type="stmt"/>
+        <line num="133" count="0" type="stmt"/>
+        <line num="139" count="1" type="stmt"/>
+        <line num="146" count="1" type="stmt"/>
+        <line num="153" count="1" type="stmt"/>
+        <line num="175" count="1" type="stmt"/>
+        <line num="215" count="1" type="stmt"/>
+        <line num="231" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="screens.ChatScreen">
+      <metrics statements="78" coveredstatements="71" conditionals="27" coveredconditionals="22" methods="28" coveredmethods="24"/>
+      <file name="ChatConversationScreen.js" path="E:\TFG\TFGRead\src\screens\ChatScreen\ChatConversationScreen.js">
+        <metrics statements="22" coveredstatements="20" conditionals="15" coveredconditionals="13" methods="6" coveredmethods="4"/>
+        <line num="25" count="8" type="stmt"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="27" count="8" type="stmt"/>
+        <line num="28" count="8" type="stmt"/>
+        <line num="30" count="8" type="stmt"/>
+        <line num="31" count="8" type="stmt"/>
+        <line num="32" count="8" type="stmt"/>
+        <line num="33" count="8" type="stmt"/>
+        <line num="34" count="8" type="stmt"/>
+        <line num="35" count="8" type="stmt"/>
+        <line num="37" count="8" type="stmt"/>
+        <line num="39" count="8" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="43" count="2" type="stmt"/>
+        <line num="45" count="2" type="stmt"/>
+        <line num="47" count="2" type="stmt"/>
+        <line num="48" count="2" type="stmt"/>
+        <line num="198" count="8" type="stmt"/>
+        <line num="244" count="1" type="stmt"/>
+        <line num="329" count="0" type="stmt"/>
+        <line num="331" count="0" type="stmt"/>
+        <line num="348" count="4" type="stmt"/>
+      </file>
+      <file name="ChatScreen.js" path="E:\TFG\TFGRead\src\screens\ChatScreen\ChatScreen.js">
+        <metrics statements="56" coveredstatements="51" conditionals="12" coveredconditionals="9" methods="22" coveredmethods="20"/>
+        <line num="19" count="63" type="stmt"/>
+        <line num="20" count="63" type="stmt"/>
+        <line num="21" count="63" type="stmt"/>
+        <line num="22" count="63" type="stmt"/>
+        <line num="23" count="63" type="stmt"/>
+        <line num="24" count="63" type="stmt"/>
+        <line num="25" count="63" type="stmt"/>
+        <line num="27" count="63" type="stmt"/>
+        <line num="29" count="15" type="stmt"/>
+        <line num="33" count="63" type="stmt"/>
+        <line num="34" count="8" type="stmt"/>
+        <line num="41" count="63" type="stmt"/>
+        <line num="42" count="15" type="stmt"/>
+        <line num="46" count="63" type="stmt"/>
+        <line num="48" count="15" type="stmt"/>
+        <line num="49" count="15" type="stmt"/>
+        <line num="50" count="15" type="stmt"/>
+        <line num="51" count="15" type="stmt"/>
+        <line num="57" count="63" type="stmt"/>
         <line num="58" count="14" type="stmt"/>
         <line num="59" count="14" type="stmt"/>
-        <line num="63" count="61" type="stmt"/>
-        <line num="64" count="14" type="stmt"/>
+        <line num="63" count="63" type="stmt"/>
+        <line num="64" count="15" type="stmt"/>
         <line num="65" count="14" type="stmt"/>
         <line num="66" count="14" type="stmt"/>
-        <line num="69" count="61" type="stmt"/>
+        <line num="69" count="63" type="stmt"/>
         <line num="70" count="1" type="stmt"/>
-        <line num="77" count="61" type="stmt"/>
+        <line num="77" count="63" type="stmt"/>
         <line num="78" count="1" type="stmt"/>
-        <line num="83" count="61" type="stmt"/>
+        <line num="83" count="63" type="stmt"/>
         <line num="86" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="88" count="1" type="stmt"/>
         <line num="89" count="1" type="stmt"/>
@@ -1503,16 +968,16 @@
         <line num="100" count="0" type="stmt"/>
         <line num="102" count="0" type="stmt"/>
         <line num="103" count="0" type="stmt"/>
-        <line num="115" count="61" type="stmt"/>
+        <line num="115" count="63" type="stmt"/>
         <line num="116" count="2" type="stmt"/>
         <line num="117" count="2" type="stmt"/>
-        <line num="122" count="61" type="stmt"/>
+        <line num="122" count="63" type="stmt"/>
         <line num="123" count="10" type="stmt"/>
         <line num="124" count="1" type="stmt"/>
-        <line num="144" count="61" type="stmt"/>
+        <line num="144" count="63" type="stmt"/>
         <line num="145" count="17" type="stmt"/>
         <line num="146" count="1" type="stmt"/>
-        <line num="184" count="61" type="stmt"/>
+        <line num="184" count="63" type="stmt"/>
         <line num="220" count="0" type="stmt"/>
         <line num="224" count="0" type="stmt"/>
         <line num="256" count="10" type="stmt"/>
@@ -1520,57 +985,57 @@
         <line num="298" count="1" type="stmt"/>
         <line num="306" count="2" type="stmt"/>
         <line num="338" count="24" type="stmt"/>
-        <line num="355" count="3" type="stmt"/>
+        <line num="355" count="4" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.src.screens.EditBookScreen">
-      <metrics statements="190" coveredstatements="161" conditionals="127" coveredconditionals="121" methods="61" coveredmethods="48"/>
-      <file name="EditBookScreen.js" path="D:\TFG\TFGRead\src\screens\EditBookScreen\EditBookScreen.js">
-        <metrics statements="158" coveredstatements="129" conditionals="117" coveredconditionals="111" methods="49" coveredmethods="36"/>
-        <line num="15" count="302" type="stmt"/>
-        <line num="16" count="302" type="stmt"/>
-        <line num="17" count="302" type="stmt"/>
-        <line num="18" count="302" type="stmt"/>
-        <line num="19" count="302" type="stmt"/>
-        <line num="20" count="302" type="stmt"/>
-        <line num="23" count="302" type="stmt"/>
-        <line num="24" count="302" type="stmt"/>
-        <line num="26" count="302" type="stmt"/>
-        <line num="27" count="302" type="stmt"/>
-        <line num="30" count="302" type="stmt"/>
-        <line num="31" count="302" type="stmt"/>
-        <line num="32" count="302" type="stmt"/>
-        <line num="34" count="302" type="stmt"/>
-        <line num="35" count="302" type="stmt"/>
-        <line num="36" count="302" type="stmt"/>
-        <line num="37" count="302" type="stmt"/>
-        <line num="38" count="302" type="stmt"/>
-        <line num="39" count="302" type="stmt"/>
-        <line num="40" count="302" type="stmt"/>
-        <line num="43" count="302" type="stmt"/>
-        <line num="48" count="302" type="stmt"/>
+    <package name="screens.EditBookScreen">
+      <metrics statements="205" coveredstatements="163" conditionals="151" coveredconditionals="143" methods="62" coveredmethods="48"/>
+      <file name="EditBookScreen.js" path="E:\TFG\TFGRead\src\screens\EditBookScreen\EditBookScreen.js">
+        <metrics statements="165" coveredstatements="130" conditionals="125" coveredconditionals="119" methods="49" coveredmethods="36"/>
+        <line num="15" count="258" type="stmt"/>
+        <line num="16" count="258" type="stmt"/>
+        <line num="17" count="258" type="stmt"/>
+        <line num="18" count="258" type="stmt"/>
+        <line num="19" count="258" type="stmt"/>
+        <line num="20" count="258" type="stmt"/>
+        <line num="23" count="258" type="stmt"/>
+        <line num="24" count="258" type="stmt"/>
+        <line num="26" count="258" type="stmt"/>
+        <line num="27" count="258" type="stmt"/>
+        <line num="30" count="258" type="stmt"/>
+        <line num="31" count="258" type="stmt"/>
+        <line num="32" count="258" type="stmt"/>
+        <line num="34" count="258" type="stmt"/>
+        <line num="35" count="258" type="stmt"/>
+        <line num="36" count="258" type="stmt"/>
+        <line num="37" count="258" type="stmt"/>
+        <line num="38" count="258" type="stmt"/>
+        <line num="39" count="258" type="stmt"/>
+        <line num="40" count="258" type="stmt"/>
+        <line num="43" count="258" type="stmt"/>
+        <line num="48" count="258" type="stmt"/>
         <line num="50" count="28" type="stmt"/>
         <line num="51" count="28" type="stmt"/>
         <line num="52" count="28" type="stmt"/>
         <line num="54" count="28" type="stmt"/>
         <line num="55" count="28" type="stmt"/>
-        <line num="59" count="302" type="stmt"/>
+        <line num="59" count="258" type="stmt"/>
         <line num="60" count="28" type="stmt"/>
-        <line num="63" count="302" type="stmt"/>
-        <line num="64" count="234" type="stmt"/>
-        <line num="69" count="302" type="stmt"/>
+        <line num="63" count="258" type="stmt"/>
+        <line num="64" count="198" type="stmt"/>
+        <line num="69" count="258" type="stmt"/>
         <line num="70" count="1" type="stmt"/>
-        <line num="74" count="302" type="stmt"/>
+        <line num="74" count="258" type="stmt"/>
         <line num="75" count="1" type="stmt"/>
-        <line num="79" count="302" type="stmt"/>
+        <line num="79" count="258" type="stmt"/>
         <line num="81" count="0" type="stmt"/>
-        <line num="94" count="302" type="stmt"/>
+        <line num="94" count="258" type="stmt"/>
         <line num="95" count="0" type="stmt"/>
         <line num="96" count="0" type="stmt"/>
         <line num="97" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
         <line num="99" count="0" type="stmt"/>
-        <line num="102" count="302" type="stmt"/>
+        <line num="102" count="258" type="stmt"/>
         <line num="103" count="28" type="stmt"/>
         <line num="104" count="28" type="stmt"/>
         <line num="106" count="28" type="stmt"/>
@@ -1579,7 +1044,7 @@
         <line num="110" count="28" type="stmt"/>
         <line num="112" count="28" type="stmt"/>
         <line num="114" count="28" type="stmt"/>
-        <line num="117" count="302" type="stmt"/>
+        <line num="117" count="258" type="stmt"/>
         <line num="118" count="28" type="stmt"/>
         <line num="119" count="28" type="stmt"/>
         <line num="120" count="28" type="stmt"/>
@@ -1592,395 +1057,444 @@
         <line num="128" count="28" type="stmt"/>
         <line num="129" count="28" type="stmt"/>
         <line num="130" count="28" type="stmt"/>
-        <line num="133" count="302" type="stmt"/>
+        <line num="133" count="258" type="stmt"/>
         <line num="134" count="3" type="stmt"/>
         <line num="135" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="137" count="2" type="stmt"/>
-        <line num="140" count="3" type="stmt"/>
-        <line num="143" count="302" type="stmt"/>
+        <line num="138" count="2" type="stmt"/>
+        <line num="140" count="1" type="stmt"/>
+        <line num="143" count="258" type="stmt"/>
         <line num="144" count="0" type="stmt"/>
         <line num="145" count="0" type="stmt"/>
         <line num="146" count="0" type="stmt"/>
         <line num="147" count="0" type="stmt"/>
         <line num="148" count="0" type="stmt"/>
-        <line num="151" count="302" type="stmt"/>
+        <line num="151" count="258" type="stmt"/>
         <line num="152" count="3" type="cond" truecount="4" falsecount="0"/>
         <line num="153" count="1" type="stmt"/>
         <line num="154" count="1" type="stmt"/>
         <line num="156" count="2" type="stmt"/>
-        <line num="158" count="302" type="stmt"/>
+        <line num="158" count="258" type="stmt"/>
         <line num="159" count="3" type="cond" truecount="4" falsecount="0"/>
         <line num="160" count="1" type="stmt"/>
         <line num="161" count="1" type="stmt"/>
         <line num="163" count="2" type="stmt"/>
-        <line num="166" count="302" type="stmt"/>
+        <line num="166" count="258" type="stmt"/>
         <line num="167" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="168" count="1" type="stmt"/>
-        <line num="172" count="302" type="stmt"/>
+        <line num="172" count="258" type="stmt"/>
         <line num="173" count="1" type="cond" truecount="3" falsecount="1"/>
         <line num="174" count="1" type="stmt"/>
         <line num="175" count="1" type="stmt"/>
         <line num="178" count="1" type="stmt"/>
         <line num="179" count="1" type="stmt"/>
+        <line num="180" count="0" type="stmt"/>
         <line num="181" count="0" type="stmt"/>
-        <line num="185" count="302" type="stmt"/>
+        <line num="185" count="258" type="stmt"/>
         <line num="186" count="0" type="stmt"/>
         <line num="187" count="0" type="stmt"/>
         <line num="188" count="0" type="stmt"/>
         <line num="190" count="0" type="stmt"/>
         <line num="191" count="0" type="stmt"/>
         <line num="192" count="0" type="stmt"/>
-        <line num="195" count="302" type="stmt"/>
-        <line num="196" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="197" count="2" type="stmt"/>
+        <line num="193" count="0" type="stmt"/>
+        <line num="196" count="258" type="stmt"/>
+        <line num="197" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="198" count="2" type="stmt"/>
         <line num="199" count="2" type="stmt"/>
-        <line num="202" count="302" type="stmt"/>
-        <line num="203" count="13" type="stmt"/>
-        <line num="204" count="13" type="stmt"/>
+        <line num="200" count="2" type="stmt"/>
+        <line num="201" count="0" type="stmt"/>
+        <line num="204" count="258" type="stmt"/>
         <line num="205" count="13" type="stmt"/>
-        <line num="208" count="302" type="stmt"/>
-        <line num="209" count="1" type="stmt"/>
-        <line num="210" count="1" type="stmt"/>
+        <line num="206" count="13" type="stmt"/>
+        <line num="207" count="13" type="stmt"/>
+        <line num="208" count="0" type="stmt"/>
+        <line num="211" count="258" type="stmt"/>
         <line num="212" count="1" type="stmt"/>
-        <line num="213" count="0" type="stmt"/>
-        <line num="214" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="215" count="0" type="stmt"/>
-        <line num="222" count="1" type="stmt"/>
-        <line num="224" count="1" type="stmt"/>
-        <line num="227" count="302" type="stmt"/>
-        <line num="228" count="1" type="stmt"/>
-        <line num="229" count="1" type="stmt"/>
-        <line num="230" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="213" count="1" type="stmt"/>
+        <line num="215" count="1" type="stmt"/>
+        <line num="216" count="0" type="stmt"/>
+        <line num="217" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="218" count="0" type="stmt"/>
+        <line num="225" count="1" type="stmt"/>
+        <line num="226" count="1" type="stmt"/>
+        <line num="227" count="0" type="stmt"/>
+        <line num="230" count="258" type="stmt"/>
         <line num="231" count="1" type="stmt"/>
         <line num="232" count="1" type="stmt"/>
-        <line num="233" count="1" type="stmt"/>
+        <line num="233" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="234" count="1" type="stmt"/>
         <line num="235" count="1" type="stmt"/>
-        <line num="239" count="303" type="stmt"/>
-        <line num="248" count="0" type="stmt"/>
-        <line num="255" count="302" type="stmt"/>
-        <line num="256" count="98" type="stmt"/>
-        <line num="266" count="0" type="stmt"/>
-        <line num="272" count="0" type="stmt"/>
-        <line num="281" count="302" type="stmt"/>
-        <line num="324" count="0" type="stmt"/>
-        <line num="358" count="0" type="stmt"/>
-        <line num="394" count="0" type="stmt"/>
-        <line num="420" count="0" type="stmt"/>
-        <line num="460" count="0" type="stmt"/>
-        <line num="477" count="1" type="stmt"/>
-        <line num="488" count="1" type="stmt"/>
-        <line num="517" count="3" type="stmt"/>
-        <line num="550" count="3" type="stmt"/>
-        <line num="564" count="3" type="stmt"/>
-        <line num="602" count="3" type="stmt"/>
-        <line num="662" count="1" type="stmt"/>
-        <line num="682" count="750" type="stmt"/>
-        <line num="684" count="303" type="stmt"/>
-        <line num="691" count="1" type="stmt"/>
-        <line num="728" count="1" type="stmt"/>
-        <line num="764" count="13" type="stmt"/>
-        <line num="777" count="98" type="stmt"/>
-        <line num="780" count="98" type="stmt"/>
-        <line num="806" count="1" type="stmt"/>
-        <line num="857" count="1" type="stmt"/>
-        <line num="870" count="3" type="stmt"/>
+        <line num="236" count="1" type="stmt"/>
+        <line num="237" count="1" type="stmt"/>
+        <line num="239" count="0" type="stmt"/>
+        <line num="243" count="241" type="stmt"/>
+        <line num="264" count="0" type="stmt"/>
+        <line num="271" count="258" type="stmt"/>
+        <line num="272" count="72" type="stmt"/>
+        <line num="282" count="0" type="stmt"/>
+        <line num="288" count="0" type="stmt"/>
+        <line num="297" count="258" type="stmt"/>
+        <line num="340" count="0" type="stmt"/>
+        <line num="374" count="0" type="stmt"/>
+        <line num="410" count="0" type="stmt"/>
+        <line num="436" count="0" type="stmt"/>
+        <line num="476" count="0" type="stmt"/>
+        <line num="493" count="1" type="stmt"/>
+        <line num="504" count="1" type="stmt"/>
+        <line num="533" count="3" type="stmt"/>
+        <line num="566" count="3" type="stmt"/>
+        <line num="580" count="3" type="stmt"/>
+        <line num="617" count="3" type="stmt"/>
+        <line num="678" count="1" type="stmt"/>
+        <line num="698" count="595" type="stmt"/>
+        <line num="700" count="241" type="stmt"/>
+        <line num="707" count="1" type="stmt"/>
+        <line num="744" count="1" type="stmt"/>
+        <line num="783" count="13" type="stmt"/>
+        <line num="799" count="72" type="stmt"/>
+        <line num="802" count="72" type="stmt"/>
+        <line num="839" count="1" type="stmt"/>
+        <line num="890" count="1" type="stmt"/>
+        <line num="903" count="4" type="stmt"/>
       </file>
-      <file name="EditChapterScreen.js" path="D:\TFG\TFGRead\src\screens\EditBookScreen\EditChapterScreen.js">
-        <metrics statements="32" coveredstatements="32" conditionals="10" coveredconditionals="10" methods="12" coveredmethods="12"/>
-        <line num="10" count="16" type="stmt"/>
-        <line num="11" count="16" type="stmt"/>
-        <line num="12" count="16" type="stmt"/>
-        <line num="13" count="16" type="stmt"/>
-        <line num="14" count="16" type="stmt"/>
-        <line num="16" count="16" type="stmt"/>
+      <file name="EditChapterScreen.js" path="E:\TFG\TFGRead\src\screens\EditBookScreen\EditChapterScreen.js">
+        <metrics statements="40" coveredstatements="33" conditionals="26" coveredconditionals="24" methods="13" coveredmethods="12"/>
+        <line num="10" count="15" type="stmt"/>
+        <line num="11" count="15" type="stmt"/>
+        <line num="12" count="15" type="stmt"/>
+        <line num="13" count="15" type="stmt"/>
+        <line num="14" count="15" type="stmt"/>
+        <line num="15" count="15" type="stmt"/>
+        <line num="16" count="15" type="stmt"/>
         <line num="17" count="4" type="stmt"/>
         <line num="18" count="4" type="stmt"/>
         <line num="20" count="4" type="stmt"/>
         <line num="21" count="4" type="stmt"/>
-        <line num="25" count="16" type="stmt"/>
+        <line num="25" count="15" type="stmt"/>
         <line num="26" count="4" type="stmt"/>
-        <line num="31" count="16" type="stmt"/>
+        <line num="31" count="15" type="stmt"/>
         <line num="32" count="1" type="stmt"/>
-        <line num="36" count="16" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="40" count="16" type="stmt"/>
+        <line num="38" count="15" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
         <line num="41" count="4" type="stmt"/>
-        <line num="43" count="4" type="stmt"/>
-        <line num="44" count="4" type="stmt"/>
-        <line num="47" count="16" type="stmt"/>
+        <line num="42" count="4" type="stmt"/>
+        <line num="44" count="15" type="stmt"/>
+        <line num="46" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="47" count="1" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
-        <line num="49" count="1" type="stmt"/>
-        <line num="50" count="1" type="stmt"/>
-        <line num="51" count="1" type="stmt"/>
-        <line num="52" count="1" type="stmt"/>
-        <line num="55" count="16" type="stmt"/>
-        <line num="97" count="1" type="stmt"/>
-        <line num="121" count="1" type="stmt"/>
+        <line num="50" count="0" type="stmt"/>
+        <line num="53" count="15" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+        <line num="55" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="56" count="0" type="stmt"/>
+        <line num="57" count="0" type="stmt"/>
+        <line num="58" count="0" type="stmt"/>
+        <line num="59" count="0" type="stmt"/>
+        <line num="60" count="0" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+        <line num="67" count="15" type="stmt"/>
+        <line num="123" count="0" type="stmt"/>
         <line num="141" count="1" type="stmt"/>
-        <line num="170" count="1" type="stmt"/>
-        <line num="184" count="3" type="stmt"/>
+        <line num="166" count="1" type="stmt"/>
+        <line num="192" count="1" type="stmt"/>
+        <line num="210" count="1" type="stmt"/>
+        <line num="232" count="4" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.src.screens.ExploreScreen">
-      <metrics statements="200" coveredstatements="140" conditionals="90" coveredconditionals="69" methods="48" coveredmethods="32"/>
-      <file name="ExploreScreen.js" path="D:\TFG\TFGRead\src\screens\ExploreScreen\ExploreScreen.js">
-        <metrics statements="200" coveredstatements="140" conditionals="90" coveredconditionals="69" methods="48" coveredmethods="32"/>
-        <line num="21" count="129" type="stmt"/>
-        <line num="23" count="129" type="stmt"/>
-        <line num="24" count="129" type="stmt"/>
-        <line num="25" count="129" type="stmt"/>
-        <line num="26" count="129" type="stmt"/>
-        <line num="27" count="129" type="stmt"/>
-        <line num="28" count="129" type="stmt"/>
-        <line num="29" count="129" type="stmt"/>
-        <line num="30" count="129" type="stmt"/>
-        <line num="31" count="129" type="stmt"/>
-        <line num="33" count="129" type="stmt"/>
-        <line num="34" count="129" type="stmt"/>
-        <line num="35" count="129" type="stmt"/>
-        <line num="36" count="129" type="stmt"/>
-        <line num="39" count="129" type="stmt"/>
-        <line num="41" count="129" type="stmt"/>
-        <line num="42" count="129" type="stmt"/>
-        <line num="43" count="129" type="stmt"/>
-        <line num="44" count="129" type="stmt"/>
-        <line num="45" count="129" type="stmt"/>
-        <line num="48" count="129" type="stmt"/>
-        <line num="50" count="129" type="stmt"/>
-        <line num="52" count="8" type="stmt"/>
-        <line num="53" count="8" type="stmt"/>
-        <line num="55" count="8" type="stmt"/>
-        <line num="58" count="129" type="stmt"/>
-        <line num="59" count="8" type="stmt"/>
-        <line num="65" count="129" type="stmt"/>
+    <package name="screens.ExploreScreen">
+      <metrics statements="234" coveredstatements="161" conditionals="98" coveredconditionals="71" methods="49" coveredmethods="32"/>
+      <file name="ExploreScreen.js" path="E:\TFG\TFGRead\src\screens\ExploreScreen\ExploreScreen.js">
+        <metrics statements="234" coveredstatements="161" conditionals="98" coveredconditionals="71" methods="49" coveredmethods="32"/>
+        <line num="21" count="152" type="stmt"/>
+        <line num="23" count="152" type="stmt"/>
+        <line num="24" count="152" type="stmt"/>
+        <line num="25" count="152" type="stmt"/>
+        <line num="26" count="152" type="stmt"/>
+        <line num="27" count="152" type="stmt"/>
+        <line num="28" count="152" type="stmt"/>
+        <line num="29" count="152" type="stmt"/>
+        <line num="30" count="152" type="stmt"/>
+        <line num="31" count="152" type="stmt"/>
+        <line num="33" count="152" type="stmt"/>
+        <line num="34" count="152" type="stmt"/>
+        <line num="35" count="152" type="stmt"/>
+        <line num="36" count="152" type="stmt"/>
+        <line num="39" count="152" type="stmt"/>
+        <line num="41" count="152" type="stmt"/>
+        <line num="42" count="152" type="stmt"/>
+        <line num="43" count="152" type="stmt"/>
+        <line num="44" count="152" type="stmt"/>
+        <line num="45" count="152" type="stmt"/>
+        <line num="48" count="152" type="stmt"/>
+        <line num="50" count="152" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
+        <line num="52" count="9" type="stmt"/>
+        <line num="53" count="9" type="stmt"/>
+        <line num="54" count="9" type="stmt"/>
+        <line num="58" count="152" type="stmt"/>
+        <line num="59" count="9" type="stmt"/>
+        <line num="65" count="152" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
-        <line num="72" count="129" type="stmt"/>
-        <line num="73" count="1" type="stmt"/>
-        <line num="78" count="129" type="stmt"/>
-        <line num="80" count="10" type="stmt"/>
-        <line num="81" count="10" type="stmt"/>
-        <line num="82" count="10" type="cond" truecount="2" falsecount="0"/>
-        <line num="83" count="9" type="stmt"/>
-        <line num="84" count="9" type="stmt"/>
-        <line num="87" count="1" type="stmt"/>
-        <line num="88" count="1" type="stmt"/>
-        <line num="90" count="10" type="stmt"/>
-        <line num="93" count="129" type="stmt"/>
-        <line num="95" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="96" count="0" type="stmt"/>
-        <line num="97" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="98" count="0" type="stmt"/>
-        <line num="99" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="100" count="0" type="stmt"/>
-        <line num="101" count="0" type="stmt"/>
-        <line num="102" count="0" type="stmt"/>
-        <line num="103" count="0" type="stmt"/>
-        <line num="104" count="0" type="stmt"/>
-        <line num="105" count="0" type="stmt"/>
-        <line num="108" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="109" count="0" type="stmt"/>
+        <line num="68" count="152" type="stmt"/>
+        <line num="69" count="0" type="stmt"/>
+        <line num="75" count="152" type="stmt"/>
+        <line num="76" count="1" type="stmt"/>
+        <line num="81" count="152" type="stmt"/>
+        <line num="83" count="10" type="stmt"/>
+        <line num="84" count="10" type="stmt"/>
+        <line num="85" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="87" count="9" type="stmt"/>
+        <line num="88" count="9" type="stmt"/>
+        <line num="89" count="9" type="stmt"/>
+        <line num="90" count="9" type="stmt"/>
+        <line num="91" count="9" type="stmt"/>
+        <line num="92" count="9" type="stmt"/>
+        <line num="93" count="9" type="stmt"/>
+        <line num="94" count="9" type="stmt"/>
+        <line num="95" count="9" type="stmt"/>
+        <line num="96" count="9" type="stmt"/>
+        <line num="100" count="1" type="stmt"/>
+        <line num="101" count="1" type="stmt"/>
+        <line num="105" count="10" type="stmt"/>
+        <line num="108" count="152" type="stmt"/>
         <line num="110" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="111" count="0" type="stmt"/>
-        <line num="112" count="0" type="stmt"/>
+        <line num="112" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="113" count="0" type="stmt"/>
-        <line num="114" count="0" type="stmt"/>
+        <line num="114" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="115" count="0" type="stmt"/>
         <line num="116" count="0" type="stmt"/>
+        <line num="117" count="0" type="stmt"/>
+        <line num="118" count="0" type="stmt"/>
+        <line num="119" count="0" type="stmt"/>
         <line num="120" count="0" type="stmt"/>
-        <line num="123" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="123" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="124" count="0" type="stmt"/>
-        <line num="130" count="129" type="stmt"/>
-        <line num="132" count="9" type="stmt"/>
-        <line num="134" count="9" type="stmt"/>
-        <line num="135" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="125" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="126" count="0" type="stmt"/>
+        <line num="127" count="0" type="stmt"/>
+        <line num="128" count="0" type="stmt"/>
+        <line num="129" count="0" type="stmt"/>
+        <line num="130" count="0" type="stmt"/>
+        <line num="131" count="0" type="stmt"/>
         <line num="136" count="0" type="stmt"/>
-        <line num="137" count="0" type="stmt"/>
-        <line num="138" count="0" type="stmt"/>
+        <line num="138" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="139" count="0" type="stmt"/>
-        <line num="140" count="0" type="stmt"/>
+        <line num="140" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="141" count="0" type="stmt"/>
-        <line num="143" count="9" type="stmt"/>
-        <line num="144" count="9" type="stmt"/>
-        <line num="145" count="9" type="stmt"/>
-        <line num="146" count="9" type="stmt"/>
-        <line num="147" count="9" type="stmt"/>
-        <line num="149" count="9" type="stmt"/>
-        <line num="152" count="129" type="stmt"/>
-        <line num="153" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="154" count="0" type="stmt"/>
-        <line num="156" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="157" count="0" type="stmt"/>
-        <line num="160" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="161" count="0" type="stmt"/>
-        <line num="166" count="129" type="stmt"/>
-        <line num="167" count="1" type="stmt"/>
-        <line num="168" count="1" type="stmt"/>
-        <line num="171" count="129" type="stmt"/>
-        <line num="172" count="6" type="cond" truecount="2" falsecount="0"/>
-        <line num="173" count="2" type="stmt"/>
-        <line num="174" count="2" type="stmt"/>
-        <line num="177" count="4" type="stmt"/>
-        <line num="178" count="4" type="stmt"/>
-        <line num="180" count="6" type="stmt"/>
-        <line num="184" count="129" type="stmt"/>
-        <line num="185" count="4" type="stmt"/>
-        <line num="186" count="4" type="stmt"/>
-        <line num="188" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="189" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="190" count="2" type="stmt"/>
-        <line num="192" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="193" count="1" type="stmt"/>
-        <line num="194" count="1" type="stmt"/>
-        <line num="195" count="1" type="stmt"/>
+        <line num="142" count="0" type="stmt"/>
+        <line num="143" count="0" type="stmt"/>
+        <line num="144" count="0" type="stmt"/>
+        <line num="145" count="0" type="stmt"/>
+        <line num="146" count="0" type="stmt"/>
+        <line num="150" count="0" type="cond" truecount="0" falsecount="4"/>
+        <line num="151" count="0" type="stmt"/>
+        <line num="158" count="152" type="stmt"/>
+        <line num="160" count="9" type="stmt"/>
+        <line num="162" count="9" type="stmt"/>
+        <line num="163" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="164" count="0" type="stmt"/>
+        <line num="165" count="0" type="stmt"/>
+        <line num="166" count="0" type="stmt"/>
+        <line num="167" count="0" type="stmt"/>
+        <line num="168" count="0" type="stmt"/>
+        <line num="169" count="0" type="stmt"/>
+        <line num="171" count="9" type="stmt"/>
+        <line num="172" count="9" type="stmt"/>
+        <line num="173" count="9" type="stmt"/>
+        <line num="174" count="9" type="stmt"/>
+        <line num="175" count="9" type="stmt"/>
+        <line num="177" count="9" type="stmt"/>
+        <line num="180" count="152" type="stmt"/>
+        <line num="181" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="182" count="0" type="stmt"/>
+        <line num="184" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="185" count="0" type="stmt"/>
+        <line num="188" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="189" count="0" type="stmt"/>
+        <line num="194" count="152" type="stmt"/>
         <line num="196" count="1" type="stmt"/>
         <line num="197" count="1" type="stmt"/>
-        <line num="198" count="1" type="stmt"/>
-        <line num="201" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="203" count="1" type="stmt"/>
-        <line num="204" count="1" type="stmt"/>
-        <line num="205" count="1" type="stmt"/>
-        <line num="206" count="1" type="stmt"/>
-        <line num="207" count="1" type="stmt"/>
-        <line num="208" count="1" type="stmt"/>
-        <line num="210" count="2" type="stmt"/>
-        <line num="214" count="1" type="stmt"/>
-        <line num="215" count="0" type="stmt"/>
-        <line num="217" count="1" type="stmt"/>
-        <line num="221" count="1" type="stmt"/>
-        <line num="227" count="129" type="stmt"/>
-        <line num="228" count="8" type="stmt"/>
-        <line num="229" count="8" type="stmt"/>
-        <line num="230" count="8" type="stmt"/>
-        <line num="231" count="8" type="stmt"/>
-        <line num="232" count="8" type="stmt"/>
-        <line num="233" count="8" type="stmt"/>
-        <line num="234" count="8" type="stmt"/>
-        <line num="235" count="8" type="stmt"/>
-        <line num="236" count="8" type="stmt"/>
-        <line num="237" count="8" type="stmt"/>
-        <line num="238" count="8" type="stmt"/>
-        <line num="239" count="8" type="stmt"/>
-        <line num="240" count="8" type="stmt"/>
-        <line num="241" count="8" type="stmt"/>
-        <line num="245" count="129" type="stmt"/>
-        <line num="247" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="248" count="1" type="stmt"/>
+        <line num="200" count="152" type="stmt"/>
+        <line num="202" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="204" count="2" type="stmt"/>
+        <line num="205" count="2" type="stmt"/>
+        <line num="208" count="4" type="stmt"/>
+        <line num="209" count="4" type="stmt"/>
+        <line num="211" count="6" type="stmt"/>
+        <line num="215" count="152" type="stmt"/>
+        <line num="216" count="4" type="cond" truecount="2" falsecount="0"/>
+        <line num="217" count="3" type="stmt"/>
+        <line num="218" count="3" type="stmt"/>
+        <line num="220" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="221" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="222" count="2" type="stmt"/>
+        <line num="224" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="225" count="1" type="stmt"/>
+        <line num="226" count="1" type="stmt"/>
+        <line num="227" count="1" type="stmt"/>
+        <line num="228" count="1" type="stmt"/>
+        <line num="229" count="1" type="stmt"/>
+        <line num="230" count="1" type="stmt"/>
+        <line num="233" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="235" count="1" type="stmt"/>
+        <line num="236" count="1" type="stmt"/>
+        <line num="237" count="1" type="stmt"/>
+        <line num="238" count="1" type="stmt"/>
+        <line num="239" count="1" type="stmt"/>
+        <line num="240" count="1" type="stmt"/>
+        <line num="242" count="2" type="stmt"/>
+        <line num="247" count="1" type="stmt"/>
         <line num="251" count="1" type="stmt"/>
         <line num="252" count="1" type="stmt"/>
-        <line num="253" count="1" type="stmt"/>
-        <line num="256" count="2" type="stmt"/>
-        <line num="257" count="2" type="stmt"/>
-        <line num="260" count="129" type="stmt"/>
-        <line num="261" count="0" type="stmt"/>
-        <line num="262" count="0" type="stmt"/>
-        <line num="263" count="0" type="stmt"/>
+        <line num="253" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="254" count="1" type="stmt"/>
+        <line num="255" count="1" type="stmt"/>
+        <line num="257" count="1" type="stmt"/>
+        <line num="258" count="0" type="stmt"/>
+        <line num="260" count="1" type="stmt"/>
+        <line num="261" count="1" type="stmt"/>
         <line num="264" count="0" type="stmt"/>
-        <line num="265" count="0" type="stmt"/>
         <line num="266" count="0" type="stmt"/>
         <line num="267" count="0" type="stmt"/>
-        <line num="268" count="0" type="stmt"/>
-        <line num="269" count="0" type="stmt"/>
-        <line num="270" count="0" type="stmt"/>
-        <line num="271" count="0" type="stmt"/>
-        <line num="273" count="0" type="stmt"/>
-        <line num="277" count="129" type="stmt"/>
-        <line num="278" count="8" type="stmt"/>
-        <line num="305" count="129" type="stmt"/>
-        <line num="306" count="84" type="stmt"/>
-        <line num="335" count="129" type="stmt"/>
-        <line num="336" count="9" type="stmt"/>
-        <line num="344" count="12" type="stmt"/>
-        <line num="346" count="12" type="stmt"/>
-        <line num="351" count="129" type="stmt"/>
-        <line num="352" count="4" type="stmt"/>
-        <line num="368" count="12" type="stmt"/>
-        <line num="385" count="2" type="stmt"/>
-        <line num="404" count="129" type="stmt"/>
-        <line num="405" count="12" type="stmt"/>
-        <line num="406" count="0" type="stmt"/>
-        <line num="438" count="129" type="stmt"/>
-        <line num="439" count="93" type="stmt"/>
-        <line num="442" count="186" type="stmt"/>
-        <line num="446" count="1" type="stmt"/>
-        <line num="477" count="0" type="stmt"/>
-        <line num="509" count="129" type="stmt"/>
-        <line num="510" count="10" type="stmt"/>
-        <line num="512" count="0" type="stmt"/>
-        <line num="535" count="129" type="stmt"/>
-        <line num="536" count="0" type="stmt"/>
-        <line num="542" count="129" type="stmt"/>
-        <line num="543" count="0" type="stmt"/>
-        <line num="544" count="0" type="stmt"/>
-        <line num="603" count="0" type="stmt"/>
-        <line num="605" count="0" type="stmt"/>
-        <line num="615" count="129" type="stmt"/>
-        <line num="658" count="1" type="stmt"/>
-        <line num="682" count="4" type="stmt"/>
-        <line num="690" count="4" type="cond" truecount="2" falsecount="0"/>
-        <line num="697" count="2" type="stmt"/>
-        <line num="703" count="4" type="stmt"/>
-        <line num="740" count="0" type="stmt"/>
-        <line num="743" count="0" type="stmt"/>
-        <line num="745" count="0" type="stmt"/>
-        <line num="757" count="10" type="stmt"/>
-        <line num="760" count="10" type="stmt"/>
-        <line num="779" count="3" type="stmt"/>
+        <line num="273" count="152" type="stmt"/>
+        <line num="274" count="9" type="stmt"/>
+        <line num="275" count="9" type="stmt"/>
+        <line num="276" count="9" type="stmt"/>
+        <line num="277" count="9" type="stmt"/>
+        <line num="278" count="9" type="stmt"/>
+        <line num="279" count="9" type="stmt"/>
+        <line num="280" count="9" type="stmt"/>
+        <line num="281" count="9" type="stmt"/>
+        <line num="282" count="9" type="stmt"/>
+        <line num="283" count="9" type="stmt"/>
+        <line num="284" count="9" type="stmt"/>
+        <line num="285" count="8" type="stmt"/>
+        <line num="286" count="8" type="stmt"/>
+        <line num="287" count="8" type="stmt"/>
+        <line num="288" count="8" type="stmt"/>
+        <line num="289" count="8" type="stmt"/>
+        <line num="294" count="152" type="stmt"/>
+        <line num="295" count="2" type="stmt"/>
+        <line num="296" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="297" count="1" type="stmt"/>
+        <line num="298" count="1" type="stmt"/>
+        <line num="302" count="1" type="stmt"/>
+        <line num="303" count="1" type="stmt"/>
+        <line num="304" count="1" type="stmt"/>
+        <line num="307" count="2" type="stmt"/>
+        <line num="308" count="2" type="stmt"/>
+        <line num="311" count="152" type="stmt"/>
+        <line num="312" count="0" type="stmt"/>
+        <line num="313" count="0" type="stmt"/>
+        <line num="314" count="0" type="stmt"/>
+        <line num="315" count="0" type="stmt"/>
+        <line num="316" count="0" type="stmt"/>
+        <line num="317" count="0" type="stmt"/>
+        <line num="318" count="0" type="stmt"/>
+        <line num="319" count="0" type="stmt"/>
+        <line num="320" count="0" type="stmt"/>
+        <line num="321" count="0" type="stmt"/>
+        <line num="322" count="0" type="stmt"/>
+        <line num="323" count="0" type="stmt"/>
+        <line num="327" count="152" type="stmt"/>
+        <line num="328" count="10" type="stmt"/>
+        <line num="355" count="152" type="stmt"/>
+        <line num="356" count="103" type="stmt"/>
+        <line num="385" count="152" type="stmt"/>
+        <line num="386" count="11" type="stmt"/>
+        <line num="394" count="16" type="stmt"/>
+        <line num="396" count="16" type="stmt"/>
+        <line num="401" count="152" type="stmt"/>
+        <line num="402" count="4" type="stmt"/>
+        <line num="418" count="12" type="stmt"/>
+        <line num="435" count="2" type="stmt"/>
+        <line num="454" count="152" type="stmt"/>
+        <line num="455" count="16" type="stmt"/>
+        <line num="456" count="0" type="stmt"/>
+        <line num="488" count="152" type="stmt"/>
+        <line num="489" count="111" type="stmt"/>
+        <line num="492" count="222" type="stmt"/>
+        <line num="496" count="1" type="stmt"/>
+        <line num="527" count="0" type="stmt"/>
+        <line num="559" count="152" type="stmt"/>
+        <line num="560" count="8" type="stmt"/>
+        <line num="562" count="0" type="stmt"/>
+        <line num="585" count="152" type="stmt"/>
+        <line num="586" count="0" type="stmt"/>
+        <line num="592" count="152" type="stmt"/>
+        <line num="593" count="0" type="stmt"/>
+        <line num="594" count="0" type="stmt"/>
+        <line num="653" count="0" type="stmt"/>
+        <line num="655" count="0" type="stmt"/>
+        <line num="665" count="152" type="stmt"/>
+        <line num="708" count="1" type="stmt"/>
+        <line num="732" count="4" type="stmt"/>
+        <line num="744" count="4" type="stmt"/>
+        <line num="751" count="2" type="stmt"/>
+        <line num="757" count="4" type="stmt"/>
+        <line num="794" count="0" type="stmt"/>
+        <line num="797" count="0" type="stmt"/>
+        <line num="799" count="0" type="stmt"/>
+        <line num="811" count="8" type="stmt"/>
+        <line num="814" count="8" type="stmt"/>
+        <line num="833" count="4" type="stmt"/>
       </file>
     </package>
-    <package name="TFGRead.src.screens.WriteNewBook">
-      <metrics statements="191" coveredstatements="183" conditionals="102" coveredconditionals="94" methods="62" coveredmethods="56"/>
-      <file name="WriteChapterBooksScreen.js" path="D:\TFG\TFGRead\src\screens\WriteNewBook\WriteChapterBooksScreen.js">
-        <metrics statements="46" coveredstatements="44" conditionals="24" coveredconditionals="24" methods="16" coveredmethods="14"/>
-        <line num="12" count="25" type="stmt"/>
-        <line num="13" count="25" type="stmt"/>
-        <line num="16" count="25" type="stmt"/>
-        <line num="17" count="25" type="stmt"/>
-        <line num="18" count="25" type="stmt"/>
-        <line num="19" count="25" type="stmt"/>
-        <line num="20" count="25" type="stmt"/>
-        <line num="21" count="25" type="stmt"/>
-        <line num="23" count="25" type="stmt"/>
+    <package name="screens.WriteNewBook">
+      <metrics statements="192" coveredstatements="184" conditionals="135" coveredconditionals="127" methods="62" coveredmethods="56"/>
+      <file name="WriteChapterBooksScreen.js" path="E:\TFG\TFGRead\src\screens\WriteNewBook\WriteChapterBooksScreen.js">
+        <metrics statements="46" coveredstatements="44" conditionals="38" coveredconditionals="38" methods="16" coveredmethods="14"/>
+        <line num="12" count="26" type="stmt"/>
+        <line num="13" count="26" type="stmt"/>
+        <line num="16" count="26" type="stmt"/>
+        <line num="17" count="26" type="stmt"/>
+        <line num="18" count="26" type="stmt"/>
+        <line num="19" count="26" type="stmt"/>
+        <line num="20" count="26" type="stmt"/>
+        <line num="21" count="26" type="stmt"/>
+        <line num="23" count="26" type="stmt"/>
         <line num="25" count="12" type="stmt"/>
         <line num="26" count="12" type="stmt"/>
         <line num="28" count="12" type="stmt"/>
         <line num="29" count="12" type="stmt"/>
-        <line num="33" count="25" type="stmt"/>
+        <line num="33" count="26" type="stmt"/>
         <line num="34" count="4" type="cond" truecount="4" falsecount="0"/>
         <line num="35" count="2" type="stmt"/>
         <line num="36" count="2" type="stmt"/>
         <line num="37" count="2" type="stmt"/>
         <line num="38" count="2" type="stmt"/>
         <line num="39" count="2" type="stmt"/>
-        <line num="44" count="25" type="stmt"/>
+        <line num="44" count="26" type="stmt"/>
         <line num="45" count="3" type="stmt"/>
-        <line num="48" count="25" type="stmt"/>
+        <line num="48" count="26" type="stmt"/>
         <line num="49" count="4" type="cond" truecount="4" falsecount="0"/>
         <line num="50" count="1" type="stmt"/>
         <line num="51" count="1" type="stmt"/>
         <line num="53" count="3" type="stmt"/>
-        <line num="57" count="25" type="stmt"/>
+        <line num="57" count="26" type="stmt"/>
         <line num="58" count="3" type="cond" truecount="4" falsecount="0"/>
         <line num="59" count="1" type="stmt"/>
         <line num="60" count="1" type="stmt"/>
         <line num="62" count="2" type="stmt"/>
-        <line num="66" count="25" type="stmt"/>
+        <line num="66" count="26" type="stmt"/>
         <line num="67" count="1" type="stmt"/>
-        <line num="70" count="25" type="stmt"/>
+        <line num="70" count="26" type="stmt"/>
         <line num="71" count="12" type="stmt"/>
-        <line num="74" count="25" type="stmt"/>
+        <line num="74" count="26" type="stmt"/>
         <line num="75" count="6" type="stmt"/>
-        <line num="80" count="25" type="stmt"/>
+        <line num="80" count="26" type="stmt"/>
         <line num="144" count="0" type="stmt"/>
         <line num="185" count="0" type="stmt"/>
         <line num="205" count="1" type="stmt"/>
         <line num="230" count="4" type="stmt"/>
-        <line num="253" count="3" type="stmt"/>
-        <line num="275" count="2" type="stmt"/>
-        <line num="292" count="3" type="stmt"/>
+        <line num="258" count="3" type="stmt"/>
+        <line num="280" count="2" type="stmt"/>
+        <line num="297" count="4" type="stmt"/>
       </file>
-      <file name="WriteNewBookScreen.js" path="D:\TFG\TFGRead\src\screens\WriteNewBook\WriteNewBookScreen.js">
-        <metrics statements="100" coveredstatements="95" conditionals="70" coveredconditionals="62" methods="31" coveredmethods="27"/>
+      <file name="WriteNewBookScreen.js" path="E:\TFG\TFGRead\src\screens\WriteNewBook\WriteNewBookScreen.js">
+        <metrics statements="100" coveredstatements="95" conditionals="89" coveredconditionals="81" methods="31" coveredmethods="27"/>
         <line num="17" count="68" type="stmt"/>
         <line num="18" count="67" type="stmt"/>
         <line num="19" count="67" type="stmt"/>
@@ -2038,52 +1552,52 @@
         <line num="109" count="1" type="stmt"/>
         <line num="110" count="1" type="stmt"/>
         <line num="112" count="3" type="stmt"/>
-        <line num="116" count="67" type="stmt"/>
-        <line num="118" count="3" type="cond" truecount="2" falsecount="0"/>
-        <line num="119" count="1" type="stmt"/>
+        <line num="117" count="67" type="stmt"/>
+        <line num="119" count="3" type="cond" truecount="2" falsecount="0"/>
         <line num="120" count="1" type="stmt"/>
-        <line num="122" count="2" type="stmt"/>
-        <line num="125" count="67" type="stmt"/>
-        <line num="126" count="2" type="stmt"/>
-        <line num="129" count="2" type="stmt"/>
-        <line num="130" count="3" type="stmt"/>
-        <line num="131" count="5" type="cond" truecount="1" falsecount="1"/>
-        <line num="132" count="0" type="stmt"/>
-        <line num="141" count="2" type="stmt"/>
-        <line num="143" count="67" type="stmt"/>
-        <line num="145" count="6" type="stmt"/>
-        <line num="146" count="6" type="cond" truecount="5" falsecount="0"/>
-        <line num="147" count="2" type="stmt"/>
-        <line num="148" count="2" type="stmt"/>
+        <line num="121" count="1" type="stmt"/>
+        <line num="123" count="2" type="stmt"/>
+        <line num="127" count="67" type="stmt"/>
+        <line num="128" count="2" type="stmt"/>
+        <line num="131" count="2" type="stmt"/>
+        <line num="132" count="3" type="stmt"/>
+        <line num="133" count="5" type="cond" truecount="1" falsecount="1"/>
+        <line num="134" count="0" type="stmt"/>
+        <line num="143" count="2" type="stmt"/>
+        <line num="145" count="67" type="stmt"/>
+        <line num="147" count="6" type="stmt"/>
+        <line num="148" count="6" type="cond" truecount="5" falsecount="0"/>
         <line num="149" count="2" type="stmt"/>
         <line num="150" count="2" type="stmt"/>
+        <line num="151" count="2" type="stmt"/>
         <line num="152" count="2" type="stmt"/>
-        <line num="157" count="6" type="stmt"/>
-        <line num="159" count="67" type="stmt"/>
-        <line num="160" count="26" type="stmt"/>
-        <line num="161" count="26" type="stmt"/>
-        <line num="165" count="67" type="stmt"/>
-        <line num="166" count="13" type="stmt"/>
-        <line num="174" count="35" type="stmt"/>
-        <line num="193" count="1" type="stmt"/>
-        <line num="201" count="67" type="stmt"/>
-        <line num="252" count="0" type="stmt"/>
-        <line num="296" count="0" type="stmt"/>
-        <line num="342" count="0" type="stmt"/>
-        <line num="385" count="0" type="stmt"/>
-        <line num="405" count="1" type="stmt"/>
-        <line num="459" count="2" type="stmt"/>
-        <line num="482" count="5" type="stmt"/>
-        <line num="502" count="3" type="stmt"/>
-        <line num="567" count="35" type="stmt"/>
-        <line num="569" count="35" type="stmt"/>
-        <line num="577" count="2" type="stmt"/>
-        <line num="607" count="2" type="stmt"/>
-        <line num="636" count="6" type="stmt"/>
-        <line num="648" count="3" type="stmt"/>
+        <line num="154" count="2" type="stmt"/>
+        <line num="159" count="6" type="stmt"/>
+        <line num="161" count="67" type="stmt"/>
+        <line num="162" count="26" type="stmt"/>
+        <line num="163" count="26" type="stmt"/>
+        <line num="167" count="67" type="stmt"/>
+        <line num="168" count="13" type="stmt"/>
+        <line num="176" count="35" type="stmt"/>
+        <line num="208" count="1" type="stmt"/>
+        <line num="216" count="67" type="stmt"/>
+        <line num="267" count="0" type="stmt"/>
+        <line num="310" count="0" type="stmt"/>
+        <line num="356" count="0" type="stmt"/>
+        <line num="399" count="0" type="stmt"/>
+        <line num="419" count="1" type="stmt"/>
+        <line num="473" count="2" type="stmt"/>
+        <line num="496" count="5" type="stmt"/>
+        <line num="516" count="3" type="stmt"/>
+        <line num="581" count="35" type="stmt"/>
+        <line num="583" count="35" type="stmt"/>
+        <line num="591" count="2" type="stmt"/>
+        <line num="621" count="2" type="stmt"/>
+        <line num="650" count="6" type="stmt"/>
+        <line num="662" count="4" type="stmt"/>
       </file>
-      <file name="WriteScreen.js" path="D:\TFG\TFGRead\src\screens\WriteNewBook\WriteScreen.js">
-        <metrics statements="45" coveredstatements="44" conditionals="8" coveredconditionals="8" methods="15" coveredmethods="15"/>
+      <file name="WriteScreen.js" path="E:\TFG\TFGRead\src\screens\WriteNewBook\WriteScreen.js">
+        <metrics statements="46" coveredstatements="45" conditionals="8" coveredconditionals="8" methods="15" coveredmethods="15"/>
         <line num="21" count="40" type="stmt"/>
         <line num="23" count="40" type="stmt"/>
         <line num="24" count="39" type="stmt"/>
@@ -2091,52 +1605,45 @@
         <line num="26" count="39" type="stmt"/>
         <line num="27" count="39" type="stmt"/>
         <line num="30" count="39" type="stmt"/>
-        <line num="31" count="10" type="stmt"/>
-        <line num="34" count="39" type="stmt"/>
-        <line num="35" count="5" type="stmt"/>
-        <line num="41" count="39" type="stmt"/>
-        <line num="42" count="1" type="stmt"/>
-        <line num="47" count="39" type="stmt"/>
-        <line num="48" count="10" type="stmt"/>
-        <line num="49" count="10" type="stmt"/>
-        <line num="50" count="10" type="stmt"/>
-        <line num="51" count="10" type="stmt"/>
+        <line num="31" count="11" type="stmt"/>
+        <line num="35" count="39" type="stmt"/>
+        <line num="36" count="6" type="stmt"/>
+        <line num="42" count="39" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="48" count="39" type="stmt"/>
+        <line num="49" count="11" type="stmt"/>
+        <line num="50" count="11" type="stmt"/>
+        <line num="51" count="11" type="stmt"/>
         <line num="52" count="10" type="stmt"/>
-        <line num="53" count="10" type="cond" truecount="2" falsecount="0"/>
-        <line num="54" count="6" type="stmt"/>
-        <line num="55" count="6" type="stmt"/>
-        <line num="57" count="4" type="stmt"/>
+        <line num="54" count="10" type="stmt"/>
+        <line num="55" count="10" type="stmt"/>
+        <line num="56" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="57" count="6" type="stmt"/>
+        <line num="58" count="6" type="stmt"/>
         <line num="60" count="4" type="stmt"/>
-        <line num="63" count="39" type="stmt"/>
-        <line num="64" count="2" type="stmt"/>
-        <line num="66" count="2" type="stmt"/>
-        <line num="68" count="2" type="cond" truecount="2" falsecount="0"/>
-        <line num="69" count="1" type="stmt"/>
-        <line num="70" count="0" type="stmt"/>
+        <line num="63" count="4" type="stmt"/>
+        <line num="66" count="39" type="stmt"/>
+        <line num="67" count="2" type="stmt"/>
+        <line num="69" count="2" type="stmt"/>
+        <line num="71" count="2" type="cond" truecount="2" falsecount="0"/>
         <line num="72" count="1" type="stmt"/>
-        <line num="74" count="1" type="stmt"/>
-        <line num="79" count="39" type="stmt"/>
-        <line num="80" count="1" type="stmt"/>
-        <line num="83" count="39" type="stmt"/>
-        <line num="84" count="1" type="stmt"/>
-        <line num="91" count="39" type="stmt"/>
-        <line num="92" count="22" type="stmt"/>
-        <line num="141" count="1" type="stmt"/>
-        <line num="151" count="39" type="stmt"/>
-        <line num="194" count="1" type="stmt"/>
-        <line num="202" count="1" type="stmt"/>
-        <line num="241" count="22" type="stmt"/>
-        <line num="244" count="22" type="stmt"/>
-        <line num="246" count="2" type="stmt"/>
-        <line num="264" count="3" type="stmt"/>
-      </file>
-    </package>
-    <package name="TFGRead.src.utils">
-      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <file name="ImagePicker.js" path="D:\TFG\TFGRead\src\utils\ImagePicker.js">
-        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="3" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
+        <line num="73" count="0" type="stmt"/>
+        <line num="75" count="1" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="82" count="39" type="stmt"/>
+        <line num="83" count="1" type="stmt"/>
+        <line num="86" count="39" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
+        <line num="94" count="39" type="stmt"/>
+        <line num="95" count="20" type="stmt"/>
+        <line num="145" count="1" type="stmt"/>
+        <line num="156" count="39" type="stmt"/>
+        <line num="199" count="1" type="stmt"/>
+        <line num="207" count="1" type="stmt"/>
+        <line num="247" count="20" type="stmt"/>
+        <line num="250" count="20" type="stmt"/>
+        <line num="252" count="2" type="stmt"/>
+        <line num="270" count="4" type="stmt"/>
       </file>
     </package>
   </project>

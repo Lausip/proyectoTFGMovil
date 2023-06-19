@@ -7,7 +7,7 @@ import {
     ScrollView,
     TextInput,
     TouchableOpacity,
-    Modal, StatusBar ,BackHandler,
+    Modal, StatusBar, BackHandler,
 } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
@@ -19,7 +19,7 @@ import { enviarReporteLibro } from "../../hooks/FirebaseReportes"
 
 
 function ReportarBookScreen({ route }) {
-    const [selectedOption1, setSelectedOption1] = useState(false);
+    const [selectedOption1, setSelectedOption1] =React.useState(false);
     const [selectedOption2, setSelectedOption2] = useState(false);
     const [selectedOptionMini, setSelectedOptionMini] = useState('');
     const [email, setEmail] = useState("");
@@ -43,11 +43,10 @@ function ReportarBookScreen({ route }) {
     useEffect(() => {
         hacerCosas();
         BackHandler.addEventListener('hardwareBackPress', handleBook);
-
         return () =>
-          BackHandler.removeEventListener('hardwareBackPress', handleBook);
-    
-  
+        BackHandler.removeEventListener('hardwareBackPress', handleBook);
+
+
     }, []);
 
     const hacerCosas = async () => {
@@ -83,7 +82,10 @@ function ReportarBookScreen({ route }) {
 
     return (
 
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={{
+            flex: 1,
+            backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+        }}>
 
             <Modal
                 animationType="fade"
@@ -107,7 +109,7 @@ function ReportarBookScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#429EBD",
+                backgroundColor: "#2B809C",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -120,37 +122,40 @@ function ReportarBookScreen({ route }) {
             </View>
 
             <ScrollView style={{
-      
-            marginHorizontal:20,
-            backgroundColor: isModalVisible  ? "#A7A7A7" : "white",
-        }}>
-                <Text style={{     backgroundColor: isModalVisible  ? "#A7A7A7" : "white", fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
+
+                marginHorizontal: 20,
+                backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+            }}>
+                <Text style={{ backgroundColor: isModalVisible ? "#A7A7A7" : "white", fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
                     Motivo
                 </Text>
 
                 <List.Accordion
                     title="Contenido inapropiado"
-                    titleStyle={{ color: "black", fontWeight: "bold"   ,  backgroundColor: isModalVisible  ? "#A7A7A7" : "white", }}
+                    titleStyle={{ color: "black", fontWeight: "bold", backgroundColor: isModalVisible ? "#A7A7A7" : "white", }}
                     expanded={selectedOption1}
                     onPress={() => handleOption1Change(!selectedOption1)}>
-                    <View >
+                    <View style={{backgroundColor: isModalVisible ? "#A7A7A7" : "white",}}>
                         <Checkbox.Item
+                          testID='buttonCheckboxAccordationDivulgacion'
                             label="Divulgación de Información personal"
                             status={selectedOptionMini === 'Divulgación de Información personal' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Divulgación de Información personal')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                         <Checkbox.Item
                             label="Spam"
+                            testID='buttonSpam'
                             status={selectedOptionMini === 'Spam' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Spam')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                         <Checkbox.Item
+                          testID='buttonOdio'
                             label="Odio y Acoso"
                             status={selectedOptionMini === 'Odio y Acoso' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Odio y Acoso')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                     </View>
                 </List.Accordion>
@@ -159,23 +164,23 @@ function ReportarBookScreen({ route }) {
                     titleStyle={{ color: "black", fontWeight: "bold" }}
                     expanded={selectedOption2}
                     onPress={() => handleOption2Change(!selectedOption2)}>
-                    <View style={styles.checkboxContainer}>
+                    <View style={{ backgroundColor: isModalVisible ? "#A7A7A7" : "white", }}>
                         <Checkbox.Item
                             label="Soy el propietario"
                             status={selectedOptionMini === 'Soy el propietario' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Soy el propietario')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                         <Checkbox.Item
-                            label="No soy el propietario"
+                            label="No es el propietario"
                             status={selectedOptionMini === 'No soy el propietario' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('No soy el propietario')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                     </View>
                 </List.Accordion>
                 {selectedOptionMini != "" ?
-                    <View>
+                    <View style={{ backgroundColor: isModalVisible ? "#A7A7A7" : "white", }}>
                         <Text style={{ flexDirection: "row", fontSize: 20, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
                             Escribe el motivo <Text style={{ color: "red" }}>
                                 *
@@ -187,6 +192,7 @@ function ReportarBookScreen({ route }) {
                                 Por favor escribe tantos detalles como sean posible.
                             </Text>
                             <TextInput
+                             placeholder="Motivo"
                                 placeholderTextColor="black"
                                 value={motivo}
                                 onChangeText={(text) => setMotivo(text)}
@@ -201,18 +207,38 @@ function ReportarBookScreen({ route }) {
                                 numberOfLines={2}
                                 multiline={true}
                             ></TextInput></View>
-                        {/* Iniciar Sesión */}
+                        {/* Reportar */}
                         <View
                             style={{
                                 display: "flex",
-                                backgroundColor: "white",
+    
                                 alignItems: "center",
                                 justifyContent: "center",
+                                backgroundColor: isModalVisible ? "#A7A7A7" : "white",
                             }}
                         >
                             <TouchableOpacity
                                 testID="buttonEnviar"
-                                style={styles.buttonEnviar}
+                                style={{
+                                    width: "50%",
+                                    marginTop: 10,
+                                    backgroundColor: (motivo.length == 0 || motivo.trim().length == 0) ? "#8D8D8D" : "#E39801",
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 12,
+                                    },
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 6.00,
+                                    elevation: 15,
+
+                                    padding: 12,
+                                    borderRadius: 20,
+                                    alignItems: "center",
+                                    marginBottom: 15,
+                                }
+
+                                }
                                 onPress={() => enviarReporte()}
                                 disabled={(motivo.length == 0 || motivo.trim().length == 0)}
                             >
@@ -272,31 +298,8 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
     },
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-    },
-    buttonEnviar: {
 
-        width: "50%",
-        marginTop: 10,
-        backgroundColor: "#E39801",
 
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 12,
-        },
-        shadowOpacity: 0.8,
-        shadowRadius: 6.00,
-        elevation: 15,
-
-        padding: 12,
-        borderRadius: 20,
-        alignItems: "center",
-        marginBottom: 15,
-
-    }
 
 });
 export default ReportarBookScreen

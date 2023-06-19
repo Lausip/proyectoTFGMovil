@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -319,7 +319,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -562,7 +562,7 @@ import ExploreStack from "../navigation/ExploreStack";
 import ChatStack from "../navigation/ChatStack";
 &nbsp;
 &nbsp;
-const Tab = createBottomTabNavigator();
+const Tab = <span class="cstat-no" title="statement not covered" >createBottomTabNavigator();</span>
 /* istanbul ignore next */
 const BottomTab = () =&gt; {
   return (
@@ -597,10 +597,10 @@ const BottomTab = () =&gt; {
           tabBarStyle: ((route) =&gt; {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 &nbsp;
-            if (routeName === "detailsBookScreen" || routeName == "bookScreen" || routeName == "profileScreen" || routeName == "notificacionScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen") {
+            if (routeName === "detailsBookScreen" || routeName == "bookScreen"||routeName=="reportAutorScreen"||routeName=="reportBookScreen" || routeName == "profileScreen" || routeName == "notificacionScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen"||routeName=="reportcomentariosCapituloScreen") {
               return { display: "none" };
             }
-            if (routeName == "" || routeName == "home"|| routeName == "autorScreen") {
+            if (routeName == "" || routeName == "home"|| routeName == "autorScreen"|| routeName ==="chatScreen") {
               return {
                 backgroundColor: "white",
                 marginHorizontal: 20,
@@ -636,10 +636,10 @@ const BottomTab = () =&gt; {
           tabBarStyle: ((route) =&gt; {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 &nbsp;
-            if (routeName === "autorScreen" || routeName == "chatConversationScreen" || routeName == "comentariosCapituloScreen") {
+            if (routeName === "autorScreen"  || routeName == "profileScreen" || routeName == "chatConversationScreen" ||routeName=="reportAutorScreen"|| routeName == "comentariosCapituloScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen") {
               return { display: "none" };
             }
-            if (routeName == "" || routeName == "explore") {
+            if (routeName == "" || routeName == "explore"|| routeName ==="chatScreen") {
               return {
                 backgroundColor: "white",
                 marginHorizontal: 20,
@@ -677,7 +677,7 @@ const BottomTab = () =&gt; {
           tabBarStyle: ((route) =&gt; {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 &nbsp;
-            if (routeName === "bookScreen" || routeName == "comentariosCapituloScreen"||routeName == "autorScreen") {
+            if (routeName === "bookScreen" ||  routeName == "profileScreen" ||routeName == "comentariosCapituloScreen"||routeName == "autorScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen"||routeName=="reportAutorScreen") {
               return { display: "none" };
             }
             return {
@@ -716,7 +716,7 @@ const BottomTab = () =&gt; {
           tabBarStyle: ((route) =&gt; {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 &nbsp;
-            if (routeName === "writeNewBook" || routeName == "writeChapter" || routeName == "editBook" || routeName == "editChapter") {
+            if (routeName === "writeNewBook"  || routeName == "profileScreen" || routeName == "writeChapter" || routeName == "editBook" || routeName == "editChapter") {
               return { display: "none" };
             }
             return {
@@ -755,7 +755,7 @@ const BottomTab = () =&gt; {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 &nbsp;
   
-            if (routeName === "chatConversationScreen") {
+            if (routeName === "chatConversationScreen" || routeName == "profileScreen" ) {
               return { display: "none" };
 &nbsp;
             } return {
@@ -799,7 +799,7 @@ export default BottomTab;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-22T14:50:24.977Z
+                at 2023-06-04T21:41:46.417Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

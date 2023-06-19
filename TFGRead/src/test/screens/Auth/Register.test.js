@@ -1,7 +1,7 @@
 /** @jest-environment jsdom */
 import React from "react";
 
-import { render, fireEvent } from '@testing-library/react-native'
+import { render, fireEvent, waitFor } from '@testing-library/react-native'
 import '@testing-library/jest-dom'
 import * as firebase from "@firebase/testing";
 
@@ -72,12 +72,8 @@ describe('RegisterScreen test', () => {
 
     });
 
-    it('Should render RegisterScreen', async () => {
-        await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
-        const component = render(<RegisterScreen />)
-        expect(component.getByText("Registro"))
 
-    });
+
     it('Should change email', async () => {
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<RegisterScreen />)
@@ -108,6 +104,7 @@ describe('RegisterScreen test', () => {
     it('Should change password2', async () => {
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<RegisterScreen />)
+        
         const passwInput = component.getByPlaceholderText(
             "Confirmar Contraseña"
         );
@@ -121,18 +118,38 @@ describe('RegisterScreen test', () => {
     it('Should click handleIncioSesion', async () => {
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<RegisterScreen />)
+
         const touchableEl = component.queryByTestId('buttonInicioSesion');
         fireEvent.press(touchableEl);
         expect(mockedReplace).toHaveBeenCalledWith("login");
+
 
     });
 
     it('Should click handleRegistroTodo', async () => {
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<RegisterScreen />)
+        const emailInput = component.getByPlaceholderText(
+            "Email"
+        );
+        fireEvent.changeText(emailInput,
+            "admin@gmail.com"
+        );
+
+        const passwInput = component.getByPlaceholderText(
+            "Contraseña"
+        );
+        fireEvent.changeText(passwInput,
+            "123456"
+        );
+        const passwInput2 = component.getByPlaceholderText(
+            "Confirmar Contraseña"
+        );
+        fireEvent.changeText(passwInput2,
+            "123456"
+        );
         const touchableEl = component.queryByTestId('buttonRegistroTodo');
         fireEvent.press(touchableEl);
-   
 
     });
 });

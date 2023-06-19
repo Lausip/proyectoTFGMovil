@@ -56,10 +56,12 @@ function BibliotecaScreen() {
         if (index == 0) {
             cargarFavoritos();
             setAutores([]);
+            setTextoBusqueda("")
         }
         else {
             cargarAutoresSeguido();
             setFavoritos([]);
+            setTextoBusqueda("")
         }
     };
 
@@ -135,13 +137,14 @@ function BibliotecaScreen() {
         setEmail(e);
         setFotoPerfil(await getFotoPerfil(e));
         cargarCategorias(0);
+        setTextoBusqueda("")
 
     }
 
     const goAutorProfile = (autorPulsado) => {
         navigation.replace("autorScreen", {
             autorElegido: autorPulsado,
-            screen: "explore",
+            screen: "biblioteca",
         });
     }
     const RenderCategorias = (item) => {
@@ -197,7 +200,7 @@ function BibliotecaScreen() {
                     style={{ width: 50, height: 50, borderRadius: 50 / 2, marginHorizontal: 30, marginVertical: 10 }}
 
                 />
-                <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
+                <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#2B809C" }}>
                     {autor.Nombre.split("@")[0]}
                 </Text>
             </TouchableOpacity>
@@ -237,7 +240,7 @@ function BibliotecaScreen() {
                         }}
                     ></ImageBackground>
                     <View style={{ marginTop: 15, width: 180, marginLeft: 10, alignItems: "center", justifyContent: "flex-start" }}>
-                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "#429EBD" }}>
+                        <Text style={{ fontSize: 15, fontWeight: "bold", color: "#2B809C" }}>
                             {libro.Titulo}
                         </Text>
                         <Text style={{ fontSize: 10, marginTop: 10, color: "black" }}>

@@ -241,7 +241,19 @@ function EditBookScreen({ route }) {
     }
     function renderCategorias(item) {
         return (
-            <View style={styles.viewCategorias}>
+            <View style={{
+                borderColor: "#8EAF20",
+                marginHorizontal: 5,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderWidth: 1,
+                borderRadius: 15,
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 10,
+                flexDirection: "row",
+                backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
+            }}>
                 <Text
                     style={{ fontSize: 13, color: "black", fontWeight: "bold" }}>
                     {item}
@@ -486,7 +498,7 @@ function EditBookScreen({ route }) {
             </View>
 
             <View>
-                <ScrollView testID="scrollView" style={{ flexGrow: 0, marginBottom: 70, }}>
+                <ScrollView nestedScrollEnabled={true} testID="scrollView" style={{ flexGrow: 0, marginBottom: 70, }}>
 
                     {/* Portada del libro */}
                     <TouchableOpacity testID='buttonActualizarImage' onPress={() => actualizarImage()}>
@@ -567,7 +579,7 @@ function EditBookScreen({ route }) {
                             value={texto}
                             onChangeText={(text) => setTexto(text)}
                             style={{
-                        
+
                                 paddingHorizontal: 20,
                                 paddingVertical: 10,
                                 borderRadius: 10,
@@ -631,6 +643,7 @@ function EditBookScreen({ route }) {
                         placeholder="Seleccionar categorias"
                         placeholderStyle={styles.placeholderStyles}
                         dropDownContainerStyle={styles.dropDownContainerStyle}
+                        listMode="SCROLLVIEW"
                         zIndex={3000}
                         zIndexInverse={1000}
                         multiple={true}
@@ -669,11 +682,11 @@ function EditBookScreen({ route }) {
                         </Text>
                     </TouchableOpacity>
                     {/* Etiquetas */}
-           
-                        <Text style={styles.tituloBorder}>
-                            Etiquetas
-                        </Text>
-                        <View style={{ marginHorizontal: 40 }}>
+
+                    <Text style={styles.tituloBorder}>
+                        Etiquetas
+                    </Text>
+                    <View style={{ marginHorizontal: 40 }}>
                         {/* Etiquetas explorar */}
 
                         <FlatList
@@ -698,7 +711,7 @@ function EditBookScreen({ route }) {
                                 paddingHorizontal: 20,
                                 paddingVertical: 5,
                                 borderRadius: 10,
-                                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
+                                color: "#2B809C", backgroundColor: isModalVisible || isModalVisibleBorrar || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
                             }}
                         ></TextInput>
                         <Text style={{
@@ -759,31 +772,48 @@ function EditBookScreen({ route }) {
                         placeholder={estadoValue}
                         placeholderStyle={styles.placeholderStyles}
                         dropDownContainerStyle={styles.dropDownContainerStyle}
+
+                        listMode="SCROLLVIEW"
                         scrollViewProps={{
+                            nestedScrollEnabled: true,
                             decelerationRate: "fast"
                         }}
-                        zIndex={3000}
+                        zIndex={4000}
                         zIndexInverse={1000}
                         onChangeValue={(value) => updateEstado()}
 
                     />
 
+
                     {/* Capitulos */}
                     <Text style={styles.tituloBorder}>
-                        Capitulos
+                        Capítulos
                     </Text>
 
                     <View style={{ marginHorizontal: 40, marginBottom: 10, }}>
-                        <FlatList
-                            testID="flatlistbooks"
-                            contentContainerStyle={{ }}
-                            keyExtractor={(item, index) => index}
-                            data={capitulos}
-                            renderItem={({ item, index }) => (
-                                <RenderCapitulos key={index} libro={item} />
-                            )}
-              
-                        />
+                        {
+                            capitulos.length != 0 ?
+                                <FlatList
+                                    testID="flatlistbooks"
+                                    contentContainerStyle={{}}
+                                    keyExtractor={(item, index) => index}
+                                    data={capitulos}
+                                    renderItem={({ item, index }) => (
+                                        <RenderCapitulos key={index} libro={item} />
+                                    )}
+
+                                />
+
+                                : <View style={{ marginHorizontal: 30 }}  >
+                                    <Image
+                                        resizeMode={'center'}
+                                        source={require("../../../assets/NoLibrosWrite.png")}
+                                        style={styles.image}
+                                    />
+                                    <Text style={styles.textImage}>No hay capítulos......</Text>
+                                </View>
+                        }
+
 
                         {/* Contenedor Botón escribir nuevo capitulo  */}
                         <TouchableOpacity
@@ -829,7 +859,7 @@ function EditBookScreen({ route }) {
                                         nuevo {""}
                                     </Text>
                                     <Text style={{ fontSize: 14, color: "black" }}>
-                                        capitulo</Text>
+                                        capítulo</Text>
                                 </Text>
                             </View>
                         </TouchableOpacity>
@@ -896,7 +926,7 @@ const styles = StyleSheet.create({
         marginBottom: "auto",
         marginLeft: "auto",
         marginRight: "auto",
-        height: 150,
+        height: 200,
         borderColor: "#8EAF20",
         borderRadius: 20,
         borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
@@ -967,23 +997,13 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     viewCategorias: {
-        borderColor: "#8EAF20",
-        marginHorizontal: 5,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderRadius: 15,
-        backgroundColor: `white`,
-        alignItems: "center",
-        justifyContent: "center",
-        marginBottom: 10,
-        flexDirection: "row"
+
     },
     viewHead: {
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#429EBD",
+        backgroundColor: "#2B809C",
         borderBottomRightRadius: 500,
         height: 70,
     },
@@ -1006,7 +1026,19 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         color: "white"
-    }
-
+    }, 
+    image: {
+        marginTop:"auto",
+        marginBottom:"auto",
+        marginLeft: "auto",
+        marginRight: "auto",
+        height: 100,
+        width: 150,
+    },
+    textImage: {
+        marginLeft: "auto",
+        marginRight: "auto",
+        fontSize: 15,
+    },
 });
 export default EditBookScreen

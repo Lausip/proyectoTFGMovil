@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, SafeAreaView, StyleSheet, FlatList, TouchableOpacity, BackHandler, TouchableWithoutFeedback, Modal, ImageBackground } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useIsFocused  } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { getUserAuth } from "../../hooks/Auth/Auth";
 import { updateUltimoCapitulo, cambiarUltimoLibroLeido, handleElLibroEstaEnMeGusta, handleAñadirLibroMeGustaFirebaseCapitulo } from '../../hooks/Auth/Firestore';
@@ -10,7 +10,7 @@ import * as Progress from 'react-native-progress';
 function BooksScreen({ route }) {
 
   const [email, setEmail] = useState("");
-  const [texto, setTexto] = useState("");
+
   const [tamanoText, setTamanoText] = useState(14);
   const [titulo, setTitulo] = useState("");
   const [portada, setPortada] = useState("");
@@ -20,10 +20,12 @@ function BooksScreen({ route }) {
   const [fondoColor, setFondoColor] = useState("white");
   const [textoColor, setTextoColor] = useState("black");
 
-  const [hayCapituloSiguiente, setHayCapituloSiguiente] = useState(false);
+  const [hayCapituloSiguiente, setHayCapituloSiguiente] =  React.useState(false);
+  const [texto, setTexto] = React.useState("");
+  const [modalAñadirMeGusta, setModalAñadirMeGusta] = React.useState(false);
   const [sacarCapitulos, setSacarCapitulos] = useState(false);
   const [modalOpciones, setModalOpciones] = useState(false);
-  const [modalAñadirMeGusta, setModalAñadirMeGusta] = useState(false);
+
 
   const [capitulos, setCapitulos] = useState(false);
 
@@ -36,10 +38,10 @@ function BooksScreen({ route }) {
   useEffect(() => {
 
     hacerCosas();
-    BackHandler.addEventListener('hardwareBackPress', goBack);
+    BackHandler.addEventListener('hardwareBackPress', preguntarBibliotecaMegusta);
 
     return () =>
-      BackHandler.removeEventListener('hardwareBackPress', goBack);
+      BackHandler.removeEventListener('hardwareBackPress', preguntarBibliotecaMegusta);
 
   }, [capituloNumero]);
 
@@ -61,8 +63,8 @@ function BooksScreen({ route }) {
   }
 
   const goBack = () => {
-    if (navigation.isFocused()) {
-      preguntarBibliotecaMegusta()
+      if(!modalAñadirMeGusta)
+      preguntarBibliotecaMegusta();
       if (screen == "detailsBookScreen" || screen == undefined) {
         navigation.navigate("detailsBookScreen", {
           bookId: bookId,
@@ -72,7 +74,7 @@ function BooksScreen({ route }) {
         navigation.navigate(screen)
       }
       return true;
-    }
+    
   }
 
 
@@ -87,7 +89,7 @@ function BooksScreen({ route }) {
     setProgress(
       Math.abs(
         value.nativeEvent.contentOffset.y /
-        (scrollView_height - scrollViewContent_height ),
+        (scrollView_height - scrollViewContent_height),
       ),
     );
   };
@@ -223,13 +225,12 @@ function BooksScreen({ route }) {
 
   return (
 
-    <TouchableWithoutFeedback testID="buttonCargarOpciones" style={{ flex: 1 }} onPress={() => cargarOpciones()}>
+    <TouchableWithoutFeedback testID="buttonCargarOpciones" style={{ flex: 1, }} onPress={() => cargarOpciones()}>
       <SafeAreaView style={{
         flex: 1,
         backgroundColor: modalAñadirMeGusta ? "#8D8D8D" : fondoColor,
       }}>
         <Progress.Bar
-
           height={3}
           borderWidth={0}
           progress={progress}
@@ -375,15 +376,15 @@ function BooksScreen({ route }) {
                 </View>
 
 
-                <Text style={{ fontSize: 20, color: "#429EBD", fontWeight: "bold", }}>
+                <Text style={{ fontSize: 20, color: "#2B809C", fontWeight: "bold", }}>
                   {titulo}
                 </Text>
               </View >
 
-              <View style={{ marginHorizontal: 20 }}>
+              <View style={{ marginHorizontal: 20,maxHeight:200 }}>
 
                 <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", borderBottomColor: "#8EAF20", borderBottomWidth: 3, }}>
-                  Capitulos{":    "}
+                  Capítulos{":    "}
                 </Text>
 
                 <FlatList
@@ -418,16 +419,19 @@ function BooksScreen({ route }) {
               flexDirection: "row"
             }}>
               <TouchableOpacity
-                style={styles.modalBotonesBiblioteca}
-                onPress={e => goBack()}
+                style={styles.modalBotonesBiblioteca2}
+                testID='buttonGoBack'
+                onPress={() => goBack()}
+   
               >
                 <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
-                  Cancelar
+                  No
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.modalBotonesBiblioteca}
-                onPress={e => añadirElLibroABiblioteca()}
+                testID='buttonAñadirMegusta'
+                onPress={() => añadirElLibroABiblioteca()}
               >
                 <Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}>
                   Añadir
@@ -465,18 +469,18 @@ function BooksScreen({ route }) {
                     }
 
                   </TouchableOpacity>
-
-                  <TouchableOpacity testID="buttonSiguienteCapitulo" style={{ marginLeft: 10, }} onPress={() => siguienteCapitulo()}>
-                    <Feather name="arrow-right" size={30} color="black" />
-                  </TouchableOpacity>
-
+                  {hayCapituloSiguiente ?
+                    <TouchableOpacity testID="buttonSiguienteCapitulo" style={{ marginLeft: 10, }} onPress={() => siguienteCapitulo()}>
+                      <Feather name="arrow-right" size={30} color="black" />
+                    </TouchableOpacity> : <View > </View>
+                  }
                   <TouchableOpacity testID="buttonSacarCapitulos" style={{ marginLeft: 50, }} onPress={() => sacarCapitulosView(!sacarCapitulos)}>
                     <Entypo name="menu" size={30} color="black" />
                   </TouchableOpacity>
 
                 </View >
                 <View style={{ justifyContent: "flex-end", marginRight: 20 }}>
-                  <TouchableOpacity style={{}} onPress={irALosComentarios}>
+                  <TouchableOpacity style={{}}  testID='buttonIrComentarios' onPress={() =>irALosComentarios()}>
                     <Ionicons name="ios-chatbox-outline" size={30} color="black" />
                   </TouchableOpacity>
                 </View >
@@ -506,7 +510,7 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginVertical: 30,
     fontSize: 20,
-    color: "#429EBD",
+    color: "#2B809C",
     fontWeight: "bold",
   }
   ,
@@ -519,9 +523,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   modalCapitulos: {
+    position:"absolute",
     marginBottom: 250,
     marginLeft: "auto",
     marginRight: "auto",
+    left: "20%",
+    top:"20%",
     width: 250,
     borderColor: "#8EAF20",
     borderRadius: 20,
@@ -531,6 +538,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 9 },
     shadowRadius: 10,
     elevation: 12,
+    
   },
   fotodelLibrocontainer: {
     justifyContent: "center",
@@ -565,6 +573,23 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 5,
     backgroundColor: "#E39801",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.8,
+    shadowRadius: 6.00,
+    elevation: 15,
+  },
+  modalBotonesBiblioteca2: {
+    width: "30%",
+    padding: 12,
+    borderRadius: 20,
+    alignItems: "center",
+    marginLeft: 5,
+    marginRight: 5,
+    backgroundColor: "#B00020",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

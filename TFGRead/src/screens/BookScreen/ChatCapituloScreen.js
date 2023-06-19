@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, BackHandler, FlatList, Alert, StatusBar, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, BackHandler, Image, FlatList, Alert, StatusBar, TextInput } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { FontAwesome, Ionicons, Octicons } from '@expo/vector-icons';
@@ -86,17 +86,17 @@ function ChatCapituloScreen({ route }) {
                 style: 'cancel',
             },
             {
-                text: 'SI', onPress: () => {reportarComentarioIr(comentarioId) }
+                text: 'SI', onPress: () => { reportarComentarioIr(comentarioId) }
             },
         ]);
 
     }
     const reportarComentarioIr = async (comentarioId) => {
         navigation.replace("reportcomentariosCapituloScreen", {
-          bookId: bookId,
-          capituloId: capituloId,
-          comentarioId:comentarioId,
-          capituloNumero: capituloNumero,
+            bookId: bookId,
+            capituloId: capituloId,
+            comentarioId: comentarioId,
+            capituloNumero: capituloNumero,
         });
     }
     /* Comentarios */
@@ -159,6 +159,7 @@ function ChatCapituloScreen({ route }) {
                 </View>
             </View>
             {/* Comentarios */}
+
             <FlatList
                 contentContainerStyle={{}}
                 vertical
@@ -180,16 +181,18 @@ function ChatCapituloScreen({ route }) {
                     numberOfLines={2}
 
                 ></TextInput>
-                <TouchableOpacity testID="buttonEnviarComentario" onPress={() => enviarComentario()} style={{
-                    marginTop: "auto", marginBottom: "auto",
-
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 50,
-                    height: 50,
-                    backgroundColor: '#E39801',
-                    borderRadius: 50,
-                }}>
+                <TouchableOpacity testID="buttonEnviarComentario"
+                    disabled={(comentario.length == 0 || comentario.trim().length == 0)}
+                    onPress={() => enviarComentario()} style={{
+                        marginTop: "auto", marginBottom: "auto",
+                        backgroundColor: (comentario.length == 0 || comentario.trim().length == 0) ? "#8D8D8D" : "#E39801",
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 50,
+                        height: 50,
+                   
+                        borderRadius: 50,
+                    }}>
                     <FontAwesome name="send" size={24} color="white" style={{ marginTop: "auto", marginBottom: "auto" }} />
                 </TouchableOpacity>
             </View>
@@ -206,7 +209,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#429EBD",
+        backgroundColor: "#2B809C",
         borderBottomRightRadius: 500,
         height: 70,
     },
@@ -255,9 +258,22 @@ const styles = StyleSheet.create({
         marginRight: "auto",
         marginVertical: 30,
         fontSize: 20,
-        color: "#429EBD",
+        color: "#2B809C",
         fontWeight: "bold",
     },
-
+    image: {
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: 30,
+        height: 270,
+        width: 330,
+    },
+    textImage: {
+        marginTop: 10,
+        marginLeft: "auto",
+        marginRight: "auto",
+        fontSize: 15,
+        marginBottom: 250,
+    },
 });
 export default ChatCapituloScreen

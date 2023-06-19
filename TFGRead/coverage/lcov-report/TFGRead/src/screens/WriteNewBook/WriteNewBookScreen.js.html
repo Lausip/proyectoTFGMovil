@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.57% </span>
+                <span class="strong">91.01% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>62/70</span>
+                <span class='fraction'>81/89</span>
             </div>
         
             
@@ -806,7 +806,11 @@
 <a name='L741'></a><a href='#L741'>741</a>
 <a name='L742'></a><a href='#L742'>742</a>
 <a name='L743'></a><a href='#L743'>743</a>
-<a name='L744'></a><a href='#L744'>744</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L744'></a><a href='#L744'>744</a>
+<a name='L745'></a><a href='#L745'>745</a>
+<a name='L746'></a><a href='#L746'>746</a>
+<a name='L747'></a><a href='#L747'>747</a>
+<a name='L748'></a><a href='#L748'>748</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -921,6 +925,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">67x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
@@ -928,6 +933,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">67x</span>
@@ -998,6 +1004,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1058,7 +1077,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1453,17 +1471,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1578,17 +1586,17 @@ function WriteNewBookScreen() {
 &nbsp;
   //CATEGORIAS:
 &nbsp;
-  
+&nbsp;
   const [estadoOpen, setEstadoOpen] = useState(false);
- 
+&nbsp;
 &nbsp;
 &nbsp;
   //MODALES
   const [isModalVisible, setModalVisible] = useState(false);
-  const [isModalVisibleTitulo, setModalVisibleTitulo] =useState(false);
+  const [isModalVisibleTitulo, setModalVisibleTitulo] = useState(false);
   const [isModalVisibleImagen, setModalVisibleImagen] = useState(false);
   const [isModalVisibleCategoria, setModalVisibleCategoria] = useState(false);
-  const [isModalVisibleDescripcion, setModalVisibleDescripcion] =useState(false);
+  const [isModalVisibleDescripcion, setModalVisibleDescripcion] = useState(false);
 &nbsp;
   useEffect(() =&gt; {
     setModalVisible(false);
@@ -1645,265 +1653,236 @@ function WriteNewBookScreen() {
         etiquetas.splice(i, 1);
       }
     }
-      setModalVisible(false);
-    }
+    setModalVisible(false);
+  }
 &nbsp;
-    const assertCrearLibroTitulo = () =&gt; {
-      if (tituloLibro.length == 0 || tituloLibro.trim().length == 0) {
-        setModalVisibleTitulo(true);
-        return true;
-      }
+  const assertCrearLibroTitulo = () =&gt; {
+    if (tituloLibro.length == 0 || tituloLibro.trim().length == 0) {
+      setModalVisibleTitulo(true);
+      return true;
+    }
+    return false;
+  }
+  const assertCrearLibroDescripcion = () =&gt; {
+    if (descripcionLibro.length == 0 &amp;&amp; descripcionLibro.trim().length == 0) {
+      setModalVisibleDescripcion(true);
+      return true;
+    } else {
       return false;
     }
-    const assertCrearLibroDescripcion = () =&gt; {
-      if (descripcionLibro.length == 0 &amp;&amp; descripcionLibro.trim().length == 0) {
-        setModalVisibleDescripcion(true);
-        return true;
-      }else{
-      return false;}
+  }
+&nbsp;
+&nbsp;
+  const assertCrearLibroCategoria = () =&gt; {
+&nbsp;
+    if (value.length == 0) {
+      setModalVisibleCategoria(true);
+      return true;
+    } else {
+      return false;
     }
+  }
 &nbsp;
-&nbsp;
-    const assertCrearLibroCategoria = () =&gt; {
-&nbsp;
-      if (value.length == 0) {
-        setModalVisibleCategoria(true);
-        return true;
-      }else{
-      return false;}
-    }
-&nbsp;
-    const cambiarEstadosPorNombre = () =&gt; {
-      let categoria = [];
-      let i;
-      let j;
-      for (i = 0; i &lt; categoriasFirebase.length; i++) {
-        for (j = 0; j &lt; value.length; j++) {
-          <span class="missing-if-branch" title="if path not taken" >I</span>if (categoriasFirebase[i].value == value[j]) {
-<span class="cstat-no" title="statement not covered" >            categoria.push({</span>
-              Nombre: categoriasFirebase[i].value,
-              Color: categoriasFirebase[i].color,
-            });
-          }
-&nbsp;
+  const cambiarEstadosPorNombre = () =&gt; {
+    let categoria = [];
+    let i;
+    let j;
+    for (i = 0; i &lt; categoriasFirebase.length; i++) {
+      for (j = 0; j &lt; value.length; j++) {
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (categoriasFirebase[i].value == value[j]) {
+<span class="cstat-no" title="statement not covered" >          categoria.push({</span>
+            Nombre: categoriasFirebase[i].value,
+            Color: categoriasFirebase[i].color,
+          });
         }
-      }
-&nbsp;
-      return categoria;
-    }
-    const crearLibro = async () =&gt; {
-&nbsp;
-      setModalVisible(true);
-      if (!assertCrearLibroTitulo() &amp;&amp; !assertCrearLibroDescripcion()  &amp;&amp; !assertCrearLibroCategoria()) {
-        let categoria = cambiarEstadosPorNombre();
-        let id = await crearLibroFirebase(tituloLibro, descripcionLibro, email, etiquetas, categoria);
-        let urlPortada = await crearLibroStorage(image, email, id)
-        await cambiarPortadadeLibro(id, urlPortada)
-&nbsp;
-        navigation.navigate("writeChapter", {
-          bookId: id,
-        });
 &nbsp;
       }
-      setModalVisible(false)
-    }
-    const fetchData = async () =&gt; {
-      setEmail(await getUserAuth());
-      setCategoriasFirebase(await getCategorias());
     }
 &nbsp;
+    return categoria;
+  }
+  const crearLibro = async () =&gt; {
 &nbsp;
-    useLayoutEffect(() =&gt; {
-      navigation.setOptions({
-        headerShown: false,
+    setModalVisible(true);
+    if (!assertCrearLibroTitulo() &amp;&amp; !assertCrearLibroDescripcion() &amp;&amp; !assertCrearLibroCategoria()) {
+      let categoria = cambiarEstadosPorNombre();
+      let id = await crearLibroFirebase(tituloLibro, descripcionLibro, email, etiquetas, categoria);
+      let urlPortada = await crearLibroStorage(image, email, id)
+      await cambiarPortadadeLibro(id, urlPortada)
+&nbsp;
+      navigation.navigate("writeChapter", {
+        bookId: id,
       });
-    }, []);
 &nbsp;
-&nbsp;
-&nbsp;
-    function renderEtiquetas(item, index) {
-      return (
-        &lt;View
-          style={styles.viewEtiquetas}
-        &gt;
-          &lt;Text
-            style={{
-              fontSize: 13,
-              color: "black",
-              fontWeight: "bold",
-            }}
-          &gt;
-            {item}
-          &lt;/Text&gt;
-          &lt;TouchableOpacity
-            testID="buttonEliminarEtiqueta"
-            style={{
-              marginLeft: 10,
-&nbsp;
-            }}
-            onPress={() =&gt; eliminarEtiquetas(item)}
-          &gt;
-            &lt;AntDesign name="closecircleo" size={20} color="black" /&gt;
-          &lt;/TouchableOpacity&gt;
-        &lt;/View&gt;
-      );
     }
+    setModalVisible(false)
+  }
+  const fetchData = async () =&gt; {
+    setEmail(await getUserAuth());
+    setCategoriasFirebase(await getCategorias());
+  }
 &nbsp;
+&nbsp;
+  useLayoutEffect(() =&gt; {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
+&nbsp;
+&nbsp;
+&nbsp;
+  function renderEtiquetas(item, index) {
     return (
+      &lt;View
+        style={{
+          borderColor: "#8EAF20",
+          marginHorizontal: 5,
+          paddingHorizontal: 10,
+          paddingVertical: 5,
+          borderWidth: 1,
+          borderRadius: 15,
 &nbsp;
-      &lt;SafeAreaView style={{
-        flex: 1,
-        backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "white"
-      }}&gt;
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: 10,
+          flexDirection: "row",
+          backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria ? "#8D8D8D" : "white"
+        }}
+      &gt;
+        &lt;Text
+          style={{
+            fontSize: 13,
+            color: "black",
+            fontWeight: "bold",
+          }}
+        &gt;
+          {item}
+        &lt;/Text&gt;
+        &lt;TouchableOpacity
+          testID="buttonEliminarEtiqueta"
+          style={{
+            marginLeft: 10,
+&nbsp;
+          }}
+          onPress={() =&gt; eliminarEtiquetas(item)}
+        &gt;
+          &lt;AntDesign name="closecircleo" size={20} color="black" /&gt;
+        &lt;/TouchableOpacity&gt;
+      &lt;/View&gt;
+    );
+  }
+&nbsp;
+  return (
+&nbsp;
+    &lt;SafeAreaView style={{
+      flex: 1,
+      backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria ? "#8D8D8D" : "white"
+    }}&gt;
+&nbsp;
+      &lt;Modal
+        animationType="fade"
+        visible={isModalVisible}
+        transparent
+      &gt;
+        &lt;View style={styles.modalAviso}&gt;
+          &lt;LottieView style={styles.lottieModalWait}
+            source={require('../../../assets/animations/waitFunction.json')} autoPlay loop /&gt;
+          &lt;Text style={styles.textWait}&gt;Creando libro.....&lt;/Text&gt;
+        &lt;/View&gt;
+      &lt;/Modal&gt;
+      {isModalVisibleTitulo &amp;&amp;
 &nbsp;
         &lt;Modal
           animationType="fade"
-          visible={isModalVisible}
+          isVisible={isModalVisibleTitulo}
           transparent
         &gt;
           &lt;View style={styles.modalAviso}&gt;
-            &lt;LottieView style={styles.lottieModalWait}
-              source={require('../../../assets/animations/waitFunction.json')} autoPlay loop /&gt;
-            &lt;Text style={styles.textWait}&gt;Cargando.....&lt;/Text&gt;
+            &lt;AntDesign name="warning" size={35} color="#E39801" /&gt;
+            &lt;Text style={{
+              marginVertical: 20,
+              marginHorizontal: 20,
+            }}&gt;NO puedes dejar un libro sin título&lt;/Text&gt;
+&nbsp;
+            &lt;TouchableOpacity
+              style={{
+                width: "50%",
+                padding: 12,
+                borderRadius: 20,
+                alignItems: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
+                backgroundColor: isModalVisible ? <span class="branch-0 cbranch-no" title="branch not covered" >"#8D8D8D" </span>: "#B00020",
+&nbsp;
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 12,
+                },
+                shadowOpacity: 0.8,
+                shadowRadius: 6.00,
+                elevation: 15,
+              }}
+              onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleTitulo(!isModalVisibleTitulo)}</span>
+            &gt;
+              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
+                Aceptar
+              &lt;/Text&gt;
+            &lt;/TouchableOpacity&gt;
+&nbsp;
           &lt;/View&gt;
         &lt;/Modal&gt;
-        {isModalVisibleTitulo &amp;&amp;
+      }
 &nbsp;
-          &lt;Modal
-            animationType="fade"
-            isVisible={isModalVisibleTitulo}
-            transparent
+      &lt;Modal
+        backdropColor={'green'}
+        backdropOpacity={1}
+        animationType="fade"
+        visible={isModalVisibleDescripcion}
+        transparent&gt;
+&nbsp;
+        &lt;View style={styles.modalAviso}&gt;
+          &lt;AntDesign name="warning" size={35} color="#E39801" /&gt;
+          &lt;Text style={{
+            marginVertical: 20,
+            marginHorizontal: 20,
+          }}&gt;NO puedes dejar un libro sin descripción&lt;/Text&gt;
+&nbsp;
+          &lt;TouchableOpacity
+            style={{
+              width: "50%",
+              padding: 12,
+              borderRadius: 20,
+              alignItems: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+              backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 12,
+              },
+              shadowOpacity: 0.8,
+              shadowRadius: 6.00,
+              elevation: 15,
+            }}
+            onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleDescripcion(!isModalVisibleDescripcion)}</span>
           &gt;
-            &lt;View style={styles.modalAviso}&gt;
-              &lt;AntDesign name="warning" size={35} color="#E39801" /&gt;
-              &lt;Text style={{
-                marginVertical: 20,
-                marginHorizontal: 20,
-              }}&gt;NO puedes dejar un libro sin titulo&lt;/Text&gt;
+            &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
+              Aceptar
+            &lt;/Text&gt;
+          &lt;/TouchableOpacity&gt;
 &nbsp;
-              &lt;TouchableOpacity
-                style={{
-                  width: "50%",
-                  padding: 12,
-                  borderRadius: 20,
-                  alignItems: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  backgroundColor: isModalVisible ? <span class="branch-0 cbranch-no" title="branch not covered" >"#8D8D8D" </span>: "#B00020",
+        &lt;/View&gt;
+      &lt;/Modal&gt;
 &nbsp;
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 12,
-                  },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 6.00,
-                  elevation: 15,
-                }}
-                onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleTitulo(!isModalVisibleTitulo)}</span>
-              &gt;
-                &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
-                  Aceptar
-                &lt;/Text&gt;
-              &lt;/TouchableOpacity&gt;
+      {isModalVisibleImagen &amp;&amp;
 &nbsp;
-            &lt;/View&gt;
-          &lt;/Modal&gt;
-        }
-&nbsp;
-        &lt;Modal
+<span class="branch-1 cbranch-no" title="branch not covered" >        &lt;Modal</span>
           backdropColor={'green'}
           backdropOpacity={1}
           animationType="fade"
-          visible={isModalVisibleDescripcion}
-          transparent&gt;
-&nbsp;
-          &lt;View style={styles.modalAviso}&gt;
-            &lt;AntDesign name="warning" size={35} color="#E39801" /&gt;
-            &lt;Text style={{
-              marginVertical: 20,
-              marginHorizontal: 20,
-            }}&gt;NO puedes dejar un libro sin descripción&lt;/Text&gt;
-&nbsp;
-            &lt;TouchableOpacity
-              style={{
-                width: "50%",
-                padding: 12,
-                borderRadius: 20,
-                alignItems: "center",
-                marginLeft: "auto",
-                marginRight: "auto",
-                backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
-&nbsp;
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 12,
-                },
-                shadowOpacity: 0.8,
-                shadowRadius: 6.00,
-                elevation: 15,
-              }}
-              onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleDescripcion(!isModalVisibleDescripcion)}</span>
-            &gt;
-              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
-                Aceptar
-              &lt;/Text&gt;
-            &lt;/TouchableOpacity&gt;
-&nbsp;
-          &lt;/View&gt;
-        &lt;/Modal&gt;
-&nbsp;
-        {isModalVisibleImagen &amp;&amp;
-&nbsp;
-<span class="branch-1 cbranch-no" title="branch not covered" >          &lt;Modal</span>
-            backdropColor={'green'}
-            backdropOpacity={1}
-            animationType="fade"
-            isVisible={isModalVisibleImagen}
-            transparent
-          &gt;
-&nbsp;
-            &lt;View style={styles.modalAviso}&gt;
-              &lt;AntDesign name="warning" size={35} color="#E39801" /&gt;
-              &lt;Text style={{
-                marginVertical: 20,
-                marginHorizontal: 20,
-              }}&gt;NO puedes dejar un libro sin caratula&lt;/Text&gt;
-&nbsp;
-              &lt;TouchableOpacity
-                style={{
-                  width: "50%",
-                  padding: 12,
-                  borderRadius: 20,
-                  alignItems: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
-&nbsp;
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 12,
-                  },
-                  shadowOpacity: 0.8,
-                  shadowRadius: 6.00,
-                  elevation: 15,
-                }}
-                onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleImagen(!isModalVisibleImagen)}</span>
-              &gt;
-                &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
-                  Aceptar
-                &lt;/Text&gt;
-              &lt;/TouchableOpacity&gt;
-&nbsp;
-            &lt;/View&gt;
-          &lt;/Modal&gt;
-        }
-&nbsp;
-        &lt;Modal
-          animationType="fade"
-          visible={isModalVisibleCategoria}
+          isVisible={isModalVisibleImagen}
           transparent
         &gt;
 &nbsp;
@@ -1912,7 +1891,7 @@ function WriteNewBookScreen() {
             &lt;Text style={{
               marginVertical: 20,
               marginHorizontal: 20,
-            }}&gt;NO puedes dejar un libro sin categoría&lt;/Text&gt;
+            }}&gt;NO puedes dejar un libro sin caratula&lt;/Text&gt;
 &nbsp;
             &lt;TouchableOpacity
               style={{
@@ -1933,7 +1912,7 @@ function WriteNewBookScreen() {
                 shadowRadius: 6.00,
                 elevation: 15,
               }}
-              onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleCategoria(!isModalVisibleCategoria)}</span>
+              onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleImagen(!isModalVisibleImagen)}</span>
             &gt;
               &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
                 Aceptar
@@ -1942,364 +1921,397 @@ function WriteNewBookScreen() {
 &nbsp;
           &lt;/View&gt;
         &lt;/Modal&gt;
+      }
 &nbsp;
-        {/* Pantalla normal*/}
-        {/* Head */}
-        &lt;StatusBar
-          translucent={false}
-          backgroundColor="white"
-          barStyle="dark-content"
-        /&gt;
-        {/* Head Cosas */}
-        &lt;View style={styles.head}&gt;
-          &lt;View style={{ flexDirection: "row" }}&gt;
-            &lt;TouchableOpacity testID="buttonGoBack" onPress={() =&gt; goBack()}&gt;
-              &lt;Ionicons name="arrow-back" size={24} color="white" style={{ marginTop: "auto", marginRight: 10, marginLeft: 10, }} /&gt;
-            &lt;/TouchableOpacity&gt;
-            {/*nombre e inicio*/}
-            &lt;View&gt;
-              &lt;Text style={styles.fontTitulo}&gt;Información nuevo libro&lt;/Text&gt;
-            &lt;/View&gt;
+      &lt;Modal
+        animationType="fade"
+        visible={isModalVisibleCategoria}
+        transparent
+      &gt;
+&nbsp;
+        &lt;View style={styles.modalAviso}&gt;
+          &lt;AntDesign name="warning" size={35} color="#E39801" /&gt;
+          &lt;Text style={{
+            marginVertical: 20,
+            marginHorizontal: 20,
+          }}&gt;NO puedes dejar un libro sin categoría&lt;/Text&gt;
+&nbsp;
+          &lt;TouchableOpacity
+            style={{
+              width: "50%",
+              padding: 12,
+              borderRadius: 20,
+              alignItems: "center",
+              marginLeft: "auto",
+              marginRight: "auto",
+              backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+&nbsp;
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 12,
+              },
+              shadowOpacity: 0.8,
+              shadowRadius: 6.00,
+              elevation: 15,
+            }}
+            onPress={<span class="fstat-no" title="function not covered" >e </span>=&gt; <span class="cstat-no" title="statement not covered" >setModalVisibleCategoria(!isModalVisibleCategoria)}</span>
+          &gt;
+            &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
+              Aceptar
+            &lt;/Text&gt;
+          &lt;/TouchableOpacity&gt;
+&nbsp;
+        &lt;/View&gt;
+      &lt;/Modal&gt;
+&nbsp;
+      {/* Pantalla normal*/}
+      {/* Head */}
+      &lt;StatusBar
+        translucent={false}
+        backgroundColor="white"
+        barStyle="dark-content"
+      /&gt;
+      {/* Head Cosas */}
+      &lt;View style={styles.head}&gt;
+        &lt;View style={{ flexDirection: "row" }}&gt;
+          &lt;TouchableOpacity testID="buttonGoBack" onPress={() =&gt; goBack()}&gt;
+            &lt;Ionicons name="arrow-back" size={24} color="white" style={{ marginTop: "auto", marginRight: 10, marginLeft: 10, }} /&gt;
+          &lt;/TouchableOpacity&gt;
+          {/*nombre e inicio*/}
+          &lt;View&gt;
+            &lt;Text style={styles.fontTitulo}&gt;Información nuevo libro&lt;/Text&gt;
           &lt;/View&gt;
         &lt;/View&gt;
+      &lt;/View&gt;
 &nbsp;
-        {/* Contenedor Principal*/}
-        &lt;ScrollView style={{ flexGrow: 0 }}&gt;
-          &lt;View
-            style={{
-              flex: 1,
-              marginVertical: 20,
-              marginHorizontal: 30
-            }}
-          &gt;
+      {/* Contenedor Principal*/}
+      &lt;ScrollView style={{ flexGrow: 0 }}&gt;
+        &lt;View
+          style={{
+            flex: 1,
+            marginVertical: 20,
+            marginHorizontal: 30
+          }}
+        &gt;
 &nbsp;
-            {/* Portada del libro */}
-            &lt;View style={{
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: 200,
-            }}&gt;
-              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "60%" }}&gt;
-                Cambiar portada del libro
-              &lt;/Text&gt;
+          {/* Portada del libro */}
+          &lt;View style={{
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 200,
+          }}&gt;
+            &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "60%" }}&gt;
+              Cambiar portada del libro
+            &lt;/Text&gt;
 &nbsp;
-              {/* Imagenes Books nuevos blur */}
-              &lt;View
+            {/* Imagenes Books nuevos blur */}
+            &lt;View
+              style={{
+                elevation: 12,
+                position: "absolute",
+                top: 120,
+                borderRadius: 15,
+                overflow: "hidden",
+                opacity: 0.3,
+              }}
+            &gt;
+              &lt;Image
+                blurRadius={15}
+                style={{ width: 130, height: 80 }}
+                source={{ uri: `${image}` }}
+              /&gt;
+            &lt;/View&gt;
+            {/* Imagenes Books nuevos */}
+            &lt;TouchableOpacity
+              testID="buttonPickImage"
+              style={{
+                marginHorizontal: 10,
+              }}
+              onPress={e =&gt; pickImageF()}
+            &gt;
+              &lt;ImageBackground
+                source={{ uri: `${image}` }}
                 style={{
-                  elevation: 12,
-                  position: "absolute",
-                  top: 120,
+                  width: 110,
+                  height: 150,
                   borderRadius: 15,
                   overflow: "hidden",
-                  opacity: 0.3,
                 }}
-              &gt;
-                &lt;Image
-                  blurRadius={15}
-                  style={{ width: 130, height: 80 }}
-                  source={{ uri: `${image}` }}
-                /&gt;
-              &lt;/View&gt;
-              {/* Imagenes Books nuevos */}
-              &lt;TouchableOpacity
-                testID="buttonPickImage"
-                style={{
-                  marginHorizontal: 10,
-                }}
-                onPress={e =&gt; pickImageF()}
-              &gt;
-                &lt;ImageBackground
-                  source={{ uri: `${image}` }}
-                  style={{
-                    width: 110,
-                    height: 150,
-                    borderRadius: 15,
-                    overflow: "hidden",
-                  }}
-                &gt;&lt;/ImageBackground&gt;
-              &lt;/TouchableOpacity&gt;
-            &lt;/View&gt;
+              &gt;&lt;/ImageBackground&gt;
+            &lt;/TouchableOpacity&gt;
+          &lt;/View&gt;
 &nbsp;
-            {/* Titulo del libro*/}
-            &lt;View style={{ marginTop: 10, }}&gt;
-              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
-                Título del libro
+          {/* Titulo del libro*/}
+          &lt;View style={{ marginTop: 10, }}&gt;
+            &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
+              Título del libro
+            &lt;/Text&gt;
+            &lt;TextInput
+              placeholder="Título"
+              placeholderTextColor="black"
+              value={tituloLibro}
+              onChangeText={(text) =&gt; setTituloLibro(text)}
+              style={{
+                marginRight: 20,
+                marginLeft: 20,
+                paddingHorizontal: 20,
+                paddingVertical: 10,
+                borderRadius: 10,
+                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria ? "#8D8D8D" : "#f8f8f8"
+              }}
+            &gt;&lt;/TextInput&gt;
+          &lt;/View&gt;
+          {/* Descripción del libro */}
+          &lt;View style={{ marginTop: 10, }}&gt;
+            &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
+              Descripción del libro
+            &lt;/Text&gt;
+            &lt;TextInput
+              placeholder="Descripción"
+              placeholderTextColor="black"
+              value={descripcionLibro}
+              onChangeText={(text) =&gt; contarPalabrasDescipcion(text, 500)}
+              style={{
+                marginRight: 20,
+                marginLeft: 20,
+                paddingHorizontal: 20,
+                paddingVertical: 10,
+                borderRadius: 10,
+                color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria ? "#8D8D8D" : "#f8f8f8"
+              }}
+              multiline={true}
+              numberOfLines={4}
+              textAlignVertical="top"
+            &gt;&lt;/TextInput&gt;
+            &lt;Text style={{
+              marginLeft: "80%"
+            }}&gt; {descripcionLibro.length}/500&lt;/Text&gt;
+          &lt;/View&gt;
+&nbsp;
+          {/* Categorías */}
+          &lt;View&gt;
+            &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
+              Categorías
+            &lt;/Text&gt;
+            &lt;DropDownPicker
+              style={{
+                borderColor: "#8EAF20",
+                height: 50,
+                marginLeft: 50,
+                width: "80%",
+                marginTop: 10, backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria ? "#8D8D8D" : "#f8f8f8"
+              }}
+              open={estadoOpen}
+              value={value}
+              items={categoriasFirebase}
+              setOpen={setEstadoOpen}
+              setValue={setValue}
+              setItems={setCategoriasFirebase}
+              placeholder="Seleccionar categorias"
+              placeholderStyle={styles.placeholderStyles}
+              dropDownContainerStyle={styles.dropDownContainerStyle}
+              scrollViewProps={{
+                decelerationRate: "fast"
+              }}
+              zIndex={3000}
+              zIndexInverse={1000}
+              multiple={true}
+              min={1}
+              max={3}
+              mode="BADGE"
+            /&gt;
+            {/* Etiquetas */}
+            &lt;View&gt;
+              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
+                Etiquetas
               &lt;/Text&gt;
+&nbsp;
+              {/* Etiquetas explorar */}
+&nbsp;
+              &lt;View&gt;
+                &lt;FlatList
+                  contentContainerStyle={{ paddingTop: 5 }}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={etiquetas}
+                  keyExtractor={(item, index) =&gt; {
+                    return index.toString();
+                  }}
+                  renderItem={({ item, index }) =&gt; renderEtiquetas(item, index)}
+                &gt;&lt;/FlatList&gt;
+              &lt;/View&gt;
+&nbsp;
               &lt;TextInput
-                placeholder="Título"
+                placeholder="Etiqueta"
                 placeholderTextColor="black"
-                value={tituloLibro}
-                onChangeText={(text) =&gt; setTituloLibro(text)}
+                value={textoEtiqueta}
+                onChangeText={(text) =&gt; contarPalabrasEtiqueta(text, 50)}
                 style={{
                   marginRight: 20,
                   marginLeft: 20,
                   paddingHorizontal: 20,
-                  paddingVertical: 10,
+                  paddingVertical: 5,
                   borderRadius: 10,
-                  color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
+                  color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria ? "#8D8D8D" : "#f8f8f8"
                 }}
-              &gt;&lt;/TextInput&gt;
-            &lt;/View&gt;
-            {/* Descripción del libro */}
-            &lt;View style={{ marginTop: 10, }}&gt;
-              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
-                Descripción del libro
-              &lt;/Text&gt;
-              &lt;TextInput
-                placeholder="Descripción"
-                placeholderTextColor="black"
-                value={descripcionLibro}
-                onChangeText={(text) =&gt; contarPalabrasDescipcion(text, 500)}
-                style={{
-                  marginRight: 20,
-                  marginLeft: 20,
-                  paddingHorizontal: 20,
-                  paddingVertical: 10,
-                  borderRadius: 10,
-                  color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
-                }}
-                multiline={true}
-                numberOfLines={4}
-                textAlignVertical="top"
               &gt;&lt;/TextInput&gt;
               &lt;Text style={{
                 marginLeft: "80%"
-              }}&gt; {descripcionLibro.length}/500&lt;/Text&gt;
-            &lt;/View&gt;
-&nbsp;
-            {/* Categorías */}
-            &lt;View&gt;
-              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
-                Categorías
-              &lt;/Text&gt;
-              &lt;DropDownPicker
-                style={{
-                  borderColor: "#8EAF20",
-                  height: 50,
-                  marginLeft: 50,
-                  width: "80%",
-                  marginTop: 10, backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
-                }}
-                open={estadoOpen}
-                value={value}
-                items={categoriasFirebase}
-                setOpen={setEstadoOpen}
-                setValue={setValue}
-                setItems={setCategoriasFirebase}
-                placeholder="Seleccionar categorias"
-                placeholderStyle={styles.placeholderStyles}
-                dropDownContainerStyle={styles.dropDownContainerStyle}
-                scrollViewProps={{
-                  decelerationRate: "fast"
-                }}
-                zIndex={3000}
-                zIndexInverse={1000}
-                multiple={true}
-                min={1}
-                max={3}
-                mode="BADGE"
-              /&gt;
-              {/* Etiquetas */}
-              &lt;View&gt;
-                &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 5, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}&gt;
-                  Etiquetas
-                &lt;/Text&gt;
-&nbsp;
-                {/* Etiquetas explorar */}
-&nbsp;
-                &lt;View&gt;
-                  &lt;FlatList
-                    contentContainerStyle={{ paddingTop: 5 }}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    data={etiquetas}
-                    keyExtractor={(item, index) =&gt; {
-                      return index.toString();
-                    }}
-                    renderItem={({ item, index }) =&gt; renderEtiquetas(item, index)}
-                  &gt;&lt;/FlatList&gt;
-                &lt;/View&gt;
-&nbsp;
-                &lt;TextInput
-                  placeholder="Etiqueta"
-                  placeholderTextColor="black"
-                  value={textoEtiqueta}
-                  onChangeText={(text) =&gt; contarPalabrasEtiqueta(text, 50)}
-                  style={{
-                    marginRight: 20,
-                    marginLeft: 20,
-                    paddingHorizontal: 20,
-                    paddingVertical: 5,
-                    borderRadius: 10,
-                    color: "#429EBD", backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
-                  }}
-                &gt;&lt;/TextInput&gt;
-                &lt;Text style={{
-                  marginLeft: "80%"
-                }}&gt; {textoEtiqueta.length}/50&lt;/Text&gt;
-                &lt;TouchableOpacity
-                  testID="buttonAñadirEtiquetas"
-                  style={{
-                    marginHorizontal: 10,
-                    width: "50%",
-                    borderRadius: 20,
-                    alignItems: "center",
-                    backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 12,
-                    },
-                    shadowOpacity: 0.8,
-                    shadowRadius: 6.00,
-                    elevation: 5,
-                  }}
-                  onPress={() =&gt; añadirEtiquetas(textoEtiqueta)}
-                &gt;
-                  &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
-                    Añadir etiqueta
-                  &lt;/Text&gt;
-                &lt;/TouchableOpacity&gt;
-              &lt;/View&gt;
-&nbsp;
+              }}&gt; {textoEtiqueta.length}/50&lt;/Text&gt;
               &lt;TouchableOpacity
-              testID="buttonSiguiente"
+                testID="buttonAñadirEtiquetas"
                 style={{
+                  marginHorizontal: 10,
                   width: "50%",
-                  marginTop: 25,
-                  padding: 12,
                   borderRadius: 20,
                   alignItems: "center",
-                  marginLeft: "auto",
-                  marginRight: "auto",
-                  backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
-&nbsp;
+                  backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria  ? "#8D8D8D" : "#E39801",
                   shadowColor: "#000",
                   shadowOffset: {
                     width: 0,
-                    height: 1,
+                    height: 12,
                   },
                   shadowOpacity: 0.8,
                   shadowRadius: 6.00,
                   elevation: 5,
                 }}
-                onPress={e =&gt; crearLibro()}
+                onPress={() =&gt; añadirEtiquetas(textoEtiqueta)}
               &gt;
                 &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
-                  Siguiente
+                  Añadir etiqueta
                 &lt;/Text&gt;
               &lt;/TouchableOpacity&gt;
             &lt;/View&gt;
+&nbsp;
+            &lt;TouchableOpacity
+              testID="buttonSiguiente"
+              style={{
+                width: "50%",
+                marginTop: 25,
+                padding: 12,
+                borderRadius: 20,
+                alignItems: "center",
+                marginLeft: "auto",
+                marginRight: "auto",
+                backgroundColor: isModalVisible || isModalVisibleDescripcion || isModalVisibleTitulo || isModalVisibleCategoria  ? "#8D8D8D" : "#E39801",
+&nbsp;
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.8,
+                shadowRadius: 6.00,
+                elevation: 5,
+              }}
+              onPress={e =&gt; crearLibro()}
+            &gt;
+              &lt;Text style={{ fontSize: 15, fontWeight: "bold", color: "white" }}&gt;
+                Siguiente
+              &lt;/Text&gt;
+            &lt;/TouchableOpacity&gt;
           &lt;/View&gt;
-        &lt;/ScrollView&gt;
-      &lt;/SafeAreaView&gt;
-    )
-  }
-  const styles = StyleSheet.create({
-    head: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      backgroundColor: "#429EBD",
-      borderBottomRightRadius: 500,
-      height: 70,
+        &lt;/View&gt;
+      &lt;/ScrollView&gt;
+    &lt;/SafeAreaView&gt;
+  )
+}
+const styles = StyleSheet.create({
+  head: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#429EBD",
+    borderBottomRightRadius: 500,
+    height: 70,
 &nbsp;
-    },
-    textWait: {
-      marginBottom: 10,
-      fontSize: 15,
-      color: "black",
-      fontWeight: "bold",
-      marginLeft: "auto",
-      marginRight: "auto"
-    },
-    lottieModalWait: {
-      marginTop: "auto",
-      marginBottom: "auto",
-      marginLeft: "auto",
-      marginRight: "auto",
-      height: '100%',
-      width: '100%'
-    },
-    fontTitulo: {
-      paddingTop: 10,
-      fontWeight: "bold",
-      color: "white",
-      fontSize: 25,
-    },
-    containerPrincipal: {
-      backgroundColor: "white",
-    },
-    modalContainer: {
-      marginLeft: "auto",
-      marginRight: "auto",
-      alignItems: 'center',
-      height: '100%', width: '100%',
-    },
-    modalView: {
-      flexDirection: 'row',
-      justifyContent: 'center', alignItems: 'center',
-      top: 100,
-      width: '85%', height: 50,
-      backgroundColor: 'white',
-      borderRadius: 8
-    },
-    textStyle: {
-      color: 'black',
-      textAlign: 'center',
-      fontSize: 12,
-      marginLeft: 20
-    },
-    dropdown: {
-      borderColor: "#8EAF20",
-      width: "80%",
-    },
-    dropDownContainerStyle: {
-      borderColor: "#8EAF20",
-      width: "70%",
+  },
+  textWait: {
+    marginBottom: 10,
+    fontSize: 15,
+    color: "black",
+    fontWeight: "bold",
+    marginLeft: "auto",
+    marginRight: "auto"
+  },
+  lottieModalWait: {
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    height: '100%',
+    width: '100%'
+  },
+  fontTitulo: {
+    paddingTop: 10,
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 25,
+  },
+  containerPrincipal: {
+    backgroundColor: "white",
+  },
+  modalContainer: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    alignItems: 'center',
+    height: '100%', width: '100%',
+  },
+  modalView: {
+    flexDirection: 'row',
+    justifyContent: 'center', alignItems: 'center',
+    top: 100,
+    width: '85%', height: 50,
+    backgroundColor: 'white',
+    borderRadius: 8
+  },
+  textStyle: {
+    color: 'black',
+    textAlign: 'center',
+    fontSize: 12,
+    marginLeft: 20
+  },
+  dropdown: {
+    borderColor: "#8EAF20",
+    width: "80%",
+  },
+  dropDownContainerStyle: {
+    borderColor: "#8EAF20",
+    width: "70%",
 &nbsp;
-    },
-    placeholderStyles: {
-      color: "grey",
-    },
-    viewEtiquetas: {
-      borderColor: "#8EAF20",
-      marginHorizontal: 5,
-      paddingHorizontal: 10,
-      paddingVertical: 5,
-      borderWidth: 1,
-      borderRadius: 15,
-      backgroundColor: `white`,
-      alignItems: "center",
-      justifyContent: "center",
-      marginBottom: 10,
-      flexDirection: "row"
-    },
-    modalAviso: {
-      marginTop: "auto",
-      marginBottom: "auto",
-      marginLeft: "auto",
-      marginRight: "auto",
-      height: 200,
-      borderColor: "#8EAF20",
-      borderRadius: 20,
-      borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
-      shadowColor: "black",
-      shadowOpacity: 0.89,
-      shadowOffset: { width: 0, height: 9 },
-      shadowRadius: 10,
-      elevation: 12,
-    },
-  });
-  export default WriteNewBookScreen</pre></td></tr></table></pre>
+  },
+  placeholderStyles: {
+    color: "grey",
+  },
+  viewEtiquetas: {
+&nbsp;
+  },
+  modalAviso: {
+    marginTop: "auto",
+    marginBottom: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    height: 200,
+    borderColor: "#8EAF20",
+    borderRadius: 20,
+    borderWidth: 2, backgroundColor: 'white', alignItems: 'center', justifyContent: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.89,
+    shadowOffset: { width: 0, height: 9 },
+    shadowRadius: 10,
+    elevation: 12,
+  },
+});
+export default WriteNewBookScreen</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-02-22T14:50:24.977Z
+                at 2023-06-04T21:41:46.417Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

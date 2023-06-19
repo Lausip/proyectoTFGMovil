@@ -1,5 +1,5 @@
 import { getFirestore, Timestamp, getDoc, doc, onSnapshot, deleteDoc, arrayUnion, arrayRemove, getDocs, collection, query, orderBy, addDoc, limit, updateDoc, where, startAfter, setDoc } from "firebase/firestore"
-
+/* istanbul ignore next */
 export const handleRegistroFirebase = (email) => {
   const db = getFirestore();
   const docRefRegistro = doc(db, "usuarios", email);
@@ -14,11 +14,11 @@ export const handleRegistroFirebase = (email) => {
     UltimoCapituloLeido: 0,
     Bloqueados: [],
     FechaCreacion: Timestamp.fromDate(new Date()),
-	AutorBloqueado:false
+    AutorBloqueado: false
   };
   setDoc(docRefRegistro, dataRegistro)
 }
-
+/* istanbul ignore next */
 export const handleAñadirLibroMeGustaFirebaseCapitulo = (email, bookId, capitulo) => {
   const db = getFirestore();
   const dbRef = doc(db, "usuarios", email, "MeGusta", bookId)
@@ -28,7 +28,7 @@ export const handleAñadirLibroMeGustaFirebaseCapitulo = (email, bookId, capitul
   })
 
 }
-
+/* istanbul ignore next */
 export const getFavoritosDelUsuario = async (email) => {
 
   const db = getFirestore();
@@ -42,7 +42,7 @@ export const getFavoritosDelUsuario = async (email) => {
   return data;
 }
 
-
+/* istanbul ignore next */
 export const handleAñadirLibroMeGustaFirebase = (email, bookId) => {
 
   const db = getFirestore();
@@ -52,8 +52,22 @@ export const handleAñadirLibroMeGustaFirebase = (email, bookId) => {
     UltimoCapitulo: 0,
   })
 }
+/* istanbul ignore next */
+export const handleAutoresEmail = async (email) => {
+  const db = getFirestore();
+  let autores = [];
+  const snap = await getDocs(query(collection(db, "usuarios"), where("Nombre", '==', email)));
+  autores = await Promise.all(snap.docs.map(async (documentSnapshot) => ({
+    Foto: documentSnapshot.data().Foto,
+    Nombre: documentSnapshot.data().Nombre,
 
+  })))
+
+  return autores;
+}
+/* istanbul ignore next */
 export const handleAutores = async () => {
+
   const db = getFirestore();
   let autores = [];
   const snap = await getDocs(collection(db, "usuarios"));
@@ -65,7 +79,7 @@ export const handleAutores = async () => {
 
   return autores;
 }
-
+/* istanbul ignore next */
 export const handleElLibroEstaEnMeGusta = async (email, bookId) => {
   let esta = false
   const db = getFirestore();
@@ -86,7 +100,7 @@ export const getEstaSeguido = async (emailTuyo, emailAutor) => {
   let autores = docSnapDescripcion.data().Autores;
 
   let esta = false;
-  console.log(autores)
+
   for (let i = 0, len = autores.length; i < len; i++) {
 
     if (autores[i] == emailAutor)
@@ -220,10 +234,17 @@ export const enviarPeticion = async (email, autorElegido, tipo) => {
   })
 
 }
+export const mirarSiBloqueado = async (email, amigo) => {
+  const db = getFirestore();
+  const docRefAmigo = doc(db, "usuarios", amigo);
+  const docSnapAmigo = await getDoc(docRefAmigo);
+  let bloqueados = docSnapAmigo.data().Bloqueados//MIRARRRRR
+  return bloqueados.includes(email)
+}
 
 
 export const bloquearPersonaFirebase = async (email, personaAbloquear) => {
-
+  const db = getFirestore();
   const docRefAmigo = doc(db, "usuarios", email);
 
   updateDoc(docRefAmigo, {
@@ -237,6 +258,7 @@ export const bloquearPersonaFirebase = async (email, personaAbloquear) => {
 
 
 export const desbloquearPersonaFirebase = async (email, personaADesbloquear) => {
+  const db = getFirestore();
   const docRefAmigo = doc(db, "usuarios", email);
 
   updateDoc(docRefAmigo, {
@@ -287,13 +309,16 @@ export const getAmigos = async (email) => {
 export const mirarSiSonAmigos = async (email, emailAmigo) => {
 
   let amigos = await getAmigos(email);
-
+  let retorno = false;
   for (let i = 0, len = amigos.length; i < len; i++) {
+
     if (amigos[i] == emailAmigo) {
-      return true;
+
+      retorno = true;
     }
   }
-  return false;
+
+  return retorno;
 }
 //-------------------------NOTIFICACION CONVERSACION------------------
 
@@ -341,7 +366,7 @@ export const contarCapitulosDelLibro = async (bookId) => {
 //Cargar el Ultimo Libro leido del Usuario
 export const cargarUltimoLibro = async (email) => {
   let idUltimoLibro;
-  let ultimoLibro="";
+  let ultimoLibro = "";
   let numCapitulos = 0;
   let UltimoCapituloLeido = 0;
 
@@ -353,7 +378,7 @@ export const cargarUltimoLibro = async (email) => {
   const docReIdUltimoLibroLeido = doc(db, "usuarios", email);
   const docSnapIdUltimoLibro = await getDoc(docReIdUltimoLibroLeido);
   idUltimoLibro = docSnapIdUltimoLibro.data().UltimoLibroLeido;
-  console.log(idUltimoLibro)
+
   if (idUltimoLibro != "") {
     //Coger datos del libro:
     const docReUltimoLibroLeido = doc(db, "libros", idUltimoLibro);

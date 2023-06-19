@@ -20,6 +20,7 @@ export default function HomeStack() {
       <Stack.Screen name="profileScreen" component={ProfileScreen} /> 
       <Stack.Screen name="notificacionScreen" component={NotificacionesScreen} /> 
       <Stack.Screen name="detailsBookScreen" component={DetailBookScreen} /> 
+
      <Stack.Screen name="bookScreen" component={BooksScreen} /> 
      <Stack.Screen name="reportBookScreen" component={ReportarBookScreen} /> 
      <Stack.Screen name="chatConversationScreen" component={ChatConversationScreen} />

@@ -81,7 +81,7 @@ function WriteChapterBooksScreen({ route }) {
 
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor: isModalVisible ? "#A7A7A7" : "white",
+      backgroundColor: isModalVisible||isModalVisibleTitulo? "#A7A7A7" : "white",
     }}>
 
       <Modal
@@ -120,7 +120,7 @@ function WriteChapterBooksScreen({ route }) {
           <Text style={{
             marginVertical: 20,
             marginHorizontal: 20,
-          }}>NO puedes dejar un libro sin titulo</Text>
+          }}>NO puedes dejar un libro sin título</Text>
 
           <TouchableOpacity
             style={{
@@ -171,7 +171,7 @@ function WriteChapterBooksScreen({ route }) {
               alignItems: "center",
               marginLeft: "auto",
               marginRight: "auto",
-              backgroundColor: isModalVisible ? "#8D8D8D" : "#B00020",
+              backgroundColor: isModalVisible||isModalVisibleTitulo ? "#8D8D8D" : "#B00020",
 
               shadowColor: "#000",
               shadowOffset: {
@@ -217,7 +217,7 @@ function WriteChapterBooksScreen({ route }) {
               alignItems: "center",
               marginLeft: 35,
               marginRight: "auto",
-              backgroundColor: isModalVisible ? "#8D8D8D" : "#E39801",
+              backgroundColor: isModalVisible||isModalVisibleTitulo ? "#8D8D8D" : "#E39801",
               shadowColor: "#000",
               shadowOffset: {
                 width: 0,
@@ -241,7 +241,12 @@ function WriteChapterBooksScreen({ route }) {
 
 
       <ScrollView>
-        <View style={styles.containerView}>
+        <View style={{
+          maxHeight: 850,
+          backgroundColor: isModalVisible || isModalVisibleTitulo ? "#A7A7A7" : "white",
+          marginHorizontal: 30,
+          marginTop: 10,  
+        }}>
           {/* Titulo capitulo del libro*/}
           <Text style={{ fontSize: 15, fontWeight: "bold", color: "black", marginTop: 10, marginBottom: 10, borderBottomColor: "#8EAF20", borderBottomWidth: 3, width: "50%" }}>
             Título del capitulo
@@ -258,7 +263,7 @@ function WriteChapterBooksScreen({ route }) {
               paddingHorizontal: 20,
               paddingVertical: 10,
               borderRadius: 10,
-              color: "#429EBD", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8"
+              color: "black", backgroundColor: isModalVisible||isModalVisibleTitulo ? "#8D8D8D" : "#f8f8f8"
             }}
             multiline={true}
             scrollEnabled={true}
@@ -274,9 +279,9 @@ function WriteChapterBooksScreen({ route }) {
               value={contenidoLibro}
               onChangeText={(text) => setContenidoLibro(text)}
               style={{
-                paddingHorizontal: 10,
+                padding:10,
                 borderRadius: 10,
-                color: "black", backgroundColor: isModalVisible ? "#8D8D8D" : "#f8f8f8",
+                color: "black", backgroundColor: isModalVisible||isModalVisibleTitulo? "#8D8D8D" : "#f8f8f8",
                 textAlign: 'justify'
               }}
               multiline={true}
@@ -300,9 +305,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderRadius: 60,
   },
-  containerView: {
-    marginHorizontal: 30,
-  },
+
   textWait: {
     marginBottom: 10,
     fontSize: 15,

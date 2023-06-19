@@ -1,5 +1,5 @@
 import { View, Text, FlatList, SafeAreaView, StyleSheet, StatusBar, TouchableOpacity, Image, ImageBackground, Modal, BackHandler } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,CommonActions } from "@react-navigation/native";
 import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Ionicons, Foundation, Entypo } from '@expo/vector-icons';
 import { getUserAuth } from "../../hooks/Auth/Auth";
@@ -10,6 +10,7 @@ import {
     Menu,
     MenuOptions,
     MenuTrigger,
+    MenuOption ,
 } from 'react-native-popup-menu';
 
 import { cargarBooksAutorPerfil } from "../../hooks/FirebaseLibros";
@@ -25,7 +26,7 @@ function AutoresScreen({ route }) {
     const [seguidores, setSeguidores] = useState(0);
     const [libros, setLibros] = useState(0);
     const [seguidos, setSeguidos] = useState(0);
-    const [estaSeguido, setEstaSeguido] = useState(true);
+    const [estaSeguido, setEstaSeguido] = React.useState(true);
     const [sonAmigos, setSonAmigos] = useState(false);
     const { autorElegido, screen } = route.params;
 
@@ -48,7 +49,8 @@ function AutoresScreen({ route }) {
     });
 
     const goBack = () => {
-        navigation.replace(screen);
+
+        navigation.navigate(screen);
     }
 
     const hacerCosas = async () => {
@@ -56,6 +58,7 @@ function AutoresScreen({ route }) {
         setModalVisible(true)
         let e = await getUserAuth()
         setEmail(e);
+        setSonAmigos(await mirarSiSonAmigos(e, autorElegido));
         setEstaSeguido(await getEstaSeguido(e, autorElegido));
         setFotoPerfil(await getFotoPerfil(autorElegido));
         setDescripcion(await getDescripcionUsuario(autorElegido));
@@ -64,9 +67,10 @@ function AutoresScreen({ route }) {
         let seguidoss = await getNumAutoresSeguidos(autorElegido);
         setSeguidos(seguidoss);
         setSeguidores(await getNumSeguidores(autorElegido));
-        setSonAmigos(mirarSiSonAmigos(e, autorElegido));
         setModalVisible(false);
-        setLibrosArray(await cargarBooks());
+        let con=await cargarBooksAutorPerfil(autorElegido);
+        setLibrosArray(con);
+
 
 
     }
@@ -75,11 +79,10 @@ function AutoresScreen({ route }) {
             bookId: item.key,
         });
     }
-    const cargarBooks = async () => {
-        return cargarBooksAutorPerfil(autorElegido)
-    }
+
 
     const addAmigo = async () => {
+        setOpenMenu(false)
         setModalVisibleEnviarMensaje(true);
         enviarPeticion(email, autorElegido, "Amistad");
         setModalVisibleEnviarMensaje(false);
@@ -94,7 +97,7 @@ function AutoresScreen({ route }) {
     const reportarAutor = async () => {
         setOpenMenu(false);
         navigation.navigate("reportAutorScreen", {
-            autorElegido:autorElegido
+            autorElegido: autorElegido
         });
 
     }
@@ -107,30 +110,47 @@ function AutoresScreen({ route }) {
 
 
     const enviarMensaje = async () => {
+        setOpenMenu(false)
         let salaaaaa;
         let existe = await existeSala(email, autorElegido)
+     
         //Mirar si ya hay sala
         if (!existe) {
             //Mirar si son amigos:
             if (sonAmigos) {
                 await addSala(email, autorElegido, true);
+                salaaaaa = await cogerSala(autorElegido, email);
+                navigation.navigate("chatConversationScreen", {
+                    sala: salaaaaa,
+                    screen: "autorScreen",
+
+                });
             }
             else {
                 //Añadir Sala
                 await addSala(email, autorElegido, false);
+
                 //Mandar notificación:
                 await enviarPeticion(email, autorElegido, "Conversacion");
+                salaaaaa = await cogerSala(autorElegido, email);
+
+                navigation.navigate("chatConversationScreen", {
+                    sala: salaaaaa,
+                    screen: "autorScreen",
+
+                });
             }
-            salaaaaa = await cogerSala(autorElegido, email);
+         
         }
         else {
             salaaaaa = await cogerSala(autorElegido, email);
-        }
-        navigation.navigate("chatConversationScreen", {
-            sala: salaaaaa,
-            screen: "autorScreen",
+            navigation.navigate("chatConversationScreen", {
+                sala: salaaaaa,
+                screen: "autorScreen",
 
-        });
+            });
+        }
+   
     }
     function renderNewBooks(item, index) {
         return (
@@ -140,7 +160,7 @@ function AutoresScreen({ route }) {
                     style={{
                         elevation: 12,
                         position: "absolute",
-                        bottom: 20,
+                        bottom: 45,
                         left: 5,
                         borderRadius: 15,
                         overflow: "hidden",
@@ -179,6 +199,7 @@ function AutoresScreen({ route }) {
                         fontSize: 13,
                         color: "black",
                         fontWeight: "bold",
+                        width:100
                     }}
                 >
                     {item.Titulo}
@@ -244,12 +265,13 @@ function AutoresScreen({ route }) {
 
             }}>
                 {/* Menu de acciones*/}
-                <View style={{ marginTop: 20, alignItems: "flex-end", marginHorizontal: 20, }}>
-                    <Menu opened={openMenu}>
-                        <MenuTrigger  onPress={()=>setOpenMenu(true)}>
+                <View style={{ marginTop: 20, alignItems: "flex-end", marginHorizontal: 20 }}>
+                    <Menu onBackdropPress={() => setOpenMenu(false)} opened={openMenu} >
+                        <MenuTrigger onPress={() => setOpenMenu(true)}>
                             <Entypo name="dots-three-vertical" size={24} color="black" />
                         </MenuTrigger>
-                        <MenuOptions style={{
+                        <MenuOptions optionsContainerStyle={{ marginLeft: -20, }} style={{
+
                             alignItems: "center",
                             borderRadius: 8,
                             shadowColor: "black",
@@ -262,14 +284,14 @@ function AutoresScreen({ route }) {
 
                         }}>
                             {!sonAmigos &&
-                                <MenuTrigger style={{ marginBottom: 5 }} testID="buttonAddAmigo" onPress={() => addAmigo()} text='Añadir a amigos'  />
+                                <MenuOption  style={{ marginBottom: 5 }} testID="buttonAddAmigo" onSelect={() => addAmigo()} text='Añadir a amigos' />
                             }
-                            <MenuTrigger style={{ marginBottom: 5 }} testID="buttonEnviarMensaje" onPress={() => enviarMensaje()} text='Enviar Mensaje privado' />
-                            <MenuTrigger style={{
+                            <MenuOption  style={{ marginBottom: 5 }} testID="buttonEnviarMensaje" onSelect={() => enviarMensaje()} text='Enviar Mensaje privado' />
+                            <MenuOption  style={{
                                 marginBottom: 5
-                            }} testID="buttonReportar" onPress={() => reportarAutor()}>
+                            }} testID="buttonReportar" onSelect={() => reportarAutor()}>
                                 <Text style={{ color: '#B00020' }}>Reportar</Text>
-                            </MenuTrigger>
+                            </MenuOption >
 
                         </MenuOptions>
                     </Menu>
@@ -457,7 +479,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#429EBD",
+        backgroundColor: "#2B809C",
         borderBottomRightRadius: 500,
         height: 70,
     },
@@ -515,13 +537,13 @@ const styles = StyleSheet.create({
         marginTop: 30,
         height: 100,
         width: 180,
-      },
-      textImage: {
+    },
+    textImage: {
         marginTop: 30,
         marginLeft: "auto",
         marginRight: "auto",
         fontSize: 15,
-    
-      },
+
+    },
 });
 export default AutoresScreen

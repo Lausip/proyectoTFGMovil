@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   ImageBackground, Image,
-  Modal, StatusBar, ScrollView, TextInput, FlatList
+  Modal, StatusBar, BackHandler, TextInput, FlatList
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect, useEffect, useState } from "react";
@@ -27,7 +27,7 @@ function ExploreScreen({ route }) {
   const [textoBusqueda, setTextoBusqueda] = useState("");
   const [textoBusqueda2, setTextoBusqueda2] = useState("");
   const [email, setEmail] = useState("");
-  const [tag, setTag] = useState("Titulo");
+  const [tag, setTag] = useState("Título");
   const [categoriaPulsada, setCategoriaPulsada] = useState("");
 
   const [isModalTagsVisible, setModalTagsVisible] = useState(false);
@@ -42,17 +42,17 @@ function ExploreScreen({ route }) {
   const [lastItemIdCategoria, setLastItemIdCategoria] = useState("");
   const [lastItemIdTitulo, setLastItemIdTitulo] = useState("");
   const categorias = ["Libros", "Autores"];
-  const filtros = ["Titulo", "Etiqueta", "Categoría"];
+  const filtros = ["Título", "Etiqueta", "Categoría"];
 
 
   const [seleccionadoCategoriaIndex, setSeleccionadoCategoriaIndex] = useState(0);
 
   useEffect(() => {
-
-    const unsubscribe = navigation.addListener('focus', () => {
+    BackHandler.addEventListener('hardwareBackPress', goBack);
       hacerCosas();
-    });
-    return unsubscribe;
+      return () =>
+      BackHandler.removeEventListener('hardwareBackPress', goBack);
+
   }, [email, route]);
 
   useLayoutEffect(() => {
@@ -62,6 +62,9 @@ function ExploreScreen({ route }) {
 
   }, []);
 
+  const goBack = (autorPulsado) => {
+    navigation.replace("home");
+  }
   const goAutorProfile = (autorPulsado) => {
     navigation.replace("autorScreen", {
       autorElegido: autorPulsado,
@@ -80,12 +83,24 @@ function ExploreScreen({ route }) {
     setModalVisible(true)
     setSeleccionadoCategoriaIndex(index);
     if (index == 0) {
+
       await cargarLibros("");
       setAutores([]);
+      setLastItemId("");
+      setCategoriaPulsada("")
+      setLastItemIdCategoria("")
+      setLastItemIdEtiqueta("")
+      setLastItemIdTitulo("")
+      setTextoBusqueda("")
+      setTextoBusqueda2("")
+      setTag("Título")
     }
     else {
+ 
       await cargarAutores();
       setLibros([]);
+
+
     }
     setModalVisible(false)
   };
@@ -105,8 +120,8 @@ function ExploreScreen({ route }) {
           setLastItemIdCategoria("")
         }
       }
-      if (tag == "Titulo") {
-        let array = await cargarDatosLibrosFiltroFunction(textoBusqueda2, lastItemIdTitulo, "Titulo");
+      if (tag == "Título") {
+        let array = await cargarDatosLibrosFiltroFunction(textoBusqueda2, lastItemIdTitulo, "Título");
         if (array[1] != "") {
           setLastItemIdTitulo(array[1]);
           let booksFinal = [...libros, ...array[0]];
@@ -117,24 +132,25 @@ function ExploreScreen({ route }) {
         }
 
       }
-      else {
-        let array = await cargarDatosLibrosFiltroFunction(textoBusqueda2, lastItemIdEtiqueta, "Categoría");
-        if (array[1] != "") {
-          setLastItemIdEtiqueta(array[1]);
-          let booksFinal = [...libros, ...array[0]];
-          setLibros(booksFinal);
-          setLastItemId("");
-          setLastItemIdTitulo("");
 
-        }
-      }
       setModalVisible(false)
     }
+    if (categoriaPulsada != "") {
+      let array = await cargarDatosLibrosFiltroFunction(categoriaPulsada, lastItemIdCategoria, "Categoría");
+      if (array[1] != "") {
+        setLastItemIdEtiqueta(array[1]);
+        let booksFinal = [...libros, ...array[0]];
+        setLibros(booksFinal);
+        setLastItemId("");
+        setLastItemIdEtiqueta("");
+        setLastItemIdTitulo("");
 
-    if (textoBusqueda2 == "" ) {
+      }
+    }
+    if (textoBusqueda2 == "" && categoriaPulsada == "") {
       await cargarLibros(lastItemId);
     }
-   
+
 
 
   }
@@ -165,8 +181,8 @@ function ExploreScreen({ route }) {
     if (filtro == "Etiqueta") {
       return await cargarDatosLibrosFiltro(textoBusqueda, lastItem, "Etiqueta");
     }
-    if (filtro == "Titulo") {
-      return await cargarDatosLibrosFiltro(textoBusqueda, lastItem, "Titulo");
+    if (filtro == "Título") {
+      return await cargarDatosLibrosFiltro(textoBusqueda, lastItem, "Título");
 
     }
     if (filtro == "Categoría") {
@@ -176,12 +192,15 @@ function ExploreScreen({ route }) {
   };
 
   const cargarAutores = async () => {
+   
     let autoresT = await handleAutores();
     setAutores(autoresT);
   };
 
   const getTags = () => {
+
     if (tag == "Categoría") {
+      
       setModalTagsCategoriaVisibleSeleccionada(true)
       setModalTagsCategoriaVisible(true)
     }
@@ -194,54 +213,71 @@ function ExploreScreen({ route }) {
 
   //FILTRAR
   const getFiltrado = async () => {
-    let textoB = textoBusqueda;
-    setTextoBusqueda2(textoB)
-    //Buscar vacío
-    if (textoB != "") {
-      if (seleccionadoCategoriaIndex == 0) {
-        setModalVisible(true)
-        //Buscar por título
-        if (tag == "Titulo") {
-          let array = cargarDatosLibrosFiltro(textoB, "", "Titulo");
-          setLastItemIdTitulo(array[1]);
-          setLibros(array[0]);
-          setLastItemId("");
-          setLastItemIdEtiqueta("");
-          setLastItemIdCategoria("");
-        }
-        //Buscar por etiqueta
-        if (tag == "Etiqueta") {
+    if (seleccionadoCategoriaIndex == 0) {
+      let textoB = textoBusqueda;
+      setTextoBusqueda2(textoB)
+      //Buscar vacío
+      if (textoB != "") {
+        if (seleccionadoCategoriaIndex == 0) {
+          setModalVisible(true)
+          //Buscar por título
+          if (tag == "Título") {
+            let array = cargarDatosLibrosFiltro(textoB, "", "Título");
+            setLastItemIdTitulo(array[1]);
+            setLibros(array[0]);
+            setLastItemId("");
+            setLastItemIdEtiqueta("");
+            setLastItemIdCategoria("");
+          }
+          //Buscar por etiqueta
+          if (tag == "Etiqueta") {
 
-          let array = cargarDatosLibrosFiltro(textoB, "", "Etiqueta");
-          setLastItemIdEtiqueta(array[1]);
-          setLibros(array[0]);
-          setLastItemId("");
-          setLastItemIdTitulo("");
-          setLastItemIdCategoria("")
+            let array = cargarDatosLibrosFiltro(textoB, "", "Etiqueta");
+            setLastItemIdEtiqueta(array[1]);
+            setLibros(array[0]);
+            setLastItemId("");
+            setLastItemIdTitulo("");
+            setLastItemIdCategoria("")
+          }
+          setModalVisible(false)
         }
-        setModalVisible(false)
+
       }
-      //Buscar por Autor
       else {
+        await cargarCategorias(seleccionadoCategoriaIndex);
+      }
+    }
+    else {
+      let textoB = textoBusqueda;
+      setTextoBusqueda2(textoB)
+      if (textoB != "") {
+        setModalVisible(true)
+        setModalVisible(true)
+        //Buscar por Autor
         let autoresFiltro = autores.filter((a) => {
           return a.Nombre.toLowerCase().startsWith(textoBusqueda.toLowerCase())
         });
         setAutores(autoresFiltro);
+        setModalVisible(false)
+      }
+      else {
+        setModalVisible(true)
+
+        cargarAutores();
+        setModalVisible(false)
       }
     }
-    else {
-      await cargarCategorias(seleccionadoCategoriaIndex);
-    }
-
   }
 
 
   const hacerCosas = async () => {
     setModalVisible(true)
     setLibros([])
-    setTag("Titulo");
+    setSeleccionadoCategoriaIndex(0);
+    setTag("Título");
     setTextoBusqueda("");
     setCategoriaPulsada("")
+    setLastItemId("")
     setTextoBusqueda2("");
     setModalTagsCategoriaVisible(false)
     setModalTagsCategoriaVisibleSeleccionada(false)
@@ -251,13 +287,16 @@ function ExploreScreen({ route }) {
     let perfil = await getFotoPerfil(e);
     setFotoPerfil(perfil);
     cargarCategorias(0);
+   
 
   }
 
-  const clickTag = (item) => {
+  const clickTag = (itema) => {
+    console.log(itema)
+    if (itema == "Categoría") {
+      console.log("entre")
+      setModalTagsCategoriaVisible(true)
 
-    if (item == "Categoría") {
-      setModalTagsCategoriaVisible(true);
     }
     else {
       setModalTagsCategoriaVisible(false);
@@ -265,7 +304,7 @@ function ExploreScreen({ route }) {
       setCategoriaPulsada("")
     }
 
-    setTag(item)
+    setTag(itema)
     setModalTagsVisible(false)
   }
 
@@ -281,7 +320,6 @@ function ExploreScreen({ route }) {
     setLastItemId("");
     setLastItemIdTitulo("");
     setLastItemIdEtiqueta("")
-
     setModalVisible(false)
 
 
@@ -318,11 +356,11 @@ function ExploreScreen({ route }) {
     return (
       <View
         style={{
-          borderColor: "#429EBD",
+          borderColor: "#2B809C",
           paddingHorizontal: 10,
           paddingVertical: 5,
           borderRadius: 15,
-          backgroundColor: "#429EBD",
+          backgroundColor: "#2B809C",
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "row",
@@ -382,13 +420,13 @@ function ExploreScreen({ route }) {
                 disabled={item == tag}
                 style={{
                   marginTop: 10,
-                  borderColor: "#429EBD",
+                  borderColor: "#2B809C",
                   marginHorizontal: 5,
                   paddingHorizontal: 10,
                   paddingVertical: 5,
                   borderWidth: 1,
                   borderRadius: 15,
-                  backgroundColor: item == tag ? "#429EBD" : "#f8f8f8",
+                  backgroundColor: item == tag ? "#2B809C" : "#f8f8f8",
                   alignItems: "center",
                   justifyContent: "center",
                   marginBottom: 10,
@@ -536,7 +574,7 @@ function ExploreScreen({ route }) {
             style={{ width: 50, height: 50, borderRadius: 50 / 2, marginHorizontal: 30, marginVertical: 10 }}
 
           />
-          <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#429EBD" }}>
+          <Text style={{ marginTop: "auto", marginBottom: "auto", fontSize: 20, fontWeight: "bold", color: "#2B809C" }}>
             {autor.Nombre.split("@")[0]}
           </Text>
         </View>
@@ -585,7 +623,7 @@ function ExploreScreen({ route }) {
           ></ImageBackground>
 
           <View style={{ marginTop: 15, marginBottom: 15, width: 230, alignItems: "center", backgroundColor: "white" }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD" }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#2B809C" }}>
               {libro.Titulo}
             </Text>
 
@@ -697,9 +735,13 @@ function ExploreScreen({ route }) {
         </View>
 
 
-        <TouchableOpacity testID="buttonFiltrado" style={{
-          marginRight: "auto", right: 4, marginTop: "auto", padding: 11, borderRadius: 18, borderColor: "#E39801", shadowColor: "#000", shadowOffset: { width: 0, height: 12, }, shadowOpacity: 0.8, shadowRadius: 6.00, elevation: 15, borderWidth: 3, alignItems: "center", backgroundColor: isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible ? "#EDEDED" : "white",
-        }} disabled={isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible} onPress={() => getFiltrado()}>
+        <TouchableOpacity testID="buttonFiltrado"
+        
+        disabled={isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible}
+        style={{
+          backgroundColor: isModalTagsCategoriaVisibleSeleccionada || isModalTagsCategoriaVisible ? "#EDEDED" : "white",
+          marginRight: "auto", right: 4, marginTop: "auto", padding: 11, borderRadius: 18, borderColor: "#E39801", shadowColor: "#000", shadowOffset: { width: 0, height: 12, }, shadowOpacity: 0.8, shadowRadius: 6.00, elevation: 15, borderWidth: 3, alignItems: "center",
+        }} onPress={() => getFiltrado()}>
           <Entypo name="magnifying-glass" size={24} color="black" />
         </TouchableOpacity>
 
@@ -760,12 +802,12 @@ function ExploreScreen({ route }) {
 
         || seleccionadoCategoriaIndex == 1 &&
 
-        <View>
+        <View style={{flex:1,}}>
           {
             autores.length != 0 ?
               <FlatList
                 testID="flatlistbooks"
-                contentContainerStyle={{ paddingBottom: 60, }}
+                contentContainerStyle={{  }}
                 keyExtractor={(item, index) => index}
                 data={autores}
                 renderItem={({ item, index }) => (

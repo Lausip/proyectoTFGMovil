@@ -33,7 +33,7 @@ jest.mock('firebase/auth', () => ({
 jest.mock('../../hooks/Auth/Firestore', () => {
     return {
         getPeticionesAmistad: () => { return [{ Nombre: "hfdsak" }] },
-        getPeticionesConversacion: () => { return [{ Tiutlo: "hfdsak" }] },
+        getPeticionesConversacion: () => { return [{ Titulo: "hfdsak" }] },
         getComentarios: () => { return [{ Tiutlo: "hfdsak" }] },
         cambiarFotoPerfilFirebase: () => jest.fn(),
         getDescripcionUsuario: () => { return "Holaaa" },
@@ -112,7 +112,24 @@ describe('NotificacionesScreen test', () => {
 
         
     })
+    it('NotificacionesScreen seleccionadoCategoriaIndex 1', async () => {
+        React.useState = jest.fn()
 
+        .mockReturnValue([1, {}])
+
+
+        
+    })
+
+    it('NotificacionesScreen seleccionadoCategoriaIndex 2', async () => {
+        React.useState = jest.fn()
+        .mockReturnValue([2, {}])
+        await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
+        let component =render(<NotificacionesScreen route={{ params: "" }} />)
+
+
+        
+    })
 
 })
 

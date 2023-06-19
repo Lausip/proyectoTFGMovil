@@ -24,14 +24,16 @@ import { ScrollView } from "react-native-gesture-handler";
 function HomeScreen() {
   const [fotoPerfil, setFotoPerfil] = React.useState("");
   const [newBooks, setNewBooks] = React.useState([]);
-  const [hotBooks, setHotBooks] = useState([]);
-  const [recomendadoBooks, setRecomendadoBooks] = useState([]);
+
+
   const [capitulosLeido, setCapitulosLeido] = React.useState(4);
+  const [recomendadoBooks, setRecomendadoBooks] = React.useState([]);
   const [ultimoLibro, setUltimoLibro] = React.useState({});
 
 
   const [email, setEmail] = React.useState();
-  const [ultimoCapituloLeido, setUltimoCapituloLeido] = React.useState(3);
+  const [ultimoCapituloLeido, setUltimoCapituloLeido] = React.useState(4);
+  const [hotBooks, setHotBooks] = React.useState([]);
 
   const [isModalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -84,12 +86,16 @@ function HomeScreen() {
     if (ultimo != "") {
       setUltimoCapituloLeido(ultimo.UltimoCapitulo)
       setCapitulosLeido(ultimo.NumCapitulos)
+
     }
     //Coger fotoPerfil
     setFotoPerfil(await getFotoPerfil(e));
     //Coger los libros 
+
     setNewBooks(await cargarFirebase());
+   
     setHotBooks(await cargarHotBook());
+
     setRecomendadoBooks(await cargarRecomendadoBook(e));
 
     setModalVisible(false)
@@ -120,7 +126,7 @@ function HomeScreen() {
   }
   function renderRecomendados(item, index) {
     return (
-      <TouchableOpacity onPress={() => handleBook(item)} >
+      <TouchableOpacity  testID="buttonBookRecomendado"onPress={() => handleBook(item)} >
         <View
           style={{
 
@@ -155,7 +161,7 @@ function HomeScreen() {
           ></ImageBackground>
 
           <View style={{ marginTop: 15, marginBottom: 10, backgroundColor: "white" }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#429EBD", marginLeft: 15, marginBottom: 5, }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: "#2B809C", marginLeft: 15, marginBottom: 5, }}>
               {item.Titulo}
             </Text>
 
@@ -270,7 +276,7 @@ function HomeScreen() {
             }}>
               <Text
                 style={{
-                  color: "#429EBD",
+                  color: "#2B809C",
                   fontSize: 13,
                   fontWeight: 'bold',
                 }}>
@@ -355,7 +361,7 @@ function HomeScreen() {
                 <Text
                   style={{
                     fontSize: 15,
-                    color: "#429EBD",
+                    color: "#2B809C",
                     fontWeight: "bold",
                   }}
                 >
@@ -430,7 +436,7 @@ function HomeScreen() {
           />
           {/*nombre e inicio*/}
           <View>
-            <Text style={{ fontSize: 13, color: "#429EBD", fontWeight: "bold", }}>Readly </Text>
+            <Text style={{ fontSize: 13, color: "#2B809C", fontWeight: "bold", }}>Bookme </Text>
             <Text style={styles.fontIncioSesion}>Inicio </Text>
           </View>
         </View>

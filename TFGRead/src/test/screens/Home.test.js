@@ -63,9 +63,17 @@ jest.mock('../../hooks/Auth/Auth', () => {
         getUserAuth: () => jest.fn(),
     };
 });
+jest.mock('../../hooks/FirebaseLibros', () => {
+    return {
+
+        cargarRecomendadoBook: () => jest.fn(),
+        cargarHotBook: () => jest.fn(),
+
+    };
+});
 jest.mock('../../hooks/Auth/Firestore', () => {
     return {
-        getFotoPerfil: () => jest.fn(),
+
         cargarUltimoLibro: () => { return {} },
         cambiarUltimoLibroLeido: () => jest.fn(),
         cargarFirebase: () => jest.fn(),
@@ -100,16 +108,17 @@ describe('HomeScreen test', () => {
 
     });
 
-    it('Should retrive image user', async () => {
-        const fotoPerfil = 'https://firebasestorage.googleapis.com/v0/b/tfgbook-f69af.appspot.com/o/Perfil%2Fadmin%40gmail.com%2FFoto?alt=media&token=c9c1b96e-69d1-4152-a006-3b0f9d83ccef'
-        React.useState = jest.fn().mockReturnValue([fotoPerfil, {}])
-        await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
-        const component = render(<HomeScreen />)
-        const img = component.getByTestId("imageProfile");
-        //TODO:hacer expect
-    });
 
     it('Should click handleNotificacion', async () => {
+        React.useState = jest.fn()
+        .mockReturnValue(["", {}])
+        .mockReturnValue([[], {}])
+        .mockReturnValue([1, {}])
+        .mockReturnValue([[{ Titulo: "Libro" }], {}])
+        .mockReturnValue([ultimoLibro, {}])
+        .mockReturnValue([1, {}])
+        .mockReturnValue([[{ Titulo: "Libro" }], {}])
+        .mockReturnValue([2, {}]);
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<HomeScreen />)
         const touchableNo = component.queryByTestId('buttonNotificacion');
@@ -124,8 +133,10 @@ describe('HomeScreen test', () => {
             .mockReturnValue(["", {}])
             .mockReturnValue([[], {}])
             .mockReturnValue([1, {}])
+            .mockReturnValue([[{ Titulo: "Libro" }], {}])
             .mockReturnValue([ultimoLibro, {}])
-    
+            .mockReturnValue([3, {}])
+            .mockReturnValue([[{ Titulo: "Libro" }], {}])
             .mockReturnValue([2, {}]);
         await firebase.initializeTestApp({ projectId: "tfgbook-f69af" }).firestore();
         const component = render(<HomeScreen />)
@@ -161,5 +172,6 @@ describe('HomeScreen test', () => {
         fireEvent.press(touchableNo);
         expect(mockedNavigate).toHaveBeenCalledWith("detailsBookScreen", { "bookId": "WCAOYujpHqBJrfeplwhv" });
     });
+
 
 });

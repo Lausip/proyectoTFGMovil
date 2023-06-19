@@ -115,7 +115,7 @@ function ProfileScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#429EBD",
+                backgroundColor: "#2B809C",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -127,7 +127,7 @@ function ProfileScreen({ route }) {
                 <Text style={styles.fontTitulo}>Perfil</Text>
                 <TouchableOpacity testID='buttonSalir' onPress={() =>  handleSignOut()}>
                 <AntDesign style={{
-                marginRight:30 }}name="poweroff" size={24} color="#E39801" />
+                marginRight:30 }}name="poweroff" size={24} color="#FFFFFF" />
                 </TouchableOpacity>
              
             </View>
@@ -153,7 +153,7 @@ function ProfileScreen({ route }) {
                         style={{ width: 100, height: 100, borderRadius: 100 / 2, marginTop: 20 }}
                     />
                 </TouchableOpacity >
-                <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 20, color: "#429EBD" }}>
+                <Text style={{ marginTop: 20, fontWeight: "bold", fontSize: 20, color: "#2B809C" }}>
                     {email.split("@")[0]}
                 </Text>
                 <View style={{

@@ -25,17 +25,27 @@ firebase.initializeTestApp({
 
 
 
+export default function getAuth() {
+    return new Promise((resolve) => {
+      firebase.auth().onAuthStateChanged((user) => {
+        resolve(user);
+      });
+    });
+  }
 
 jest.mock('firebase/auth', () => ({
     getReactNativePersistence: () => jest.fn(),
     initializeAuth: () => jest.fn(),
+    
     getAuth: () => jest.fn().mockReturnThis(),
     currentUser: {
         email: 'test',
         uid: '123',
         emailVerified: true
     },
-    onAuthStateChanged: () => { return { email: "admin@gmail.com" } },
+    onAuthStateChanged: () =>   {return Promise.resolve({
+        name: 'Shaun',
+      });},
 
 }))
 jest.mock('@react-native-async-storage/async-storage', () =>
@@ -59,7 +69,6 @@ describe('RootNavigator test', () => {
 
 
     });
-
 
 
 

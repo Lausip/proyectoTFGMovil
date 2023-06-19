@@ -19,7 +19,7 @@ import { enviarReporteComentario } from "../../hooks/FirebaseReportes"
 
 
 function ReportarComentarioScreen({ route }) {
-    const [selectedOption1, setSelectedOption1] = useState(false);
+    const [selectedOption1, setSelectedOption1] = React.useState(false);
 
     const [selectedOptionMini, setSelectedOptionMini] = useState('');
     const [email, setEmail] = useState("");
@@ -105,7 +105,7 @@ function ReportarComentarioScreen({ route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#429EBD",
+                backgroundColor: "#2B809C",
                 borderBottomRightRadius: 500,
                 height: 70,
 
@@ -114,7 +114,7 @@ function ReportarComentarioScreen({ route }) {
                     <Ionicons name="arrow-back" size={30} color="white" style={{ marginLeft: 20 }} />
                 </TouchableOpacity>
                 {/*nombre e inicio*/}
-                <Text style={styles.fontTitulo}> Reportar libro</Text>
+                <Text style={styles.fontTitulo}> Reportar comentario</Text>
             </View>
 
             <ScrollView style={{
@@ -133,22 +133,25 @@ function ReportarComentarioScreen({ route }) {
                     onPress={() => handleOption1Change(!selectedOption1)}>
                     <View >
                         <Checkbox.Item
+                                 testID='buttonCheckboxAccordationDivulgacion'
                             label="Divulgación de Información personal"
                             status={selectedOptionMini === 'Divulgación de Información personal' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Divulgación de Información personal')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                         <Checkbox.Item
                             label="Spam"
+                            testID='buttonSpam'
                             status={selectedOptionMini === 'Spam' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Spam')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                         <Checkbox.Item
+                           testID='buttonOdio'
                             label="Odio y Acoso"
                             status={selectedOptionMini === 'Odio y Acoso' ? 'checked' : 'unchecked'}
                             onPress={() => handleOptionMiniChange('Odio y Acoso')}
-                            color="#429EBD"
+                            color="#2B809C"
                         />
                     </View>
                 </List.Accordion>
@@ -166,6 +169,7 @@ function ReportarComentarioScreen({ route }) {
                                 Por favor escribe tantos detalles como sean posible.
                             </Text>
                             <TextInput
+                             placeholder="Motivo"
                                 placeholderTextColor="black"
                                 value={motivo}
                                 onChangeText={(text) => setMotivo(text)}
@@ -191,7 +195,23 @@ function ReportarComentarioScreen({ route }) {
                         >
                             <TouchableOpacity
                                 testID="buttonEnviar"
-                                style={styles.buttonEnviar}
+                                style={{
+                                    width: "50%",
+                                    marginTop: 10,
+                                    backgroundColor: (motivo.length == 0 || motivo.trim().length == 0) ? "#8D8D8D" : "#E39801",
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 12,
+                                    },
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 6.00,
+                                    elevation: 15,
+                            
+                                    padding: 12,
+                                    borderRadius: 20,
+                                    alignItems: "center",
+                                    marginBottom: 15,}}
                                 onPress={() => enviarReporte()}
                                 disabled={(motivo.length == 0 || motivo.trim().length == 0)}
                             >
@@ -246,7 +266,7 @@ const styles = StyleSheet.create({
         marginBottom: "auto",
         marginLeft: "auto",
         marginRight: "auto",
-        marginVertical: 30,
+        marginVertical: 20,
         fontSize: 25,
         color: "white",
         fontWeight: "bold",
@@ -257,23 +277,6 @@ const styles = StyleSheet.create({
     },
     buttonEnviar: {
 
-        width: "50%",
-        marginTop: 10,
-        backgroundColor: "#E39801",
-
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 12,
-        },
-        shadowOpacity: 0.8,
-        shadowRadius: 6.00,
-        elevation: 15,
-
-        padding: 12,
-        borderRadius: 20,
-        alignItems: "center",
-        marginBottom: 15,
 
     }
 

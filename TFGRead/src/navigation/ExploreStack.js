@@ -7,6 +7,8 @@ import ChatConversationScreen from "../screens/ChatScreen/ChatConversationScreen
 import ChatCapituloScreen from '../screens/BookScreen/ChatCapituloScreen';
 import ReportarComentarioScreen from '../screens/BookScreen/ReportComentarioScreen';
 import ReportAutorScreen from '../screens/AutoresScreen/ReportAutorScreen';
+
+import ChatScreen from "../screens/ChatScreen/ChatScreen";
 const Stack = createNativeStackNavigator();
 
 export default function ExploreStack() {
@@ -19,6 +21,7 @@ export default function ExploreStack() {
       <Stack.Screen name="reportcomentariosCapituloScreen" component={ReportarComentarioScreen} /> 
       <Stack.Screen name="comentariosCapituloScreen" component={ChatCapituloScreen} /> 
       <Stack.Screen name="reportAutorScreen" component={ReportAutorScreen} /> 
+      <Stack.Screen  name="chatScreen" component={ChatScreen} /> 
     </Stack.Navigator>
   );
 }
