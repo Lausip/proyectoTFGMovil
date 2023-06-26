@@ -42,7 +42,10 @@ function NotificacionesScreen({ route }) {
     });
 
     const goBack = () => {
-        navigation.replace(screen);
+        if(screen=="undefined"){
+            navigation.replace("home");
+        }else{
+        navigation.replace(screen);}
     }
       /* istanbul ignore next */
     const aceptarAmistad = async (peticion, emailAceptado) => {
@@ -235,6 +238,7 @@ function NotificacionesScreen({ route }) {
         return (
 
             <View style={{
+                display: "flex",
                 marginVertical: 5,
                 marginHorizontal: 30, borderRadius: 8,
                 shadowColor: "black", shadowOpacity: 0.88, shadowOffset: { width: 0, height: 9 }, shadowRadius: 10, elevation: 6,
@@ -244,22 +248,23 @@ function NotificacionesScreen({ route }) {
 
 
                 <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
-                    <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#2B809C" }}>
+                <Text style={{ marginVertical: 10, fontSize: 14, fontWeight: "bold", color: "#2B809C" }}>
                         {notificacion.Nombre.split("@")[0] + " "}
+                        <Text style={{ marginVertical: 10, fontSize: 14, color: "black",fontWeight:"normal" }}>
+                        ha hecho un comentario 
                     </Text>
-                    <Text style={{ marginVertical: 10, fontSize: 14, color: "black" }}>
-                        ha realizado un comentario
                     </Text>
-                    <View onPress={{ marginLeft: 10, }}>
+                
+                    <View style={{        flexDirection: "row", marginTop: "auto", marginBottom: "auto" }}>
                         <TouchableOpacity onPress={() => irAlComentario(notificacion.Libro, notificacion.CapituloId, notificacion.key)}>
                             <AntDesign style={{
-                                marginHorizontal: 15,
-                                marginVertical: 10,
+                         marginLeft: 10,
+                       
                             }} name="rightcircleo" size={24} color="black" />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => funcionEliminarNotificacionConversacion(notificacion.key)}>
                             <AntDesign style={{
-                                marginVertical: 10,
+                                       marginLeft: 10,
                             }} name="closecircleo" size={24} color="black" />
                         </TouchableOpacity>
                     </View>

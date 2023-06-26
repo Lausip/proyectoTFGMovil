@@ -94,7 +94,7 @@ export const handleRegistro = (email, password1, password2) => {
         if (error.code == "auth/weak-password") {
           Alert.alert(
             'Error',
-            "La contraseña debe de tener más de 6 caracteres",
+            "La contraseña debe de tener más de 6 carácteres",
             [
               {
                 text: 'Aceptar',
@@ -125,7 +125,7 @@ export const handleReset = (email) => {
       console.log("Reset password of:", email);
       Alert.alert(
         'Aviso',
-        'Porfavor revisa tu correo para más información',
+        'Por favor revisa tu correo para más información',
         [
           {
             text: 'Ok',
