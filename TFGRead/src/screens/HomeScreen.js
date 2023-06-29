@@ -93,13 +93,13 @@ function HomeScreen() {
     //Coger los libros 
 
     setNewBooks(await cargarFirebase());
-   
+       //Hot Libros:
     setHotBooks(await cargarHotBook());
 
     setRecomendadoBooks(await cargarRecomendadoBook(e));
 
     setModalVisible(false)
-    //Hot Libros:
+
 
   }
 
@@ -436,7 +436,7 @@ function HomeScreen() {
           />
           {/*nombre e inicio*/}
           <View>
-            <Text style={{ fontSize: 13, color: "#2B809C", fontWeight: "bold", }}>Bookme </Text>
+            <Text style={{ fontSize: 13, color: "#2B809C", fontWeight: "bold", }}>ReadLore</Text>
             <Text style={styles.fontIncioSesion}>Inicio </Text>
           </View>
         </View>

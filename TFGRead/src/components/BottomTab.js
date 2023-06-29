@@ -124,8 +124,6 @@ const BottomTab = () => {
         options={({ route }) => ({
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
-            console.log("estoy")
-            console.log(routeName)
             if (routeName === "bookScreen" ||  routeName == "profileScreen" ||routeName == "comentariosCapituloScreen"||routeName == "autorScreen"||routeName=="reportBookScreen"||routeName=="reportcomentariosCapituloScreen"||routeName=="reportAutorScreen") {
               return { display: "none" };
             }else{

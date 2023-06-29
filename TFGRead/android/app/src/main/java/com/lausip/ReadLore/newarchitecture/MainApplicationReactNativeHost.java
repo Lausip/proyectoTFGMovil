@@ -1,4 +1,4 @@
-package com.lausip.TFGRead.newarchitecture;
+package com.lausip.ReadLore.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -20,9 +20,9 @@ import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.lausip.TFGRead.BuildConfig;
-import com.lausip.TFGRead.newarchitecture.components.MainComponentsRegistry;
-import com.lausip.TFGRead.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.lausip.ReadLore.BuildConfig;
+import com.lausip.ReadLore.newarchitecture.components.MainComponentsRegistry;
+import com.lausip.ReadLore.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

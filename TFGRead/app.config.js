@@ -1,8 +1,8 @@
 import 'dotenv/config';
 export default {
   expo: {
-    name: "TFGRead",
-    slug: "TFGRead",
+    name: "ReadLore",
+    slug: "readlore",
     privacy:"public",
     description:"Aplicacion para leer",
     version: "1.0.0",
@@ -16,7 +16,7 @@ export default {
         hdpi: "./assets/android/drawable-hdpi/splash.png",
         xhdpi: "./assets/android/drawable-xhdpi/splash.png",
         xxhdpi: "./assets/android/drawable-xxhdpi/splash.png",
-        backgroundColor: "#FFFFFF"
+
     },
     updates: {
       fallbackToCacheTimeout: 0
@@ -27,21 +27,21 @@ export default {
   
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.lausip.TFGRead",
+      bundleIdentifier: "com.lausip.ReadLore",
     },
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/icon.png",
         backgroundColor: "#FFFFFF"
       },
-      package: "com.lausip.TFGRead"
+      package: "com.lausip.ReadLore"
     },
     web: {
       favicon: "./assets/favicon.png"
     },
     extra: {
       eas: {
-        projectId: "f12085f9-d7b8-4880-b737-23b3a327b1c8"
+        projectId: "405391ff-5c9c-422e-b88b-c8fbc06366b5"
       },
       firebaseApiKey: process.env.FIREBASE_API_KEY,
       firebaseAuthDomain: process.env.FIREBASE_AUTH_DOMAIN,

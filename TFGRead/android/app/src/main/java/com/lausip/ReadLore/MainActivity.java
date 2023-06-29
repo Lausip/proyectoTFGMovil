@@ -1,4 +1,4 @@
-package com.lausip.TFGRead;
+package com.lausip.ReadLore;
 
 import android.os.Build;
 import android.os.Bundle;

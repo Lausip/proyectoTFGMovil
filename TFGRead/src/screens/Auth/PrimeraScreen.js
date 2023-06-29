@@ -30,7 +30,7 @@ const PrimeraScreen = () => {
       <View style={styles.header}>
         <View>
           <Text style={styles.fontBienvenido}>Bienvenido a</Text>
-          <Text style={styles.fontNameApp}>BookApp</Text>
+          <Text style={styles.fontNameApp}>ReadLore</Text>
         </View>
       </View>
 

@@ -292,9 +292,9 @@ function ExploreScreen({ route }) {
   }
 
   const clickTag = (itema) => {
-    console.log(itema)
+
     if (itema == "Categoría") {
-      console.log("entre")
+
       setModalTagsCategoriaVisible(true)
 
     }

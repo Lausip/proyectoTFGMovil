@@ -380,7 +380,7 @@ function DetailBookScreen({ route }) {
                     <Text>
                         Autor: {" "}
                         <Text style={{ fontSize: 15, color: "#2B809C" }}>
-                            {libroActual.Autor.split("@")[0]}
+                            {(libroActual.Autor)?.split("@")[0]}
                         </Text>
                     </Text>
                 </TouchableOpacity>

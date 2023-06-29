@@ -63,8 +63,6 @@ function BooksScreen({ route }) {
   }
 
   const goBack = () => {
-      if(!modalAñadirMeGusta)
-      preguntarBibliotecaMegusta();
       if (screen == "detailsBookScreen" || screen == undefined) {
         navigation.navigate("detailsBookScreen", {
           bookId: bookId,
@@ -73,7 +71,7 @@ function BooksScreen({ route }) {
       else {
         navigation.navigate(screen)
       }
-      return true;
+ 
     
   }
 
