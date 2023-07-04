@@ -36,7 +36,7 @@ function BooksScreen({ route }) {
   const [scrollViewContent_height, setScrollViewContent_height] = useState(0)
   const [progress, setProgress] = useState(0)
   useEffect(() => {
-
+ 
     hacerCosas();
     BackHandler.addEventListener('hardwareBackPress', preguntarBibliotecaMegusta);
 
@@ -470,7 +470,7 @@ function BooksScreen({ route }) {
                   {hayCapituloSiguiente ?
                     <TouchableOpacity testID="buttonSiguienteCapitulo" style={{ marginLeft: 10, }} onPress={() => siguienteCapitulo()}>
                       <Feather name="arrow-right" size={30} color="black" />
-                    </TouchableOpacity> : <View > </View>
+                    </TouchableOpacity> : <Text> </Text>
                   }
                   <TouchableOpacity testID="buttonSacarCapitulos" style={{ marginLeft: 50, }} onPress={() => sacarCapitulosView(!sacarCapitulos)}>
                     <Entypo name="menu" size={30} color="black" />
