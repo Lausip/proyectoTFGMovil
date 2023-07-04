@@ -87,20 +87,28 @@ function BibliotecaScreen() {
     const getFiltrado = async () => {
         if (textoBusqueda.length != 0 && textoBusqueda.trim().length != 0) {
             if (seleccionadoCategoriaIndex == 0) {
-
-                let favoritosFiltro = favoritos.filter((a) => {
+                setModalVisible(true);
+                let e = await getUserAuth();
+                let favoritosUsuario = await getFavoritosDelUsuario(e);
+               let fav=await getFavoritos(favoritosUsuario);
+                let favoritosFiltro = fav.filter((a) => {
 
                     return a.Titulo.toLowerCase().startsWith(textoBusqueda.toLowerCase())
                 });
                 setFavoritos(favoritosFiltro)
+                setModalVisible(false);
 
             }
             else {
-                let autoresFiltro = autores.filter((a) => {
+                setModalVisible(true);
+                let autoresa = await handleAutoresSeguidos(email);
+                let autoresFiltro = autoresa.filter((a) => {
 
                     return a.Nombre.toLowerCase().startsWith(textoBusqueda.toLowerCase())
                 });
                 setAutores(autoresFiltro);
+                setModalVisible(false);
+
             }
         }
         else {

@@ -222,7 +222,8 @@ function ExploreScreen({ route }) {
           setModalVisible(true)
           //Buscar por título
           if (tag == "Título") {
-            let array = cargarDatosLibrosFiltro(textoB, "", "Título");
+            setLibros([]);
+            let array = await cargarDatosLibrosFiltro(textoB, "", "Título");
             setLastItemIdTitulo(array[1]);
             setLibros(array[0]);
             setLastItemId("");
@@ -231,8 +232,8 @@ function ExploreScreen({ route }) {
           }
           //Buscar por etiqueta
           if (tag == "Etiqueta") {
-
-            let array = cargarDatosLibrosFiltro(textoB, "", "Etiqueta");
+            setLibros([]);
+            let array = await cargarDatosLibrosFiltro(textoB, "", "Etiqueta");
             setLastItemIdEtiqueta(array[1]);
             setLibros(array[0]);
             setLastItemId("");
@@ -244,6 +245,7 @@ function ExploreScreen({ route }) {
 
       }
       else {
+        setLibros([]);
         await cargarCategorias(seleccionadoCategoriaIndex);
       }
     }
@@ -774,7 +776,7 @@ function ExploreScreen({ route }) {
       <RenderCategorias />
 
       {
-        libros.length == 0 && seleccionadoCategoriaIndex == 0 ?
+        (libros?.length == 0 || libros==undefined)&& seleccionadoCategoriaIndex == 0 ?
           <View style={{ marginHorizontal: 30 }}  >
             <Image
               resizeMode={'center'}

@@ -37,6 +37,7 @@ export const cargarNuevosLibrosFiltroTitulo = async (lastItemId, filtro) => {
     }
     else {
         snapshot = await getDocs(query(collection(db, "libros"), orderBy("Titulo"), orderBy("FechaModificación", "desc"), where("Titulo", ">", filtro), startAfter(lastItemId), limit(4)));
+
     }
     books = await Promise.all(snapshot.docs.map(async (documentSnapshot) => ({
         ...documentSnapshot.data(),
@@ -44,6 +45,7 @@ export const cargarNuevosLibrosFiltroTitulo = async (lastItemId, filtro) => {
         doc: documentSnapshot
 
     })))
+
     if (books.length != 0)
         lastI = books[books.length - 1].doc;
 
@@ -137,6 +139,7 @@ export const cargarDatosLibrosFiltro = async (filtro, lastItemId, tipoFiltro) =>
         array = await cargarNuevosLibrosFiltroEtiqueta(lastItemId, filtro);
     }
     if (tipoFiltro == "Título") {
+
         array = await cargarNuevosLibrosFiltroTitulo(lastItemId, filtro);
     }
     if (tipoFiltro == "Categoría") {
